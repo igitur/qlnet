@@ -67,7 +67,7 @@ namespace TestSuite
          public RelinkableHandle<ZeroInflationTermStructure> cpiTS = new RelinkableHandle<ZeroInflationTermStructure>();
 
 
-         public CommonVars() { }
+         private CommonVars() { }
 
          public static CommonVars UKVars()
          {
