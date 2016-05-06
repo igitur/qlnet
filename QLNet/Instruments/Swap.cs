@@ -1,18 +1,18 @@
 /*
  Copyright (C) 2008 Siarhei Novik (snovik@gmail.com)
  Copyright (C) 2008-2013 Andrea Maggiulli (a.maggiulli@gmail.com)
- 
+
  This file is part of QLNet Project https://github.com/amaggiulli/qlnet
 
  QLNet is free software: you can redistribute it and/or modify it
  under the terms of the QLNet license.  You should have received a
- copy of the license along with this program; if not, license is  
+ copy of the license along with this program; if not, license is
  available online at <http://qlnet.sourceforge.net/License.html>.
-  
+
  QLNet is a based on QuantLib, a free-software/open-source library
  for financial quantitative analysts and developers - http://quantlib.org/
  The QuantLib license is available online at http://quantlib.org/license.shtml.
- 
+
  This program is distributed in the hope that it will be useful, but WITHOUT
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
@@ -45,7 +45,7 @@ namespace QLNet
 
       #region Constructors
 
-      // The cash flows belonging to the first leg are paid; 
+      // The cash flows belonging to the first leg are paid;
       // the ones belonging to the second leg are received.
       public Swap(List<CashFlow> firstLeg, List<CashFlow> secondLeg)
       {
@@ -71,15 +71,15 @@ namespace QLNet
       public Swap(List<List<CashFlow>> legs, List<bool> payer)
       {
          legs_ = (InitializedList<List<CashFlow>>)legs;
-         payer_ = new InitializedList<double>(legs.Count,1.0);
-         legNPV_ = new InitializedList<double?>(legs.Count,0.0);
-         legBPS_ = new InitializedList<double?>(legs.Count,0.0);
+         payer_ = new InitializedList<double>(legs.Count, 1.0);
+         legNPV_ = new InitializedList<double?>(legs.Count, 0.0);
+         legBPS_ = new InitializedList<double?>(legs.Count, 0.0);
          startDiscounts_ = new InitializedList<double?>(legs.Count, 0.0);
          endDiscounts_ = new InitializedList<double?>(legs.Count, 0.0);
          npvDateDiscount_ = 0.0;
 
-         Utils.QL_REQUIRE( payer.Count == legs_.Count, () => "size mismatch between payer (" + payer.Count +
-                  ") and legs (" + legs_.Count + ")");
+         Utils.QL_REQUIRE(payer.Count == legs_.Count, () => "size mismatch between payer (" + payer.Count +
+                 ") and legs (" + legs_.Count + ")");
          for (int i = 0; i < legs_.Count; ++i)
          {
             if (payer[i]) payer_[i] = -1;
@@ -95,8 +95,8 @@ namespace QLNet
       {
          legs_ = new InitializedList<List<CashFlow>>(legs);
          payer_ = new InitializedList<double>(legs);
-         legNPV_ = new InitializedList<double?>(legs,0.0);
-         legBPS_ = new InitializedList<double?>(legs,0.0);
+         legNPV_ = new InitializedList<double?>(legs, 0.0);
+         legBPS_ = new InitializedList<double?>(legs, 0.0);
          startDiscounts_ = new InitializedList<double?>(legs, 0.0);
          endDiscounts_ = new InitializedList<double?>(legs, 0.0);
          npvDateDiscount_ = 0.0;
@@ -124,7 +124,7 @@ namespace QLNet
       public override void setupArguments(IPricingEngineArguments args)
       {
          Swap.Arguments arguments = args as Swap.Arguments;
-         Utils.QL_REQUIRE( arguments != null, () => "wrong argument type" );
+         Utils.QL_REQUIRE(arguments != null, () => "wrong argument type");
 
          arguments.legs = legs_;
          arguments.payer = payer_;
@@ -135,11 +135,11 @@ namespace QLNet
          base.fetchResults(r);
 
          Swap.Results results = r as Swap.Results;
-         Utils.QL_REQUIRE( results != null, () => "wrong result type" );
+         Utils.QL_REQUIRE(results != null, () => "wrong result type");
 
          if (!results.legNPV.empty())
          {
-            Utils.QL_REQUIRE( results.legNPV.Count == legNPV_.Count, () => "wrong number of leg NPV returned" );
+            Utils.QL_REQUIRE(results.legNPV.Count == legNPV_.Count, () => "wrong number of leg NPV returned");
             legNPV_ = results.legNPV;
          }
          else
@@ -149,7 +149,7 @@ namespace QLNet
 
          if (!results.legBPS.empty())
          {
-            Utils.QL_REQUIRE( results.legBPS.Count == legBPS_.Count, () => "wrong number of leg BPS returned" );
+            Utils.QL_REQUIRE(results.legBPS.Count == legBPS_.Count, () => "wrong number of leg BPS returned");
             legBPS_ = results.legBPS;
          }
          else
@@ -157,89 +157,89 @@ namespace QLNet
             legBPS_ = new InitializedList<double?>(legBPS_.Count);
          }
 
-         if (!results.startDiscounts.empty()) 
+         if (!results.startDiscounts.empty())
          {
-            Utils.QL_REQUIRE( results.startDiscounts.Count == startDiscounts_.Count, () => "wrong number of leg start discounts returned" );
+            Utils.QL_REQUIRE(results.startDiscounts.Count == startDiscounts_.Count, () => "wrong number of leg start discounts returned");
             startDiscounts_ = results.startDiscounts;
-         } 
-         else 
+         }
+         else
          {
             startDiscounts_ = new InitializedList<double?>(startDiscounts_.Count);
-         }   
+         }
 
-         if (!results.endDiscounts.empty()) 
+         if (!results.endDiscounts.empty())
          {
-            Utils.QL_REQUIRE( results.endDiscounts.Count == endDiscounts_.Count, () => "wrong number of leg end discounts returned" );
+            Utils.QL_REQUIRE(results.endDiscounts.Count == endDiscounts_.Count, () => "wrong number of leg end discounts returned");
             endDiscounts_ = results.endDiscounts;
-         } 
-         else 
+         }
+         else
          {
             endDiscounts_ = new InitializedList<double?>(endDiscounts_.Count);
          }
 
-         if (results.npvDateDiscount != null) 
+         if (results.npvDateDiscount != null)
          {
             npvDateDiscount_ = results.npvDateDiscount;
-         } 
-         else 
+         }
+         else
          {
             npvDateDiscount_ = null;
          }
       }
-      
+
       #endregion
 
       #region Additional interface
 
       public Date startDate()
       {
-         Utils.QL_REQUIRE( !legs_.empty(), () => "no legs given" );
+         Utils.QL_REQUIRE(!legs_.empty(), () => "no legs given");
          return legs_.Min(leg => CashFlows.startDate(leg));
       }
 
       public Date maturityDate()
       {
-         Utils.QL_REQUIRE( !legs_.empty(), () => "no legs given" );
+         Utils.QL_REQUIRE(!legs_.empty(), () => "no legs given");
          return legs_.Max(leg => CashFlows.maturityDate(leg));
       }
 
       public double? legBPS(int j)
       {
-         Utils.QL_REQUIRE( j < legs_.Count, () => "leg# " + j + " doesn't exist!" );
+         Utils.QL_REQUIRE(j < legs_.Count, () => "leg# " + j + " doesn't exist!");
          calculate();
          return legBPS_[j];
       }
 
       public double? legNPV(int j)
       {
-         Utils.QL_REQUIRE( j < legs_.Count, () => "leg# " + j + " doesn't exist!" );
+         Utils.QL_REQUIRE(j < legs_.Count, () => "leg# " + j + " doesn't exist!");
          calculate();
          return legNPV_[j];
       }
 
-      public double? startDiscounts(int j) 
+      public double? startDiscounts(int j)
       {
-         Utils.QL_REQUIRE( j < legs_.Count, () => "leg #" + j + " doesn't exist!" );
+         Utils.QL_REQUIRE(j < legs_.Count, () => "leg #" + j + " doesn't exist!");
          calculate();
          return startDiscounts_[j];
       }
 
       public double? endDiscounts(int j)
       {
-         Utils.QL_REQUIRE( j < legs_.Count, () => "leg #" + j + " doesn't exist!" );
+         Utils.QL_REQUIRE(j < legs_.Count, () => "leg #" + j + " doesn't exist!");
          calculate();
          return endDiscounts_[j];
       }
 
-      public double? npvDateDiscount() 
+      public double? npvDateDiscount()
       {
-            calculate();
-            return npvDateDiscount_;
+         calculate();
+         return npvDateDiscount_;
       }
 
       public List<CashFlow> leg(int j)
       {
-         Utils.QL_REQUIRE( j < legs_.Count, () => "leg #" + j + " doesn't exist!" );
+         Utils.QL_REQUIRE(j < legs_.Count, () => "leg #" + j + " doesn't exist!");
          return legs_[j];
       }
 
@@ -253,7 +253,7 @@ namespace QLNet
          public List<double> payer;
          public virtual void validate()
          {
-            Utils.QL_REQUIRE( legs.Count == payer.Count, () => "number of legs and multipliers differ" );
+            Utils.QL_REQUIRE(legs.Count == payer.Count, () => "number of legs and multipliers differ");
          }
       }
 

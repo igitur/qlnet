@@ -92,7 +92,7 @@ namespace QLNet
       public Date maxDate_ { get; set; }
       public override Date maxDate()
       {
-         if ( maxDate_ != null )
+         if (maxDate_ != null)
             return maxDate_;
 
          return dates_.Last();
@@ -173,7 +173,7 @@ namespace QLNet
                                      double baseZeroRate,
                                      Handle<YieldTermStructure> yTS,
                                      Interpolator interpolator = default(Interpolator))
-         : base( referenceDate, calendar, dayCounter, baseZeroRate, lag, frequency, indexIsInterpolated, yTS )
+         : base(referenceDate, calendar, dayCounter, baseZeroRate, lag, frequency, indexIsInterpolated, yTS)
       {
          interpolator_ = interpolator ?? new Interpolator();
       }

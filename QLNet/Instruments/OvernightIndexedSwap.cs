@@ -1,17 +1,17 @@
 ﻿/*
  Copyright (C) 2008, 2009 , 2010  Andrea Maggiulli (a.maggiulli@gmail.com)
- * 
+ *
  This file is part of QLNet Project https://github.com/amaggiulli/qlnet
 
  QLNet is free software: you can redistribute it and/or modify it
  under the terms of the QLNet license.  You should have received a
- copy of the license along with this program; if not, license is  
+ copy of the license along with this program; if not, license is
  available online at <http://qlnet.sourceforge.net/License.html>.
-  
+
  QLNet is a based on QuantLib, a free-software/open-source library
  for financial quantitative analysts and developers - http://quantlib.org/
  The QuantLib license is available online at http://quantlib.org/license.shtml.
- 
+
  This program is distributed in the hope that it will be useful, but WITHOUT
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
@@ -23,7 +23,7 @@ using System.Collections.Generic;
 namespace QLNet
 {
    //! Overnight indexed swap: fix vs compounded overnight rate
-   public class OvernightIndexedSwap : Swap 
+   public class OvernightIndexedSwap : Swap
    {
       private Type type_;
       private double nominal_;
@@ -34,18 +34,18 @@ namespace QLNet
       private double spread_;
 
       public enum Type { Receiver = -1, Payer = 1 };
-      
+
       public OvernightIndexedSwap(Type type,
                                   double nominal,
                                   Schedule schedule,
                                   double fixedRate,
                                   DayCounter fixedDC,
                                   OvernightIndex overnightIndex,
-                                  double spread) : 
+                                  double spread) :
       base(2)
       {
-      
-         type_= type;
+
+         type_ = type;
          nominal_ = nominal;
          paymentFrequency_ = schedule.tenor().frequency();
          fixedRate_ = fixedRate;
@@ -53,16 +53,16 @@ namespace QLNet
          overnightIndex_ = overnightIndex;
          spread_ = spread;
 
-         if (fixedDC_== null)
+         if (fixedDC_ == null)
             fixedDC_ = overnightIndex_.dayCounter();
 
          legs_[0] = new FixedRateLeg(schedule)
             .withCouponRates(fixedRate_, fixedDC_)
             .withNotionals(nominal_);
 
-        legs_[1] = new OvernightLeg(schedule, overnightIndex_)
-            .withNotionals(nominal_)
-            .withSpreads(spread_);
+         legs_[1] = new OvernightLeg(schedule, overnightIndex_)
+             .withNotionals(nominal_)
+             .withSpreads(spread_);
 
          for (int j = 0; j < 2; ++j)
          {
@@ -70,7 +70,7 @@ namespace QLNet
                legs_[j][i].registerWith(update);
          }
 
-         switch (type_) 
+         switch (type_)
          {
             case Type.Payer:
                payer_[0] = -1.0;
@@ -81,8 +81,8 @@ namespace QLNet
                payer_[1] = -1.0;
                break;
             default:
-               throw new ApplicationException("Unknown overnight-swap type"); 
-         
+               throw new ApplicationException("Unknown overnight-swap type");
+
          }
       }
 
@@ -98,21 +98,21 @@ namespace QLNet
       List<CashFlow> overnightLeg() { return legs_[1]; }
 
 
-      public double? fairRate() 
+      public double? fairRate()
       {
          const double basisPoint = 1.0e-4;
          calculate();
-         return fixedRate_ - NPV_/(fixedLegBPS()/basisPoint);
+         return fixedRate_ - NPV_ / (fixedLegBPS() / basisPoint);
       }
 
       public double? fairSpread()
       {
-        const double basisPoint = 1.0e-4;
-        calculate();
-        return spread_ - NPV_/(overnightLegBPS()/basisPoint);
+         const double basisPoint = 1.0e-4;
+         calculate();
+         return spread_ - NPV_ / (overnightLegBPS() / basisPoint);
       }
 
-      public double? fixedLegBPS() 
+      public double? fixedLegBPS()
       {
          calculate();
          if (legBPS_[0] == null)
@@ -122,13 +122,13 @@ namespace QLNet
 
       public double? overnightLegBPS()
       {
-        calculate();
-        if (legBPS_[1] == null)
-           throw new ApplicationException("result not available");
-        return legBPS_[1];
+         calculate();
+         if (legBPS_[1] == null)
+            throw new ApplicationException("result not available");
+         return legBPS_[1];
       }
 
-      public double? fixedLegNPV() 
+      public double? fixedLegNPV()
       {
          calculate();
          if (legNPV_[0] == null)

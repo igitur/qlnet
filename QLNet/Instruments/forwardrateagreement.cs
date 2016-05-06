@@ -1,17 +1,17 @@
 ﻿/*
  Copyright (C) 2008 Siarhei Novik (snovik@gmail.com)
-  
+
  This file is part of QLNet Project https://github.com/amaggiulli/qlnet
 
  QLNet is free software: you can redistribute it and/or modify it
  under the terms of the QLNet license.  You should have received a
- copy of the license along with this program; if not, license is  
+ copy of the license along with this program; if not, license is
  available online at <http://qlnet.sourceforge.net/License.html>.
-  
+
  QLNet is a based on QuantLib, a free-software/open-source library
  for financial quantitative analysts and developers - http://quantlib.org/
  The QuantLib license is available online at http://quantlib.org/license.shtml.
- 
+
  This program is distributed in the hope that it will be useful, but WITHOUT
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
@@ -19,7 +19,8 @@
 
 using System;
 
-namespace QLNet {
+namespace QLNet
+{
    //! %Forward rate agreement (FRA) class
    /*! 1. Unlike the forward contract conventions on carryable
           financial assets (stocks, bonds, commodities), the
@@ -64,7 +65,8 @@ namespace QLNet {
 
        \ingroup instruments
    */
-   public class ForwardRateAgreement : Forward {
+   public class ForwardRateAgreement : Forward
+   {
       protected Position.Type fraType_;
       //! aka FRA rate (the market forward rate)
       protected InterestRate forwardRate_;
@@ -78,7 +80,8 @@ namespace QLNet {
       public ForwardRateAgreement(Date valueDate, Date maturityDate, Position.Type type, double strikeForwardRate,
                                   double notionalAmount, IborIndex index, Handle<YieldTermStructure> discountCurve)
          : base(index.dayCounter(), index.fixingCalendar(), index.businessDayConvention(), index.fixingDays(), new Payoff(),
-                 valueDate, maturityDate, discountCurve) {
+                 valueDate, maturityDate, discountCurve)
+      {
 
          fraType_ = type;
          notionalAmount_ = notionalAmount;
@@ -98,51 +101,56 @@ namespace QLNet {
          incomeDiscountCurve_ = discountCurve_;
          // income is irrelevant to FRA - set it to zero
          underlyingIncome_ = 0.0;
-         
+
          index_.registerWith(update);
       }
 
-        //! \name Calculations
-        //@{
-        public override Date settlementDate() {
-            return calendar_.advance(Settings.evaluationDate(), settlementDays_, TimeUnit.Days);
-        }
+      //! \name Calculations
+      //@{
+      public override Date settlementDate()
+      {
+         return calendar_.advance(Settings.evaluationDate(), settlementDays_, TimeUnit.Days);
+      }
 
-        /*! A FRA expires/settles on the valueDate */
-        public override bool isExpired() {
-            #if QL_TODAYS_PAYMENTS
+      /*! A FRA expires/settles on the valueDate */
+      public override bool isExpired()
+      {
+#if QL_TODAYS_PAYMENTS
                 return valueDate_ < settlementDate();
-            #else
-                return valueDate_ <= settlementDate();
-            #endif
-        }
+#else
+         return valueDate_ <= settlementDate();
+#endif
+      }
 
-        /*!  Income is zero for a FRA */
-        public override double spotIncome(Handle<YieldTermStructure> t) { return 0.0; }
+      /*!  Income is zero for a FRA */
+      public override double spotIncome(Handle<YieldTermStructure> t) { return 0.0; }
 
-        //! Spot value (NPV) of the underlying loan
-        /*! This has always a positive value (asset), even if short the FRA */
-        public override double spotValue() {
-            calculate();
-            double result = notionalAmount_ *
-                   forwardRate().compoundFactor(valueDate_, maturityDate_) *
-                   discountCurve_.link.discount(maturityDate_);
-            return result;
-        }
+      //! Spot value (NPV) of the underlying loan
+      /*! This has always a positive value (asset), even if short the FRA */
+      public override double spotValue()
+      {
+         calculate();
+         double result = notionalAmount_ *
+                forwardRate().compoundFactor(valueDate_, maturityDate_) *
+                discountCurve_.link.discount(maturityDate_);
+         return result;
+      }
 
-        //! Returns the relevant forward rate associated with the FRA term
-        public InterestRate forwardRate() {
-            calculate();
-            return forwardRate_;
-        }
+      //! Returns the relevant forward rate associated with the FRA term
+      public InterestRate forwardRate()
+      {
+         calculate();
+         return forwardRate_;
+      }
 
-        protected override void performCalculations() {
-            Date fixingDate = calendar_.advance(valueDate_, -settlementDays_, TimeUnit.Days);
-            forwardRate_ = new InterestRate(index_.fixing(fixingDate), index_.dayCounter(),
-                                            Compounding.Simple, Frequency.Once);
-            underlyingSpotValue_ = spotValue();
-            underlyingIncome_    = 0.0;
-            base.performCalculations();
-        }
+      protected override void performCalculations()
+      {
+         Date fixingDate = calendar_.advance(valueDate_, -settlementDays_, TimeUnit.Days);
+         forwardRate_ = new InterestRate(index_.fixing(fixingDate), index_.dayCounter(),
+                                         Compounding.Simple, Frequency.Once);
+         underlyingSpotValue_ = spotValue();
+         underlyingIncome_ = 0.0;
+         base.performCalculations();
+      }
    }
 }

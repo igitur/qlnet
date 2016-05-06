@@ -1,17 +1,17 @@
 ﻿/*
- Copyright (C) 2008-2016  Andrea Maggiulli (a.maggiulli@gmail.com) 
-  
+ Copyright (C) 2008-2016  Andrea Maggiulli (a.maggiulli@gmail.com)
+
  This file is part of QLNet Project https://github.com/amaggiulli/qlnet
 
  QLNet is free software: you can redistribute it and/or modify it
  under the terms of the QLNet license.  You should have received a
- copy of the license along with this program; if not, license is  
+ copy of the license along with this program; if not, license is
  available online at <http://qlnet.sourceforge.net/License.html>.
-  
+
  QLNet is a based on QuantLib, a free-software/open-source library
  for financial quantitative analysts and developers - http://quantlib.org/
  The QuantLib license is available online at http://quantlib.org/license.shtml.
- 
+
  This program is distributed in the hope that it will be useful, but WITHOUT
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
@@ -21,7 +21,7 @@ using System.Collections.Generic;
 
 namespace QLNet
 {
-	public class SurvivalProbability : ITraits<YieldTermStructure>
+   public class SurvivalProbability : ITraits<YieldTermStructure>
    {
       const double avgRate = 0.05;
       public Date initialDate(YieldTermStructure c) { return c.referenceDate(); }   // start of curve data
@@ -42,7 +42,7 @@ namespace QLNet
          return 3.0;
 
          // discounts cannot increase
-         //return data[i - 1]; 
+         //return data[i - 1];
       }
       // update with new guess
       public void updateGuess(List<double> data, double discount, int i) { data[i] = discount; }
@@ -51,16 +51,16 @@ namespace QLNet
       public double discountImpl(Interpolation i, double t) { return i.value(t, true); }
       public double zeroYieldImpl(Interpolation i, double t) { throw new NotSupportedException(); }
       public double forwardImpl(Interpolation i, double t) { throw new NotSupportedException(); }
-		
+
       public double guess(int i, InterpolatedCurve c, bool validData, int f)
       { throw new NotSupportedException(); }
 
       public double minValueAfter(int i, InterpolatedCurve c, bool validData, int f)
-      {throw new NotSupportedException(); }
+      { throw new NotSupportedException(); }
 
       public double maxValueAfter(int i, InterpolatedCurve c, bool validData, int f)
-      {throw new NotSupportedException(); }
-  
+      { throw new NotSupportedException(); }
+
    }
 
 }

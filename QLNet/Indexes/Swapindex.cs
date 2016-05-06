@@ -1,27 +1,27 @@
 /*
  Copyright (C) 2008 Siarhei Novik (snovik@gmail.com)
  Copyright (C) 2008 Toyin Akin (toyin_akin@hotmail.com)
- * 
+ *
  This file is part of QLNet Project https://github.com/amaggiulli/qlnet
 
  QLNet is free software: you can redistribute it and/or modify it
  under the terms of the QLNet license.  You should have received a
- copy of the license along with this program; if not, license is  
+ copy of the license along with this program; if not, license is
  available online at <http://qlnet.sourceforge.net/License.html>.
-  
+
  QLNet is a based on QuantLib, a free-software/open-source library
  for financial quantitative analysts and developers - http://quantlib.org/
  The QuantLib license is available online at http://quantlib.org/license.shtml.
- 
+
  This program is distributed in the hope that it will be useful, but WITHOUT
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
-namespace QLNet 
+namespace QLNet
 {
 
-   public class SwapIndex : InterestRateIndex 
+   public class SwapIndex : InterestRateIndex
    {
       // need by CashFlowVectors
       public SwapIndex() { }
@@ -76,8 +76,8 @@ namespace QLNet
       public Period fixedLegTenor() { return fixedLegTenor_; }
       public BusinessDayConvention fixedLegConvention() { return fixedLegConvention_; }
       public IborIndex iborIndex() { return iborIndex_; }
-      public Handle<YieldTermStructure> forwardingTermStructure() { return iborIndex_.forwardingTermStructure();}
-		public Handle<YieldTermStructure> discountingTermStructure() { return discount_; }
+      public Handle<YieldTermStructure> forwardingTermStructure() { return iborIndex_.forwardingTermStructure(); }
+      public Handle<YieldTermStructure> discountingTermStructure() { return discount_; }
       public bool exogenousDiscount() { return exogenousDiscount_; }
       // \warning Relinking the term structure underlying the index will not have effect on the returned swap.
       // recheck
@@ -109,7 +109,7 @@ namespace QLNet
       //! \name Other methods
       //@{
       //! returns a copy of itself linked to a different forwarding curve
-      public virtual SwapIndex clone(Handle<YieldTermStructure> forwarding) 
+      public virtual SwapIndex clone(Handle<YieldTermStructure> forwarding)
       {
          if (exogenousDiscount_)
             return new SwapIndex(familyName(),
@@ -133,45 +133,45 @@ namespace QLNet
                        dayCounter(),
                        iborIndex_.clone(forwarding));
       }
-		//! returns a copy of itself linked to a different curves
-		public virtual SwapIndex clone( Handle<YieldTermStructure> forwarding, Handle<YieldTermStructure> discounting )
-		{
-				return new SwapIndex( familyName(),
-							  tenor(),
-							  fixingDays(),
-							  currency(),
-							  fixingCalendar(),
-							  fixedLegTenor(),
-							  fixedLegConvention(),
-							  dayCounter(),
-							  iborIndex_.clone( forwarding ),
-							  discounting );
-		}
-		//! returns a copy of itself linked to a different tenor
-		public virtual SwapIndex clone( Period tenor )
-		{
-			if ( exogenousDiscount_ )
-				return new SwapIndex( familyName(),
-							  tenor,
-							  fixingDays(),
-							  currency(),
-							  fixingCalendar(),
-							  fixedLegTenor(),
-							  fixedLegConvention(),
-							  dayCounter(),
-							  iborIndex(),
-							  discountingTermStructure() );
-			else
-				return new SwapIndex( familyName(),
-							  tenor,
-							  fixingDays(),
-							  currency(),
-							  fixingCalendar(),
-							  fixedLegTenor(),
-							  fixedLegConvention(),
-							  dayCounter(),
-							  iborIndex() );
-		}
+      //! returns a copy of itself linked to a different curves
+      public virtual SwapIndex clone(Handle<YieldTermStructure> forwarding, Handle<YieldTermStructure> discounting)
+      {
+         return new SwapIndex(familyName(),
+                    tenor(),
+                    fixingDays(),
+                    currency(),
+                    fixingCalendar(),
+                    fixedLegTenor(),
+                    fixedLegConvention(),
+                    dayCounter(),
+                    iborIndex_.clone(forwarding),
+                    discounting);
+      }
+      //! returns a copy of itself linked to a different tenor
+      public virtual SwapIndex clone(Period tenor)
+      {
+         if (exogenousDiscount_)
+            return new SwapIndex(familyName(),
+                       tenor,
+                       fixingDays(),
+                       currency(),
+                       fixingCalendar(),
+                       fixedLegTenor(),
+                       fixedLegConvention(),
+                       dayCounter(),
+                       iborIndex(),
+                       discountingTermStructure());
+         else
+            return new SwapIndex(familyName(),
+                       tenor,
+                       fixingDays(),
+                       currency(),
+                       fixingCalendar(),
+                       fixedLegTenor(),
+                       fixedLegConvention(),
+                       dayCounter(),
+                       iborIndex());
+      }
       // @}
       protected override double forecastFixing(Date fixingDate)
       {
@@ -186,7 +186,7 @@ namespace QLNet
    }
 
    //! base class for overnight indexed swap indexes
-   public class OvernightIndexedSwapIndex : SwapIndex 
+   public class OvernightIndexedSwapIndex : SwapIndex
    {
       public OvernightIndexedSwapIndex(
                   string familyName,
@@ -194,16 +194,16 @@ namespace QLNet
                   int settlementDays,
                   Currency currency,
                   OvernightIndex overnightIndex)
-         :base(familyName, tenor, settlementDays,
+         : base(familyName, tenor, settlementDays,
                 currency, overnightIndex.fixingCalendar(),
-                new Period(1,TimeUnit.Years),BusinessDayConvention.ModifiedFollowing, 
-                overnightIndex.dayCounter(),overnightIndex)
+                new Period(1, TimeUnit.Years), BusinessDayConvention.ModifiedFollowing,
+                overnightIndex.dayCounter(), overnightIndex)
       {
          overnightIndex_ = overnightIndex;
       }
       //! \name Inspectors
       //@{
-      public OvernightIndex overnightIndex() { return overnightIndex_;}
+      public OvernightIndex overnightIndex() { return overnightIndex_; }
       /*! \warning Relinking the term structure underlying the index will
                    not have effect on the returned swap.
       */
@@ -216,7 +216,7 @@ namespace QLNet
       }
       //@}
       protected OvernightIndex overnightIndex_;
-    };
+   };
 
 
 }

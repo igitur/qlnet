@@ -35,7 +35,7 @@ namespace QLNet
       public Date maxDate_ { get; set; }
       public override Date maxDate()
       {
-         if ( maxDate_ != null )
+         if (maxDate_ != null)
             return maxDate_;
          return dates_.Last();
       }

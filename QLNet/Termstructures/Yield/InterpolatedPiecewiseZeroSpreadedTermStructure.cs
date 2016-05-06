@@ -120,7 +120,7 @@ namespace QLNet
       }
    }
 
-   public class PiecewiseZeroSpreadedTermStructure: InterpolatedPiecewiseZeroSpreadedTermStructure<Linear>
+   public class PiecewiseZeroSpreadedTermStructure : InterpolatedPiecewiseZeroSpreadedTermStructure<Linear>
    {
       public PiecewiseZeroSpreadedTermStructure(Handle<YieldTermStructure> h,
                                                 List<Handle<Quote>> spreads,

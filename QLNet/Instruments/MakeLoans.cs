@@ -1,17 +1,17 @@
 ﻿/*
  Copyright (C) 2008, 2009 , 2010  Andrea Maggiulli (a.maggiulli@gmail.com)
-  
+
  This file is part of QLNet Project https://github.com/amaggiulli/qlnet
 
  QLNet is free software: you can redistribute it and/or modify it
  under the terms of the QLNet license.  You should have received a
- copy of the license along with this program; if not, license is  
+ copy of the license along with this program; if not, license is
  available online at <http://qlnet.sourceforge.net/License.html>.
-  
+
  QLNet is a based on QuantLib, a free-software/open-source library
  for financial quantitative analysts and developers - http://quantlib.org/
  The QuantLib license is available online at http://quantlib.org/license.shtml.
- 
+
  This program is distributed in the hope that it will be useful, but WITHOUT
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
@@ -23,9 +23,9 @@ namespace QLNet
    {
       private double nominal_;
       private Calendar calendar_;
-      private Date startDate_,endDate_;
+      private Date startDate_, endDate_;
       private Frequency frequency_;
-      private BusinessDayConvention convention_ ;
+      private BusinessDayConvention convention_;
       private DayCounter dayCounter_;
       private double fixedRate_;
       private Loan.Type type_;
@@ -33,7 +33,7 @@ namespace QLNet
       private DateGeneration.Rule rule_;
       private bool endOfMonth_;
 
-      public MakeFixedLoan(Date startDate, Date endDate, double fixedRate,Frequency frequency)
+      public MakeFixedLoan(Date startDate, Date endDate, double fixedRate, Frequency frequency)
       {
          startDate_ = startDate;
          endDate_ = endDate;
@@ -109,8 +109,8 @@ namespace QLNet
          Schedule fixedSchedule = new Schedule(startDate_, endDate_, new Period(frequency_),
                                   calendar_, convention_, convention_, rule_, endOfMonth_);
 
-         Period principalPeriod = amortising_ == Loan.Amortising.Bullet ? 
-                                  new Period(Frequency.Once) : 
+         Period principalPeriod = amortising_ == Loan.Amortising.Bullet ?
+                                  new Period(Frequency.Once) :
                                   new Period(frequency_);
 
          Schedule principalSchedule = new Schedule(startDate_, endDate_, principalPeriod,
@@ -230,7 +230,7 @@ namespace QLNet
                                   calendar_, convention_, convention_, rule_, endOfMonth_);
 
          FloatingLoan fl = new FloatingLoan(type_, nominal_, floatingSchedule, spread_, dayCounter_,
-                                     principalSchedule, convention_,index_);
+                                     principalSchedule, convention_, index_);
          return fl;
 
       }
@@ -361,7 +361,7 @@ namespace QLNet
          endDate_ = endDate;
          nominal_ = nominal;
 
-         frequency_  = Frequency.Once;
+         frequency_ = Frequency.Once;
          type_ = Loan.Type.Loan;
          amortising_ = Loan.Amortising.Bullet;
          calendar_ = new TARGET();

@@ -1,18 +1,18 @@
 /*
  Copyright (C) 2008 Andrea Maggiulli
- Copyright (C) 2008 Siarhei Novik (snovik@gmail.com) 
-  
+ Copyright (C) 2008 Siarhei Novik (snovik@gmail.com)
+
  This file is part of QLNet Project https://github.com/amaggiulli/qlnet
 
  QLNet is free software: you can redistribute it and/or modify it
  under the terms of the QLNet license.  You should have received a
- copy of the license along with this program; if not, license is  
+ copy of the license along with this program; if not, license is
  available online at <http://qlnet.sourceforge.net/License.html>.
-  
+
  QLNet is a based on QuantLib, a free-software/open-source library
  for financial quantitative analysts and developers - http://quantlib.org/
  The QuantLib license is available online at http://quantlib.org/license.shtml.
- 
+
  This program is distributed in the hope that it will be useful, but WITHOUT
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
@@ -21,13 +21,15 @@
 using System;
 using System.Collections.Generic;
 
-namespace QLNet {
+namespace QLNet
+{
    /// <summary>
    /// Exchange rate between two currencies
    /// application of direct and derived exchange rate is
    /// tested against calculations.
    /// </summary>
-   public class ExchangeRate {
+   public class ExchangeRate
+   {
       private Currency source_;
       private Currency target_;
       private double? rate_;
@@ -39,9 +41,9 @@ namespace QLNet {
       /// </summary>
       public Currency source
       {
-         get { return source_ ; }
+         get { return source_; }
       }
-       
+
       /// <summary>
       /// the target currency.
       /// </summary>
@@ -54,9 +56,9 @@ namespace QLNet {
       /// the type
       /// </summary>
       /// <returns></returns>
-      public ExchangeRate.Type type 
+      public ExchangeRate.Type type
       {
-         get { return type_;}
+         get { return type_; }
       }
 
       /// <summary>
@@ -70,20 +72,20 @@ namespace QLNet {
 
       public bool HasValue
       {
-         get {return rate_.HasValue;}
+         get { return rate_.HasValue; }
       }
 
       /// <summary>
-      /// given directly by the user 
+      /// given directly by the user
       /// </summary>
-      public enum Type : int 
+      public enum Type : int
       {
          /// <summary>
          /// given directly by the user
          /// </summary>
          Direct,
          /// <summary>
-         /// Derived from exchange rates between other currencies 
+         /// Derived from exchange rates between other currencies
          /// </summary>
          Derived
       }
@@ -124,13 +126,13 @@ namespace QLNet {
                else if (amount.currency == target_)
                   return new Money(amount.value / rate_.Value, source_);
                else
-                  throw new Exception ("exchange rate not applicable");
+                  throw new Exception("exchange rate not applicable");
 
             case Type.Derived:
                if (amount.currency == rateChain_.Key.source || amount.currency == rateChain_.Key.target)
-                   return rateChain_.Value.exchange(rateChain_.Key.exchange(amount));
+                  return rateChain_.Value.exchange(rateChain_.Key.exchange(amount));
                else if (amount.currency == rateChain_.Value.source || amount.currency == rateChain_.Value.target)
-                   return rateChain_.Key.exchange(rateChain_.Value.exchange(amount));
+                  return rateChain_.Key.exchange(rateChain_.Value.exchange(amount));
                else
                   throw new Exception("exchange rate not applicable");
             default:
@@ -145,39 +147,39 @@ namespace QLNet {
       /// <param name="r2"></param>
       /// <returns></returns>
       public static ExchangeRate chain(ExchangeRate r1, ExchangeRate r2)
-        {
-            ExchangeRate result = new ExchangeRate();
-            result.type_ = Type.Derived;
-            result.rateChain_ = new KeyValuePair<ExchangeRate,ExchangeRate>(r1,r2);
-            if (r1.source_ == r2.source_) 
-            {
-               result.source_ = r1.target_;
-               result.target_ = r2.target_;
-               result.rate_ = r2.rate_ / r1.rate_;
-            } 
-            else if (r1.source_ == r2.target_) 
-            {
-               result.source_ = r1.target_;
-               result.target_ = r2.source_;
-               result.rate_ = 1.0 / (r1.rate_ * r2.rate_);
-            } 
-            else if (r1.target_ == r2.source_) 
-            {
-               result.source_ = r1.source_;
-               result.target_ = r2.target_;
-               result.rate_ = r1.rate_ * r2.rate_;
-            } 
-            else if (r1.target_ == r2.target_) 
-            {
-               result.source_ = r1.source_;
-               result.target_ = r2.source_;
-               result.rate_ = r1.rate_ / r2.rate_;
-            } 
-            else 
-            {
-                throw new Exception ("exchange rates not chainable");
-            }
-            return result;
-        }
+      {
+         ExchangeRate result = new ExchangeRate();
+         result.type_ = Type.Derived;
+         result.rateChain_ = new KeyValuePair<ExchangeRate, ExchangeRate>(r1, r2);
+         if (r1.source_ == r2.source_)
+         {
+            result.source_ = r1.target_;
+            result.target_ = r2.target_;
+            result.rate_ = r2.rate_ / r1.rate_;
+         }
+         else if (r1.source_ == r2.target_)
+         {
+            result.source_ = r1.target_;
+            result.target_ = r2.source_;
+            result.rate_ = 1.0 / (r1.rate_ * r2.rate_);
+         }
+         else if (r1.target_ == r2.source_)
+         {
+            result.source_ = r1.source_;
+            result.target_ = r2.target_;
+            result.rate_ = r1.rate_ * r2.rate_;
+         }
+         else if (r1.target_ == r2.target_)
+         {
+            result.source_ = r1.source_;
+            result.target_ = r2.source_;
+            result.rate_ = r1.rate_ / r2.rate_;
+         }
+         else
+         {
+            throw new Exception("exchange rates not chainable");
+         }
+         return result;
+      }
    }
 }

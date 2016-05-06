@@ -1,18 +1,18 @@
 ﻿/*
  Copyright (C) 2008 Siarhei Novik (snovik@gmail.com)
  Copyright (C) 2008-2016 Andrea Maggiulli (a.maggiulli@gmail.com)
-  
+
  This file is part of QLNet Project https://github.com/amaggiulli/qlnet
 
  QLNet is free software: you can redistribute it and/or modify it
  under the terms of the QLNet license.  You should have received a
- copy of the license along with this program; if not, license is  
+ copy of the license along with this program; if not, license is
  available online at <http://qlnet.sourceforge.net/License.html>.
-  
+
  QLNet is a based on QuantLib, a free-software/open-source library
  for financial quantitative analysts and developers - http://quantlib.org/
  The QuantLib license is available online at http://quantlib.org/license.shtml.
- 
+
  This program is distributed in the hope that it will be useful, but WITHOUT
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
@@ -49,8 +49,8 @@ namespace QLNet
 
       private double epsfcn_, xtol_, gtol_;
 
-      public LevenbergMarquardt() : this( 1.0e-8, 1.0e-8, 1.0e-8 ) { }
-      public LevenbergMarquardt( double epsfcn, double xtol, double gtol, bool useCostFunctionsJacobian = false )
+      public LevenbergMarquardt() : this(1.0e-8, 1.0e-8, 1.0e-8) { }
+      public LevenbergMarquardt(double epsfcn, double xtol, double gtol, bool useCostFunctionsJacobian = false)
       {
          info_ = 0;
          epsfcn_ = epsfcn;
@@ -59,23 +59,23 @@ namespace QLNet
          useCostFunctionsJacobian_ = useCostFunctionsJacobian;
       }
 
-      public override EndCriteria.Type minimize( Problem P, EndCriteria endCriteria )
+      public override EndCriteria.Type minimize(Problem P, EndCriteria endCriteria)
       {
          EndCriteria.Type ecType = EndCriteria.Type.None;
          P.reset();
          Vector x_ = P.currentValue();
          currentProblem_ = P;
-         initCostValues_ = P.costFunction().values( x_ );
+         initCostValues_ = P.costFunction().values(x_);
          int m = initCostValues_.size();
          int n = x_.size();
-         if ( useCostFunctionsJacobian_ )
+         if (useCostFunctionsJacobian_)
          {
-            initJacobian_ = new Matrix( m, n );
-            P.costFunction().jacobian( initJacobian_, x_ );
+            initJacobian_ = new Matrix(m, n);
+            P.costFunction().jacobian(initJacobian_, x_);
          }
 
-         Vector xx = new Vector( x_ );
-         Vector fvec = new Vector( m ), diag = new Vector( n );
+         Vector xx = new Vector(x_);
+         Vector fvec = new Vector(m), diag = new Vector(n);
 
          int mode = 1;
          double factor = 1;
@@ -83,20 +83,20 @@ namespace QLNet
          int info = 0;
          int nfev = 0;
 
-         Matrix fjac = new Matrix( m, n );
+         Matrix fjac = new Matrix(m, n);
 
          int ldfjac = m;
 
-         List<int> ipvt = new InitializedList<int>( n );
-         Vector qtf = new Vector( n ), wa1 = new Vector( n ), wa2 = new Vector( n ), wa3 = new Vector( n ), wa4 = new Vector( m );
+         List<int> ipvt = new InitializedList<int>(n);
+         Vector qtf = new Vector(n), wa1 = new Vector(n), wa2 = new Vector(n), wa3 = new Vector(n), wa4 = new Vector(m);
 
          // call lmdif to minimize the sum of the squares of m functions
          // in n variables by the Levenberg-Marquardt algorithm.
          Func<int, int, Vector, int, Matrix> j = null;
-         if ( useCostFunctionsJacobian_ ) 
+         if (useCostFunctionsJacobian_)
             j = jacFcn;
 
-         MINPACK.lmdif( m, n, xx, ref fvec,
+         MINPACK.lmdif(m, n, xx, ref fvec,
                                   endCriteria.functionEpsilon(),
                                   xtol_,
                                   gtol_,
@@ -109,62 +109,62 @@ namespace QLNet
                                   fcn, j);
          info_ = info;
          // check requirements & endCriteria evaluation
-         if ( info == 0 ) throw new ApplicationException( "MINPACK: improper input parameters" );
+         if (info == 0) throw new ApplicationException("MINPACK: improper input parameters");
          //if(info == 6) throw new ApplicationException("MINPACK: ftol is too small. no further " +
          //                                             "reduction in the sum of squares is possible.");
 
-         if ( info != 6 ) ecType = EndCriteria.Type.StationaryFunctionValue;
+         if (info != 6) ecType = EndCriteria.Type.StationaryFunctionValue;
          //QL_REQUIRE(info != 5, "MINPACK: number of calls to fcn has reached or exceeded maxfev.");
-         endCriteria.checkMaxIterations( nfev, ref ecType );
-         if ( info == 7 ) throw new ApplicationException( "MINPACK: xtol is too small. no further " +
-                                           "improvement in the approximate " +
-                                           "solution x is possible." );
-         if ( info == 8 ) throw new ApplicationException( "MINPACK: gtol is too small. fvec is " +
-                                           "orthogonal to the columns of the " +
-                                           "jacobian to machine precision." );
+         endCriteria.checkMaxIterations(nfev, ref ecType);
+         if (info == 7) throw new ApplicationException("MINPACK: xtol is too small. no further " +
+                                         "improvement in the approximate " +
+                                         "solution x is possible.");
+         if (info == 8) throw new ApplicationException("MINPACK: gtol is too small. fvec is " +
+                                         "orthogonal to the columns of the " +
+                                         "jacobian to machine precision.");
          // set problem
-         x_ = new Vector( xx.GetRange( 0, n ) );
-         P.setCurrentValue( x_ );
-         P.setFunctionValue( P.costFunction().value( x_ ) );
+         x_ = new Vector(xx.GetRange(0, n));
+         P.setCurrentValue(x_);
+         P.setFunctionValue(P.costFunction().value(x_));
 
          return ecType;
       }
 
-      public Vector fcn( int m, int n, Vector x, int iflag )
+      public Vector fcn(int m, int n, Vector x, int iflag)
       {
-         Vector xt = new Vector( x );
+         Vector xt = new Vector(x);
          Vector fvec;
          // constraint handling needs some improvement in the future:
          // starting point should not be close to a constraint violation
-         if ( currentProblem_.constraint().test( xt ) )
+         if (currentProblem_.constraint().test(xt))
          {
-            fvec = new Vector( currentProblem_.values( xt ) );
+            fvec = new Vector(currentProblem_.values(xt));
          }
          else
          {
-            fvec = new Vector( initCostValues_ );
+            fvec = new Vector(initCostValues_);
          }
          return fvec;
       }
 
-      public Matrix jacFcn( int m, int n, Vector x, int iflag )
+      public Matrix jacFcn(int m, int n, Vector x, int iflag)
       {
          Vector xt = new Vector(x);
          Matrix fjac;
          //std::copy(x, x+n, xt.begin());
          // constraint handling needs some improvement in the future:
          // starting point should not be close to a constraint violation
-         if (currentProblem_.constraint().test(xt)) 
+         if (currentProblem_.constraint().test(xt))
          {
-            Matrix tmp = new Matrix(m,n);
+            Matrix tmp = new Matrix(m, n);
             currentProblem_.costFunction().jacobian(tmp, xt);
             Matrix tmpT = Matrix.transpose(tmp);
-            fjac = new Matrix( tmpT );
-         } 
-         else 
+            fjac = new Matrix(tmpT);
+         }
+         else
          {
             Matrix tmpT = Matrix.transpose(initJacobian_);
-            fjac = new Matrix( tmpT );
+            fjac = new Matrix(tmpT);
          }
          return fjac;
       }

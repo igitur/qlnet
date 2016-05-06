@@ -1,17 +1,17 @@
 ﻿/*
  Copyright (C) 2008, 2009 , 2010  Andrea Maggiulli (a.maggiulli@gmail.com)
-  
+
  This file is part of QLNet Project https://github.com/amaggiulli/qlnet
 
  QLNet is free software: you can redistribute it and/or modify it
  under the terms of the QLNet license.  You should have received a
- copy of the license along with this program; if not, license is  
+ copy of the license along with this program; if not, license is
  available online at <http://qlnet.sourceforge.net/License.html>.
-  
+
  QLNet is a based on QuantLib, a free-software/open-source library
  for financial quantitative analysts and developers - http://quantlib.org/
  The QuantLib license is available online at http://quantlib.org/license.shtml.
- 
+
  This program is distributed in the hope that it will be useful, but WITHOUT
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
@@ -26,7 +26,7 @@ namespace QLNet
    public class Loan : Instrument
    {
       public enum Type { Deposit = -1, Loan = 1 };
-      public enum Amortising 
+      public enum Amortising
       {
          Bullet = 1,
          Step = 2,
@@ -39,10 +39,10 @@ namespace QLNet
 
       public Loan(int legs)
       {
-          legs_ = new InitializedList<List<CashFlow>>(legs);
-          payer_ = new InitializedList<double>(legs);
-          notionals_ = new List<double>();
-          legNPV_ = new InitializedList<double?>(legs);
+         legs_ = new InitializedList<List<CashFlow>>(legs);
+         payer_ = new InitializedList<double>(legs);
+         notionals_ = new List<double>();
+         legNPV_ = new InitializedList<double?>(legs);
       }
 
       ///////////////////////////////////////////////////////////////////
@@ -129,7 +129,7 @@ namespace QLNet
       public FixedLoan(Type type, double nominal,
                        Schedule fixedSchedule, double fixedRate, DayCounter fixedDayCount,
                        Schedule principalSchedule, BusinessDayConvention? paymentConvention) :
-         base(2) 
+         base(2)
       {
 
          type_ = type;
@@ -140,17 +140,17 @@ namespace QLNet
          principalSchedule_ = principalSchedule;
 
          if (paymentConvention.HasValue)
-             paymentConvention_ = paymentConvention.Value;
+            paymentConvention_ = paymentConvention.Value;
          else
             paymentConvention_ = fixedSchedule_.businessDayConvention();
 
          List<CashFlow> principalLeg = new PricipalLeg(principalSchedule, fixedDayCount)
                                      .withNotionals(nominal)
                                      .withPaymentAdjustment(paymentConvention_)
-                                     .withSign(type == Type.Loan ? -1 : 1 );
+                                     .withSign(type == Type.Loan ? -1 : 1);
 
-         // temporary 
-         for (int i = 0; i < principalLeg.Count-1; i++ )
+         // temporary
+         for (int i = 0; i < principalLeg.Count - 1; i++)
          {
             Principal p = (Principal)principalLeg[i];
             notionals_.Add(p.nominal());
@@ -164,15 +164,15 @@ namespace QLNet
 
          legs_[0] = fixedLeg;
          legs_[1] = principalLeg;
-         if (type_ == Type.Loan) 
+         if (type_ == Type.Loan)
          {
-             payer_[0] = +1;
-             payer_[1] = -1;
-         } 
-         else 
+            payer_[0] = +1;
+            payer_[1] = -1;
+         }
+         else
          {
-             payer_[0] = -1;
-             payer_[1] = +1;
+            payer_[0] = -1;
+            payer_[1] = +1;
          }
       }
 
@@ -193,7 +193,7 @@ namespace QLNet
 
       public FloatingLoan(Type type, double nominal,
                        Schedule floatingSchedule, double floatingSpread, DayCounter floatingDayCount,
-                       Schedule principalSchedule, BusinessDayConvention? paymentConvention,IborIndex index) :
+                       Schedule principalSchedule, BusinessDayConvention? paymentConvention, IborIndex index) :
          base(2)
       {
 
@@ -215,7 +215,7 @@ namespace QLNet
                                      .withPaymentAdjustment(paymentConvention_)
                                      .withSign(type == Type.Loan ? -1 : 1);
 
-         // temporary 
+         // temporary
          for (int i = 0; i < principalLeg.Count - 1; i++)
          {
             Principal p = (Principal)principalLeg[i];
@@ -280,7 +280,7 @@ namespace QLNet
                                      .withPaymentAdjustment(paymentConvention_)
                                      .withSign(type == Type.Loan ? -1 : 1);
 
-         // temporary 
+         // temporary
          for (int i = 0; i < principalLeg.Count - 1; i++)
          {
             Principal p = (Principal)principalLeg[i];
@@ -295,11 +295,11 @@ namespace QLNet
          // Discounting Pricipal
          notionals_.Clear();
          double n;
-         for (int i = 0; i < fixedLeg.Count ; i++)
+         for (int i = 0; i < fixedLeg.Count; i++)
          {
             FixedRateCoupon c = (FixedRateCoupon)fixedLeg[i];
             n = i > 0 ? notionals_.Last() : c.nominal();
-            notionals_.Add ( n /(1+(c.rate()* c.dayCounter().yearFraction(c.refPeriodStart, c.refPeriodEnd))));
+            notionals_.Add(n / (1 + (c.rate() * c.dayCounter().yearFraction(c.refPeriodStart, c.refPeriodEnd))));
          }
 
          // New Leg
@@ -346,7 +346,7 @@ namespace QLNet
          principalSchedule_ = principalSchedule;
          paymentConvention_ = paymentConvention.Value;
 
-         List<CashFlow> principalLeg = new PricipalLeg(principalSchedule,new Actual365Fixed())
+         List<CashFlow> principalLeg = new PricipalLeg(principalSchedule, new Actual365Fixed())
                                      .withNotionals(nominal)
                                      .withPaymentAdjustment(paymentConvention_)
                                      .withSign(type == Type.Loan ? -1 : 1);

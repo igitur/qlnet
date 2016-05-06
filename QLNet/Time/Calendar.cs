@@ -1,19 +1,19 @@
 /*
  Copyright (C) 2008 Siarhei Novik (snovik@gmail.com)
- Copyright (C) 2008 Andrea Maggiulli 
+ Copyright (C) 2008 Andrea Maggiulli
  Copyright (C) 2008 Toyin Akin (toyin_akin@hotmail.com)
- 
+
  This file is part of QLNet Project https://github.com/amaggiulli/qlnet
 
  QLNet is free software: you can redistribute it and/or modify it
  under the terms of the QLNet license.  You should have received a
- copy of the license along with this program; if not, license is  
+ copy of the license along with this program; if not, license is
  available online at <http://qlnet.sourceforge.net/License.html>.
-  
+
  QLNet is a based on QuantLib, a free-software/open-source library
  for financial quantitative analysts and developers - http://quantlib.org/
  The QuantLib license is available online at http://quantlib.org/license.shtml.
- 
+
  This program is distributed in the hope that it will be useful, but WITHOUT
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
@@ -24,294 +24,298 @@ using System.Collections.Generic;
 namespace QLNet
 {
 
-    /*! 
-        \ingroup datetime
-        \test the methods for adding and removing holidays are tested
-              by inspecting the calendar before and after their
-              invocation.      
-    */
+   /*!
+       \ingroup datetime
+       \test the methods for adding and removing holidays are tested
+             by inspecting the calendar before and after their
+             invocation.
+   */
 
-    /// <summary>
-    /// This class provides methods for determining whether a date is a
-    /// business day or a holiday for a given market, and for
-    /// incrementing/decrementing a date of a given number of business days.
-    /// 
-    /// A calendar should be defined for specific exchange holiday schedule
-    /// or for general country holiday schedule. Legacy city holiday schedule
-    /// calendars will be moved to the exchange/country convention.
-    /// </summary>
-    public class Calendar
-    {
-        protected Calendar calendar_;
-        public List<Date> addedHolidays = new List<Date>(), 
-                           removedHolidays = new List<Date>();
+   /// <summary>
+   /// This class provides methods for determining whether a date is a
+   /// business day or a holiday for a given market, and for
+   /// incrementing/decrementing a date of a given number of business days.
+   ///
+   /// A calendar should be defined for specific exchange holiday schedule
+   /// or for general country holiday schedule. Legacy city holiday schedule
+   /// calendars will be moved to the exchange/country convention.
+   /// </summary>
+   public class Calendar
+   {
+      protected Calendar calendar_;
+      public List<Date> addedHolidays = new List<Date>(),
+                         removedHolidays = new List<Date>();
 
-        public Calendar calendar
-        {
-            get { return calendar_; }
-            set { calendar_ = value; }
-        }
+      public Calendar calendar
+      {
+         get { return calendar_; }
+         set { calendar_ = value; }
+      }
 
-        // constructors
-        /*! The default constructor returns a calendar with a null 
-            implementation, which is therefore unusable except as a
-            placeholder. */
-        public Calendar() { }
-        public Calendar(Calendar c) { calendar_ = c; }
+      // constructors
+      /*! The default constructor returns a calendar with a null
+          implementation, which is therefore unusable except as a
+          placeholder. */
+      public Calendar() { }
+      public Calendar(Calendar c) { calendar_ = c; }
 
-        //! \name Wrappers for interface
-        //@{
-        /// <summary>
-        /// This method is used for output and comparison between
-        /// calendars. It is <b>not</b> meant to be used for writing
-        /// switch-on-type code.
-        /// </summary>
-        /// <returns>
-        /// The name of the calendar.
-        /// </returns>
-        public virtual string name() { return calendar.name(); }
-        /// <param name="d">Date</param>
-        /// <returns>Returns <tt>true</tt> iff the date is a business day for the
-        /// given market.</returns>
-        public virtual bool isBusinessDay(Date d) {
-            if (calendar.addedHolidays.Contains(d))
-                return false;
-            if (calendar.removedHolidays.Contains(d))
-                return true;
-            return calendar.isBusinessDay(d);
-        }
-        ///<summary>
-        /// Returns <tt>true</tt> iff the weekday is part of the
-        /// weekend for the given market.
-        ///</summary>
-        public virtual bool isWeekend(DayOfWeek w) { return calendar.isWeekend(w); }
-        //@}
+      //! \name Wrappers for interface
+      //@{
+      /// <summary>
+      /// This method is used for output and comparison between
+      /// calendars. It is <b>not</b> meant to be used for writing
+      /// switch-on-type code.
+      /// </summary>
+      /// <returns>
+      /// The name of the calendar.
+      /// </returns>
+      public virtual string name() { return calendar.name(); }
+      /// <param name="d">Date</param>
+      /// <returns>Returns <tt>true</tt> iff the date is a business day for the
+      /// given market.</returns>
+      public virtual bool isBusinessDay(Date d)
+      {
+         if (calendar.addedHolidays.Contains(d))
+            return false;
+         if (calendar.removedHolidays.Contains(d))
+            return true;
+         return calendar.isBusinessDay(d);
+      }
+      ///<summary>
+      /// Returns <tt>true</tt> iff the weekday is part of the
+      /// weekend for the given market.
+      ///</summary>
+      public virtual bool isWeekend(DayOfWeek w) { return calendar.isWeekend(w); }
+      //@}
 
-        // other functions
-        /// <summary>
-        /// Returns whether or not the calendar is initialized
-        /// </summary>
-        public bool empty() { return (object)calendar == null; }				//!  Returns whether or not the calendar is initialized
-        /// <summary>
-        /// Returns <tt>true</tt> iff the date is a holiday for the given
-        /// market.
-        /// </summary>
-        public bool isHoliday(Date d) { return !isBusinessDay(d); }
-        /// <summary>
-        /// Returns <tt>true</tt> iff the date is last business day for the
-        /// month in given market.
-        /// </summary>
-        public bool isEndOfMonth(Date d) { return (d.Month != adjust(d + 1).Month); }
-        /// <summary>
-        /// last business day of the month to which the given date belongs
-        /// </summary>
-        public Date endOfMonth(Date d) { return adjust(Date.endOfMonth(d), BusinessDayConvention.Preceding); }
+      // other functions
+      /// <summary>
+      /// Returns whether or not the calendar is initialized
+      /// </summary>
+      public bool empty() { return (object)calendar == null; }          //!  Returns whether or not the calendar is initialized
+                                                                        /// <summary>
+                                                                        /// Returns <tt>true</tt> iff the date is a holiday for the given
+                                                                        /// market.
+                                                                        /// </summary>
+      public bool isHoliday(Date d) { return !isBusinessDay(d); }
+      /// <summary>
+      /// Returns <tt>true</tt> iff the date is last business day for the
+      /// month in given market.
+      /// </summary>
+      public bool isEndOfMonth(Date d) { return (d.Month != adjust(d + 1).Month); }
+      /// <summary>
+      /// last business day of the month to which the given date belongs
+      /// </summary>
+      public Date endOfMonth(Date d) { return adjust(Date.endOfMonth(d), BusinessDayConvention.Preceding); }
 
-        /// <summary>
-        /// Adjusts a non-business day to the appropriate near business day  with respect 
-        /// to the given convention.  
-        /// </summary>
-        public Date adjust( Date d, BusinessDayConvention c = BusinessDayConvention.Following )
-        {
-            if (d == null) throw new ArgumentException("null date");
-            if (c == BusinessDayConvention.Unadjusted) return d;
+      /// <summary>
+      /// Adjusts a non-business day to the appropriate near business day  with respect
+      /// to the given convention.
+      /// </summary>
+      public Date adjust(Date d, BusinessDayConvention c = BusinessDayConvention.Following)
+      {
+         if (d == null) throw new ArgumentException("null date");
+         if (c == BusinessDayConvention.Unadjusted) return d;
 
+         Date d1 = d;
+         if (c == BusinessDayConvention.Following || c == BusinessDayConvention.ModifiedFollowing ||
+             c == BusinessDayConvention.HalfMonthModifiedFollowing)
+         {
+            while (isHoliday(d1)) d1++;
+            if (c == BusinessDayConvention.ModifiedFollowing || c == BusinessDayConvention.HalfMonthModifiedFollowing)
+            {
+               if (d1.Month != d.Month)
+                  return adjust(d, BusinessDayConvention.Preceding);
+               if (c == BusinessDayConvention.HalfMonthModifiedFollowing)
+               {
+                  if (d.Day <= 15 && d1.Day > 15)
+                  {
+                     return adjust(d, BusinessDayConvention.Preceding);
+                  }
+               }
+            }
+         }
+         else if (c == BusinessDayConvention.Preceding || c == BusinessDayConvention.ModifiedPreceding)
+         {
+            while (isHoliday(d1))
+               d1--;
+            if (c == BusinessDayConvention.ModifiedPreceding && d1.Month != d.Month)
+               return adjust(d, BusinessDayConvention.Following);
+         }
+         else if (c == BusinessDayConvention.Nearest)
+         {
+            Date d2 = d;
+            while (isHoliday(d1) && isHoliday(d2))
+            {
+               d1++;
+               d2--;
+            }
+            if (isHoliday(d1))
+               return d2;
+            else
+               return d1;
+         }
+         else throw Error.UnknownBusinessDayConvention(c);
+         return d1;
+      }
+
+      /// <summary>
+      /// Advances the given date of the given number of business days and
+      /// returns the result.
+      /// </summary>
+      /// <remarks>The input date is not modified</remarks>
+      public Date advance(Date d, int n, TimeUnit unit, BusinessDayConvention c = BusinessDayConvention.Following, bool endOfMonth = false)
+      {
+         if (d == null) throw new ArgumentException("null date");
+         if (n == 0)
+            return adjust(d, c);
+         else if (unit == TimeUnit.Days)
+         {
             Date d1 = d;
-            if (c == BusinessDayConvention.Following || c == BusinessDayConvention.ModifiedFollowing ||
-                c == BusinessDayConvention.HalfMonthModifiedFollowing)
+            if (n > 0)
             {
-                while (isHoliday(d1)) d1++;
-                if ( c == BusinessDayConvention.ModifiedFollowing || c == BusinessDayConvention.HalfMonthModifiedFollowing )
-                {
-                    if (d1.Month != d.Month)
-                        return adjust(d, BusinessDayConvention.Preceding);
-                    if ( c == BusinessDayConvention.HalfMonthModifiedFollowing )
-                    {
-                       if ( d.Day <= 15 && d1.Day > 15 )
-                       {
-                          return adjust( d, BusinessDayConvention.Preceding );
-                       }
-                    }
-                }
-            }
-            else if (c == BusinessDayConvention.Preceding || c == BusinessDayConvention.ModifiedPreceding)
-            {
-                while (isHoliday(d1))
-                    d1--;
-                if (c == BusinessDayConvention.ModifiedPreceding && d1.Month != d.Month)
-                    return adjust(d, BusinessDayConvention.Following);
-            }
-            else if ( c == BusinessDayConvention.Nearest )
-            {
-               Date d2 = d;
-               while ( isHoliday( d1 ) && isHoliday( d2 ) )
+               while (n > 0)
                {
                   d1++;
-                  d2--;
+                  while (isHoliday(d1))
+                     d1++;
+                  n--;
                }
-               if ( isHoliday( d1 ) )
-                  return d2;
-               else
-                  return d1;
-            }
-            else throw Error.UnknownBusinessDayConvention(c);
-            return d1;
-        }
-
-        /// <summary>
-        /// Advances the given date of the given number of business days and
-        /// returns the result.
-        /// </summary>
-        /// <remarks>The input date is not modified</remarks>
-        public Date advance( Date d, int n, TimeUnit unit, BusinessDayConvention c = BusinessDayConvention.Following, bool endOfMonth = false )
-        {
-            if (d == null) throw new ArgumentException("null date");
-            if (n == 0)
-                return adjust(d, c);
-            else if (unit == TimeUnit.Days)
-            {
-                Date d1 = d;
-                if (n > 0)
-                {
-                    while (n > 0)
-                    {
-                        d1++;
-                        while (isHoliday(d1))
-                            d1++;
-                        n--;
-                    }
-                }
-                else
-                {
-                    while (n < 0)
-                    {
-                        d1--;
-                        while (isHoliday(d1))
-                            d1--;
-                        n++;
-                    }
-                }
-                return d1;
-            }
-            else if (unit == TimeUnit.Weeks)
-            {
-                Date d1 = d + new Period(n, unit);
-                return adjust(d1, c);
             }
             else
             {
-                Date d1 = d + new Period(n, unit);
-                if (endOfMonth && (unit == TimeUnit.Months || unit == TimeUnit.Years) && isEndOfMonth(d))
-                    return this.endOfMonth(d1);
-                return adjust(d1, c);
+               while (n < 0)
+               {
+                  d1--;
+                  while (isHoliday(d1))
+                     d1--;
+                  n++;
+               }
             }
-        }
-        /// <summary>
-        /// Advances the given date as specified by the given period and
-        /// returns the result.
-        /// </summary>
-        /// <remarks>The input date is not modified.</remarks>
-        public Date advance( Date d, Period p, BusinessDayConvention c = BusinessDayConvention.Following, bool endOfMonth = false)
-        {
-            return advance(d, p.length(), p.units(), c, endOfMonth);
-        }
+            return d1;
+         }
+         else if (unit == TimeUnit.Weeks)
+         {
+            Date d1 = d + new Period(n, unit);
+            return adjust(d1, c);
+         }
+         else
+         {
+            Date d1 = d + new Period(n, unit);
+            if (endOfMonth && (unit == TimeUnit.Months || unit == TimeUnit.Years) && isEndOfMonth(d))
+               return this.endOfMonth(d1);
+            return adjust(d1, c);
+         }
+      }
+      /// <summary>
+      /// Advances the given date as specified by the given period and
+      /// returns the result.
+      /// </summary>
+      /// <remarks>The input date is not modified.</remarks>
+      public Date advance(Date d, Period p, BusinessDayConvention c = BusinessDayConvention.Following, bool endOfMonth = false)
+      {
+         return advance(d, p.length(), p.units(), c, endOfMonth);
+      }
 
-        /// <summary>
-        /// Calculates the number of business days between two given
-        /// dates and returns the result.
-        /// </summary>
-        public int businessDaysBetween(Date from, Date to, bool includeFirst = true, bool includeLast = false)
-        {
-            int wd = 0;
-            if (from != to)
+      /// <summary>
+      /// Calculates the number of business days between two given
+      /// dates and returns the result.
+      /// </summary>
+      public int businessDaysBetween(Date from, Date to, bool includeFirst = true, bool includeLast = false)
+      {
+         int wd = 0;
+         if (from != to)
+         {
+            if (from < to)
             {
-                if (from < to)
-                {
-                    // the last one is treated separately to avoid incrementing Date::maxDate()
-                    for (Date d = from; d < to; ++d)
-                    {
-                        if (isBusinessDay(d))
-                            ++wd;
-                    }
-                    if (isBusinessDay(to))
-                        ++wd;
-                }
-                else if (from > to)
-                {
-                    for (Date d = to; d < from; ++d)
-                    {
-                        if (isBusinessDay(d))
-                            ++wd;
-                    }
-                    if (isBusinessDay(from))
-                        ++wd;
-                }
-
-                if (isBusinessDay(from) && !includeFirst)
-                    wd--;
-                if (isBusinessDay(to) && !includeLast)
-                    wd--;
-
-                if (from > to)
-                    wd = -wd;
+               // the last one is treated separately to avoid incrementing Date::maxDate()
+               for (Date d = from; d < to; ++d)
+               {
+                  if (isBusinessDay(d))
+                     ++wd;
+               }
+               if (isBusinessDay(to))
+                  ++wd;
             }
-            return wd;
-        }
-
-        /// <summary>
-        /// Adds a date to the set of holidays for the given calendar.
-        /// </summary>
-        public void addHoliday(Date d) {
-            // if d was a genuine holiday previously removed, revert the change
-            calendar.removedHolidays.Remove(d);
-            // if it's already a holiday, leave the calendar alone.
-            // Otherwise, add it.
-            if (isBusinessDay(d))
-                calendar.addedHolidays.Add(d);
-        }
-        /// <summary>
-        /// Removes a date from the set of holidays for the given calendar.
-        /// </summary>
-        public void removeHoliday(Date d) {
-            // if d was an artificially-added holiday, revert the change
-            calendar.addedHolidays.Remove(d);
-            // if it's already a business day, leave the calendar alone.
-            // Otherwise, add it.
-            if (!isBusinessDay(d))
-                calendar.removedHolidays.Add(d);
-        }
-        /// <summary>
-        /// Returns the holidays between two dates
-        /// </summary>
-        public static List<Date> holidayList(Calendar calendar, Date from, Date to, bool includeWeekEnds = false) {
-            if (to <= from)
+            else if (from > to)
             {
-                throw new Exception("'from' date (" + from + ") must be earlier than 'to' date (" + to + ")");
+               for (Date d = to; d < from; ++d)
+               {
+                  if (isBusinessDay(d))
+                     ++wd;
+               }
+               if (isBusinessDay(from))
+                  ++wd;
             }
 
-            List<Date> result = new List<Date>();
+            if (isBusinessDay(from) && !includeFirst)
+               wd--;
+            if (isBusinessDay(to) && !includeLast)
+               wd--;
 
-            for (Date d = from; d <= to; ++d)
-            {
-                if (calendar.isHoliday(d)
-                    && (includeWeekEnds || !calendar.isWeekend(d.DayOfWeek)))
-                    result.Add(d);
-            }
-            return result;
-        }
+            if (from > to)
+               wd = -wd;
+         }
+         return wd;
+      }
 
-        /// <summary>
-        /// This class provides the means of determining the Easter
-        /// Monday for a given year, as well as specifying Saturdays
-        /// and Sundays as weekend days.
-        /// </summary>
-        public class WesternImpl : Calendar
-        {		// Western calendars
-            public WesternImpl() { }
-            public WesternImpl(Calendar c) : base(c) { }
+      /// <summary>
+      /// Adds a date to the set of holidays for the given calendar.
+      /// </summary>
+      public void addHoliday(Date d)
+      {
+         // if d was a genuine holiday previously removed, revert the change
+         calendar.removedHolidays.Remove(d);
+         // if it's already a holiday, leave the calendar alone.
+         // Otherwise, add it.
+         if (isBusinessDay(d))
+            calendar.addedHolidays.Add(d);
+      }
+      /// <summary>
+      /// Removes a date from the set of holidays for the given calendar.
+      /// </summary>
+      public void removeHoliday(Date d)
+      {
+         // if d was an artificially-added holiday, revert the change
+         calendar.addedHolidays.Remove(d);
+         // if it's already a business day, leave the calendar alone.
+         // Otherwise, add it.
+         if (!isBusinessDay(d))
+            calendar.removedHolidays.Add(d);
+      }
+      /// <summary>
+      /// Returns the holidays between two dates
+      /// </summary>
+      public static List<Date> holidayList(Calendar calendar, Date from, Date to, bool includeWeekEnds = false)
+      {
+         if (to <= from)
+         {
+            throw new Exception("'from' date (" + from + ") must be earlier than 'to' date (" + to + ")");
+         }
 
-            int[] EasterMonday = {
-		                  98,  90, 103,  95, 114, 106,  91, 111, 102,   // 1901-1909
+         List<Date> result = new List<Date>();
+
+         for (Date d = from; d <= to; ++d)
+         {
+            if (calendar.isHoliday(d)
+                && (includeWeekEnds || !calendar.isWeekend(d.DayOfWeek)))
+               result.Add(d);
+         }
+         return result;
+      }
+
+      /// <summary>
+      /// This class provides the means of determining the Easter
+      /// Monday for a given year, as well as specifying Saturdays
+      /// and Sundays as weekend days.
+      /// </summary>
+      public class WesternImpl : Calendar
+      {     // Western calendars
+         public WesternImpl() { }
+         public WesternImpl(Calendar c) : base(c) { }
+
+         int[] EasterMonday = {
+                        98,  90, 103,  95, 114, 106,  91, 111, 102,   // 1901-1909
 		             87, 107,  99,  83, 103,  95, 115,  99,  91, 111,   // 1910-1919
 		             96,  87, 107,  92, 112, 103,  95, 108, 100,  91,   // 1920-1929
 		            111,  96,  88, 107,  92, 112, 104,  88, 108, 100,   // 1930-1939
@@ -343,29 +347,29 @@ namespace QLNet
 		            116, 101,  93, 112,  97,  89, 109, 100,  85, 105    // 2190-2199
 		        };
 
-            public override bool isWeekend(DayOfWeek w) { return w == DayOfWeek.Saturday || w == DayOfWeek.Sunday; }
-            /// <summary>
-            /// Expressed relative to first day of year
-            /// </summary>
-            /// <param name="y"></param>
-            /// <returns></returns>
-            public int easterMonday(int y)
-            {
-                return EasterMonday[y - 1901];
-            }
-        }
-        /// <summary>
-        /// This class provides the means of determining the Orthodox
-        /// Easter Monday for a given year, as well as specifying
-        /// Saturdays and Sundays as weekend days.
-        /// </summary>
-        public class OrthodoxImpl : Calendar
-        {		// Orthodox calendars
-            public OrthodoxImpl() { }
-            public OrthodoxImpl(Calendar c) : base(c) { }
+         public override bool isWeekend(DayOfWeek w) { return w == DayOfWeek.Saturday || w == DayOfWeek.Sunday; }
+         /// <summary>
+         /// Expressed relative to first day of year
+         /// </summary>
+         /// <param name="y"></param>
+         /// <returns></returns>
+         public int easterMonday(int y)
+         {
+            return EasterMonday[y - 1901];
+         }
+      }
+      /// <summary>
+      /// This class provides the means of determining the Orthodox
+      /// Easter Monday for a given year, as well as specifying
+      /// Saturdays and Sundays as weekend days.
+      /// </summary>
+      public class OrthodoxImpl : Calendar
+      {     // Orthodox calendars
+         public OrthodoxImpl() { }
+         public OrthodoxImpl(Calendar c) : base(c) { }
 
-            int[] EasterMonday = {
-		                 105, 118, 110, 102, 121, 106, 126, 118, 102,   // 1901-1909
+         int[] EasterMonday = {
+                       105, 118, 110, 102, 121, 106, 126, 118, 102,   // 1901-1909
 		            122, 114,  99, 118, 110,  95, 115, 106, 126, 111,   // 1910-1919
 		            103, 122, 107,  99, 119, 110, 123, 115, 107, 126,   // 1920-1929
 		            111, 103, 123, 107,  99, 119, 104, 123, 115, 100,   // 1930-1939
@@ -397,44 +401,44 @@ namespace QLNet
 		            116, 108, 128, 119, 104, 124, 116, 100, 120, 112    // 2190-2199
 		        };
 
-            public override bool isWeekend(DayOfWeek w) { return w == DayOfWeek.Saturday || w == DayOfWeek.Sunday; }
-            /// <summary>
-            /// expressed relative to first day of year
-            /// </summary>
-            /// <param name="y"></param>
-            /// <returns></returns>
-            public int easterMonday(int y)
-            {
-                return EasterMonday[y - 1901];
-            }
-        }
+         public override bool isWeekend(DayOfWeek w) { return w == DayOfWeek.Saturday || w == DayOfWeek.Sunday; }
+         /// <summary>
+         /// expressed relative to first day of year
+         /// </summary>
+         /// <param name="y"></param>
+         /// <returns></returns>
+         public int easterMonday(int y)
+         {
+            return EasterMonday[y - 1901];
+         }
+      }
 
-        //! \name Operators
-        //@{
-        public static bool operator ==(Calendar c1, Calendar c2)
-        {
-           // If both are null, or both are same instance, return true.
-           if (System.Object.ReferenceEquals(c1, c2))
-           {
-              return true;
-           }
+      //! \name Operators
+      //@{
+      public static bool operator ==(Calendar c1, Calendar c2)
+      {
+         // If both are null, or both are same instance, return true.
+         if (System.Object.ReferenceEquals(c1, c2))
+         {
+            return true;
+         }
 
-           // If one is null, but not both, return false.
-           if (((object)c1 == null) || ((object)c2 == null))
-           {
-              return false;
-           }
-           
-           return (c1.empty() && c2.empty())
-           || (!c1.empty() && !c2.empty() && c1.name() == c2.name());
-        }
+         // If one is null, but not both, return false.
+         if (((object)c1 == null) || ((object)c2 == null))
+         {
+            return false;
+         }
 
-        public static bool operator !=(Calendar c1, Calendar c2)
-        {
-            return !(c1 == c2);
-        }
-        public override bool Equals(object o) { return (this == (Calendar)o); }
-        public override int GetHashCode() { return 0; }
-        //@}
-    }
+         return (c1.empty() && c2.empty())
+         || (!c1.empty() && !c2.empty() && c1.name() == c2.name());
+      }
+
+      public static bool operator !=(Calendar c1, Calendar c2)
+      {
+         return !(c1 == c2);
+      }
+      public override bool Equals(object o) { return (this == (Calendar)o); }
+      public override int GetHashCode() { return 0; }
+      //@}
+   }
 }

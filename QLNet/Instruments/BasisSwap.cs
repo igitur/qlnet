@@ -5,13 +5,13 @@
 
  QLNet is free software: you can redistribute it and/or modify it
  under the terms of the QLNet license.  You should have received a
- copy of the license along with this program; if not, license is  
+ copy of the license along with this program; if not, license is
  available online at <http://qlnet.sourceforge.net/License.html>.
-  
+
  QLNet is a based on QuantLib, a free-software/open-source library
  for financial quantitative analysts and developers - http://quantlib.org/
  The QuantLib license is available online at http://quantlib.org/license.shtml.
- 
+
  This program is distributed in the hope that it will be useful, but WITHOUT
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
@@ -27,7 +27,7 @@ namespace QLNet
       public enum Type { Receiver = -1, Payer = 1 };
 
       private Type type_;
-      private double spread1_,spread2_;
+      private double spread1_, spread2_;
       private double nominal_;
 
       private Schedule floating1Schedule_;
@@ -38,7 +38,7 @@ namespace QLNet
       private Schedule floating2Schedule_;
       public Schedule floating2Schedule() { return floating2Schedule_; }
 
-      private IborIndex iborIndex1_,iborIndex2_;
+      private IborIndex iborIndex1_, iborIndex2_;
       private DayCounter floating2DayCount_;
       private BusinessDayConvention paymentConvention_;
 
@@ -52,7 +52,8 @@ namespace QLNet
                          Schedule float1Schedule, IborIndex iborIndex1, double spread1, DayCounter float1DayCount,
                          Schedule float2Schedule, IborIndex iborIndex2, double spread2, DayCounter float2DayCount)
          : this(type, nominal, float1Schedule, iborIndex1, spread1, float1DayCount,
-                               float2Schedule, iborIndex2, spread2, float2DayCount, null) { }
+                               float2Schedule, iborIndex2, spread2, float2DayCount, null)
+      { }
       public BasisSwap(Type type, double nominal,
                          Schedule float1Schedule, IborIndex iborIndex1, double spread1, DayCounter float1DayCount,
                          Schedule float2Schedule, IborIndex iborIndex2, double spread2, DayCounter float2DayCount,
@@ -206,7 +207,7 @@ namespace QLNet
          return legNPV_[1].GetValueOrDefault();
       }
 
-      public IborIndex iborIndex1() {return iborIndex1_;}
+      public IborIndex iborIndex1() { return iborIndex1_; }
       public IborIndex iborIndex2() { return iborIndex2_; }
       public double spread1 { get { return spread1_; } }
       public double spread2 { get { return spread2_; } }

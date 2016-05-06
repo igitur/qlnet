@@ -32,10 +32,10 @@ namespace QLNet
 
       public List<Date> dates_ { get; set; }
       public List<Date> dates() { return dates_; }
-      public Date maxDate_{ get; set; }
+      public Date maxDate_ { get; set; }
       public override Date maxDate()
       {
-         if ( maxDate_ != null )
+         if (maxDate_ != null)
             return maxDate_;
 
          return dates_.Last();

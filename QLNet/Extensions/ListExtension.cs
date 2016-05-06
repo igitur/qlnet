@@ -11,20 +11,20 @@ namespace QLNet
       //    size: desired new size
       //    element: default value to insert
 
-      public static void Resize<T>( this List<T> list, int size, T element = default(T) )
+      public static void Resize<T>(this List<T> list, int size, T element = default(T))
       {
          int count = list.Count;
 
-         if ( size < count )
+         if (size < count)
          {
-            list.RemoveRange( size, count - size );
+            list.RemoveRange(size, count - size);
          }
-         else if ( size > count )
+         else if (size > count)
          {
-            if ( size > list.Capacity )   // Optimization
+            if (size > list.Capacity)   // Optimization
                list.Capacity = size;
 
-            list.AddRange( Enumerable.Repeat( element, size - count ) );
+            list.AddRange(Enumerable.Repeat(element, size - count));
          }
       }
    }
