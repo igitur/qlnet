@@ -1,17 +1,17 @@
 /*
  Copyright (C) 2008 Andrea Maggiulli
-  
+
  This file is part of QLNet Project https://github.com/amaggiulli/qlnet
 
  QLNet is free software: you can redistribute it and/or modify it
  under the terms of the QLNet license.  You should have received a
- copy of the license along with this program; if not, license is  
+ copy of the license along with this program; if not, license is
  available online at <https://github.com/amaggiulli/qlnetLicense.html>.
-  
+
  QLNet is a based on QuantLib, a free-software/open-source library
  for financial quantitative analysts and developers - http://quantlib.org/
  The QuantLib license is available online at http://quantlib.org/license.shtml.
- 
+
  This program is distributed in the hope that it will be useful, but WITHOUT
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
@@ -109,10 +109,10 @@ namespace TestSuite
          double error;
          double disc;
 
-         for (int i = 0; i < cases.Length-1 ; i++)
+         for (int i = 0; i < cases.Length - 1; i++)
          {
             ir = new InterestRate(cases[i].r, new Actual360(), cases[i].comp, cases[i].freq);
-            d2 = d1 + new Period((int)(360 * cases[i].t + 0.5) ,TimeUnit.Days);
+            d2 = d1 + new Period((int)(360 * cases[i].t + 0.5), TimeUnit.Days);
             roundingPrecision = new Rounding(cases[i].precision);
 
             // check that the compound factor is the inverse of the discount factor
@@ -139,7 +139,7 @@ namespace TestSuite
             // check that the equivalent rate with *same* daycounter,
             // compounding, and frequency is the *same* rate
             //r2 = ir.equivalentRate(d1, d2, ir.dayCounter(), ir.compounding(), ir.frequency()).rate();
-            r2 = ir.equivalentRate(ir.dayCounter(), ir.compounding(), ir.frequency(),d1, d2).value();
+            r2 = ir.equivalentRate(ir.dayCounter(), ir.compounding(), ir.frequency(), d1, d2).value();
             error = Math.Abs(ir.rate() - r2);
             if (error > 1e-15)
                Assert.Fail("original rate: " + ir + " equivalent rate: " + r2 + " error: " + error);
@@ -163,7 +163,7 @@ namespace TestSuite
             // check that the equivalent rate with *different*
             // compounding, and frequency is the *expected* rate
             //r3 = ir.equivalentRate(d1, d2, ir.dayCounter(), cases[i].comp2, cases[i].freq2).rate();
-            r3 = ir.equivalentRate(ir.dayCounter(), cases[i].comp2, cases[i].freq2,  d1, d2).value();
+            r3 = ir.equivalentRate(ir.dayCounter(), cases[i].comp2, cases[i].freq2, d1, d2).value();
             r3 = roundingPrecision.Round(r3);
             error = Math.Abs(r3 - cases[i].expected);
             if (error > 1.0e-17)
