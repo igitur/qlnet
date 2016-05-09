@@ -14,17 +14,17 @@
 //  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 //  FOR A PARTICULAR PURPOSE.  See the license for more details.
 
-using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
    [TestClass()]
    public class T_DigitalOption
    {
-      struct DigitalOptionData
+      private struct DigitalOptionData
       {
          public Option.Type type;
          public double strike;
@@ -36,6 +36,7 @@ namespace TestSuite
          public double result;   // expected result
          public double tol;      // tolerance
          public bool knockin;    // true if knock-in
+
          public DigitalOptionData(Option.Type type_, double strike_, double s_, double q_, double r_, double t_, double v_,
                                   double result_, double tol_, bool knockin_)
          {
@@ -52,7 +53,7 @@ namespace TestSuite
          }
       }
 
-      void REPORT_FAILURE(string greekName, StrikedTypePayoff payoff, Exercise exercise, double s, double q, double r,
+      private void REPORT_FAILURE(string greekName, StrikedTypePayoff payoff, Exercise exercise, double s, double q, double r,
                            Date today, double v, double expected, double calculated, double error, double tolerance,
                            bool knockin)
       {
@@ -71,7 +72,6 @@ namespace TestSuite
                 + "    error:            " + error + "\n"
                 + "    tolerance:        " + tolerance + "\n"
                 + "    knock_in:         " + knockin);
-
       }
 
       [TestMethod()]
@@ -125,7 +125,6 @@ namespace TestSuite
                REPORT_FAILURE("value", payoff, exercise, values[i].s, values[i].q,
                               values[i].r, today, values[i].v, values[i].result,
                               calculated, error, values[i].tol, values[i].knockin);
-
             }
          }
       }
@@ -133,7 +132,6 @@ namespace TestSuite
       [TestMethod()]
       public void testAssetOrNothingEuropeanValues()
       {
-
          // Testing European asset-or-nothing digital option
 
          // "Option pricing formulas", E.G. Haug, McGraw-Hill 1998 - pag 90
@@ -441,7 +439,6 @@ namespace TestSuite
       [TestMethod()]
       public void testAssetAtExpiryOrNothingAmericanValues()
       {
-
          // Testing American asset-(at-expiry)-or-nothing digital option
 
          DigitalOptionData[] values = {
@@ -475,7 +472,6 @@ namespace TestSuite
 
          for (int i = 0; i < values.Length; i++)
          {
-
             StrikedTypePayoff payoff = new AssetOrNothingPayoff(values[i].type, values[i].strike);
 
             Date exDate = today + Convert.ToInt32(values[i].t * 360 + 0.5);
@@ -514,7 +510,6 @@ namespace TestSuite
       [TestMethod()]
       public void testCashAtHitOrNothingAmericanGreeks()
       {
-
          // Testing American cash-(at-hit)-or-nothing digital option greeks
 
          SavedSettings backup = new SavedSettings();
@@ -652,7 +647,6 @@ namespace TestSuite
       //[TestMethod()]
       //public void testMCCashAtHit()
       //{
-
       //   // Testing Monte Carlo cash-(at-hit)-or-nothing American engine
 
       //   SavedSettings backup = new SavedSettings();

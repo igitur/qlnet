@@ -17,10 +17,10 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
-using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
@@ -31,10 +31,12 @@ namespace TestSuite
       {
          // global data
          public Date today, settlement;
+
          public Calendar calendar;
 
          // underlying swap parameters
          public int startYears, length;
+
          public VanillaSwap.Type type;
          public double nominal;
          public BusinessDayConvention fixedConvention, floatingConvention;
@@ -101,7 +103,6 @@ namespace TestSuite
       [TestMethod()]
       public void testCachedValues()
       {
-
          //("Testing Bermudan swaption against cached values...");
 
          CommonVars vars = new CommonVars();

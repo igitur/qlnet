@@ -1,34 +1,35 @@
 ﻿/*
  Copyright (C) 2008 Siarhei Novik (snovik@gmail.com)
-  
+
  This file is part of QLNet Project https://github.com/amaggiulli/qlnet
 
  QLNet is free software: you can redistribute it and/or modify it
  under the terms of the QLNet license.  You should have received a
- copy of the license along with this program; if not, license is  
+ copy of the license along with this program; if not, license is
  available online at <https://github.com/amaggiulli/qlnetLicense.html>.
-  
+
  QLNet is a based on QuantLib, a free-software/open-source library
  for financial quantitative analysts and developers - http://quantlib.org/
  The QuantLib license is available online at http://quantlib.org/license.shtml.
- 
+
  This program is distributed in the hope that it will be useful, but WITHOUT
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
 
 namespace TestSuite
 {
    [TestClass()]
    public class T_Solvers
    {
-      class Foo : ISolver1d
+      private class Foo : ISolver1d
       {
          public override double value(double x) { return x * x - 1.0; }
+
          public override double derivative(double x) { return 2.0 * x; }
       };
 
@@ -62,26 +63,31 @@ namespace TestSuite
       {
          test(new Brent(), "Brent");
       }
+
       [TestMethod()]
       public void testNewton()
       {
          test(new Newton(), "Newton");
       }
+
       [TestMethod()]
       public void testFalsePosition()
       {
          test(new FalsePosition(), "FalsePosition");
       }
+
       [TestMethod()]
       public void testBisection()
       {
          test(new Bisection(), "Bisection");
       }
+
       [TestMethod()]
       public void testRidder()
       {
          test(new Ridder(), "Ridder");
       }
+
       [TestMethod()]
       public void testSecant()
       {

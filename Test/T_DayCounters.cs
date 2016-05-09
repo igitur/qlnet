@@ -17,10 +17,10 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
-using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
@@ -38,6 +38,7 @@ namespace TestSuite
             _refEnd = refEnd;
             _result = result;
          }
+
          public SingleCase(ActualActual.Convention convention, Date start, Date end, double result)
          {
             _convention = convention;
@@ -47,6 +48,7 @@ namespace TestSuite
             _refEnd = new Date();
             _result = result;
          }
+
          public ActualActual.Convention _convention;
          public Date _start;
          public Date _end;
@@ -54,6 +56,7 @@ namespace TestSuite
          public Date _refEnd;
          public double _result;
       }
+
       [TestMethod()]
       public void testActualActual()
       {
@@ -182,7 +185,6 @@ namespace TestSuite
                }
             }
          }
-
       }
 
       [TestMethod()]
@@ -210,7 +212,6 @@ namespace TestSuite
                }
             }
          }
-
       }
 
       [TestMethod()]
@@ -279,7 +280,6 @@ namespace TestSuite
                                    + " to " + testDates[i] + ":\n"
                                    + "    calculated: " + calculated + "\n"
                                    + "    expected:   " + expected[i - 1]);
-
             }
          }
       }

@@ -16,9 +16,10 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
 using System.Numerics;
 
 namespace TestSuite
@@ -107,7 +108,6 @@ namespace TestSuite
                            + "    expected:   " + expected + "\n"
                            + "    rel. error: "
                            + Math.Abs(calculated - expected) / expected);
-
             }
          }
       }
@@ -288,8 +288,6 @@ namespace TestSuite
             }
             nu += 0.5;
          }
-
       }
-
    }
 }

@@ -16,10 +16,11 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System;
-using System.Collections.Generic;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
@@ -29,7 +30,7 @@ namespace TestSuite
    [TestClass]
    public class T_LinearLeastSquaresRegression
    {
-      const double tolerance = 0.025;
+      private const double tolerance = 0.025;
 
       [TestMethod]
       public void testRegression()
@@ -107,13 +108,11 @@ namespace TestSuite
                }
             }
          }
-
       }
 
       [TestMethod]
       public void test1dLinearRegression()
       {
-
          //BOOST_MESSAGE("Testing 1d simple linear least-squares regression...");
 
          /* Example taken from the QuantLib-User list, see posting
@@ -162,7 +161,6 @@ namespace TestSuite
       [TestMethod]
       public void testMultiDimRegression()
       {
-
          //BOOST_MESSAGE("Testing linear least-squares regression...");
 
          //SavedSettings backup;
@@ -223,6 +221,5 @@ namespace TestSuite
             }
          }
       }
-
    }
 }

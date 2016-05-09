@@ -13,20 +13,21 @@
 //  This program is distributed in the hope that it will be useful, but WITHOUT
 //  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 //  FOR A PARTICULAR PURPOSE.  See the license for more details.
-using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
    [TestClass()]
    public class T_OptionletStripper
    {
-      class CommonVars
+      private class CommonVars
       {
          // global data
          public Calendar calendar;
+
          public DayCounter dayCounter;
 
          public RelinkableHandle<YieldTermStructure> yieldTermStructure = new RelinkableHandle<YieldTermStructure>();
@@ -57,7 +58,6 @@ namespace TestSuite
 
          public void setTermStructure()
          {
-
             calendar = new TARGET();
             dayCounter = new Actual365Fixed();
 
@@ -81,12 +81,10 @@ namespace TestSuite
 
             flatTermVolCurve = new Handle<CapFloorTermVolCurve>(new CapFloorTermVolCurve(0, calendar, BusinessDayConvention.Following, optionTenors,
                                        curveVHandle, dayCounter));
-
          }
 
          public void setFlatTermVolSurface()
          {
-
             setTermStructure();
 
             optionTenors = new InitializedList<Period>(10);
@@ -103,10 +101,8 @@ namespace TestSuite
                                        optionTenors, strikes, termV, dayCounter);
          }
 
-
          public void setCapFloorTermVolCurve()
          {
-
             setTermStructure();
 
             //atm cap volatility curve
@@ -154,7 +150,6 @@ namespace TestSuite
 
             capFloorVolCurve = new Handle<CapFloorTermVolCurve>(new CapFloorTermVolCurve(0, calendar, BusinessDayConvention.Following,
                                      optionTenors, atmTermVolHandle, dayCounter));
-
          }
 
          public void setCapFloorTermVolSurface()
@@ -274,7 +269,6 @@ namespace TestSuite
       [TestMethod()]
       public void testTermVolatilityStripping1()
       {
-
          // Testing forward/forward vol stripping from non-flat term
          // vol surface using OptionletStripper1 class
 
@@ -363,7 +357,6 @@ namespace TestSuite
          {
             for (int tenorIndex = 0; tenorIndex < vars.optionTenors.Count; ++tenorIndex)
             {
-
                double strippedVol1 = vol1.link.volatility(vars.optionTenors[tenorIndex], vars.strikes[strikeIndex], true);
 
                double strippedVol2 = vol2.link.volatility(vars.optionTenors[tenorIndex], vars.strikes[strikeIndex], true);
@@ -382,7 +375,6 @@ namespace TestSuite
                               "\ntolerance:     " + vars.tolerance);
             }
          }
-
       }
 
       [TestMethod()]
@@ -434,8 +426,5 @@ namespace TestSuite
             }
          }
       }
-
-
-
    }
 }

@@ -18,18 +18,17 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
-using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
    [TestClass()]
    public class T_LiborMarketModel
    {
-
-      IborIndex makeIndex(List<Date> dates,
+      private IborIndex makeIndex(List<Date> dates,
                           List<double> rates)
       {
          DayCounter dayCounter = new Actual360();
@@ -49,7 +48,7 @@ namespace TestSuite
          return index;
       }
 
-      IborIndex makeIndex()
+      private IborIndex makeIndex()
       {
          List<Date> dates = new List<Date>();
          List<double> rates = new List<double>();
@@ -61,7 +60,7 @@ namespace TestSuite
          return makeIndex(dates, rates);
       }
 
-      OptionletVolatilityStructure makeCapVolCurve(Date todaysDate)
+      private OptionletVolatilityStructure makeCapVolCurve(Date todaysDate)
       {
          double[] vols = {14.40, 17.15, 16.81, 16.64, 16.17,
                                  15.78, 15.40, 15.21, 14.86};
@@ -364,8 +363,6 @@ namespace TestSuite
          IRNG rsg = (InverseCumulativeRsg<RandomSequenceGenerator<MersenneTwisterUniformRng>
                                                                  , InverseCumulativeNormal>)
          new PseudoRandom().make_sequence_generator(process.factors() * (grid.size() - 1), seed);
-
-
 
          MultiPathGenerator<IRNG> generator = new MultiPathGenerator<IRNG>(process,
                                                                          grid,

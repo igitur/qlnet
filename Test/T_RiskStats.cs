@@ -1,30 +1,31 @@
 ﻿/*
  Copyright (C) 2008 Siarhei Novik (snovik@gmail.com)
-  
+
  This file is part of QLNet Project https://github.com/amaggiulli/qlnet
 
  QLNet is free software: you can redistribute it and/or modify it
  under the terms of the QLNet license.  You should have received a
- copy of the license along with this program; if not, license is  
+ copy of the license along with this program; if not, license is
  available online at <https://github.com/amaggiulli/qlnetLicense.html>.
-  
+
  QLNet is a based on QuantLib, a free-software/open-source library
  for financial quantitative analysts and developers - http://quantlib.org/
  The QuantLib license is available online at http://quantlib.org/license.shtml.
- 
+
  This program is distributed in the hope that it will be useful, but WITHOUT
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QLNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLNet;
 
 namespace TestSuite
 {
-   class IncrementalGaussianStatistics : GenericGaussianStatistics<IncrementalStatistics>
+   internal class IncrementalGaussianStatistics : GenericGaussianStatistics<IncrementalStatistics>
    {
       public double downsideVariance() { return ((IncrementalStatistics)impl_).downsideVariance(); }
    }
@@ -51,7 +52,6 @@ namespace TestSuite
          {
             for (j = 0; j < sigmas.Length; j++)
             {
-
                NormalDistribution normal = new NormalDistribution(averages[i], sigmas[j]);
                CumulativeNormalDistribution cumulative = new CumulativeNormalDistribution(averages[i], sigmas[j]);
                InverseCumulativeNormal inverseCum = new InverseCumulativeNormal(averages[i], sigmas[j]);
@@ -84,7 +84,6 @@ namespace TestSuite
                              + "    calculated: " + s.samples() + "\n"
                              + "    expected:   " + N);
 
-
                // weightSum()
                tolerance = 1e-10;
                expected = weights.Sum();
@@ -101,7 +100,6 @@ namespace TestSuite
                              + "    calculated: " + calculated + "\n"
                              + "    expected:   " + expected + "\n"
                              + "    tolerance:  " + tolerance);
-
 
                // min
                tolerance = 1e-12;
@@ -121,7 +119,6 @@ namespace TestSuite
                              + "    expected:   " + expected + "\n"
                              + "    tolerance:  " + tolerance);
 
-
                // max
                expected = dataMax;
                calculated = igs.max();
@@ -138,7 +135,6 @@ namespace TestSuite
                              + "    calculated: " + calculated + "\n"
                              + "    expected:   " + expected + "\n"
                              + "    tolerance:  " + tolerance);
-
 
                // mean
                expected = averages[i];
@@ -162,7 +158,6 @@ namespace TestSuite
                              + "    expected:   " + expected + "\n"
                              + "    tolerance:  " + tolerance);
 
-
                // variance
                expected = sigmas[j] * sigmas[j];
                tolerance = expected * 1.0e-1;
@@ -184,7 +179,6 @@ namespace TestSuite
                              + "    expected:   " + expected + "\n"
                              + "    tolerance:  " + tolerance);
 
-
                // standardDeviation
                expected = sigmas[j];
                tolerance = expected * 1.0e-1;
@@ -205,7 +199,6 @@ namespace TestSuite
                              + "    calculated: " + calculated + "\n"
                              + "    expected:   " + expected + "\n"
                              + "    tolerance:  " + tolerance);
-
 
                // missing errorEstimate() test
 
@@ -230,7 +223,6 @@ namespace TestSuite
                              + "    expected:   " + expected + "\n"
                              + "    tolerance:  " + tolerance);
 
-
                // kurtosis
                expected = 0.0;
                tolerance = 1.0e-1;
@@ -251,7 +243,6 @@ namespace TestSuite
                              + "    calculated: " + calculated + "\n"
                              + "    expected:   " + expected + "\n"
                              + "    tolerance:  " + tolerance);
-
 
                // percentile
                expected = averages[i];
@@ -282,8 +273,6 @@ namespace TestSuite
                              + "    calculated: " + calculated + "\n"
                              + "    expected:   " + expected + "\n"
                              + "    tolerance:  " + tolerance);
-
-
 
                // potential upside
                double upper_tail = averages[i] + 2.0 * sigmas[j],
@@ -319,7 +308,6 @@ namespace TestSuite
                              + "    expected:   " + expected + "\n"
                              + "    tolerance:  " + tolerance);
 
-
                // just to check that GaussianStatistics<StatsHolder> does work
                StatsHolder h = new StatsHolder(s.mean(), s.standardDeviation());
                GenericGaussianStatistics<StatsHolder> test = new GenericGaussianStatistics<StatsHolder>(h);
@@ -329,7 +317,6 @@ namespace TestSuite
                   Assert.Fail("GenericGaussianStatistics<StatsHolder> fails"
                               + "\n  calculated: " + calculated
                               + "\n  expected: " + expected);
-
 
                // value-at-risk
                expected = -Math.Min(lower_tail, 0.0);
@@ -370,7 +357,6 @@ namespace TestSuite
                   continue;
                }
 
-
                // expected shortfall
                expected = -Math.Min(averages[i]
                                           - sigmas[j] * sigmas[j]
@@ -404,7 +390,6 @@ namespace TestSuite
                              + "    expected:   " + expected + "\n"
                              + "    tolerance:  " + tolerance);
 
-
                // shortfall
                expected = 0.5;
                tolerance = (expected == 0.0 ? 1.0e-3 :
@@ -435,7 +420,6 @@ namespace TestSuite
                              + "    expected:   " + expected + "\n"
                              + "    tolerance:  " + tolerance);
 
-
                // average shortfall
                expected = sigmas[j] / Math.Sqrt(2.0 * Const.M_PI) * 2.0;
                tolerance = expected * 1.0e-3;
@@ -464,7 +448,6 @@ namespace TestSuite
                              + "    calculated: " + calculated + "\n"
                              + "    expected:   " + expected + "\n"
                              + "    tolerance:  " + tolerance);
-
 
                // regret
                expected = sigmas[j] * sigmas[j];
@@ -496,7 +479,6 @@ namespace TestSuite
                              + "    calculated: " + calculated + "\n"
                              + "    expected:   " + expected + "\n"
                              + "    tolerance:  " + tolerance);
-
 
                // downsideVariance
                expected = s.downsideVariance();
@@ -567,6 +549,5 @@ namespace TestSuite
             }
          }
       }
-
    }
 }

@@ -16,17 +16,19 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System;
-using System.Collections.Generic;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
-   struct Datum
+   internal struct Datum
    {
       public Date date;
       public double rate;
+
       public Datum(Date d, double r)
       {
          date = d;
@@ -41,7 +43,6 @@ namespace TestSuite
    [TestClass()]
    public class T_Inflation
    {
-
       private YieldTermStructure nominalTermStructure()
       {
          Date evaluationDate = new Date(13, Month.August, 2007);
@@ -65,6 +66,7 @@ namespace TestSuite
          }
          return instruments;
       }
+
       private List<BootstrapHelper<YoYInflationTermStructure>> makeHelpers(Datum[] iiData, int N,
                                           YoYInflationIndex ii, Period observationLag,
                                           Calendar calendar,
@@ -117,7 +119,6 @@ namespace TestSuite
                         + ukrpi.interpolated() + ", "
                         + ukrpi.availabilityLag() + ")");
          }
-
 
          // Retrieval test.
          //----------------
@@ -213,10 +214,8 @@ namespace TestSuite
             iiUKRPI.addFixing(rpiSchedule[i], fixData[i]);
          }
 
-
          ZeroInflationIndex ii = iiUKRPI as ZeroInflationIndex;
          YieldTermStructure nominalTS = nominalTermStructure();
-
 
          // now build the zero inflation curve
 
@@ -235,7 +234,6 @@ namespace TestSuite
            new Datum( new Date(15, Month.August, 2037), 3.348 ),
            new Datum( new Date(13, Month.August, 2047), 3.308 ),
            new Datum( new Date(13, Month.August, 2057), 3.228 )};
-
 
          Period observationLag = new Period(2, TimeUnit.Months);
          DayCounter dc = new Thirty360();
@@ -352,7 +350,6 @@ namespace TestSuite
                        + " fixed leg " + nzcis.legNPV(0)
                        + " indexed-predicted inflated leg " + nzcis.legNPV(1)
                        + " discount " + nominalTS.discount(nzcis.maturityDate()));
-
 
          //===========================================================================================
          // Test multiplicative seasonality in price
@@ -472,7 +469,6 @@ namespace TestSuite
             }
          }
 
-
          //Testing Unset function
          //
          Utils.QL_REQUIRE(hz.link.hasSeasonality(), () => "[4] incorrectly believes NO seasonality correction");
@@ -502,7 +498,6 @@ namespace TestSuite
                            + seasonalityFixing_unset[i] + " vs " + seasonalityFixing_1[i]);
             }
          }
-
 
          //==============================================================================
          // now do an INTERPOLATED index, i.e. repeat everything on a fake version of
@@ -551,7 +546,6 @@ namespace TestSuite
                         + " vs " + zcData[i].rate / 100.0);
          }
 
-
          //======================================================================================
          // now test the forecasting capability of the index.
          hz.linkTo(pZITSyes);
@@ -582,7 +576,6 @@ namespace TestSuite
                            + ", zero " + z);
          }
 
-
          //===========================================================================================
          // Test zero coupon swap
 
@@ -611,8 +604,6 @@ namespace TestSuite
 
          // remove circular refernce
          hz.linkTo(new ZeroInflationTermStructure());
-
-
       }
 
       //===========================================================================================
@@ -693,7 +684,6 @@ namespace TestSuite
                         + yyukrpir.ratio() + ", "
                         + yyukrpir.availabilityLag() + ")");
          }
-
 
          // Retrieval test.
          //----------------
@@ -792,7 +782,6 @@ namespace TestSuite
          evaluationDate = calendar.adjust(evaluationDate);
          Settings.setEvaluationDate(evaluationDate);
 
-
          // fixing data
          Date from = new Date(1, Month.January, 2005);
          Date to = new Date(13, Month.August, 2007);
@@ -863,7 +852,6 @@ namespace TestSuite
 
          for (int j = 1; j < yyData.Length; j++)
          {
-
             from = nominalTS.referenceDate();
             to = yyData[j].date;
             Schedule yoySchedule = new MakeSchedule().from(from).to(to)
@@ -885,8 +873,6 @@ namespace TestSuite
                new UnitedKingdom());
 
             yyS2.setPricingEngine(sppe);
-
-
 
             Assert.IsTrue(Math.Abs(yyS2.NPV()) < eps, "fresh yoy swap NPV!=0 from TS "
                      + "swap quote for pt " + j
@@ -933,7 +919,5 @@ namespace TestSuite
          // remove circular refernce
          hy.linkTo(new YoYInflationTermStructure());
       }
-
-
    }
 }

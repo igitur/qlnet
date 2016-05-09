@@ -16,10 +16,11 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System;
-using System.Collections.Generic;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
@@ -40,6 +41,7 @@ namespace TestSuite
          public int nExpiry;
          public int nMaturity;
          public double rate;
+
          public FraDatum(int settlementDays_, int nExpiry_, int nMaturity_, double rate_)
          {
             settlementDays = settlementDays_;
@@ -47,7 +49,6 @@ namespace TestSuite
             nMaturity = nMaturity_;
             rate = rate_;
          }
-
       };
 
       public struct SwapDatum
@@ -58,6 +59,7 @@ namespace TestSuite
          public int nTermUnits;
          public TimeUnit termUnit;
          public double rate;
+
          public SwapDatum(int settlementDays_, int nIndexUnits_, TimeUnit indexUnit_, int nTermUnits_, TimeUnit termUnit_, double rate_)
          {
             settlementDays = settlementDays_;
@@ -67,10 +69,9 @@ namespace TestSuite
             termUnit = termUnit_;
             rate = rate_;
          }
-
       };
 
-      Datum[] depositData = new Datum[] {
+      private Datum[] depositData = new Datum[] {
         new Datum{ settlementDays = 0, n = 1, unit = TimeUnit.Days, rate = 1.10 },
         new Datum{ settlementDays = 1, n = 1, unit = TimeUnit.Days, rate = 1.10 },
         new Datum{ settlementDays = 2, n = 1, unit = TimeUnit.Weeks, rate = 1.40 },
@@ -83,7 +84,7 @@ namespace TestSuite
         new Datum{ settlementDays = 2, n = 6, unit = TimeUnit.Months, rate = 2.13 }
       };
 
-      Datum[] eoniaSwapData = new Datum[]{
+      private Datum[] eoniaSwapData = new Datum[]{
         new Datum{ settlementDays = 2, n = 1, unit =  TimeUnit.Weeks, rate = 1.245 },
         new Datum{ settlementDays = 2,n =   2, unit = TimeUnit.Weeks, rate = 1.269 },
         new Datum{ settlementDays = 2,n =   3, unit = TimeUnit.Weeks, rate = 1.277 },
@@ -119,12 +120,12 @@ namespace TestSuite
         new Datum{ settlementDays = 2,n =  30,  unit = TimeUnit.Years, rate = 3.369 }
       };
 
-      FraDatum[] fraData = {
+      private FraDatum[] fraData = {
          new FraDatum( 2, 3, 6, 1.728 ),
          new FraDatum( 2, 6, 9, 1.702 )
       };
 
-      SwapDatum[] swapData = {
+      private SwapDatum[] swapData = {
         new SwapDatum( 2, 3, TimeUnit.Months,  1, TimeUnit.Years, 1.867 ),
         new SwapDatum( 2, 3, TimeUnit.Months, 15, TimeUnit.Months, 1.879 ),
         new SwapDatum( 2, 3, TimeUnit.Months, 18, TimeUnit.Months, 1.934 ),
@@ -149,6 +150,7 @@ namespace TestSuite
       {
          // global data
          public Date today, settlement;
+
          public OvernightIndexedSwap.Type type;
          public double nominal;
          public Calendar calendar;
@@ -205,7 +207,6 @@ namespace TestSuite
          }
       }
 
-
       [TestMethod()]
       public void testFairRate()
       {
@@ -226,13 +227,11 @@ namespace TestSuite
 
                if (Math.Abs(swap.NPV()) > 1.0e-10)
                {
-
                   Assert.Fail("recalculating with implied rate:\n"
                             + "    length: " + lengths[i] + " \n"
                             + "    floating spread: "
                             + (spreads[j]) + "\n"
                             + "    swap value: " + swap.NPV());
-
                }
             }
          }
@@ -241,7 +240,6 @@ namespace TestSuite
       [TestMethod()]
       public void testFairSpread()
       {
-
          // Testing Eonia-swap calculation of fair floating spread...
          CommonVars vars = new CommonVars();
 
@@ -321,17 +319,14 @@ namespace TestSuite
                                          euribor3m.endOfMonth(),
                                          euribor3m.dayCounter());
 
-
             if (term <= new Period(2, TimeUnit.Days))
                eoniaHelpers.Add(helper);
             if (term <= new Period(3, TimeUnit.Months))
                swap3mHelpers.Add(helper);
          }
 
-
          for (int i = 0; i < fraData.Length; i++)
          {
-
             double rate = 0.01 * fraData[i].rate;
             SimpleQuote simple = new SimpleQuote(rate);
             Handle<Quote> quote = new Handle<Quote>(simple);
@@ -348,7 +343,6 @@ namespace TestSuite
 
          for (int i = 0; i < eoniaSwapData.Length; i++)
          {
-
             double rate = 0.01 * eoniaSwapData[i].rate;
             SimpleQuote simple = new SimpleQuote(rate);
             Handle<Quote> quote = new Handle<Quote>(simple);
@@ -359,7 +353,6 @@ namespace TestSuite
                                                        eonia);
             eoniaHelpers.Add(helper);
          }
-
 
          for (int i = 0; i < swapData.Length; i++)
          {
@@ -380,7 +373,6 @@ namespace TestSuite
                swap3mHelpers.Add(helper);
          }
 
-
          PiecewiseYieldCurve<Discount, LogLinear> eoniaTS = new PiecewiseYieldCurve<Discount, LogLinear>(vars.today,
                                                                   eoniaHelpers,
                                                                   new Actual365Fixed());
@@ -395,7 +387,6 @@ namespace TestSuite
          double tolerance = 1.0e-10;
          for (int i = 0; i < eoniaSwapData.Length; i++)
          {
-
             double expected = eoniaSwapData[i].rate;
             Period term = new Period(eoniaSwapData[i].n, eoniaSwapData[i].unit);
             OvernightIndexedSwap swap = vars.makeSwap(term, 0.0, 0.0);

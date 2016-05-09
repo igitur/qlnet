@@ -16,35 +16,38 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QLNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLNet;
 
 namespace TestSuite
 {
    [TestClass()]
    public class T_Optimizers
    {
-      List<CostFunction> costFunctions_ = new List<CostFunction>();
-      List<Constraint> constraints_ = new List<Constraint>();
-      List<Vector> initialValues_ = new List<Vector>();
-      List<int> maxIterations_ = new List<int>(), maxStationaryStateIterations_ = new List<int>();
-      List<double> rootEpsilons_ = new List<double>(),
+      private List<CostFunction> costFunctions_ = new List<CostFunction>();
+      private List<Constraint> constraints_ = new List<Constraint>();
+      private List<Vector> initialValues_ = new List<Vector>();
+      private List<int> maxIterations_ = new List<int>(), maxStationaryStateIterations_ = new List<int>();
+
+      private List<double> rootEpsilons_ = new List<double>(),
           functionEpsilons_ = new List<double>(),
           gradientNormEpsilons_ = new List<double>();
-      List<EndCriteria> endCriterias_ = new List<EndCriteria>();
-      List<List<NamedOptimizationMethod>> optimizationMethods_ = new List<List<NamedOptimizationMethod>>();
-      List<Vector> xMinExpected_ = new List<Vector>(), yMinExpected_ = new List<Vector>();
 
-      struct NamedOptimizationMethod
+      private List<EndCriteria> endCriterias_ = new List<EndCriteria>();
+      private List<List<NamedOptimizationMethod>> optimizationMethods_ = new List<List<NamedOptimizationMethod>>();
+      private List<Vector> xMinExpected_ = new List<Vector>(), yMinExpected_ = new List<Vector>();
+
+      private struct NamedOptimizationMethod
       {
          public OptimizationMethod optimizationMethod;
          public string name;
       }
 
-      enum OptimizationMethodType
+      private enum OptimizationMethodType
       {
          simplex,
          levenbergMarquardt,
@@ -124,12 +127,10 @@ namespace TestSuite
          optimizationMethod.minimize(problem, endCriteria);
       }
 
-
       // Set up, for each cost function, all the ingredients for optimization:
       // constraint, initial guess, end criteria, optimization methods.
-      void setup()
+      private void setup()
       {
-
          // Cost function n. 1: 1D polynomial of degree 2 (parabolic function y=a*x^2+b*x+c)
          const double a = 1;   // required a > 0
          const double b = 1;
@@ -181,8 +182,7 @@ namespace TestSuite
          yMinExpected_.Add(yMinExpected);
       }
 
-
-      OptimizationMethod makeOptimizationMethod(OptimizationMethodType optimizationMethodType,
+      private OptimizationMethod makeOptimizationMethod(OptimizationMethodType optimizationMethodType,
                                               double simplexLambda,
                                               double levenbergMarquardtEpsfcn,
                                               double levenbergMarquardtXtol,
@@ -192,28 +192,37 @@ namespace TestSuite
          {
             case OptimizationMethodType.simplex:
                return new Simplex(simplexLambda);
+
             case OptimizationMethodType.levenbergMarquardt:
                return new LevenbergMarquardt(levenbergMarquardtEpsfcn, levenbergMarquardtXtol, levenbergMarquardtGtol);
+
             case OptimizationMethodType.levenbergMarquardt2:
                return new LevenbergMarquardt(levenbergMarquardtEpsfcn, levenbergMarquardtXtol, levenbergMarquardtGtol, true);
+
             case OptimizationMethodType.conjugateGradient:
                return new ConjugateGradient();
+
             case OptimizationMethodType.steepestDescent:
                return new SteepestDescent();
+
             case OptimizationMethodType.bfgs:
                return new BFGS();
+
             case OptimizationMethodType.conjugateGradient_goldstein:
                return new ConjugateGradient(new GoldsteinLineSearch());
+
             case OptimizationMethodType.steepestDescent_goldstein:
                return new SteepestDescent(new GoldsteinLineSearch());
+
             case OptimizationMethodType.bfgs_goldstein:
                return new BFGS(new GoldsteinLineSearch());
+
             default:
                throw new ApplicationException("unknown OptimizationMethod type");
          }
       }
 
-      List<NamedOptimizationMethod> makeOptimizationMethods(OptimizationMethodType[] optimizationMethodTypes,
+      private List<NamedOptimizationMethod> makeOptimizationMethods(OptimizationMethodType[] optimizationMethodTypes,
                                                            int optimizationMethodNb,
                                                            double simplexLambda,
                                                            double levenbergMarquardtEpsfcn,
@@ -235,35 +244,44 @@ namespace TestSuite
          return results;
       }
 
-      string optimizationMethodTypeToString(OptimizationMethodType type)
+      private string optimizationMethodTypeToString(OptimizationMethodType type)
       {
          switch (type)
          {
             case OptimizationMethodType.simplex:
                return "Simplex";
+
             case OptimizationMethodType.levenbergMarquardt:
                return "Levenberg Marquardt";
+
             case OptimizationMethodType.levenbergMarquardt2:
                return "Levenberg Marquardt (cost function's jacbobian)";
+
             case OptimizationMethodType.conjugateGradient:
                return "Conjugate Gradient";
+
             case OptimizationMethodType.steepestDescent:
                return "Steepest Descent";
+
             case OptimizationMethodType.bfgs:
                return "BFGS";
+
             case OptimizationMethodType.conjugateGradient_goldstein:
                return "Conjugate Gradient (Goldstein line search)";
+
             case OptimizationMethodType.steepestDescent_goldstein:
                return "Steepest Descent (Goldstein line search)";
+
             case OptimizationMethodType.bfgs_goldstein:
                return "BFGS (Goldstein line search)";
+
             default:
                throw new ApplicationException("unknown OptimizationMethod type");
          }
       }
    }
 
-   class OneDimensionalPolynomialDegreeN : CostFunction
+   internal class OneDimensionalPolynomialDegreeN : CostFunction
    {
       private Vector coefficients_;
       private int polynomialDegree_;
@@ -294,7 +312,7 @@ namespace TestSuite
 
    // The goal of this cost function is simply to call another optimization inside
    // in order to test nested optimizations
-   class OptimizationBasedCostFunction : CostFunction
+   internal class OptimizationBasedCostFunction : CostFunction
    {
       public override double value(Vector x) { return 1.0; }
 
@@ -317,6 +335,4 @@ namespace TestSuite
          return dummy;
       }
    }
-
-
 }

@@ -17,21 +17,20 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QLNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLNet;
 
 namespace TestSuite
 {
    [TestClass()]
    public class T_LiborMarketModelProcess
    {
+      private int len = 10;
 
-      int len = 10;
-
-      IborIndex makeIndex()
+      private IborIndex makeIndex()
       {
          DayCounter dayCounter = new Actual360();
          List<Date> dates = new List<Date>();
@@ -59,7 +58,7 @@ namespace TestSuite
          return index;
       }
 
-      CapletVarianceCurve makeCapVolCurve(Date todaysDate)
+      private CapletVarianceCurve makeCapVolCurve(Date todaysDate)
       {
          double[] vols = {14.40, 17.15, 16.81, 16.64, 16.17,
                              15.78, 15.40, 15.21, 14.86, 14.54};
@@ -78,13 +77,13 @@ namespace TestSuite
                                          capletVols, new ActualActual());
       }
 
-      LiborForwardModelProcess makeProcess()
+      private LiborForwardModelProcess makeProcess()
       {
          Matrix volaComp = new Matrix();
          return makeProcess(volaComp);
       }
 
-      LiborForwardModelProcess makeProcess(Matrix volaComp)
+      private LiborForwardModelProcess makeProcess(Matrix volaComp)
       {
          int factors = (volaComp.empty() ? 1 : volaComp.columns());
 
@@ -145,7 +144,6 @@ namespace TestSuite
                   Assert.Fail("Failed to next index resets");
                }
             }
-
          }
       }
 
@@ -296,7 +294,6 @@ namespace TestSuite
                   stat3[k - 1].add(dis2[k] * payoff3);
                }
             }
-
          }
 
          double[] capletNpv = {0.000000000000, 0.000002841629, 0.002533279333,
@@ -310,7 +307,6 @@ namespace TestSuite
 
          for (int k = 0; k < process1.size(); ++k)
          {
-
             double calculated1 = stat1[k].mean();
             double tolerance1 = stat1[k].errorEstimate();
             double expected = capletNpv[k];
@@ -360,5 +356,4 @@ namespace TestSuite
          testMonteCarloCapletPricing();
       }
    }
-
 }

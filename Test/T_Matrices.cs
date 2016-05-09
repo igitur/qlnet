@@ -17,26 +17,26 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System;
-using System.Collections.Generic;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
    [TestClass()]
    public class T_Matrices
    {
+      private int N;
+      private Matrix M1, M2, M3, M4, M5, M6, M7, I;
 
-      int N;
-      Matrix M1, M2, M3, M4, M5, M6, M7, I;
-
-      double norm(Vector v)
+      private double norm(Vector v)
       {
          return Math.Sqrt(Vector.DotProduct(v, v));
       }
 
-      double norm(Matrix m)
+      private double norm(Matrix m)
       {
          double sum = 0.0;
          for (int i = 0; i < m.rows(); i++)
@@ -45,9 +45,8 @@ namespace TestSuite
          return Math.Sqrt(sum);
       }
 
-      void setup()
+      private void setup()
       {
-
          N = 3;
          M1 = new Matrix(N, N); M2 = new Matrix(N, N); I = new Matrix(N, N);
          M3 = new Matrix(3, 4);
@@ -103,7 +102,6 @@ namespace TestSuite
 
          for (int k = 0; k < testMatrices.Length; k++)
          {
-
             Matrix M = testMatrices[k];
             SymmetricSchurDecomposition dec = new SymmetricSchurDecomposition(M);
             Vector eigenValues = dec.eigenvalues();
@@ -139,7 +137,6 @@ namespace TestSuite
       [TestMethod()]
       public void testSqrt()
       {
-
          //BOOST_MESSAGE("Testing matricial square root...");
 
          setup();
@@ -184,7 +181,6 @@ namespace TestSuite
       [TestMethod()]
       public void testSVD()
       {
-
          //BOOST_MESSAGE("Testing singular value decomposition...");
 
          setup();
@@ -230,7 +226,6 @@ namespace TestSuite
       [TestMethod()]
       public void testQRDecomposition()
       {
-
          // Testing QR decomposition...
 
          setup();
@@ -264,7 +259,6 @@ namespace TestSuite
             if (norm(Q * R - A) > tol)
                Assert.Fail("Q*R does not match matrix A (norm = "
                            + norm(Q * R - A) + ")");
-
          }
       }
 
@@ -335,12 +329,10 @@ namespace TestSuite
                   {
                      Assert.Fail("least square solution does not match (norm = "
                                 + norm(x - xr) + ")");
-
                   }
                }
             }
          }
       }
-
    }
 }

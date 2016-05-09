@@ -17,11 +17,11 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QLNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLNet;
 
 namespace TestSuite
 {
@@ -39,6 +39,7 @@ namespace TestSuite
          public Calendar calendar;
          public BusinessDayConvention optionBdc;
          public DayCounter dayCounter;
+
          public void setConventions()
          {
             calendar = new TARGET();
@@ -93,10 +94,11 @@ namespace TestSuite
          }
       }
 
-      class CommonVars
+      private class CommonVars
       {
          // global data
          public SwaptionMarketConventions conventions;
+
          public AtmVolatility atm;
          public RelinkableHandle<YieldTermStructure> termStructure;
          public RelinkableHandle<SwaptionVolatilityStructure> atmVolMatrix;
@@ -169,7 +171,6 @@ namespace TestSuite
          public void makeCoherenceTest(string description,
                                          SwaptionVolatilityDiscrete vol)
          {
-
             for (int i = 0; i < atm.tenors.options.Count; ++i)
             {
                Date optionDate =
@@ -314,7 +315,6 @@ namespace TestSuite
       [TestMethod()]
       public void testSwaptionVolMatrixCoherence()
       {
-
          //"Testing swaption volatility matrix...");
 
          CommonVars vars = new CommonVars();
@@ -435,8 +435,6 @@ namespace TestSuite
          //"Swaption Volatility Matrix tests"
          testSwaptionVolMatrixCoherence();
          testSwaptionVolMatrixObservability();
-
       }
    }
-
 }

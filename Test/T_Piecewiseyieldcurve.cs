@@ -17,10 +17,11 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System;
-using System.Collections.Generic;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
@@ -30,12 +31,14 @@ namespace TestSuite
       public class CommonVars
       {
          #region Values
+
          public struct Datum
          {
             public int n;
             public TimeUnit units;
             public double rate;
          };
+
          public struct BondDatum
          {
             public int n;
@@ -101,10 +104,12 @@ namespace TestSuite
                 new Datum { n = 20, units = TimeUnit.Years, rate = 72.69 },
                 new Datum { n = 30, units = TimeUnit.Years, rate = 73.81 }
             };
-         #endregion
+
+         #endregion Values
 
          // global variables
          public Calendar calendar;
+
          public int settlementDays;
          public Date today, settlement;
          public BusinessDayConvention fixedLegConvention;
@@ -131,7 +136,6 @@ namespace TestSuite
          // setup
          public CommonVars()
          {
-
             //cleaner = new IndexHistoryCleaner();
             ////GC.Collect();
             //// force garbage collection
@@ -307,7 +311,6 @@ namespace TestSuite
       [TestMethod()]
       public void testSplineZeroConsistency()
       {
-
          //"Testing consistency of piecewise-cubic zero-yield curve...");
 
          CommonVars vars = new CommonVars();
@@ -338,7 +341,6 @@ namespace TestSuite
       [TestMethod()]
       public void testFlatForwardConsistency()
       {
-
          //"Testing consistency of piecewise-flat forward-rate curve...");
 
          CommonVars vars = new CommonVars();
@@ -350,7 +352,6 @@ namespace TestSuite
       //[TestMethod()]
       public void testSplineForwardConsistency()
       {
-
          //"Testing consistency of piecewise-cubic forward-rate curve...");
 
          CommonVars vars = new CommonVars();
@@ -423,7 +424,6 @@ namespace TestSuite
       [TestMethod()]
       public void testLiborFixing()
       {
-
          // "Testing use of today's LIBOR fixings in swap curve...");
 
          CommonVars vars = new CommonVars();
@@ -510,7 +510,6 @@ namespace TestSuite
       [TestMethod()]
       public void testForwardRateDayCounter()
       {
-
          CommonVars vars = new CommonVars();
          DayCounter d = new ActualActual();
          DayCounter d1 = new Actual360();
@@ -524,8 +523,6 @@ namespace TestSuite
             Assert.Fail("PiecewiseYieldCurve forwardRate dayCounter error" +
                         " Actual daycounter : " + vars.termStructure.dayCounter().name() +
                         " Expetced DayCounter : " + d1.name());
-
-
       }
 
       [TestMethod()]
@@ -630,23 +627,23 @@ namespace TestSuite
          testCurveCopy<ZeroYield, Linear>(vars);
       }
 
-
       public void testCurveConsistency<T, I, B>(CommonVars vars)
          where T : ITraits<YieldTermStructure>, new()
          where I : IInterpolationFactory, new()
          where B : IBootStrap<PiecewiseYieldCurve>, new()
       { testCurveConsistency<T, I, B>(vars, new I(), 1.0e-9); }
+
       public void testCurveConsistency<T, I, B>(CommonVars vars, I interpolator)
          where T : ITraits<YieldTermStructure>, new()
          where I : IInterpolationFactory, new()
          where B : IBootStrap<PiecewiseYieldCurve>, new()
       { testCurveConsistency<T, I, B>(vars, new I(), 1.0e-9); }
+
       public void testCurveConsistency<T, I, B>(CommonVars vars, I interpolator, double tolerance)
          where T : ITraits<YieldTermStructure>, new()
          where I : IInterpolationFactory, new()
          where B : IBootStrap<PiecewiseYieldCurve>, new()
       {
-
          vars.termStructure = new PiecewiseYieldCurve<T, I, B>(vars.settlement, vars.instruments,
                                  new Actual360(), new List<Handle<Quote>>(), new List<Date>(), 1.0e-12, interpolator);
 
@@ -759,17 +756,18 @@ namespace TestSuite
          where I : IInterpolationFactory, new()
          where B : IBootStrap<PiecewiseYieldCurve>, new()
       { testBMACurveConsistency<T, I, B>(vars, new I(), 1.0e-7); }
+
       public void testBMACurveConsistency<T, I, B>(CommonVars vars, I interpolator)
          where T : ITraits<YieldTermStructure>, new()
          where I : IInterpolationFactory, new()
          where B : IBootStrap<PiecewiseYieldCurve>, new()
       { testBMACurveConsistency<T, I, B>(vars, interpolator, 1.0e-7); }
+
       public void testBMACurveConsistency<T, I, B>(CommonVars vars, I interpolator, double tolerance)
          where T : ITraits<YieldTermStructure>, new()
          where I : IInterpolationFactory, new()
          where B : IBootStrap<PiecewiseYieldCurve>, new()
       {
-
          // readjust settlement
          vars.calendar = new JointCalendar(new BMAIndex().fixingCalendar(),
                                        new USDLibor(new Period(3, TimeUnit.Months)).fixingCalendar(),
@@ -859,11 +857,11 @@ namespace TestSuite
       {
          testCurveCopy<T, I>(vars, new I());
       }
+
       public void testCurveCopy<T, I>(CommonVars vars, I interpolator)
          where T : ITraits<YieldTermStructure>, new()
           where I : IInterpolationFactory, new()
       {
-
          PiecewiseYieldCurve<T, I> curve = new PiecewiseYieldCurve<T, I>(vars.settlement, vars.instruments,
                                                                        new Actual360(),
                                                                        new List<Handle<Quote>>(),

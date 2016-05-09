@@ -16,20 +16,22 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System;
-using System.Collections.Generic;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
    [TestClass()]
    public class T_InflationCapFlooredCouponTest
    {
-      class CommonVars
+      private class CommonVars
       {
          // common data
          public int length;
+
          public Date startDate;
          public double volatility;
 
@@ -51,7 +53,7 @@ namespace TestSuite
 
          // cleanup
 
-         SavedSettings backup = new SavedSettings();
+         private SavedSettings backup = new SavedSettings();
 
          // setup
          public CommonVars()
@@ -133,7 +135,6 @@ namespace TestSuite
             pYYTS.recalculate();
             yoyTS = pYYTS as YoYInflationTermStructure;
 
-
             // make sure that the index has the latest yoy term structure
             hy.linkTo(pYYTS);
          }
@@ -179,7 +180,6 @@ namespace TestSuite
                               double gearing = 1.0,
                               double spread = 0.0)
          {
-
             Handle<YoYOptionletVolatilitySurface> vol = new Handle<YoYOptionletVolatilitySurface>(
                new ConstantYoYOptionletVolatility(volatility,
                                 settlementDays,
@@ -196,18 +196,20 @@ namespace TestSuite
                case 0:
                   pricer = new BlackYoYInflationCouponPricer(vol);
                   break;
+
                case 1:
                   pricer = new UnitDisplacedBlackYoYInflationCouponPricer(vol);
                   break;
+
                case 2:
                   pricer = new BachelierYoYInflationCouponPricer(vol);
                   break;
+
                default:
                   Assert.Fail("unknown coupon pricer request: which = " + which
                              + "should be 0=Black,1=DD,2=Bachelier");
                   break;
             }
-
 
             InitializedList<double> gearingVector = new InitializedList<double>(length, gearing);
             InitializedList<double> spreadVector = new InitializedList<double>(length, spread);
@@ -237,10 +239,8 @@ namespace TestSuite
             return yoyLeg;
          }
 
-
          public IPricingEngine makeEngine(double volatility, int which)
          {
-
             YoYInflationIndex yyii = iir as YoYInflationIndex;
 
             Handle<YoYOptionletVolatilitySurface> vol = new Handle<YoYOptionletVolatilitySurface>(
@@ -252,7 +252,6 @@ namespace TestSuite
                             observationLag,
                             frequency,
                             iir.interpolated()));
-
 
             switch (which)
             {
@@ -287,9 +286,11 @@ namespace TestSuite
                case CapFloorType.Cap:
                   result = new YoYInflationCap(leg, new List<double>() { strike });
                   break;
+
                case CapFloorType.Floor:
                   result = new YoYInflationFloor(leg, new List<double>() { strike });
                   break;
+
                default:
                   Utils.QL_FAIL("unknown YoYInflation cap/floor type");
                   break;
@@ -304,7 +305,6 @@ namespace TestSuite
                                           BusinessDayConvention bdc,
                                           DayCounter dc)
          {
-
             List<BootstrapHelper<YoYInflationTermStructure>> instruments =
                new List<BootstrapHelper<YoYInflationTermStructure>>();
 
@@ -317,7 +317,6 @@ namespace TestSuite
                instruments.Add(anInstrument);
             }
             return instruments;
-
          }
       }
 
@@ -635,7 +634,6 @@ namespace TestSuite
       [TestMethod()]
       public void testInstrumentEquality()
       {
-
          // Testing inflation capped/floored coupon against inflation capfloor instrument...
 
          CommonVars vars = new CommonVars();
@@ -657,7 +655,6 @@ namespace TestSuite
                {
                   for (int k = 0; k < vols.Length; k++)
                   {
-
                      List<CashFlow> leg = vars.makeYoYLeg(vars.evaluationDate, lengths[i]);
 
                      Instrument cap = vars.makeYoYCapFloor(CapFloorType.Cap,
@@ -720,7 +717,6 @@ namespace TestSuite
                                     + "   capped coupon " + capped);
                      }
 
-
                      // N.B. nominals are 10e6
                      double floored = CashFlows.npv(leg3, vars.nominalTS, false);
                      if (Math.Abs(floored - (swap.NPV() + floor.NPV())) > 1.0e-6)
@@ -737,7 +733,6 @@ namespace TestSuite
                   }
                }
             }
-
          }
          // remove circular refernce
          vars.hy.linkTo(new YoYInflationTermStructure());

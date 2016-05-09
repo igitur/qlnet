@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
 
@@ -27,7 +28,6 @@ namespace TestSuite
       [TestMethod()]
       public void testDirect()
       {
-
          Currency EUR = new EURCurrency(), USD = new USDCurrency();
 
          ExchangeRate eur_usd = new ExchangeRate(EUR, USD, 1.2042);
@@ -60,7 +60,6 @@ namespace TestSuite
       [TestMethod()]
       public void testDerived()
       {
-
          Currency EUR = new EURCurrency(), USD = new USDCurrency(), GBP = new GBPCurrency();
 
          ExchangeRate eur_usd = new ExchangeRate(EUR, USD, 1.2042);
@@ -156,7 +155,6 @@ namespace TestSuite
       [TestMethod()]
       public void testTriangulatedLookup()
       {
-
          ExchangeRateManager rateManager = ExchangeRateManager.Instance;
          rateManager.clear();
 
@@ -217,7 +215,6 @@ namespace TestSuite
       [TestMethod()]
       public void testSmartLookup()
       {
-
          Currency EUR = new EURCurrency(), USD = new USDCurrency(), GBP = new GBPCurrency(),
                   CHF = new CHFCurrency(), SEK = new SEKCurrency(), JPY = new JPYCurrency();
 

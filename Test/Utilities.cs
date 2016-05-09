@@ -17,10 +17,10 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
+using QLNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using QLNet;
 
 namespace TestSuite
 {
@@ -34,8 +34,11 @@ namespace TestSuite
       }
 
       public void raise() { up_ = true; }
+
       public void lower() { up_ = false; }
+
       public bool isUp() { return up_; }
+
       public void update() { raise(); }
    };
 
@@ -71,6 +74,7 @@ namespace TestSuite
       {
          return new BlackConstantVol(today, new NullCalendar(), new Handle<Quote>(vol), dc);
       }
+
       //philippe2009_17
       public static BlackVolTermStructure flatVol(Quote vol, DayCounter dc)
       {

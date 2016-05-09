@@ -16,9 +16,10 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
 
 namespace TestSuite
 {
@@ -80,14 +81,12 @@ namespace TestSuite
                Assert.Fail("double-time probability and double-date probability do not match\n"
                             + "    time probability: " + timeProbability + "\n"
                             + "    date probability: " + dateProbability);
-
          }
       }
 
       [TestMethod()]
       public void testFlatHazardRate()
       {
-
          // Testing flat hazard rate...
 
          double hazardRate = 0.0100;

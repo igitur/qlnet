@@ -16,10 +16,11 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System;
-using System.Collections.Generic;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
@@ -44,11 +45,11 @@ namespace TestSuite
 
       public VanillaSwap.Type[] type = new VanillaSwap.Type[] { VanillaSwap.Type.Receiver, VanillaSwap.Type.Payer };
 
-
       public class CommonVars
       {
          // global data
          public Date today, settlement;
+
          public double nominal;
          public Calendar calendar;
          public BusinessDayConvention fixedConvention, floatingConvention;

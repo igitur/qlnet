@@ -108,7 +108,5 @@ namespace TestSuite
             Assert.Fail("Wrong result: " + "expected: " + expected + " calculated: " + calculated);
          }
       }
-
    }
 }
-

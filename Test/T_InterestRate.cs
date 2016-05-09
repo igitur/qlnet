@@ -17,9 +17,9 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
 
 namespace TestSuite
 {
@@ -48,9 +48,7 @@ namespace TestSuite
             expected = _expected;
             precision = _precision;
          }
-
       };
-
 
       [TestMethod()]
       public void testConversions()
@@ -168,10 +166,7 @@ namespace TestSuite
             error = Math.Abs(r3 - cases[i].expected);
             if (error > 1.0e-17)
                Assert.Fail("calculated equivalent rate: " + r3 + " expected equivalent rate: " + cases[i].expected + " error: " + error);
-
          }
-
       }
-
    }
 }

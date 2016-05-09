@@ -16,10 +16,11 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System;
-using System.Collections.Generic;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
@@ -294,7 +295,6 @@ namespace TestSuite
          RelinkableHandle<YieldTermStructure> discountCurve = new RelinkableHandle<YieldTermStructure>();
          discountCurve.linkTo(new FlatForward(today, 0.03, new Actual360()));
 
-
          Frequency frequency = Frequency.Semiannual;
          BusinessDayConvention convention = BusinessDayConvention.ModifiedFollowing;
 
@@ -361,7 +361,6 @@ namespace TestSuite
       [TestMethod()]
       public void testFairSpread()
       {
-
          // Testing fair-spread calculation for credit-default swaps...
 
          SavedSettings backup = new SavedSettings();
@@ -419,7 +418,6 @@ namespace TestSuite
                "Failed to reproduce null NPV with calculated fair spread\n"
                + "    calculated spread: " + fairRate + "\n"
                + "    calculated NPV:    " + fairNPV);
-
       }
 
       [TestMethod()]
@@ -503,8 +501,6 @@ namespace TestSuite
                "Failed to reproduce null NPV with calculated fair upfront\n"
                + "    calculated upfront: " + fairUpfront + "\n"
                + "    calculated NPV:     " + fairNPV);
-
       }
-
    }
 }

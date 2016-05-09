@@ -45,7 +45,6 @@ namespace TestSuite
             this.floor = floor;
             this.ceiling = ceiling;
          }
-
       }
 
       public static TestCase[] testData = {
@@ -84,6 +83,7 @@ namespace TestSuite
                Assert.Fail("Original number: " + testData[i].x + "Expected: " + expected + "Calculated: " + calculated);
          }
       }
+
       [TestMethod()]
       public void testUp()
       {
@@ -139,6 +139,5 @@ namespace TestSuite
                Assert.Fail("Original number: " + testData[i].x + "Expected: " + expected + "Calculated: " + calculated);
          }
       }
-
    }
 }

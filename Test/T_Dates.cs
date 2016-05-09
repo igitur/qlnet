@@ -17,11 +17,12 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QLNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLNet;
 
 namespace TestSuite
 {
@@ -48,7 +49,6 @@ namespace TestSuite
 
          for (int i = 0; i < knownDates.Count; ++i)
          {
-
             currentEcbDate = knownDates[i];
 
             if (!ECB.isECBdate(currentEcbDate))
@@ -77,7 +77,6 @@ namespace TestSuite
          ECB.addDate(knownDate);
          if (!ECB.isECBdate(knownDate))
             Assert.Fail("Unable to add an EBC date");
-
       }
 
       [TestMethod()]
@@ -252,7 +251,6 @@ namespace TestSuite
                           + "    cloned date:   " + s + "\n"
                           + "    serial number: " + serial);
          }
-
       }
 
       [TestMethod()]
@@ -299,7 +297,6 @@ namespace TestSuite
                            + " is not less than or equal to the next future in the main cycle "
                            + ASX.nextDate(counter, true));
 
-
             // check that for every date ASXdate is the inverse of ASXcode
             if (ASX.date(ASX.code(asx), counter) != asx)
                Assert.Fail(ASX.code(asx)
@@ -317,7 +314,6 @@ namespace TestSuite
 
             counter = counter + 1;
          }
-
       }
 
       [TestMethod()]
@@ -337,7 +333,6 @@ namespace TestSuite
 
          Assert.IsTrue(d1.fractionOfSecond == 0.234, "failed to reproduce fraction of second");
 
-
          Date d2 = new Date(28, Month.February, 2015, 4, 52, 57, 999);
          Assert.IsTrue(d2.year() == 2015, "failed to reproduce year");
          Assert.IsTrue(d2.month() == (int)Month.February, "failed to reproduce month");
@@ -347,6 +342,5 @@ namespace TestSuite
          Assert.IsTrue(d2.seconds == 57, "failed to reproduce second of minute");
          Assert.IsTrue(d2.milliseconds == 999, "failed to reproduce number of milliseconds");
       }
-
    }
 }

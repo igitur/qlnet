@@ -18,23 +18,23 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QLNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLNet;
 
 namespace TestSuite
 {
    [TestClass()]
    public class T_ShortRateModels
    {
-
       public class CalibrationData
       {
          public int start;
          public int length;
          public double volatility;
+
          public CalibrationData(int s, int l, double v)
          {
             start = s;
@@ -195,7 +195,6 @@ namespace TestSuite
 
          for (int i = 0; i < start.Length; i++)
          {
-
             Date startDate = calendar.advance(settlement, start[i], TimeUnit.Months);
             if (startDate < today)
             {
@@ -209,7 +208,6 @@ namespace TestSuite
 
             for (int j = 0; j < length.Length; j++)
             {
-
                Date maturity = calendar.advance(startDate, length[i], TimeUnit.Years);
                Schedule fixedSchedule = new Schedule(startDate, maturity, new Period(Frequency.Annual),
                                       calendar, BusinessDayConvention.Unadjusted, BusinessDayConvention.Unadjusted,
@@ -219,7 +217,6 @@ namespace TestSuite
                                       DateGeneration.Rule.Forward, false);
                for (int k = 0; k < rates.Length; k++)
                {
-
                   VanillaSwap swap = new VanillaSwap(VanillaSwap.Type.Payer, 1000000.0,
                                    fixedSchedule, rates[k], new Thirty360(),
                                    floatSchedule, euribor, 0.0, new Actual360());
@@ -273,7 +270,6 @@ namespace TestSuite
                         + "\n     error: " + error
                         + "\n tolerance: " + tolerance);
          }
-
       }
    }
 }

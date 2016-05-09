@@ -17,19 +17,19 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
-using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
-
    #region IRNGFactory
 
    public interface IRNGFactory
    {
       string name();
+
       IRNG make(int dim, ulong seed);
    }
 
@@ -46,7 +46,6 @@ namespace TestSuite
       {
          return "Mersenne Twister";
       }
-
    };
 
    public class SobolFactory : IRNGFactory
@@ -71,30 +70,36 @@ namespace TestSuite
             case SobolRsg.DirectionIntegers.Unit:
                prefix = "unit-initialized ";
                break;
+
             case SobolRsg.DirectionIntegers.Jaeckel:
                prefix = "Jäckel-initialized ";
                break;
+
             case SobolRsg.DirectionIntegers.SobolLevitan:
                prefix = "SobolLevitan-initialized ";
                break;
+
             case SobolRsg.DirectionIntegers.SobolLevitanLemieux:
                prefix = "SobolLevitanLemieux-initialized ";
                break;
+
             case SobolRsg.DirectionIntegers.Kuo:
                prefix = "Kuo";
                break;
+
             case SobolRsg.DirectionIntegers.Kuo2:
                prefix = "Kuo2";
                break;
+
             case SobolRsg.DirectionIntegers.Kuo3:
                prefix = "Kuo3";
                break;
+
             default:
                Assert.Fail("unknown direction integers");
                break;
          }
          return prefix + "Sobol sequences: ";
-
       }
 
       private SobolRsg.DirectionIntegers unit_;
@@ -102,7 +107,6 @@ namespace TestSuite
 
    public class HaltonFactory : IRNGFactory
    {
-
       //typedef HaltonRsg generator_type;
       public HaltonFactory(bool randomStart, bool randomShift)
       {
@@ -126,8 +130,7 @@ namespace TestSuite
       private bool start_, shift_;
    };
 
-   #endregion
-
+   #endregion IRNGFactory
 
    [TestClass()]
    public class T_LowDiscrepancySequences
@@ -141,7 +144,6 @@ namespace TestSuite
       [TestMethod()]
       public void testPolynomialsModuloTwo()
       {
-
          //("Testing " + PPMT_MAX_DIM +
          //              " primitive polynomials modulo two...");
 
@@ -175,13 +177,11 @@ namespace TestSuite
             ++j; // Increase index of polynomial in degree i+1
             ++n; // Increase overall polynomial counter
          }
-
       }
 
       [TestMethod()]
       public void testSobol()
       {
-
          //("Testing Sobol sequences up to dimension "
          //              + PPMT_MAX_DIM + "...");
 
@@ -276,7 +276,6 @@ namespace TestSuite
       }
 
       /*public void testFaure() {
-
           //("Testing Faure sequences...");
 
           List<double> point;
@@ -427,7 +426,6 @@ namespace TestSuite
       [TestMethod()]
       public void testHalton()
       {
-
          //("Testing Halton sequences...");
 
          List<double> point;
@@ -650,13 +648,12 @@ namespace TestSuite
             );
       }
 
-      #endregion
+      #endregion testMersenneTwisterDiscrepancy
 
       #region testAltonDiscrepancy
 
       public void testPlainHaltonDiscrepancy()
       {
-
          //("Testing plain Halton discrepancy...");
 
          double[][] discrepancy =
@@ -675,7 +672,6 @@ namespace TestSuite
 
       public void testRandomStartHaltonDiscrepancy()
       {
-
          //("Testing random-start Halton discrepancy...");
 
          double[][] discrepancy =
@@ -694,7 +690,6 @@ namespace TestSuite
 
       public void testRandomShiftHaltonDiscrepancy()
       {
-
          //("Testing random-shift Halton discrepancy...");
 
          double[][] discrepancy =
@@ -713,7 +708,6 @@ namespace TestSuite
 
       public void testRandomStartRandomShiftHaltonDiscrepancy()
       {
-
          //("Testing random-start, random-shift Halton discrepancy...");
 
          double[][] discrepancy =
@@ -739,13 +733,12 @@ namespace TestSuite
          testRandomStartRandomShiftHaltonDiscrepancy();
       }
 
-      #endregion Halton
+      #endregion testAltonDiscrepancy
 
       #region testSobolDiscrepancy
 
       public void testJackelSobolDiscrepancy()
       {
-
          //("Testing Jaeckel-Sobol discrepancy...");
          double[][] discrepancy =
          {
@@ -761,7 +754,6 @@ namespace TestSuite
 
       public void testSobolLevitanSobolDiscrepancy()
       {
-
          //("Testing Levitan-Sobol discrepancy...");
 
          double[][] discrepancy =
@@ -779,7 +771,6 @@ namespace TestSuite
 
       public void testSobolLevitanLemieuxSobolDiscrepancy()
       {
-
          //("Testing Levitan-Lemieux-Sobol discrepancy...");
 
          double[][] discrepancy =
@@ -799,7 +790,6 @@ namespace TestSuite
 
       public void testUnitSobolDiscrepancy()
       {
-
          //("Testing unit Sobol discrepancy...");
 
          double[][] discrepancy =
@@ -825,12 +815,11 @@ namespace TestSuite
          testUnitSobolDiscrepancy();
       }
 
-      #endregion
+      #endregion testSobolDiscrepancy
 
       [TestMethod()]
       public void testSobolSkipping()
       {
-
          //("Testing Sobol sequence skipping...");
 
          ulong seed = 42;
@@ -849,7 +838,6 @@ namespace TestSuite
             {
                for (int k = 0; k < skip.Length; k++)
                {
-
                   // extract n samples
                   SobolRsg rsg1 = new SobolRsg(dimensionality[j], seed, integers[i]);
                   for (int l = 0; l < (int)skip[k]; l++)
@@ -885,283 +873,280 @@ namespace TestSuite
 
       #region values_definition
 
-      double[] dim002Discr_Sobol =
+      private double[] dim002Discr_Sobol =
       {
          8.33e-004, 4.32e-004, 2.24e-004, 1.12e-004,
          5.69e-005, 2.14e-005 // , null
       };
 
-      double[] dim002DiscrMersenneTwis =
+      private double[] dim002DiscrMersenneTwis =
       {
          8.84e-003, 5.42e-003, 5.23e-003, 4.47e-003,
          4.75e-003, 3.11e-003, 2.97e-003
       };
 
-      double[] dim002DiscrPlain_Halton =
+      private double[] dim002DiscrPlain_Halton =
       {
          1.26e-003, 6.73e-004, 3.35e-004, 1.91e-004,
          1.11e-004, 5.05e-005, 2.42e-005
       };
 
-      double[] dim002DiscrRShiftHalton = { 1.32e-003, 7.25e-004 };
-      double[] dim002DiscrRStRShHalton = { 1.35e-003, 9.43e-004 };
-      double[] dim002DiscrRStartHalton = { 1.08e-003, 6.40e-004 };
+      private double[] dim002DiscrRShiftHalton = { 1.32e-003, 7.25e-004 };
+      private double[] dim002DiscrRStRShHalton = { 1.35e-003, 9.43e-004 };
+      private double[] dim002DiscrRStartHalton = { 1.08e-003, 6.40e-004 };
 
-      double[] dim002Discr__Unit_Sobol =
+      private double[] dim002Discr__Unit_Sobol =
       {
          8.33e-004, 4.32e-004, 2.24e-004, 1.12e-004,
          5.69e-005, 2.14e-005 // , null
       };
 
-      double[] dim003Discr_Sobol =
+      private double[] dim003Discr_Sobol =
       {
          1.21e-003, 6.37e-004, 3.40e-004, 1.75e-004,
          9.21e-005, 4.79e-005, 2.56e-005
       };
 
-      double[] dim003DiscrMersenneTwis =
+      private double[] dim003DiscrMersenneTwis =
       {
          7.02e-003, 4.94e-003, 4.82e-003, 4.91e-003,
          3.33e-003, 2.80e-003, 2.62e-003
       };
 
-      double[] dim003DiscrPlain_Halton =
+      private double[] dim003DiscrPlain_Halton =
       {
          1.63e-003, 9.62e-004, 4.83e-004, 2.67e-004,
          1.41e-004, 7.64e-005, 3.93e-005
       };
 
-      double[] dim003DiscrRShiftHalton = { 1.96e-003, 1.03e-003 };
-      double[] dim003DiscrRStRShHalton = { 2.17e-003, 1.54e-003 };
-      double[] dim003DiscrRStartHalton = { 1.48e-003, 7.77e-004 };
+      private double[] dim003DiscrRShiftHalton = { 1.96e-003, 1.03e-003 };
+      private double[] dim003DiscrRStRShHalton = { 2.17e-003, 1.54e-003 };
+      private double[] dim003DiscrRStartHalton = { 1.48e-003, 7.77e-004 };
 
-      double[] dim003Discr__Unit_Sobol =
+      private double[] dim003Discr__Unit_Sobol =
       {
          1.21e-003, 6.37e-004, 3.40e-004, 1.75e-004,
          9.21e-005, 4.79e-005, 2.56e-005
       };
 
-      double[] dim005Discr_Sobol =
+      private double[] dim005Discr_Sobol =
       {
          1.59e-003, 9.55e-004, 5.33e-004, 3.22e-004,
          1.63e-004, 9.41e-005, 5.19e-005
       };
 
-      double[] dim005DiscrMersenneTwis =
+      private double[] dim005DiscrMersenneTwis =
       {
          4.28e-003, 3.48e-003, 2.48e-003, 1.98e-003,
          1.57e-003, 1.39e-003, 6.33e-004
       };
 
-      double[] dim005DiscrPlain_Halton =
+      private double[] dim005DiscrPlain_Halton =
       {
          1.93e-003, 1.23e-003, 6.89e-004, 4.22e-004,
          2.13e-004, 1.25e-004, 7.17e-005
       };
 
-      double[] dim005DiscrRShiftHalton = { 2.02e-003, 1.36e-003 };
-      double[] dim005DiscrRStRShHalton = { 2.11e-003, 1.25e-003 };
-      double[] dim005DiscrRStartHalton = { 1.74e-003, 1.08e-003 };
+      private double[] dim005DiscrRShiftHalton = { 2.02e-003, 1.36e-003 };
+      private double[] dim005DiscrRStRShHalton = { 2.11e-003, 1.25e-003 };
+      private double[] dim005DiscrRStartHalton = { 1.74e-003, 1.08e-003 };
 
-      double[] dim005Discr__Unit_Sobol =
+      private double[] dim005Discr__Unit_Sobol =
       {
          1.85e-003, 9.39e-004, 5.19e-004, 2.99e-004,
          1.75e-004, 9.51e-005, 5.55e-005
       };
 
-      double[] dim010DiscrJackel_Sobol =
+      private double[] dim010DiscrJackel_Sobol =
       {
          7.08e-004, 5.31e-004, 3.60e-004, 2.18e-004,
          1.57e-004, 1.12e-004, 6.39e-005
       };
 
-      double[] dim010DiscrSobLev_Sobol =
+      private double[] dim010DiscrSobLev_Sobol =
       {
          7.01e-004, 5.10e-004, 3.28e-004, 2.21e-004,
          1.57e-004, 1.08e-004, 6.38e-005
       };
 
-      double[] dim010DiscrMersenneTwis =
+      private double[] dim010DiscrMersenneTwis =
       {
          8.83e-004, 6.56e-004, 4.87e-004, 3.37e-004,
          3.06e-004, 1.73e-004, 1.43e-004
       };
 
-      double[] dim010DiscrPlain_Halton =
+      private double[] dim010DiscrPlain_Halton =
       {
          1.23e-003, 6.89e-004, 4.03e-004, 2.83e-004,
          1.61e-004, 1.08e-004, 6.69e-005
       };
 
-      double[] dim010DiscrRShiftHalton = { 9.25e-004, 6.40e-004 };
-      double[] dim010DiscrRStRShHalton = { 8.41e-004, 5.42e-004 };
-      double[] dim010DiscrRStartHalton = { 7.89e-004, 5.33e-004 };
+      private double[] dim010DiscrRShiftHalton = { 9.25e-004, 6.40e-004 };
+      private double[] dim010DiscrRStRShHalton = { 8.41e-004, 5.42e-004 };
+      private double[] dim010DiscrRStartHalton = { 7.89e-004, 5.33e-004 };
 
-      double[] dim010Discr__Unit_Sobol =
+      private double[] dim010Discr__Unit_Sobol =
       {
          7.67e-004, 4.92e-004, 3.47e-004, 2.34e-004,
          1.39e-004, 9.47e-005, 5.72e-005
       };
 
-      double[] dim015DiscrJackel_Sobol =
+      private double[] dim015DiscrJackel_Sobol =
       {
          1.59e-004, 1.23e-004, 7.73e-005, 5.51e-005,
          3.91e-005, 2.73e-005, 1.96e-005
       };
 
-      double[] dim015DiscrSobLev_Sobol =
+      private double[] dim015DiscrSobLev_Sobol =
       {
          1.48e-004, 1.06e-004, 8.19e-005, 6.29e-005,
          4.16e-005, 2.54e-005, 1.73e-005
       };
 
-      double[] dim015DiscrMersenneTwis =
+      private double[] dim015DiscrMersenneTwis =
       {
          1.63e-004, 1.12e-004, 8.36e-005, 6.09e-005,
          4.34e-005, 2.95e-005, 2.10e-005
       };
 
-      double[] dim015DiscrPlain_Halton =
+      private double[] dim015DiscrPlain_Halton =
       {
          5.75e-004, 3.12e-004, 1.70e-004, 9.89e-005,
          5.33e-005, 3.45e-005, 2.11e-005
       };
 
-      double[] dim015DiscrRShiftHalton = { 1.75e-004, 1.19e-004 };
-      double[] dim015DiscrRStRShHalton = { 1.66e-004, 1.34e-004 };
-      double[] dim015DiscrRStartHalton = { 2.09e-004, 1.30e-004 };
+      private double[] dim015DiscrRShiftHalton = { 1.75e-004, 1.19e-004 };
+      private double[] dim015DiscrRStRShHalton = { 1.66e-004, 1.34e-004 };
+      private double[] dim015DiscrRStartHalton = { 2.09e-004, 1.30e-004 };
 
-      double[] dim015Discr__Unit_Sobol =
+      private double[] dim015Discr__Unit_Sobol =
       {
          2.24e-004, 1.39e-004, 9.86e-005, 6.02e-005,
          4.39e-005, 3.06e-005, 2.32e-005
       };
 
-      double[] dim030DiscrJackel_Sobol =
+      private double[] dim030DiscrJackel_Sobol =
       {
          6.43e-007, 5.28e-007, 3.88e-007, 2.49e-007,
          2.09e-007, 1.55e-007, 1.07e-007
       };
 
-      double[] dim030DiscrSobLev_Sobol =
+      private double[] dim030DiscrSobLev_Sobol =
       {
          1.03e-006, 6.06e-007, 3.81e-007, 2.71e-007,
          2.68e-007, 1.73e-007, 1.21e-007
       };
 
-      double[] dim030DiscrMersenneTwis =
+      private double[] dim030DiscrMersenneTwis =
       {
          4.38e-007, 3.25e-007, 4.47e-007, 2.85e-007,
          2.03e-007, 1.50e-007, 1.17e-007
       };
 
-      double[] dim030DiscrPlain_Halton =
+      private double[] dim030DiscrPlain_Halton =
       {
          4.45e-004, 2.23e-004, 1.11e-004, 5.56e-005,
          2.78e-005, 1.39e-005, 6.95e-006
       };
 
-      double[] dim030DiscrRShiftHalton = { 8.11e-007, 6.05e-007 };
-      double[] dim030DiscrRStRShHalton = { 1.85e-006, 1.03e-006 };
-      double[] dim030DiscrRStartHalton = { 4.42e-007, 4.64e-007 };
+      private double[] dim030DiscrRShiftHalton = { 8.11e-007, 6.05e-007 };
+      private double[] dim030DiscrRStRShHalton = { 1.85e-006, 1.03e-006 };
+      private double[] dim030DiscrRStartHalton = { 4.42e-007, 4.64e-007 };
 
-      double[] dim030Discr__Unit_Sobol =
+      private double[] dim030Discr__Unit_Sobol =
       {
          4.35e-005, 2.17e-005, 1.09e-005, 5.43e-006,
          2.73e-006, 1.37e-006, 6.90e-007
       };
 
-      double[] dim050DiscrJackel_Sobol =
+      private double[] dim050DiscrJackel_Sobol =
       {
          2.98e-010, 2.91e-010, 2.62e-010, 1.53e-010,
          1.48e-010, 1.15e-010, 8.41e-011
       };
 
-      double[] dim050DiscrSobLev_Sobol =
+      private double[] dim050DiscrSobLev_Sobol =
       {
          3.11e-010, 2.52e-010, 1.61e-010, 1.54e-010,
          1.11e-010, 8.60e-011, 1.17e-010
       };
 
-      double[] dim050DiscrSobLem_Sobol =
+      private double[] dim050DiscrSobLem_Sobol =
       {
          4.57e-010, 6.84e-010, 3.68e-010, 2.20e-010,
          1.81e-010, 1.14e-010, 8.31e-011
       };
 
-      double[] dim050DiscrMersenneTwis =
+      private double[] dim050DiscrMersenneTwis =
       {
          3.27e-010, 2.42e-010, 1.47e-010, 1.98e-010,
          2.31e-010, 1.30e-010, 8.09e-011
       };
 
-      double[] dim050DiscrPlain_Halton =
+      private double[] dim050DiscrPlain_Halton =
       {
          4.04e-004, 2.02e-004, 1.01e-004, 5.05e-005,
          2.52e-005, 1.26e-005, 6.31e-006
       };
 
-      double[] dim050DiscrRShiftHalton = { 1.14e-010, 1.25e-010 };
-      double[] dim050DiscrRStRShHalton = { 2.92e-010, 5.02e-010 };
-      double[] dim050DiscrRStartHalton = { 1.93e-010, 6.82e-010 };
+      private double[] dim050DiscrRShiftHalton = { 1.14e-010, 1.25e-010 };
+      private double[] dim050DiscrRStRShHalton = { 2.92e-010, 5.02e-010 };
+      private double[] dim050DiscrRStartHalton = { 1.93e-010, 6.82e-010 };
 
-      double[] dim050Discr__Unit_Sobol =
+      private double[] dim050Discr__Unit_Sobol =
       {
          1.63e-005, 8.14e-006, 4.07e-006, 2.04e-006,
          1.02e-006, 5.09e-007, 2.54e-007
       };
 
-      double[] dim100DiscrJackel_Sobol =
+      private double[] dim100DiscrJackel_Sobol =
       {
          1.26e-018, 1.55e-018, 8.46e-019, 4.43e-019,
          4.04e-019, 2.44e-019, 4.86e-019
       };
 
-      double[] dim100DiscrSobLev_Sobol =
+      private double[] dim100DiscrSobLev_Sobol =
       {
          1.17e-018, 2.65e-018, 1.45e-018, 7.28e-019,
          6.33e-019, 3.36e-019, 3.43e-019
       };
 
-      double[] dim100DiscrSobLem_Sobol =
+      private double[] dim100DiscrSobLem_Sobol =
       {
          8.79e-019, 4.60e-019, 6.69e-019, 7.17e-019,
          5.81e-019, 2.97e-019, 2.64e-019
       };
 
-      double[] dim100DiscrMersenneTwis =
+      private double[] dim100DiscrMersenneTwis =
       {
          5.30e-019, 7.29e-019, 3.71e-019, 3.33e-019,
          1.33e-017, 6.70e-018, 3.36e-018
       };
 
-      double[] dim100DiscrPlain_Halton =
+      private double[] dim100DiscrPlain_Halton =
       {
          3.63e-004, 1.81e-004, 9.07e-005, 4.53e-005,
          2.27e-005, 1.13e-005, 5.66e-006
       };
 
-      double[] dim100DiscrRShiftHalton = { 3.36e-019, 2.19e-019 };
-      double[] dim100DiscrRStRShHalton = { 4.44e-019, 2.24e-019 };
-      double[] dim100DiscrRStartHalton = { 9.85e-020, 8.34e-019 };
+      private double[] dim100DiscrRShiftHalton = { 3.36e-019, 2.19e-019 };
+      private double[] dim100DiscrRStRShHalton = { 4.44e-019, 2.24e-019 };
+      private double[] dim100DiscrRStartHalton = { 9.85e-020, 8.34e-019 };
 
-      double[] dim100Discr__Unit_Sobol =
+      private double[] dim100Discr__Unit_Sobol =
       {
          4.97e-006, 2.48e-006, 1.24e-006, 6.20e-007,
          3.10e-007, 1.55e-007, 7.76e-008
       };
 
-      int[] dimensionality = { 2, 3, 5, 10, 15, 30, 50, 100 };
+      private int[] dimensionality = { 2, 3, 5, 10, 15, 30, 50, 100 };
 
       // 7 discrepancy measures for each dimension of all sequence generators
       // would take a few days ... too long for usual/frequent test running
-      int discrepancyMeasuresNumber = 1;
+      private int discrepancyMeasuresNumber = 1;
 
       // let's add some generality here...
 
-      #endregion
-
+      #endregion values_definition
    }
-
-
 }

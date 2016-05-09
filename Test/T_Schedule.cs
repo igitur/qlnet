@@ -16,16 +16,17 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System.Collections.Generic;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
    [TestClass()]
    public class T_Schedule
    {
-      void check_dates(Schedule s, List<Date> expected)
+      private void check_dates(Schedule s, List<Date> expected)
       {
          if (s.Count != expected.Count)
          {
@@ -37,7 +38,6 @@ namespace TestSuite
             if (s[i] != expected[i])
             {
                Assert.Fail("expected " + expected[i] + " at index " + i + ", " + "found " + s[i]);
-
             }
          }
       }
@@ -113,7 +113,6 @@ namespace TestSuite
       [TestMethod()]
       public void testDatesPastEndDateWithEomAdjustment()
       {
-
          Schedule s = new MakeSchedule().from(new Date(28, Month.March, 2013))
                            .to(new Date(30, Month.March, 2015))
                            .withCalendar(new TARGET())
@@ -132,7 +131,6 @@ namespace TestSuite
 
          check_dates(s, expected);
       }
-
 
       [TestMethod()]
       public void testForwardDatesWithEomAdjustment()

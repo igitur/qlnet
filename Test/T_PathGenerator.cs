@@ -17,10 +17,10 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
-using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
@@ -40,8 +40,6 @@ namespace TestSuite
          var rsg = (InverseCumulativeRsg<RandomSequenceGenerator<MersenneTwisterUniformRng>
                                                                  , InverseCumulativeNormal>)
                     new PseudoRandom().make_sequence_generator(timeSteps, seed);
-
-
 
          PathGenerator<IRNG> generator = new PathGenerator<IRNG>(process,
                                                                  length,
@@ -91,8 +89,6 @@ namespace TestSuite
                                double[] expected,
                                double[] antithetic)
       {
-
-
          ulong seed = 42;
          double length = 10;
          int timeSteps = 12;
@@ -154,7 +150,6 @@ namespace TestSuite
       [TestCategory("LongRun"), TestMethod()]
       public void testPathGenerator()
       {
-
          //"Testing 1-D path generation against cached values...");
 
          //SavedSettings backup;
@@ -188,7 +183,6 @@ namespace TestSuite
       [TestCategory("LongRun"), TestMethod()]
       public void testMultiPathGenerator()
       {
-
          //("Testing n-D path generation against cached values...");
 
          //SavedSettings backup;

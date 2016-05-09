@@ -16,17 +16,17 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System;
-using System.Collections.Generic;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
    [TestClass()]
    public class T_DividendOption
    {
-
       public void REPORT_FAILURE(string greekName, StrikedTypePayoff payoff, Exercise exercise, double s, double q,
                                  double r, Date today, double v, double expected, double calculated, double error,
                                  double tolerance)
@@ -47,8 +47,7 @@ namespace TestSuite
                 + "    tolerance:        " + tolerance);
       }
 
-
-      void testFdGreeks<Engine>(Date today, Exercise exercise) where Engine : IFDEngine, new()
+      private void testFdGreeks<Engine>(Date today, Exercise exercise) where Engine : IFDEngine, new()
       {
          Dictionary<string, double> calculated = new Dictionary<string, double>(),
                                    expected = new Dictionary<string, double>(),
@@ -168,7 +167,7 @@ namespace TestSuite
          }
       }
 
-      void testFdDegenerate<Engine>(Date today, Exercise exercise) where Engine : IFDEngine, new()
+      private void testFdDegenerate<Engine>(Date today, Exercise exercise) where Engine : IFDEngine, new()
       {
          DayCounter dc = new Actual360();
          SimpleQuote spot = new SimpleQuote(54.625);
@@ -212,9 +211,7 @@ namespace TestSuite
                            + "    current value:  " + refValue + "\n"
                            + "    change:         " + (value - refValue));
          }
-
       }
-
 
       [TestMethod()]
       public void testEuropeanValues()
@@ -320,9 +317,8 @@ namespace TestSuite
       // Reference pg. 253 - Hull - Options, Futures, and Other Derivatives 5th ed
       // Exercise 12.8
       // Doesn't quite work.  Need to deal with date conventions
-      void testEuropeanKnownValue()
+      private void testEuropeanKnownValue()
       {
-
          // Testing dividend European option values with known value...
 
          SavedSettings backup = new SavedSettings();
@@ -385,7 +381,6 @@ namespace TestSuite
       [TestMethod()]
       public void testEuropeanStartLimit()
       {
-
          // Testing dividend European option with a dividend on today's date...
 
          SavedSettings backup = new SavedSettings();
@@ -469,7 +464,6 @@ namespace TestSuite
                                                 u, q, r, today, v,
                                                 expected, calculated,
                                                 error, tolerance);
-
                               }
                            }
                         }
@@ -483,7 +477,6 @@ namespace TestSuite
       [TestMethod()]
       public void testEuropeanGreeks()
       {
-
          // Testing dividend European option greeks...
 
          SavedSettings backup = new SavedSettings();
@@ -746,7 +739,6 @@ namespace TestSuite
       [TestMethod()]
       public void testFdEuropeanGreeks()
       {
-
          // Testing finite-differences dividend European option greeks...
          SavedSettings backup = new SavedSettings();
 
@@ -779,7 +771,6 @@ namespace TestSuite
             Exercise exercise = new AmericanExercise(exDate);
             testFdGreeks<FDDividendAmericanEngine>(today, exercise);
          }
-
       }
 
       [TestMethod()]

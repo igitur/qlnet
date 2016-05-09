@@ -1,33 +1,33 @@
 ﻿/*
  Copyright (C) 2008 Siarhei Novik (snovik@gmail.com)
-  
+
  This file is part of QLNet Project https://github.com/amaggiulli/qlnet
 
  QLNet is free software: you can redistribute it and/or modify it
  under the terms of the QLNet license.  You should have received a
- copy of the license along with this program; if not, license is  
+ copy of the license along with this program; if not, license is
  available online at <https://github.com/amaggiulli/qlnetLicense.html>.
-  
+
  QLNet is a based on QuantLib, a free-software/open-source library
  for financial quantitative analysts and developers - http://quantlib.org/
  The QuantLib license is available online at http://quantlib.org/license.shtml.
- 
+
  This program is distributed in the hope that it will be useful, but WITHOUT
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System;
-using System.Collections.Generic;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
    [TestClass()]
    public class T_EuropeanOption
    {
-
-      enum EngineType
+      private enum EngineType
       {
          Analytic,
          JR, CRR, EQP, TGEO, TIAN, LR, JOSHI,
@@ -35,7 +35,6 @@ namespace TestSuite
          Integral,
          PseudoMonteCarlo, QuasiMonteCarlo
       };
-
 
       [TestMethod()]
       public void testJRBinomialEngines()
@@ -54,10 +53,10 @@ namespace TestSuite
          relativeTol.Add("theta", 0.03);
          testEngineConsistency(engine, steps, samples, relativeTol, true);
       }
+
       [TestMethod()]
       public void testCRRBinomialEngines()
       {
-
          //("Testing CRR binomial European engines against analytic results...");
 
          //SavedSettings backup;
@@ -72,10 +71,10 @@ namespace TestSuite
          relativeTol.Add("theta", 0.03);
          testEngineConsistency(engine, steps, samples, relativeTol, true);
       }
+
       [TestMethod()]
       public void testEQPBinomialEngines()
       {
-
          //("Testing EQP binomial European engines against analytic results...");
 
          //SavedSettings backup;
@@ -90,10 +89,10 @@ namespace TestSuite
          relativeTol.Add("theta", 0.03);
          testEngineConsistency(engine, steps, samples, relativeTol, true);
       }
+
       [TestMethod()]
       public void testTGEOBinomialEngines()
       {
-
          //("Testing TGEO binomial European engines " against analytic results...");
 
          //SavedSettings backup;
@@ -108,10 +107,10 @@ namespace TestSuite
          relativeTol.Add("theta", 0.03);
          testEngineConsistency(engine, steps, samples, relativeTol, true);
       }
+
       [TestMethod()]
       public void testTIANBinomialEngines()
       {
-
          //("Testing TIAN binomial European engines against analytic results...");
 
          //SavedSettings backup;
@@ -126,10 +125,10 @@ namespace TestSuite
          relativeTol.Add("theta", 0.03);
          testEngineConsistency(engine, steps, samples, relativeTol, true);
       }
+
       [TestMethod()]
       public void testLRBinomialEngines()
       {
-
          //"Testing LR binomial European engines against analytic results...");
 
          //SavedSettings backup;
@@ -144,10 +143,10 @@ namespace TestSuite
          relativeTol.Add("theta", 0.03);
          testEngineConsistency(engine, steps, samples, relativeTol, true);
       }
+
       [TestMethod()]
       public void testJOSHIBinomialEngines()
       {
-
          //("Testing Joshi binomial European engines against analytic results...");
 
          //SavedSettings backup;
@@ -163,11 +162,9 @@ namespace TestSuite
          testEngineConsistency(engine, steps, samples, relativeTol, true);
       }
 
-
       [TestMethod()]
       public void testFdEngines()
       {
-
          //("Testing finite-difference European engines against analytic results...");
 
          //SavedSettings backup;
@@ -183,18 +180,15 @@ namespace TestSuite
          testEngineConsistency(engine, timeSteps, gridPoints, relativeTol, true);
       }
 
-
-      GeneralizedBlackScholesProcess makeProcess(Quote u, YieldTermStructure q, YieldTermStructure r, BlackVolTermStructure vol)
+      private GeneralizedBlackScholesProcess makeProcess(Quote u, YieldTermStructure q, YieldTermStructure r, BlackVolTermStructure vol)
       {
          return new BlackScholesMertonProcess(new Handle<Quote>(u), new Handle<YieldTermStructure>(q),
                                               new Handle<YieldTermStructure>(r), new Handle<BlackVolTermStructure>(vol));
       }
 
-
-      VanillaOption makeOption(StrikedTypePayoff payoff, Exercise exercise, Quote u, YieldTermStructure q,
+      private VanillaOption makeOption(StrikedTypePayoff payoff, Exercise exercise, Quote u, YieldTermStructure q,
                  YieldTermStructure r, BlackVolTermStructure vol, EngineType engineType, int binomialSteps, int samples)
       {
-
          GeneralizedBlackScholesProcess stochProcess = makeProcess(u, q, r, vol);
 
          IPricingEngine engine;
@@ -203,30 +197,39 @@ namespace TestSuite
             case EngineType.Analytic:
                engine = new AnalyticEuropeanEngine(stochProcess);
                break;
+
             case EngineType.JR:
                engine = new BinomialVanillaEngine<JarrowRudd>(stochProcess, binomialSteps);
                break;
+
             case EngineType.CRR:
                engine = new BinomialVanillaEngine<CoxRossRubinstein>(stochProcess, binomialSteps);
                break;
+
             case EngineType.EQP:
                engine = new BinomialVanillaEngine<AdditiveEQPBinomialTree>(stochProcess, binomialSteps);
                break;
+
             case EngineType.TGEO:
                engine = new BinomialVanillaEngine<Trigeorgis>(stochProcess, binomialSteps);
                break;
+
             case EngineType.TIAN:
                engine = new BinomialVanillaEngine<Tian>(stochProcess, binomialSteps);
                break;
+
             case EngineType.LR:
                engine = new BinomialVanillaEngine<LeisenReimer>(stochProcess, binomialSteps);
                break;
+
             case EngineType.JOSHI:
                engine = new BinomialVanillaEngine<Joshi4>(stochProcess, binomialSteps);
                break;
+
             case EngineType.FiniteDifferences:
                engine = new FDEuropeanEngine(stochProcess, binomialSteps, samples);
                break;
+
             case EngineType.Integral:
                engine = new IntegralEngine(stochProcess);
                break;
@@ -252,10 +255,9 @@ namespace TestSuite
 
       //void testEngineConsistency(EngineType engine, int binomialSteps, int samples, Dictionary<string,double> tolerance,
       //                           bool testGreeks = false) {
-      void testEngineConsistency(EngineType engine, int binomialSteps, int samples, Dictionary<string, double> tolerance,
+      private void testEngineConsistency(EngineType engine, int binomialSteps, int samples, Dictionary<string, double> tolerance,
                                  bool testGreeks)
       {
-
          //QL_TEST_START_TIMING
 
          Dictionary<string, double> calculated = new Dictionary<string, double>(), expected = new Dictionary<string, double>();
@@ -353,9 +355,7 @@ namespace TestSuite
          }
       }
 
-
-
-      void REPORT_FAILURE(string greekName, StrikedTypePayoff payoff, Exercise exercise, double s, double q, double r,
+      private void REPORT_FAILURE(string greekName, StrikedTypePayoff payoff, Exercise exercise, double s, double q, double r,
               Date today, double v, double expected, double calculated, double error, double tolerance)
       {
          Assert.Fail(exercise + " "

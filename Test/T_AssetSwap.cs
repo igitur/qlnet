@@ -16,20 +16,22 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System;
-using System.Collections.Generic;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
    [TestClass()]
    public class T_AssetSwap
    {
-      class CommonVars
+      private class CommonVars
       {
          // common data
          public IborIndex iborIndex;
+
          public SwapIndex swapIndex;
          public IborCouponPricer pricer;
          public CmsCouponPricer cmspricer;
@@ -41,6 +43,7 @@ namespace TestSuite
 
          // clean-up
          public SavedSettings backup;
+
          //public IndexHistoryCleaner indexCleaner;
 
          // initial setup
@@ -82,7 +85,6 @@ namespace TestSuite
       [TestMethod()]
       public void testConsistency()
       {
-
          // Testing consistency between fair price and fair spread...");
          CommonVars vars = new CommonVars();
 
@@ -252,7 +254,6 @@ namespace TestSuite
                        "\n  fair spread:  " + assetSwap3.fairSpread() +
                        "\n  NPV:          " + assetSwap3.NPV() +
                        "\n  tolerance:    " + tolerance);
-
          }
 
          // now market asset swap
@@ -701,7 +702,6 @@ namespace TestSuite
                         "\n  error:                   " + error9 +
                         "\n  tolerance:               " + tolerance);
          }
-
       }
 
       [TestMethod()]
@@ -1382,7 +1382,6 @@ namespace TestSuite
       [TestMethod()]
       public void testGenericBondImplied()
       {
-
          // Testing implied generic-bond value against asset-swap fair price with null spread...
 
          CommonVars vars = new CommonVars();
@@ -2746,7 +2745,6 @@ namespace TestSuite
                         + "\n  tolerance:             " + tolerance);
          }
 
-
          // CMS Underlying bond (Isin: XS0228052402 CRDIT 0 8/22/20)
          // maturity doesn't occur on a business day
          Date cmsBondStartDate1 = new Date(22, Month.August, 2005);
@@ -3180,7 +3178,6 @@ namespace TestSuite
                         + "\n  tolerance:             " + tolerance);
          }
 
-
          //FRN bond (Isin: IT0003543847 ISPIM 0 09/29/13)
          //maturity doesn't occur on a business day
          Date floatingBondStartDate1 = new Date(29, Month.September, 2003);
@@ -3423,7 +3420,6 @@ namespace TestSuite
                      100.0, new Date(22, Month.August, 2005));
          cmsSpecializedBond1.setPricingEngine(bondEngine);
 
-
          Utils.setCouponPricer(cmsBond1.cashflows(), vars.cmspricer);
          Utils.setCouponPricer(cmsSpecializedBond1.cashflows(), vars.cmspricer);
          vars.swapIndex.addFixing(new Date(18, Month.August, 2006), 0.04158);
@@ -3584,7 +3580,6 @@ namespace TestSuite
                         + "\n  tolerance:             " + tolerance);
          }
 
-
          //  Zero-Coupon bond (Isin: DE0004771662 IBRD 0 12/20/15)
          //  maturity doesn't occur on a business day
          Date zeroCpnBondStartDate1 = new Date(19, Month.December, 1985);
@@ -3669,7 +3664,6 @@ namespace TestSuite
                         + "\n  error:                 " + error14
                         + "\n  tolerance:             " + tolerance);
          }
-
 
          //  Zero Coupon bond (Isin: IT0001200390 ISPIM 0 02/17/28)
          //  maturity doesn't occur on a business day
@@ -3757,7 +3751,5 @@ namespace TestSuite
                         + "\n  tolerance:             " + tolerance);
          }
       }
-
-
    }
 }

@@ -16,10 +16,11 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System;
-using System.Collections.Generic;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
@@ -150,7 +151,6 @@ namespace TestSuite
          CHECK_INCLUSION(2, 2, true, leg, today);
          CHECK_INCLUSION(2, 3, false, leg, today);
 
-
          // no discount to make calculations easier
          InterestRate no_discount = new InterestRate(0.0, new Actual365Fixed(), Compounding.Continuous, Frequency.Annual);
 
@@ -264,6 +264,5 @@ namespace TestSuite
             .withFixingDays(null)
             .withNotionals(100.0);
       }
-
    }
 }

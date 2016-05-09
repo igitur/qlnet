@@ -16,11 +16,10 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
-using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
-
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
@@ -28,12 +27,12 @@ namespace TestSuite
    public class T_BasketOption
    {
       public enum BasketType { MinBasket, MaxBasket, SpreadBasket };
+
       public struct BasketOptionTwoData
       {
          public BasketOptionTwoData(BasketType _basketType, Option.Type _type, double _strike, double _s1, double _s2, double _q1,
                                      double _q2, double _r, double _t, double _v1, double _v2, double _rho, double _result, double _tol)
          {
-
             basketType = _basketType;
             type = _type;
             strike = _strike;
@@ -65,34 +64,41 @@ namespace TestSuite
          public double result;
          public double tol;
       };
+
       public BasketPayoff basketTypeToPayoff(BasketType basketType, Payoff p)
       {
          switch (basketType)
          {
             case BasketType.MinBasket:
                return new MinBasketPayoff(p);
+
             case BasketType.MaxBasket:
                return new MaxBasketPayoff(p);
+
             case BasketType.SpreadBasket:
                return new SpreadBasketPayoff(p);
          }
          Utils.QL_FAIL("unknown basket option type");
          return null;
       }
+
       public string basketTypeToString(BasketType basketType)
       {
          switch (basketType)
          {
             case BasketType.MinBasket:
                return "MinBasket";
+
             case BasketType.MaxBasket:
                return "MaxBasket";
+
             case BasketType.SpreadBasket:
                return "Spread";
          }
          Utils.QL_FAIL("unknown basket option type");
          return String.Empty;
       }
+
       public void REPORT_FAILURE_2(String greekName, BasketType basketType, PlainVanillaPayoff payoff, Exercise exercise,
                               double s1, double s2, double q1, double q2, double r, Date today, double v1, double v2, double rho,
                               double expected, double calculated, double error, double tolerance)
@@ -116,7 +122,6 @@ namespace TestSuite
                       + "    calculated " + greekName + ": " + calculated + "\n"
                       + "    error:            " + error + "\n"
                       + "    tolerance:        " + tolerance);
-
       }
 
       [TestMethod()]
@@ -208,7 +213,6 @@ namespace TestSuite
 
          DayCounter dc = new Actual360();
 
-
          Date today = Date.Today;
 
          SimpleQuote spot1 = new SimpleQuote(0.0);
@@ -232,7 +236,6 @@ namespace TestSuite
 
          for (int i = 0; i < values.Length; i++)
          {
-
             PlainVanillaPayoff payoff = new PlainVanillaPayoff(values[i].type, values[i].strike);
 
             Date exDate = today + (int)(values[i].t * 360 + 0.5);
@@ -245,7 +248,6 @@ namespace TestSuite
             rRate.setValue(values[i].r);
             vol1.setValue(values[i].v1);
             vol2.setValue(values[i].v2);
-
 
             IPricingEngine analyticEngine = null;
             GeneralizedBlackScholesProcess p1 = null, p2 = null;
@@ -281,7 +283,6 @@ namespace TestSuite
                   break;
             }
 
-
             List<StochasticProcess1D> procs = new List<StochasticProcess1D> { p1, p2 };
 
             Matrix correlationMatrix = new Matrix(2, 2, values[i].rho);
@@ -296,8 +297,6 @@ namespace TestSuite
             //                           .withStepsPerYear(1)
             //                           .withSamples(10000)
             //                           .withSeed(42);
-
-
 
             //IPricingEngine fdEngine = new Fd2dBlackScholesVanillaEngine(p1, p2, values[i].rho, 50, 50, 15);
 

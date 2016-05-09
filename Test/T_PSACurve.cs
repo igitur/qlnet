@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
 
@@ -27,7 +28,6 @@ namespace TestSuite
       [TestMethod()]
       public void testCashedValues()
       {
-
          Date startDate = new Date(01, 03, 2007);
          Period period = new Period(360, TimeUnit.Months);
          Calendar calendar = new TARGET();
@@ -51,8 +51,6 @@ namespace TestSuite
             else
                Assert.AreEqual(6.0000, psa100.getCPR(schedule[i]) * 100);
          }
-
-
       }
    }
 }

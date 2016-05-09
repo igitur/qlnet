@@ -17,20 +17,21 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
-using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
    [TestClass()]
    public class T_CapFloor
    {
-      class CommonVars
+      private class CommonVars
       {
          // common data
          public Date settlement;
+
          public List<double> nominals;
          public BusinessDayConvention convention;
          public Frequency frequency;
@@ -54,7 +55,6 @@ namespace TestSuite
             settlement = calendar.advance(today, settlementDays, TimeUnit.Days);
             termStructure.linkTo(Utilities.flatRate(settlement, 0.05,
                                           new ActualActual(ActualActual.Convention.ISDA)));
-
          }
 
          // utilities
@@ -76,7 +76,6 @@ namespace TestSuite
             Handle<Quote> vol = new Handle<Quote>(new SimpleQuote(volatility));
 
             return (IPricingEngine)new BlackCapFloorEngine(termStructure, vol);
-
          }
 
          public CapFloor makeCapFloor(CapFloorType type,
@@ -90,37 +89,40 @@ namespace TestSuite
                case CapFloorType.Cap:
                   result = (CapFloor)new Cap(leg, new List<double>() { strike });
                   break;
+
                case CapFloorType.Floor:
                   result = (CapFloor)new Floor(leg, new List<double>() { strike });
                   break;
+
                default:
                   throw new ArgumentException("unknown cap/floor type");
             }
             result.setPricingEngine(makeEngine(volatility));
             return result;
          }
-
       }
 
-      bool checkAbsError(double x1, double x2, double tolerance)
+      private bool checkAbsError(double x1, double x2, double tolerance)
       {
          return Math.Abs(x1 - x2) < tolerance;
       }
 
-      string typeToString(CapFloorType type)
+      private string typeToString(CapFloorType type)
       {
          switch (type)
          {
             case CapFloorType.Cap:
                return "cap";
+
             case CapFloorType.Floor:
                return "floor";
+
             case CapFloorType.Collar:
                return "collar";
+
             default:
                throw new ArgumentException("unknown cap/floor type");
          }
-
       }
 
       [TestMethod()]
@@ -155,7 +157,6 @@ namespace TestSuite
 
                      double numericalVega = (value2 - value1) / (2 * shift);
 
-
                      if (numericalVega > 1.0e-4)
                      {
                         double analyticalVega = (double)capFloor.result("vega");
@@ -171,7 +172,6 @@ namespace TestSuite
                                "\n   expected:    " + numericalVega +
                                "\n   discrepancy: " + discrepancy +
                                "\n   tolerance:   " + tolerance);
-
                      }
                   }
                }
@@ -182,7 +182,6 @@ namespace TestSuite
       [TestMethod()]
       public void testStrikeDependency()
       {
-
          CommonVars vars = new CommonVars();
 
          int[] lengths = { 1, 2, 3, 5, 7, 10, 15, 20 };
@@ -259,7 +258,6 @@ namespace TestSuite
                {
                   for (int l = 0; l < vols.Length; l++)
                   {
-
                      List<CashFlow> leg = vars.makeLeg(startDate, lengths[i]);
                      Instrument cap = vars.makeCapFloor(CapFloorType.Cap, leg,
                                            cap_rates[j], vols[l]);
@@ -304,7 +302,6 @@ namespace TestSuite
             {
                for (int k = 0; k < vols.Length; k++)
                {
-
                   List<CashFlow> leg = vars.makeLeg(startDate, lengths[i]);
                   Instrument cap = vars.makeCapFloor(CapFloorType.Cap, leg, strikes[j], vols[k]);
                   Instrument floor = vars.makeCapFloor(CapFloorType.Floor, leg, strikes[j], vols[k]);
@@ -359,7 +356,6 @@ namespace TestSuite
             {
                for (int k = 0; k < vols.Length; k++)
                {
-
                   CapFloor cap = vars.makeCapFloor(CapFloorType.Cap, leg, strikes[j], vols[k]);
                   CapFloor floor = vars.makeCapFloor(CapFloorType.Floor, leg, strikes[j], vols[k]);
                   double capATMRate = cap.atmRate(vars.termStructure);
@@ -391,7 +387,6 @@ namespace TestSuite
                        + "   volatility:    " + vols[k] + "\n"
                        + "   ATM rate:      " + floorATMRate + "\n"
                        + "   swap NPV:      " + swapNPV);
-
                }
             }
          }

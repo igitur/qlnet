@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
 
@@ -24,7 +25,7 @@ namespace TestSuite
    [TestClass()]
    public class T_BusinessDayConvention
    {
-      struct SingleCase
+      private struct SingleCase
       {
          public SingleCase(Calendar calendar_,
                    BusinessDayConvention convention_,
@@ -40,6 +41,7 @@ namespace TestSuite
             endOfMonth = endOfMonth_;
             result = result_;
          }
+
          public Calendar calendar;
          public BusinessDayConvention convention;
          public Date start;
@@ -118,7 +120,6 @@ namespace TestSuite
                           + "period: " + testCases[i].period + ", end of month: " + testCases[i].endOfMonth + "\n"
                           + "convention: " + testCases[i].convention + "\n"
                           + "expected: " + testCases[i].result + " vs. actual: " + result);
-
          }
       }
    }

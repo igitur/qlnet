@@ -18,10 +18,10 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
-using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace TestSuite
@@ -89,7 +89,6 @@ namespace TestSuite
 
          for (Date d = firstDate; d < endDate; d++)
          {
-
             bool b1 = c1.isBusinessDay(d),
                  b2 = c2.isBusinessDay(d),
                  b3 = c3.isBusinessDay(d),
@@ -130,7 +129,6 @@ namespace TestSuite
                           + "    inconsistency between joint calendar "
                           + c1234b.name() + " (joining business days)\n"
                           + "    and its components");
-
          }
       }
 
@@ -181,7 +179,6 @@ namespace TestSuite
       [TestMethod()]
       public void testUSGovernmentBondMarket()
       {
-
          List<Date> expectedHol = new List<Date>();
          expectedHol.Add(new Date(1, Month.January, 2004));
          expectedHol.Add(new Date(19, Month.January, 2004));
@@ -212,7 +209,6 @@ namespace TestSuite
       [TestMethod()]
       public void testUSNewYorkStockExchange()
       {
-
          List<Date> expectedHol = new List<Date>();
          expectedHol.Add(new Date(1, Month.January, 2004));
          expectedHol.Add(new Date(19, Month.January, 2004));
@@ -307,7 +303,6 @@ namespace TestSuite
             if (!c.isHoliday(histClose[i]))
                Assert.Fail(histClose[i] + " should be holiday (historical close)");
          }
-
       }
 
       [TestMethod()]
@@ -372,7 +367,6 @@ namespace TestSuite
             Assert.Fail("there were " + expectedHol.Count
                        + " expected holidays, while there are " + hol.Count
                        + " calculated holidays");
-
       }
 
       [TestMethod()]
@@ -963,7 +957,6 @@ namespace TestSuite
       [TestMethod()]
       public void testBusinessDaysBetween()
       {
-
          //BOOST_MESSAGE("Testing calculation of business days between dates...");
 
          List<Date> testDates = new List<Date>();
@@ -1012,7 +1005,6 @@ namespace TestSuite
       [TestMethod()]
       public void testBespokeCalendars()
       {
-
          //BOOST_MESSAGE("Testing bespoke calendars...");
 
          BespokeCalendar a1 = new BespokeCalendar();

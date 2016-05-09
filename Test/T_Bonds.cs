@@ -18,20 +18,21 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
-using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
    [TestClass()]
    public class T_Bonds
    {
-      class CommonVars
+      private class CommonVars
       {
          // common data
          public Calendar calendar;
+
          public Date today;
          public double faceAmount;
 
@@ -52,7 +53,6 @@ namespace TestSuite
       [TestMethod()]
       public void testYield()
       {
-
          //"Testing consistency of bond price/yield calculation...");
 
          CommonVars vars = new CommonVars();
@@ -83,7 +83,6 @@ namespace TestSuite
                   {
                      for (int n = 0; n < compounding.Length; n++)
                      {
-
                         Date dated = vars.calendar.advance(vars.today, issueMonths[i], TimeUnit.Months);
                         Date issue = dated;
                         Date maturity = vars.calendar.advance(issue, lengths[j], TimeUnit.Years);
@@ -98,7 +97,6 @@ namespace TestSuite
 
                         for (int m = 0; m < yields.Length; m++)
                         {
-
                            double price = bond.cleanPrice(yields[m], bondDayCount, compounding[n], frequencies[l]);
                            double calculated = bond.yield(price, bondDayCount, compounding[n], frequencies[l], null,
                                                           tolerance, maxEvaluations);
@@ -128,6 +126,7 @@ namespace TestSuite
             }
          }
       }
+
       [TestMethod()]
       public void testTheoretical()
       {
@@ -155,7 +154,6 @@ namespace TestSuite
             {
                for (int l = 0; l < frequencies.Length; l++)
                {
-
                   Date dated = vars.today;
                   Date issue = dated;
                   Date maturity = vars.calendar.advance(issue, lengths[j], TimeUnit.Years);
@@ -174,7 +172,6 @@ namespace TestSuite
 
                   for (int m = 0; m < yields.Length; m++)
                   {
-
                      rate.setValue(yields[m]);
 
                      double price = bond.cleanPrice(yields[m], bondDayCount, Compounding.Continuous, frequencies[l]);
@@ -211,6 +208,7 @@ namespace TestSuite
             }
          }
       }
+
       [TestMethod()]
       public void testCached()
       {
@@ -317,7 +315,6 @@ namespace TestSuite
                        + "\n    error:      " + (yield - cachedYield1c));
          }
 
-
          price = bond2.cleanPrice(marketYield2, bondDayCount, Compounding.Compounded, freq);
          if (Math.Abs(price - cachedPrice2a) > tolerance)
          {
@@ -406,6 +403,7 @@ namespace TestSuite
                        + "\n    error:      " + (price - cachedPrice3));
          }
       }
+
       [TestMethod()]
       public void testCachedZero()
       {
@@ -475,6 +473,7 @@ namespace TestSuite
                        + "    error:      " + (price - cachedPrice3));
          }
       }
+
       [TestMethod()]
       public void testCachedFixed()
       {
@@ -565,6 +564,7 @@ namespace TestSuite
                        + "    error:      " + (price - cachedPrice3));
          }
       }
+
       [TestMethod()]
       public void testCachedFloating()
       {
@@ -611,7 +611,6 @@ namespace TestSuite
 #else
          double cachedPrice1 = 99.874646;
 #endif
-
 
          double price = bond1.cleanPrice();
          if (Math.Abs(price - cachedPrice1) > tolerance)
@@ -685,6 +684,7 @@ namespace TestSuite
                        + "    error:      " + (price - cachedPrice3));
          }
       }
+
       [TestMethod()]
       public void testBrazilianCached()
       {
@@ -737,7 +737,6 @@ namespace TestSuite
 
          for (int bondIndex = 0; bondIndex < maturityDates.Count; bondIndex++)
          {
-
             // plain
             InterestRate yield = new InterestRate(yields[bondIndex], new Business252(new Brazil()),
                                                   Compounding.Compounded, Frequency.Annual);
@@ -747,7 +746,6 @@ namespace TestSuite
                               new Brazil(Brazil.Market.Settlement),
                               BusinessDayConvention.Unadjusted, BusinessDayConvention.Unadjusted,
                               DateGeneration.Rule.Backward, false);
-
 
             FixedRateBond bond = new FixedRateBond(settlementDays,
                                                    faceAmount,
@@ -814,9 +812,7 @@ namespace TestSuite
          // test PV difference
          double cash = bond.CASH();
          Assert.AreEqual(cash - amount, PVDifference, 0.1, "PV Difference wrong");
-
       }
-
 
       [TestMethod()]
       public void testMBSFixedBondCached()
@@ -827,6 +823,7 @@ namespace TestSuite
          // pag 58,61,63
 
          #region Cached Values
+
          double[] OutstandingBalance = {400000000,399396651,398724866,397984841,397176808,396301034,395357823,394347512,393270474,
                                         392127117,390917882,389643247,388303720,386899847,385432204,383901402,382308084,380652925,
                                         378936631,377159941,375323622,373428474,371475324,369465030,367398478,365276580,363100276,
@@ -948,7 +945,8 @@ namespace TestSuite
                                          407419,407350,407282,407213,407144,407076,407007,406938,406870,406801,406732,406664,406595,
                                          406526,406458,406389,406321,406252,406184,406115,406047,405978,405910,405841,405773,405704,
                                          405636,405567,405499,405430,405362,405294,405225};
-         #endregion
+
+         #endregion Cached Values
 
          Date startDate = new Date(1, 2, 2007);
          Settings.setEvaluationDate(startDate);
@@ -1058,8 +1056,6 @@ namespace TestSuite
 
          double Amort2 = bond.AmortizationValue(new Date(30, Month.September, 2004));
          Assert.AreEqual(40842.83, Amort2, 100, "Amortized Cost at 09/30/2004 is different");
-
-
       }
 
       [TestMethod()]
@@ -1098,8 +1094,6 @@ namespace TestSuite
 
          double Amort2 = bond.AmortizationValue(new Date(30, Month.December, 2012));
          Assert.AreEqual(475779.55, Amort1, 100, "Amortized Cost at 12/30/2012 is different");
-
-
       }
 
       [TestMethod()]
@@ -1162,7 +1156,6 @@ namespace TestSuite
                                " Expected Coupon: " + expectedCoupon +
                                " Calculated Coupon: " + coupon);
                }
-
             }
          }
       }

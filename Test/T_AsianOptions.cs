@@ -18,11 +18,11 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QLNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLNet;
 
 namespace TestSuite
 {
@@ -62,7 +62,6 @@ namespace TestSuite
 
       public string averageTypeToString(Average.Type averageType)
       {
-
          if (averageType == Average.Type.Geometric)
             return "Geometric Averaging";
          else if (averageType == Average.Type.Arithmetic)
@@ -149,7 +148,6 @@ namespace TestSuite
                            qRate.value(), rRate.value(), today,
                            vol.value(), expected, calculated, tolerance);
          }
-
       }
 
       [TestMethod()]
@@ -196,7 +194,6 @@ namespace TestSuite
             {
                for (int k = 0; k < lengths.Length; k++)
                {
-
                   EuropeanExercise maturity = new EuropeanExercise(today + new Period(lengths[k], TimeUnit.Years));
                   PlainVanillaPayoff payoff = new PlainVanillaPayoff(types[i], strikes[j]);
 
@@ -424,7 +421,6 @@ namespace TestSuite
                            qRate.value(), rRate.value(), today,
                            vol.value(), expected, calculated, tolerance);
          }
-
       }
 
       //[TestMethod()]
@@ -557,7 +553,6 @@ namespace TestSuite
                             d += new Period(3, TimeUnit.Months))
                      fixingDates.Add(d);
 
-
                   IPricingEngine engine = new AnalyticDiscreteGeometricAveragePriceAsianEngine(process);
 
                   DiscreteAveragingAsianOption option = new DiscreteAveragingAsianOption(Average.Type.Geometric,
@@ -573,7 +568,6 @@ namespace TestSuite
                         {
                            for (int p = 0; p < vols.Length; p++)
                            {
-
                               double u = underlyings[l];
                               double q = qRates[m],
                                      r = rRates[n];
@@ -668,7 +662,6 @@ namespace TestSuite
          }
       }
 
-
       //    public struct DiscreteAverageData
       //    {
       //        public Option.Type type;
@@ -709,12 +702,9 @@ namespace TestSuite
       //        }
       //    }
 
-
-
       //    [TestMethod()]
       //    public void testAnalyticContinuousGeometricAveragePrice()
       //    {
-
       //        //("Testing analytic continuous geometric average-price Asians...");
       //        // data from "Option Pricing Formulas", Haug, pag.96-97
 
@@ -796,11 +786,8 @@ namespace TestSuite
 
       //    }
 
-
-
       //    [TestMethod()]
       //    public void testMCDiscreteArithmeticAveragePrice() {
-
       //        //BOOST_MESSAGE("Testing Monte Carlo discrete arithmetic average-price Asians...");
 
       //        //QL_TEST_START_TIMING
@@ -853,13 +840,10 @@ namespace TestSuite
       //        SimpleQuote vol = new SimpleQuote(0.20);
       //        BlackVolTermStructure volTS = Utilities.flatVol(today, vol, dc);
 
-
-
       //        Average.Type averageType = Average.Type.Arithmetic;
       //        double runningSum = 0.0;
       //        int pastFixings = 0;
       //        for (int l=0; l<cases4.Length ; l++) {
-
       //            StrikedTypePayoff payoff = new
       //                PlainVanillaPayoff(cases4[l].type, cases4[l].strike);
 
@@ -918,7 +902,6 @@ namespace TestSuite
 
       //    [TestMethod()]
       //    public void testMCDiscreteArithmeticAverageStrike() {
-
       //        //BOOST_MESSAGE("Testing Monte Carlo discrete arithmetic average-strike Asians...");
 
       //        //QL_TEST_START_TIMING
@@ -1004,7 +987,6 @@ namespace TestSuite
       //        double runningSum = 0.0;
       //        int pastFixings = 0;
       //        for (int l=0; l<cases5.Length; l++) {
-
       //            StrikedTypePayoff payoff =
       //                new PlainVanillaPayoff(cases5[l].type, cases5[l].strike);
 
@@ -1054,10 +1036,8 @@ namespace TestSuite
       //        }
       //    }
 
-
       //    [TestMethod()]
       //    public void testPastFixings() {
-
       //        //BOOST_MESSAGE("Testing use of past fixings in Asian options...");
       //        DayCounter dc = new Actual360();
       //        Date today = Date.Today ;
@@ -1071,7 +1051,6 @@ namespace TestSuite
       //        BlackVolTermStructure volTS = Utilities.flatVol(today, vol, dc);
 
       //        StrikedTypePayoff payoff = new PlainVanillaPayoff(Option.Type.Put, 100.0);
-
 
       //        Exercise exercise = new EuropeanExercise(today + new Period(1,TimeUnit.Years));
 

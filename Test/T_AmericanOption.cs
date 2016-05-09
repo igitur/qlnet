@@ -18,11 +18,11 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QLNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLNet;
 
 namespace TestSuite
 {
@@ -60,13 +60,13 @@ namespace TestSuite
    [TestClass()]
    public class T_AmericanOption
    {
-
       /* The data below are from
      An Approximate Formula for Pricing American Options
      Journal of Derivatives Winter 1999
      Ju, N.
   */
-      AmericanOptionData[] juValues = new AmericanOptionData[] {
+
+      private AmericanOptionData[] juValues = new AmericanOptionData[] {
             //        type, strike,   spot,    q,    r,    t,     vol,   value, tol
             // These values are from Exhibit 3 - Short dated Put Options
             new AmericanOptionData( Option.Type.Put, 35.00,   40.00,  0.0,  0.0488, 0.0833,  0.2,  0.006 ),
@@ -201,7 +201,6 @@ namespace TestSuite
 
          for (int i = 0; i < values.Length; i++)
          {
-
             StrikedTypePayoff payoff = new PlainVanillaPayoff(values[i].type, values[i].strike);
             Date exDate = today + Convert.ToInt32(values[i].t * 360 + 0.5);
             Exercise exercise = new AmericanExercise(today, exDate);
@@ -271,7 +270,6 @@ namespace TestSuite
 
          for (int i = 0; i < values.Length; i++)
          {
-
             StrikedTypePayoff payoff = new PlainVanillaPayoff(values[i].type, values[i].strike);
             Date exDate = today + Convert.ToInt32(values[i].t * 360 + 0.5);
             Exercise exercise = new AmericanExercise(today, exDate);
@@ -305,7 +303,6 @@ namespace TestSuite
       [TestMethod()]
       public void testJuValues()
       {
-
          // ("Testing Ju approximation for American options...");
 
          Date today = Date.Today;
@@ -323,7 +320,6 @@ namespace TestSuite
 
          for (int i = 0; i < juValues.Length; i++)
          {
-
             StrikedTypePayoff payoff = new PlainVanillaPayoff(juValues[i].type, juValues[i].strike);
             Date exDate = today + Convert.ToInt32(juValues[i].t * 360 + 0.5);
             Exercise exercise = new AmericanExercise(today, exDate);
@@ -357,7 +353,6 @@ namespace TestSuite
       [TestMethod()]
       public void testFdValues()
       {
-
          //("Testing finite-difference engine for American options...");
 
          Date today = Date.Today;
@@ -375,7 +370,6 @@ namespace TestSuite
 
          for (int i = 0; i < juValues.Length; i++)
          {
-
             StrikedTypePayoff payoff = new PlainVanillaPayoff(juValues[i].type, juValues[i].strike);
             Date exDate = today + Convert.ToInt32(juValues[i].t * 360 + 0.5);
             Exercise exercise = new AmericanExercise(today, exDate);
@@ -408,7 +402,6 @@ namespace TestSuite
 
       public void testFdGreeks<Engine>() where Engine : IFDEngine, new()
       {
-
          //SavedSettings backup;
 
          Dictionary<string, double> calculated = new Dictionary<string, double>(),
@@ -546,7 +539,7 @@ namespace TestSuite
          testFdGreeks<FDShoutEngine>();
       }
 
-      void REPORT_FAILURE(string greekName, StrikedTypePayoff payoff, Exercise exercise, double s, double q, double r,
+      private void REPORT_FAILURE(string greekName, StrikedTypePayoff payoff, Exercise exercise, double s, double q, double r,
       Date today, double v, double expected, double calculated, double error, double tolerance)
       {
          Assert.Fail(exercise + " "

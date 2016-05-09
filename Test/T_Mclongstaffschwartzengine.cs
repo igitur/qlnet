@@ -16,17 +16,17 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
+using QLNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using QLNet;
 
 namespace TestSuite
 {
-   class T_Mclongstaffschwartzengine
+   internal class T_Mclongstaffschwartzengine
    {
-
-      class AmericanMaxPathPricer : IEarlyExercisePathPricer<MultiPath, Vector>
+      private class AmericanMaxPathPricer : IEarlyExercisePathPricer<MultiPath, Vector>
       {
          protected Payoff payoff_;
 
@@ -59,7 +59,6 @@ namespace TestSuite
 
       //class MCAmericanMaxEngine<RNG> : MCLongstaffSchwartzEngine<VanillaOption.Engine, MultiVariate, RNG>
       //    where RNG : IRSG, new() {
-
       //    //public MCAmericanMaxEngine(StochasticProcessArray processes, int timeSteps, int timeStepsPerYear,
       //    //                           bool brownianbridge, bool antitheticVariate, bool controlVariate,
       //    //                           int requiredSamples, double requiredTolerance, int maxSamples,

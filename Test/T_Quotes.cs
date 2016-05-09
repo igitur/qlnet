@@ -17,23 +17,32 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
 
 namespace TestSuite
 {
-
    [TestClass()]
    public class T_Quotes
    {
-      double add10(double x) { return x + 10; }
-      double mul10(double x) { return x * 10; }
-      double sub10(double x) { return x - 10; }
+      private double add10(double x)
+      { return x + 10; }
 
-      double add(double x, double y) { return x + y; }
-      double mul(double x, double y) { return x * y; }
-      double sub(double x, double y) { return x - y; }
+      private double mul10(double x)
+      { return x * 10; }
+
+      private double sub10(double x)
+      { return x - 10; }
+
+      private double add(double x, double y)
+      { return x + y; }
+
+      private double mul(double x, double y)
+      { return x * y; }
+
+      private double sub(double x, double y)
+      { return x - y; }
 
       [TestMethod()]
       public void testObservable()
@@ -48,12 +57,11 @@ namespace TestSuite
 
          if (!f.isUp())
             Assert.Fail("Observer was not notified of quote change");
-
       }
+
       [TestMethod()]
       public void testObservableHandle()
       {
-
          // Testing observability of quote handles
 
          SimpleQuote me1 = new SimpleQuote(0.0);
@@ -74,13 +82,11 @@ namespace TestSuite
 
          if (!f.isUp())
             Assert.Fail("Observer was not notified of quote change");
-
       }
 
       [TestMethod()]
       public void testDerived()
       {
-
          // Testing derived quotes
 
          Func<double, double>[] f = { add10, mul10, sub10 };
@@ -96,7 +102,6 @@ namespace TestSuite
             if (Math.Abs(x - y) > 1.0e-10)
                Assert.Fail("derived quote yields " + x + "function result is " + y);
          }
-
       }
 
       [TestMethod()]
@@ -120,7 +125,5 @@ namespace TestSuite
                Assert.Fail("composite quote yields " + x + "function result is " + y);
          }
       }
-
-
    }
 }

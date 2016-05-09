@@ -17,20 +17,21 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
-using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
    [TestClass()]
    public class T_Swaps
    {
-      class CommonVars
+      private class CommonVars
       {
          // global data
          public Date today, settlement;
+
          public VanillaSwap.Type type;
          public double nominal;
          public Calendar calendar;
@@ -94,7 +95,6 @@ namespace TestSuite
          {
             for (int j = 0; j < spreads.Length; j++)
             {
-
                VanillaSwap swap = vars.makeSwap(lengths[i], 0.0, spreads[j]);
                swap = vars.makeSwap(lengths[i], swap.fairRate(), spreads[j]);
                if (Math.Abs(swap.NPV()) > 1.0e-10)
@@ -108,6 +108,7 @@ namespace TestSuite
             }
          }
       }
+
       [TestMethod()]
       public void testFairSpread()
       {
@@ -122,7 +123,6 @@ namespace TestSuite
          {
             for (int j = 0; j < rates.Length; j++)
             {
-
                VanillaSwap swap = vars.makeSwap(lengths[i], rates[j], 0.0);
                swap = vars.makeSwap(lengths[i], rates[j], swap.fairSpread());
                if (Math.Abs(swap.NPV()) > 1.0e-10)
@@ -136,6 +136,7 @@ namespace TestSuite
             }
          }
       }
+
       [TestMethod()]
       public void testRateDependency()
       {
@@ -151,7 +152,6 @@ namespace TestSuite
          {
             for (int j = 0; j < spreads.Length; j++)
             {
-
                // store the results for different rates...
                List<double> swap_values = new List<double>();
                for (int k = 0; k < rates.Length; k++)
@@ -175,6 +175,7 @@ namespace TestSuite
             }
          }
       }
+
       [TestMethod()]
       public void testSpreadDependency()
       {
@@ -190,7 +191,6 @@ namespace TestSuite
          {
             for (int j = 0; j < rates.Length; j++)
             {
-
                // store the results for different rates...
                List<double> swap_values = new List<double>();
                for (int k = 0; k < spreads.Length; k++)
@@ -214,6 +214,7 @@ namespace TestSuite
             }
          }
       }
+
       [TestMethod()]
       public void testInArrears()
       {
@@ -273,6 +274,7 @@ namespace TestSuite
                         + "    expected:   " + storedValue + "\n"
                         + "    calculated: " + swap.NPV());
       }
+
       [TestMethod()]
       public void testCachedValue()
       {
@@ -358,5 +360,4 @@ namespace TestSuite
          testCachedValue();
       }
    }
-
 }

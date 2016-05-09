@@ -17,23 +17,23 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QLNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QLNet;
 
 namespace TestSuite
 {
-
    [TestClass()]
    public class T_Interpolations
    {
-
       /* See J. M. Hyman, "Accurate monotonicity preserving cubic interpolation"
          SIAM J. of Scientific and Statistical Computing, v. 4, 1983, pp. 645-654.
          http://math.lanl.gov/~mac/papers/numerics/H83.pdf
       */
+
       [TestMethod()]
       public void testSplineErrorOnGaussianValues()
       {
@@ -99,10 +99,10 @@ namespace TestSuite
          SIAM J. of Scientific and Statistical Computing, v. 4, 1983, pp. 645-654.
          http://math.lanl.gov/~mac/papers/numerics/H83.pdf
       */
+
       [TestMethod()]
       public void testSplineOnGaussianValues()
       {
-
          //("Testing spline interpolation on a Gaussian data set...");
 
          double interpolated, interpolated2;
@@ -171,10 +171,10 @@ namespace TestSuite
          SIAM J. of Scientific and Statistical Computing, v. 4, 1983, pp. 645-654.
          http://math.lanl.gov/~mac/papers/numerics/H83.pdf
       */
+
       [TestMethod()]
       public void testSplineOnRPN15AValues()
       {
-
          //("Testing spline interpolation on RPN15A data set...");
 
          List<double> RPN15A_x = new List<double>() {
@@ -209,7 +209,6 @@ namespace TestSuite
                         + "\nexpected value > 1.0");
          }
 
-
          // Clamped spline
          f = new CubicInterpolation(RPN15A_x, RPN15A_x.Count, RPN15A_y,
                                           CubicInterpolation.DerivativeApprox.Spline, false,
@@ -229,7 +228,6 @@ namespace TestSuite
                         + "\ninterpolated value: " + interpolated
                         + "\nexpected value > 1.0");
          }
-
 
          // Not-a-knot spline
          f = new CubicInterpolation(RPN15A_x, RPN15A_x.Count, RPN15A_y,
@@ -251,7 +249,6 @@ namespace TestSuite
                         + "\nexpected value > 1.0");
          }
 
-
          // MC natural spline values
          f = new CubicInterpolation(RPN15A_x, RPN15A_x.Count, RPN15A_y,
                                           CubicInterpolation.DerivativeApprox.Spline, true,
@@ -269,7 +266,6 @@ namespace TestSuite
                         + "\ninterpolated value: " + interpolated
                         + "\nexpected value < 1.0");
          }
-
 
          // MC clamped spline values
          f = new CubicInterpolation(RPN15A_x, RPN15A_x.Count, RPN15A_y,
@@ -291,7 +287,6 @@ namespace TestSuite
                         + "\ninterpolated value: " + interpolated
                         + "\nexpected value < 1.0");
          }
-
 
          // MC not-a-knot spline values
          f = new CubicInterpolation(RPN15A_x, RPN15A_x.Count, RPN15A_y,
@@ -316,10 +311,10 @@ namespace TestSuite
          Applied Linear Algebra and Numerical Analysis AMATH 352 Lecture Notes
          http://www.amath.washington.edu/courses/352-winter-2002/spline_note.pdf
       */
+
       [TestMethod()]
       public void testSplineOnGenericValues()
       {
-
          //("Testing spline interpolation on generic values...");
 
          List<double> generic_x = new List<double>() { 0.0, 1.0, 3.0, 4.0 };
@@ -355,7 +350,6 @@ namespace TestSuite
          }
          x35[1] = f.value(3.5);
 
-
          // Clamped spline
          double y1a = 0.0, y1b = 0.0;
          f = new CubicInterpolation(generic_x, generic_x.Count, generic_y,
@@ -367,7 +361,6 @@ namespace TestSuite
          check1stDerivativeValue("Clamped spline", f, generic_x.First(), 0.0);
          check1stDerivativeValue("Clamped spline", f, generic_x.Last(), 0.0);
          x35[0] = f.value(3.5);
-
 
          // Not-a-knot spline
          f = new CubicInterpolation(generic_x, generic_x.Count, generic_y,
@@ -394,7 +387,6 @@ namespace TestSuite
       [TestMethod()]
       public void testSimmetricEndConditions()
       {
-
          //("Testing symmetry of spline interpolation end-conditions...");
 
          int n = 9;
@@ -413,7 +405,6 @@ namespace TestSuite
          checkNotAKnotCondition("Not-a-knot spline", f);
          checkSymmetry("Not-a-knot spline", f, x[0]);
 
-
          // MC not-a-knot spline
          f = new CubicInterpolation(x, x.Count, y,
                                  CubicInterpolation.DerivativeApprox.Spline, true,
@@ -427,7 +418,6 @@ namespace TestSuite
       [TestMethod()]
       public void testDerivativeEndConditions()
       {
-
          //("Testing derivative end-conditions for spline interpolation...");
 
          int n = 4;
@@ -448,7 +438,6 @@ namespace TestSuite
          check2ndDerivativeValue("Not-a-knot spline", f, x[0], -2.0);
          check2ndDerivativeValue("Not-a-knot spline", f, x[n - 1], -2.0);
 
-
          // Clamped spline
          f = new CubicInterpolation(x, x.Count, y,
                                  CubicInterpolation.DerivativeApprox.Spline, false,
@@ -460,7 +449,6 @@ namespace TestSuite
          check1stDerivativeValue("Clamped spline", f, x[n - 1], -4.0);
          check2ndDerivativeValue("Clamped spline", f, x[0], -2.0);
          check2ndDerivativeValue("Clamped spline", f, x[n - 1], -2.0);
-
 
          // SecondDerivative spline
          f = new CubicInterpolation(x, x.Count, y,
@@ -488,7 +476,6 @@ namespace TestSuite
          check2ndDerivativeValue("MC Not-a-knot spline", f, x[0], -2.0);
          check2ndDerivativeValue("MC Not-a-knot spline", f, x[n - 1], -2.0);
 
-
          // MC Clamped spline
          f = new CubicInterpolation(x, x.Count, y,
                                  CubicInterpolation.DerivativeApprox.Spline, true,
@@ -501,7 +488,6 @@ namespace TestSuite
          check1stDerivativeValue("MC Clamped spline", f, x[n - 1], -4.0);
          check2ndDerivativeValue("MC Clamped spline", f, x[0], -2.0);
          check2ndDerivativeValue("MC Clamped spline", f, x[n - 1], -2.0);
-
 
          // MC SecondDerivative spline
          f = new CubicInterpolation(x, x.Count, y,
@@ -522,10 +508,10 @@ namespace TestSuite
          Hermite Interpolation"
          Mathematics Of Computation, v. 52, n. 186, April 1989, pp. 471-494.
       */
+
       [TestMethod()]
       public void testNonRestrictiveHymanFilter()
       {
-
          //("Testing non-restrictive Hyman filter...");
 
          int n = 4;
@@ -552,7 +538,6 @@ namespace TestSuite
                         + Math.Abs(interpolated - expected));
          }
 
-
          // MC Clamped spline
          f = new CubicInterpolation(x, x.Count, y,
                                  CubicInterpolation.DerivativeApprox.Spline, true,
@@ -570,7 +555,6 @@ namespace TestSuite
                         + Math.Abs(interpolated - expected));
          }
 
-
          // MC SecondDerivative spline
          f = new CubicInterpolation(x, x.Count, y,
                                  CubicInterpolation.DerivativeApprox.Spline, true,
@@ -587,9 +571,7 @@ namespace TestSuite
                         + "\n    error:              "
                         + Math.Abs(interpolated - expected));
          }
-
       }
-
 
       //[TestMethod()]
       //public void testMultiSpline()
@@ -666,7 +648,6 @@ namespace TestSuite
       //                        }
       //                     }
 
-
       //   ulong seed = 42;
       //   SobolRsg rsg = new SobolRsg(5, seed);
 
@@ -693,12 +674,12 @@ namespace TestSuite
       //   }
       //}
 
-      class NotThrown : ApplicationException { }
+      private class NotThrown : ApplicationException
+      { }
 
       [TestMethod()]
       public void testAsFunctor()
       {
-
          //("Testing use of interpolations as functors...");
 
          List<double> x = new List<double>() { 0.0, 1.0, 2.0, 3.0, 4.0 };
@@ -743,7 +724,6 @@ namespace TestSuite
       [TestMethod()]
       public void testBackwardFlat()
       {
-
          //("Testing backward-flat interpolation...");
 
          List<double> x = new List<double>() { 0.0, 1.0, 2.0, 3.0, 4.0 };
@@ -847,13 +827,11 @@ namespace TestSuite
                   + "\n    calculated: " + calculated
                   + "\n    error:      " + Math.Abs(calculated - expected));
          }
-
       }
 
       [TestMethod()]
       public void testForwardFlat()
       {
-
          //("Testing forward-flat interpolation...");
 
          List<double> x = new List<double>() { 0.0, 1.0, 2.0, 3.0, 4.0 };
@@ -1133,7 +1111,6 @@ namespace TestSuite
       [TestMethod()]
       public void testKernelInterpolation()
       {
-
          // Testing kernel 1D interpolation
 
          List<double> deltaGrid = new InitializedList<double>(5); // x-values, here delta in FX
@@ -1185,14 +1162,12 @@ namespace TestSuite
 
                   if (Math.Abs(expectedVal - calcVal) > tolerance)
                   {
-
                      Assert.Fail("Kernel interpolation failed at x = "
                                  + deltaGrid[dIt]
                                  + "\n    interpolated value: " + calcVal
                                  + "\n    expected value:     " + expectedVal
                                  + "\n    error:              "
                                  + Math.Abs(expectedVal - calcVal));
-
                   }
                }
             }
@@ -1243,7 +1218,6 @@ namespace TestSuite
                calcVal = f.value(testDeltaGrid[dIt]);
                if (Math.Abs(expectedVal - calcVal) > tolerance)
                {
-
                   Assert.Fail("Kernel interpolation failed at x = "
                               + deltaGrid[dIt]
                               + "\n    interpolated value: " + calcVal
@@ -1252,9 +1226,7 @@ namespace TestSuite
                               + Math.Abs(expectedVal - calcVal));
                }
             }
-
          }
-
       }
 
       [TestMethod()]
@@ -1297,13 +1269,11 @@ namespace TestSuite
          {
             for (int j = 0; j < M.columns(); ++j)
             {
-
                calcVal = kernel2D.value(xVec[i], yVec[j]);
                expectedVal = M[i, j];
 
                if (Math.Abs(expectedVal - calcVal) > tolerance)
                {
-
                   Assert.Fail("2D Kernel interpolation failed at x = " + xVec[i]
                               + ", y = " + yVec[j]
                               + "\n    interpolated value: " + calcVal
@@ -1338,13 +1308,11 @@ namespace TestSuite
          {
             for (int j = 0; j < M1.columns(); ++j)
             {
-
                calcVal = kernel2DEp.value(xVec1[i], yVec1[j]);
                expectedVal = M1[i, j];
 
                if (Math.Abs(expectedVal - calcVal) > tolerance)
                {
-
                   Assert.Fail("2D Epanechnkikov Kernel interpolation failed at x = " + xVec1[i]
                               + ", y = " + yVec1[j]
                               + "\n    interpolated value: " + calcVal
@@ -1367,13 +1335,11 @@ namespace TestSuite
          {
             for (int j = 0; j < M1.columns(); ++j)
             {
-
                calcVal = kernel2DEp.value(xVec1[i], yVec1[j]);
                expectedVal = M1[i, j];
 
                if (Math.Abs(expectedVal - calcVal) > tolerance)
                {
-
                   Assert.Fail("2D Epanechnkikov Kernel updated interpolation failed at x = " + xVec1[i]
                               + ", y = " + yVec1[j]
                               + "\n    interpolated value: " + calcVal
@@ -1515,7 +1481,6 @@ namespace TestSuite
          }
       }
 
-
       [TestMethod()]
       public void testSabrSingleCases()
       {
@@ -1523,7 +1488,6 @@ namespace TestSuite
 
          List<double> strikes = new List<double>() { 0.01, 0.01125, 0.0125, 0.01375, 0.0150 };
          List<double> vols = new List<double>() { 0.1667, 0.2020, 0.2785, 0.3279, 0.3727 };
-
 
          double tte = 0.3833;
          double forward = 0.011025;
@@ -1538,13 +1502,12 @@ namespace TestSuite
             Assert.Fail("Sabr case #1 failed with max error ("
                            + s0.maxError() + ") and rms error (" + s0.rmsError()
                            + "), both should be < 0.01");
-
          }
       }
 
-
       #region Functions
-      List<double> xRange(double start, double finish, int points)
+
+      private List<double> xRange(double start, double finish, int points)
       {
          List<double> x = new InitializedList<double>(points);
          double dx = (finish - start) / (points - 1);
@@ -1554,7 +1517,7 @@ namespace TestSuite
          return x;
       }
 
-      List<double> gaussian(List<double> x)
+      private List<double> gaussian(List<double> x)
       {
          List<double> y = new InitializedList<double>(x.Count);
          for (int i = 0; i < x.Count; i++)
@@ -1562,7 +1525,7 @@ namespace TestSuite
          return y;
       }
 
-      List<double> parabolic(List<double> x)
+      private List<double> parabolic(List<double> x)
       {
          List<double> y = new InitializedList<double>(x.Count);
          for (int i = 0; i < x.Count; i++)
@@ -1570,7 +1533,7 @@ namespace TestSuite
          return y;
       }
 
-      void checkValues(string type, CubicInterpolation cubic, List<double> xBegin, List<double> yBegin)
+      private void checkValues(string type, CubicInterpolation cubic, List<double> xBegin, List<double> yBegin)
       {
          double tolerance = 2.0e-15;
          for (int i = 0; i < xBegin.Count; i++)
@@ -1587,7 +1550,7 @@ namespace TestSuite
          }
       }
 
-      void check1stDerivativeValue(string type, CubicInterpolation cubic, double x, double value)
+      private void check1stDerivativeValue(string type, CubicInterpolation cubic, double x, double value)
       {
          double tolerance = 1.0e-14;
          double interpolated = cubic.derivative(x);
@@ -1602,7 +1565,7 @@ namespace TestSuite
          }
       }
 
-      void check2ndDerivativeValue(string type, CubicInterpolation cubic, double x, double value)
+      private void check2ndDerivativeValue(string type, CubicInterpolation cubic, double x, double value)
       {
          double tolerance = 1.0e-13;
          double interpolated = cubic.secondDerivative(x);
@@ -1617,7 +1580,7 @@ namespace TestSuite
          }
       }
 
-      void checkNotAKnotCondition(string type, CubicInterpolation cubic)
+      private void checkNotAKnotCondition(string type, CubicInterpolation cubic)
       {
          double tolerance = 1.0e-14;
          List<double> c = cubic.cCoefficients();
@@ -1640,7 +1603,7 @@ namespace TestSuite
          }
       }
 
-      void checkSymmetry(string type, CubicInterpolation cubic, double xMin)
+      private void checkSymmetry(string type, CubicInterpolation cubic, double xMin)
       {
          double tolerance = 1.0e-15;
          for (double x = xMin; x < 0.0; x += 0.1)
@@ -1657,7 +1620,7 @@ namespace TestSuite
          }
       }
 
-      class errorFunction<F> : IValue where F : IValue
+      private class errorFunction<F> : IValue where F : IValue
       {
          private IValue f_;
 
@@ -1665,6 +1628,7 @@ namespace TestSuite
          {
             f_ = f;
          }
+
          public double value(double x)
          {
             double temp = f_.value(x) - Math.Exp(-x * x);
@@ -1672,12 +1636,12 @@ namespace TestSuite
          }
       }
 
-      errorFunction<IValue> make_error_function(IValue f)
+      private errorFunction<IValue> make_error_function(IValue f)
       {
          return new errorFunction<IValue>(f);
       }
 
-      double multif(double s, double t, double u, double v, double w)
+      private double multif(double s, double t, double u, double v, double w)
       {
          return Math.Sqrt(s * Math.Sinh(Math.Log(t)) +
                           Math.Exp(Math.Sin(u) * Math.Sin(3 * v)) +
@@ -1685,7 +1649,7 @@ namespace TestSuite
       }
 
       // Note : a better solution will be an anonymous type casted to IKernelFunction
-      class epanechnikovKernel : IKernelFunction
+      private class epanechnikovKernel : IKernelFunction
       {
          public double value(double u)
          {
@@ -1700,8 +1664,6 @@ namespace TestSuite
          }
       }
 
-
-      #endregion
-
+      #endregion Functions
    }
 }

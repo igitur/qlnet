@@ -16,18 +16,18 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System;
-using System.Collections.Generic;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QLNet;
+using System;
+using System.Collections.Generic;
 
 namespace TestSuite
 {
    [TestClass()]
    public class T_InflationCapFloorTest
    {
-
-      class CommonVars
+      private class CommonVars
       {
          // common data
 
@@ -49,7 +49,7 @@ namespace TestSuite
 
          // cleanup
 
-         SavedSettings backup = new SavedSettings();
+         private SavedSettings backup = new SavedSettings();
 
          // setup
          public CommonVars()
@@ -129,7 +129,6 @@ namespace TestSuite
             pYYTS.recalculate();
             yoyTS = pYYTS as YoYInflationTermStructure;
 
-
             // make sure that the index has the latest yoy term structure
             hy.linkTo(pYYTS);
          }
@@ -149,10 +148,8 @@ namespace TestSuite
             .withPaymentAdjustment(convention);
          }
 
-
          public IPricingEngine makeEngine(double volatility, int which)
          {
-
             YoYInflationIndex yyii = iir as YoYInflationIndex;
 
             Handle<YoYOptionletVolatilitySurface> vol =
@@ -164,7 +161,6 @@ namespace TestSuite
                                                          observationLag,
                                                          frequency,
                                                          iir.interpolated()));
-
 
             switch (which)
             {
@@ -187,7 +183,6 @@ namespace TestSuite
             return null;
          }
 
-
          public YoYInflationCapFloor makeYoYCapFloor(CapFloorType type,
                                                    List<CashFlow> leg,
                                                    double strike,
@@ -200,9 +195,11 @@ namespace TestSuite
                case CapFloorType.Cap:
                   result = new YoYInflationCap(leg, new List<double>() { strike });
                   break;
+
                case CapFloorType.Floor:
                   result = new YoYInflationFloor(leg, new List<double>() { strike });
                   break;
+
                default:
                   Utils.QL_FAIL("unknown YoYInflation cap/floor type");
                   break;
@@ -210,7 +207,6 @@ namespace TestSuite
             result.setPricingEngine(makeEngine(volatility, which));
             return result;
          }
-
 
          private List<BootstrapHelper<YoYInflationTermStructure>> makeHelpers(Datum[] iiData, int N,
                                           YoYInflationIndex ii, Period observationLag,
@@ -252,7 +248,6 @@ namespace TestSuite
                   {
                      for (int l = 0; l < vols.Length; l++)
                      {
-
                         List<CashFlow> leg = vars.makeYoYLeg(vars.evaluationDate, lengths[i]);
 
                         YoYInflationCapFloor cap = vars.makeYoYCapFloor(CapFloorType.Cap,
@@ -277,7 +272,6 @@ namespace TestSuite
                                    + "    floor value:  " + floor.NPV()
                                    + " at strike: " + "\n"
                                    + "    collar value: " + collar.NPV());
-
                         }
                         // test re-composition by optionlets, N.B. ONE per year
                         double capletsNPV = 0.0;
@@ -366,7 +360,6 @@ namespace TestSuite
       [TestMethod()]
       public void testParity()
       {
-
          // Testing yoy inflation cap/floor parity...
 
          CommonVars vars = new CommonVars();
@@ -386,7 +379,6 @@ namespace TestSuite
                {
                   for (int k = 0; k < vols.Length; k++)
                   {
-
                      List<CashFlow> leg = vars.makeYoYLeg(vars.evaluationDate, lengths[i]);
 
                      Instrument cap = vars.makeYoYCapFloor(CapFloorType.Cap,
@@ -439,7 +431,6 @@ namespace TestSuite
          vars.hy.linkTo(new YoYInflationTermStructure());
       }
 
-
       [TestMethod()]
       public void testCachedValue()
       {
@@ -454,7 +445,6 @@ namespace TestSuite
          Instrument cap = vars.makeYoYCapFloor(CapFloorType.Cap, leg, K, 0.01, whichPricer);
 
          Instrument floor = vars.makeYoYCapFloor(CapFloorType.Floor, leg, K, 0.01, whichPricer);
-
 
          // close to atm prices
          double cachedCapNPVblack = 219.452;
@@ -502,6 +492,5 @@ namespace TestSuite
          // remove circular refernce
          vars.hy.linkTo(new YoYInflationTermStructure());
       }
-
    }
 }
