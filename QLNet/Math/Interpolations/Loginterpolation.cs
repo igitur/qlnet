@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -24,12 +25,12 @@ namespace QLNet
    public class LogInterpolationImpl<Interpolator> : Interpolation.templateImpl
        where Interpolator : IInterpolationFactory, new()
    {
-
       private List<double> logY_;
       private Interpolation interpolation_;
 
       public LogInterpolationImpl(List<double> xBegin, int size, List<double> yBegin)
          : this(xBegin, size, yBegin, new Interpolator()) { }
+
       public LogInterpolationImpl(List<double> xBegin, int size, List<double> yBegin, IInterpolationFactory factory)
           : base(xBegin, size, yBegin)
       {
@@ -52,14 +53,17 @@ namespace QLNet
       {
          return System.Math.Exp(interpolation_.value(x, true));
       }
+
       public override double primitive(double x)
       {
          throw new NotImplementedException("LogInterpolation primitive not implemented");
       }
+
       public override double derivative(double x)
       {
          return value(x) * interpolation_.derivative(x, true);
       }
+
       public override double secondDerivative(double x)
       {
          return derivative(x) * interpolation_.derivative(x, true) +
@@ -74,6 +78,7 @@ namespace QLNet
       {
          return new LogLinearInterpolation(xBegin, size, yBegin);
       }
+
       public bool global { get { return false; } }
       public int requiredPoints { get { return 2; } }
    };
@@ -82,6 +87,7 @@ namespace QLNet
    public class LogLinearInterpolation : Interpolation
    {
       /*! \pre the \f$ x \f$ values must be sorted. */
+
       public LogLinearInterpolation(List<double> xBegin, int size, List<double> yBegin)
       {
          impl_ = new LogInterpolationImpl<Linear>(xBegin, size, yBegin);
@@ -98,6 +104,7 @@ namespace QLNet
       private double leftValue_, rightValue_;
 
       public LogCubic() { }
+
       //public LogCubic(CubicInterpolation::DerivativeApprox da, bool monotonic = true,
       //          CubicInterpolation::BoundaryCondition leftCondition = CubicInterpolation::SecondDerivative,
       //          double leftConditionValue = 0.0,
@@ -120,6 +127,7 @@ namespace QLNet
          return new LogCubicInterpolation(xBegin, size, yBegin, da_, monotonic_,
                                           leftType_, leftValue_, rightType_, rightValue_);
       }
+
       public bool global { get { return true; } }
       public int requiredPoints { get { return 2; } }
    }
@@ -128,6 +136,7 @@ namespace QLNet
    public class LogCubicInterpolation : Interpolation
    {
       /*! \pre the \f$ x \f$ values must be sorted. */
+
       public LogCubicInterpolation(List<double> xBegin, int size, List<double> yBegin,
                             CubicInterpolation.DerivativeApprox da,
                             bool monotonic,

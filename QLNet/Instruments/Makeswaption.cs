@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -23,6 +24,7 @@ namespace QLNet
    /*! \file makeswaption.hpp
        \brief Helper class to instantiate standard market swaption.
    */
+
    public class MakeSwaption
    {
       private SwapIndex swapIndex_;
@@ -37,8 +39,7 @@ namespace QLNet
 
       private double? strike_;
 
-      IPricingEngine engine_;
-
+      private IPricingEngine engine_;
 
       public MakeSwaption(SwapIndex swapIndex,
                           Period optionTenor,
@@ -60,6 +61,7 @@ namespace QLNet
          delivery_ = delivery;
          return this;
       }
+
       public MakeSwaption withOptionConvention(BusinessDayConvention bdc)
       {
          optionConvention_ = bdc;
@@ -71,6 +73,7 @@ namespace QLNet
          exerciseDate_ = exerciseDate;
          return this;
       }
+
       public MakeSwaption withPricingEngine(IPricingEngine engine)
       {
          engine_ = engine;

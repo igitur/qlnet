@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System.Collections.Generic;
 
 namespace QLNet
@@ -58,14 +59,15 @@ namespace QLNet
       }
 
       public override double derivative(double x) { return 0.0; }
+
       public override double secondDerivative(double x) { return 0.0; }
    }
-
 
    //! Backward-flat interpolation between discrete points
    public class BackwardFlatInterpolation : Interpolation
    {
       /*! \pre the \f$ x \f$ values must be sorted. */
+
       public BackwardFlatInterpolation(List<double> xBegin, int size, List<double> yBegin)
       {
          impl_ = new BackwardFlatInterpolationImpl(xBegin, size, yBegin);
@@ -80,6 +82,7 @@ namespace QLNet
       {
          return new BackwardFlatInterpolation(xBegin, size, yBegin);
       }
+
       public bool global { get { return false; } }
       public int requiredPoints { get { return 2; } }
    }

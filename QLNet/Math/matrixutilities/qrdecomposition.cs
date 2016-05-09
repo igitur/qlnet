@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -42,6 +43,7 @@ namespace QLNet
 
           See lmdiff.cpp for further details.
       */
+
       //public static List<int> qrDecomposition(Matrix A, Matrix q, Matrix r, bool pivot = true) {
       public static List<int> qrDecomposition(Matrix M, ref Matrix q, ref Matrix r, bool pivot)
       {
@@ -128,6 +130,7 @@ namespace QLNet
 
           See lmdiff.cpp for further details.
       */
+
       public static Vector qrSolve(Matrix a, Vector b, bool pivot = true, Vector d = null)
       {
          int m = a.rows();

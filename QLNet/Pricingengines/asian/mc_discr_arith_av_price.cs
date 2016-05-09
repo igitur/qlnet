@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -32,13 +33,13 @@ namespace QLNet
         \test the correctness of the returned value is tested by
               reproducing results available in literature.
    */
+
    //template <class RNG = PseudoRandom, class S = Statistics>
    public class MCDiscreteArithmeticAPEngine<RNG, S>
        : MCDiscreteAveragingAsianEngine<RNG, S>
        where RNG : IRSG, new()
        where S : IGeneralStatistics, new()
    {
-
       // constructor
       public MCDiscreteArithmeticAPEngine(
            GeneralizedBlackScholesProcess process,
@@ -100,7 +101,6 @@ namespace QLNet
 
    public class ArithmeticAPOPathPricer : PathPricer<Path>
    {
-
       private PlainVanillaPayoff payoff_;
       private double discount_;
       private double runningSum_;
@@ -131,7 +131,6 @@ namespace QLNet
                               double discount)
           : this(type, strike, discount, 0.0, 0) { }
 
-
       public double value(Path path)
       {
          int n = path.length();
@@ -157,7 +156,6 @@ namespace QLNet
          }
          double averagePrice = sum / fixings;
          return discount_ * payoff_.value(averagePrice);
-
       }
 
       /*public double value(IPath path){
@@ -166,6 +164,7 @@ namespace QLNet
           return payoff_.value((path as Path).back()) * discount_;
       }*/
    }
+
    //<class RNG = PseudoRandom, class S = Statistics>
    public class MakeMCDiscreteArithmeticAPEngine<RNG, S>
        where RNG : IRSG, new()
@@ -253,7 +252,6 @@ namespace QLNet
          return this.withControlVariate(true);
       }
 
-
       // conversion to pricing engine
       public IPricingEngine value()
       {
@@ -266,7 +264,6 @@ namespace QLNet
                                                  samples_.Value, tolerance_.Value,
                                                  maxSamples_.Value,
                                                  seed_);
-
       }
 
       private GeneralizedBlackScholesProcess process_;
@@ -276,5 +273,4 @@ namespace QLNet
       private bool brownianBridge_;
       private ulong seed_;
    }
-
 }

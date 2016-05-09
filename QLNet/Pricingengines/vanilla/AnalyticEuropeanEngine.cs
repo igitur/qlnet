@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -47,6 +48,7 @@ namespace QLNet
          cash-or-nothing digital payoff is tested by reproducing
          numerical derivatives.
    */
+
    public class AnalyticEuropeanEngine : VanillaOption.Engine
    {
       private GeneralizedBlackScholesProcess process_;
@@ -60,7 +62,6 @@ namespace QLNet
 
       public override void calculate()
       {
-
          if (arguments_.exercise.type() != Exercise.Type.European)
             throw new ApplicationException("not an European option");
 

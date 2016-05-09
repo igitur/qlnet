@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -27,6 +28,7 @@ namespace QLNet
 
        \ingroup vanillaengines
    */
+
    public class FDVanillaEngine
    {
       protected GeneralizedBlackScholesProcess process_;
@@ -39,15 +41,17 @@ namespace QLNet
 
       // typedef BoundaryCondition<TridiagonalOperator> bc_type;
       protected List<BoundaryCondition<IOperator>> BCs_;
+
       // temporaries
       protected double sMin_, center_, sMax_;
 
       // temporaries
       //private double gridLogSpacing_;
-      const double safetyZoneFactor_ = 1.1;
+      private const double safetyZoneFactor_ = 1.1;
 
       // required for generics and template iheritance
       public FDVanillaEngine() { }
+
       // this should be defined as new in each deriving class which use template iheritance
       // in order to return a proper class to wrap
       public virtual FDVanillaEngine factory(GeneralizedBlackScholesProcess process,
@@ -67,7 +71,6 @@ namespace QLNet
          intrinsicValues_ = new SampledCurve(gridPoints);
          BCs_ = new InitializedList<BoundaryCondition<IOperator>>(2);
       }
-
 
       public Vector grid() { return intrinsicValues_.grid(); }
 
@@ -163,9 +166,9 @@ namespace QLNet
          exerciseDate_ = args.exercise.lastDate();
          payoff_ = args.payoff;
       }
+
       public virtual void calculate(IPricingEngineResults r) { throw new NotSupportedException(); }
    }
-
 
    // this is the interface to allow generic use of FDAmericanEngine and FDShoutEngine
    // those engines are shortcuts to FDEngineAdapter
@@ -178,9 +181,8 @@ namespace QLNet
        where Base : FDConditionEngineTemplate, new()
        where Engine : IGenericEngine, new()
    {
-
       // a wrap-up of base engine
-      Base optionBase;
+      private Base optionBase;
 
       // required for generics
       public FDEngineAdapter() { }
@@ -198,21 +200,28 @@ namespace QLNet
          optionBase.calculate(getResults());
       }
 
-
       #region IGenericEngine wrap-up
+
       // we do not need to register with the wrapped engine because all we need is containers for parameters and results
       protected IGenericEngine engine_ = new Engine();
 
       public IPricingEngineArguments getArguments() { return engine_.getArguments(); }
+
       public IPricingEngineResults getResults() { return engine_.getResults(); }
+
       public void reset() { engine_.reset(); }
-      #endregion
+
+      #endregion IGenericEngine wrap-up
 
       #region Observer & Observable
+
       // observable interface
       public event Callback notifyObserversEvent;
+
       public void registerWith(Callback handler) { notifyObserversEvent += handler; }
+
       public void unregisterWith(Callback handler) { notifyObserversEvent -= handler; }
+
       protected void notifyObservers()
       {
          Callback handler = notifyObserversEvent;
@@ -223,6 +232,7 @@ namespace QLNet
       }
 
       public void update() { notifyObservers(); }
-      #endregion
+
+      #endregion Observer & Observable
    }
 }

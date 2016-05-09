@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,7 @@ namespace QLNet
 
        See McVanillaEngine as an example.
    */
+
    public abstract class McSimulation<MC, RNG, S> where S : IGeneralStatistics, new()
    {
       //typedef typename MonteCarloModel<MC,RNG,S>::path_generator_type path_generator_type;
@@ -39,17 +41,17 @@ namespace QLNet
       protected MonteCarloModel<MC, RNG, S> mcModel_;
       protected bool antitheticVariate_, controlVariate_;
 
-
       protected McSimulation(bool antitheticVariate, bool controlVariate)
       {
          antitheticVariate_ = antitheticVariate;
          controlVariate_ = controlVariate;
       }
 
-
       //! add samples until the required absolute tolerance is reached
       public double value(double tolerance) { return value(tolerance, int.MaxValue, 1023); }
+
       public double value(double tolerance, int maxSamples) { return value(tolerance, maxSamples, 1023); }
+
       public double value(double tolerance, int maxSamples, int minSamples)
       {
          int sampleNumber = mcModel_.sampleAccumulator().samples();
@@ -86,7 +88,6 @@ namespace QLNet
       //! simulate a fixed number of samples
       public double valueWithSamples(int samples)
       {
-
          int sampleNumber = mcModel_.sampleAccumulator().samples();
 
          if (!(samples >= sampleNumber))
@@ -107,14 +108,12 @@ namespace QLNet
       //! basic calculate method provided to inherited pricing engines
       public void calculate(double requiredTolerance, int requiredSamples, int maxSamples)
       {
-
          if (!(requiredTolerance != 0 || requiredSamples != 0))
             throw new ApplicationException("neither tolerance nor number of samples set");
 
          //! Initialize the one-factor Monte Carlo
          if (this.controlVariate_)
          {
-
             double controlVariateValue = this.controlVariateValue();
             if (controlVariateValue == 0)
                throw new ApplicationException("engine does not provide control-variation price");
@@ -146,16 +145,22 @@ namespace QLNet
          }
       }
 
-
       protected abstract PathPricer<IPath> pathPricer();
+
       protected abstract PathGenerator<IRNG> pathGenerator();
+
       protected abstract TimeGrid timeGrid();
+
       protected virtual PathPricer<IPath> controlPathPricer() { return null; }
+
       protected virtual PathGenerator<IRNG> controlPathGenerator() { return null; }
+
       protected virtual IPricingEngine controlPricingEngine() { return null; }
+
       protected virtual double controlVariateValue() { return 0; }
 
       protected static double maxError(List<double> sequence) { return sequence.Max(); }
+
       protected static double maxError(double error) { return error; }
    }
 }

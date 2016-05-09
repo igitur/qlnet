@@ -158,5 +158,4 @@ namespace QLNet
    {
       public VEBCurrency() : base("Venezuelan bolivar", "VEB", 862, "Bs", "", 100, new Rounding(), "%3% %1$.2f") { }
    }
-
 }

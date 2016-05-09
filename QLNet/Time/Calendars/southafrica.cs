@@ -23,7 +23,6 @@ using System;
 
 namespace QLNet
 {
-
    //! South-African calendar
    /*! Holidays:
        <ul>
@@ -47,16 +46,19 @@ namespace QLNet
 
        \ingroup calendars
    */
+
    public class SouthAfrica : Calendar
    {
       public SouthAfrica() : base(Impl.Singleton) { }
 
-      class Impl : Calendar.WesternImpl
+      private class Impl : Calendar.WesternImpl
       {
          public static readonly Impl Singleton = new Impl();
+
          private Impl() { }
 
          public override string name() { return "South Africa"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;
@@ -108,4 +110,3 @@ namespace QLNet
       }
    }
 }
-

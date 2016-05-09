@@ -19,7 +19,6 @@
 
 namespace QLNet
 {
-
    //! FR HICP index
    public class FRHICP : ZeroInflationIndex
    {

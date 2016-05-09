@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,14 +32,23 @@ namespace QLNet
    {
       //IModel modelInstance_ { get; set; }
       void defaultValues(List<double?> param, List<bool> b, double forward, double expiryTIme);
+
       double dilationFactor();
+
       int dimension();
+
       Vector direct(Vector x, List<bool> b, List<double?> c, double d);
+
       double eps1();
+
       double eps2();
+
       void guess(Vector values, List<bool> paramIsFixed, double forward, double expiryTime, List<double> r);
+
       IWrapper instance(double t, double forward, List<double?> param);
+
       Vector inverse(Vector y, List<bool> b, List<double?> c, double d);
+
       //double volatility( double x );
    }
 
@@ -94,7 +104,6 @@ namespace QLNet
       /*! Model instance (if required) */
       public IWrapper modelInstance_;
       public IModel model_;
-
    }
 
    //template <class I1, class I2, typename Model>
@@ -183,7 +192,6 @@ namespace QLNet
 
             do
             {
-
                if (iterations > 0)
                {
                   Sample<List<double>> s = halton.nextSequence();
@@ -220,7 +228,6 @@ namespace QLNet
                   bestParameters = result;
                   coeff_.XABREndCriteria_ = tmpEndCriteria;
                }
-
             } while (++iterations < maxGuesses_ &&
                      tmpInterpolationError > errorAccept_);
 
@@ -239,7 +246,9 @@ namespace QLNet
       }
 
       public override double primitive(double d) { Utils.QL_FAIL("XABR primitive not implemented"); return 0; }
+
       public override double derivative(double d) { Utils.QL_FAIL("XABR derivative not implemented"); return 0; }
+
       public override double secondDerivative(double d) { Utils.QL_FAIL("XABR secondDerivative not implemented"); return 0; }
 
       // calculate total squared weighted difference (L2 norm)
@@ -263,8 +272,6 @@ namespace QLNet
             results[i] = (value(xBegin_[i]) - yBegin_[i]) * Math.Sqrt(coeff_.weights_[i]);
 
          return results;
-
-
       }
 
       public double interpolationError()
@@ -286,7 +293,6 @@ namespace QLNet
 
          return maxError;
       }
-
 
       private class XABRError : CostFunction
       {
@@ -320,8 +326,8 @@ namespace QLNet
       private int maxGuesses_;
       private double forward_;
       private bool vegaWeighted_;
+
       //private NoConstraint constraint_;
       public XABRCoeffHolder<Model> coeff_;
    };
-
 }

@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -39,11 +40,15 @@ namespace QLNet
        \mu_0 = \int{w(x)dx}
        \f]
    */
+
    public abstract class GaussianOrthogonalPolynomial
    {
       public abstract double mu_0();
+
       public abstract double alpha(int i);
+
       public abstract double beta(int i);
+
       public abstract double w(double x);
 
       public double value(int n, double x)
@@ -72,6 +77,7 @@ namespace QLNet
       private double s_;
 
       public GaussLaguerrePolynomial() : this(0.0) { }
+
       public GaussLaguerrePolynomial(double s)
       {
          s_ = s;
@@ -80,8 +86,11 @@ namespace QLNet
       }
 
       public override double mu_0() { return Math.Exp(GammaFunction.logValue(s_ + 1)); }
+
       public override double alpha(int i) { return 2 * i + 1 + s_; }
+
       public override double beta(int i) { return i * (i + s_); }
+
       public override double w(double x) { return Math.Pow(x, s_) * Math.Exp(-x); }
    }
 
@@ -91,6 +100,7 @@ namespace QLNet
       private double mu_;
 
       public GaussHermitePolynomial() : this(0.0) { }
+
       public GaussHermitePolynomial(double mu)
       {
          mu_ = mu;
@@ -99,8 +109,11 @@ namespace QLNet
       }
 
       public override double mu_0() { return Math.Exp(GammaFunction.logValue(mu_ + 0.5)); }
+
       public override double alpha(int i) { return 0.0; }
+
       public override double beta(int i) { return (i % 2 != 0) ? i / 2.0 + mu_ : i / 2.0; }
+
       public override double w(double x) { return Math.Pow(Math.Abs(x), 2 * mu_) * Math.Exp(-x * x); }
    }
 
@@ -130,6 +143,7 @@ namespace QLNet
                          + GammaFunction.logValue(beta_ + 1)
                          - GammaFunction.logValue(alpha_ + beta_ + 2));
       }
+
       public override double alpha(int i)
       {
          double num = beta_ * beta_ - alpha_ * alpha_;
@@ -154,6 +168,7 @@ namespace QLNet
 
          return num / denom;
       }
+
       public override double beta(int i)
       {
          double num = 4.0 * i * (i + alpha_) * (i + beta_) * (i + alpha_ + beta_);
@@ -178,6 +193,7 @@ namespace QLNet
          }
          return num / denom;
       }
+
       public override double w(double x)
       {
          return Math.Pow(1 - x, alpha_) * Math.Pow(1 + x, beta_);
@@ -212,8 +228,11 @@ namespace QLNet
    public class GaussHyperbolicPolynomial : GaussianOrthogonalPolynomial
    {
       public override double mu_0() { return Const.M_PI; }
+
       public override double alpha(int i) { return 0.0; }
+
       public override double beta(int i) { return i != 0 ? Const.M_PI_2 * Const.M_PI_2 * i * i : Const.M_PI; }
+
       public override double w(double x) { return 1 / Math.Cosh(x); }
    }
 }

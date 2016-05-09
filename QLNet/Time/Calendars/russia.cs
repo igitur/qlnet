@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -45,6 +46,7 @@ namespace QLNet
 
    \ingroup calendars
   */
+
    public class Russia : Calendar
    {
       public enum Market
@@ -63,20 +65,24 @@ namespace QLNet
             case Market.Settlement:
                calendar_ = SettlementImpl.Singleton;
                break;
+
             case Market.MOEX:
                calendar_ = ExchangeImpl.Singleton;
                break;
+
             default:
                throw new ArgumentException("Unknown market: " + m);
          }
       }
 
-      class SettlementImpl : Calendar.OrthodoxImpl
+      private class SettlementImpl : Calendar.OrthodoxImpl
       {
          public static readonly SettlementImpl Singleton = new SettlementImpl();
+
          private SettlementImpl() { }
 
          public override string name() { return "Russian settlement"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;
@@ -112,9 +118,10 @@ namespace QLNet
          }
       }
 
-      class ExchangeImpl : Calendar.OrthodoxImpl
+      private class ExchangeImpl : Calendar.OrthodoxImpl
       {
          public static readonly ExchangeImpl Singleton = new ExchangeImpl();
+
          private ExchangeImpl() { }
 
          private bool isWorkingWeekend(int d, Month month, int year)
@@ -134,6 +141,7 @@ namespace QLNet
                   return false;
             }
          }
+
          private bool isExtraHoliday(int d, Month month, int year)
          {
             switch (year)
@@ -153,6 +161,7 @@ namespace QLNet
                      case Month.January:
                         return d == 1 || d == 2 || d == 3
                       || d == 4 || d == 7;
+
                      default: return false;
                   }
                case 2014:
@@ -173,11 +182,10 @@ namespace QLNet
             }
          }
 
-
          public override string name() { return "Moscow exchange"; }
+
          public override bool isBusinessDay(Date date)
          {
-
             DayOfWeek w = date.DayOfWeek;
             int d = date.Day;
             Month m = (Month)date.Month;

@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -40,6 +41,7 @@ namespace QLNet
          /// do not round: return the number unmodified
          /// </summary>
          None,
+
          /// <summary>
          /// the first decimal place past the precision will be
          /// rounded up. This differs from the OMG rule which
@@ -47,11 +49,13 @@ namespace QLNet
          /// greater than or equal to the rounding digit
          /// </summary>
          Up,
+
          /// <summary>
          /// all decimal places past the precision will be
          /// truncated
          /// </summary>
          Down,
+
          /// <summary>
          /// the first decimal place past the precision
          /// will be rounded up if greater than or equal
@@ -62,12 +66,14 @@ namespace QLNet
          /// name.
          /// </summary>
          Closest,
+
          /// <summary>
          /// positive numbers will be rounded up and negative
          /// numbers will be rounded down using the OMG round up
          /// and round down rules
          /// </summary>
          Floor,
+
          /// <summary>
          /// positive numbers will be rounded down and negative
          /// numbers will be rounded up using the OMG round up
@@ -85,14 +91,17 @@ namespace QLNet
       {
          type_ = Type.None;
       }
+
       public Rounding(int precision, Type type)
           : this(precision, type, 5)
       {
       }
+
       public Rounding(int precision)
           : this(precision, Type.Closest, 5)
       {
       }
+
       public Rounding(int precision, Type type, int digit)
       {
          precision_ = precision;
@@ -138,13 +147,16 @@ namespace QLNet
          {
             case Type.Down:
                break;
+
             case Type.Up:
                lvalue += 1.0;
                break;
+
             case Type.Closest:
                if (modVal >= (digit_ / 10.0))
                   lvalue += 1.0;
                break;
+
             case Type.Floor:
                if (!neg)
                {
@@ -152,6 +164,7 @@ namespace QLNet
                      lvalue += 1.0;
                }
                break;
+
             case Type.Ceiling:
                if (neg)
                {
@@ -159,12 +172,12 @@ namespace QLNet
                      lvalue += 1.0;
                }
                break;
+
             default:
                throw new Exception("unknown rounding method");
          }
          return (neg) ? -(lvalue / mult) : lvalue / mult;
       }
-
    }
 
    /// <summary>
@@ -173,6 +186,7 @@ namespace QLNet
    public class UpRounding : Rounding
    {
       public UpRounding(int precision) : base(precision, Type.Up, 5) { }
+
       public UpRounding(int precision, int digit) : base(precision, Type.Up, digit) { }
    }
 
@@ -182,6 +196,7 @@ namespace QLNet
    public class DownRounding : Rounding
    {
       public DownRounding(int precision) : base(precision, Type.Down, 5) { }
+
       public DownRounding(int precision, int digit) : base(precision, Type.Down, digit) { }
    }
 
@@ -191,6 +206,7 @@ namespace QLNet
    public class ClosestRounding : Rounding
    {
       public ClosestRounding(int precision) : base(precision, Type.Closest, 5) { }
+
       public ClosestRounding(int precision, int digit) : base(precision, Type.Closest, digit) { }
    }
 
@@ -201,6 +217,7 @@ namespace QLNet
    public class CeilingTruncation : Rounding
    {
       public CeilingTruncation(int precision) : base(precision, Type.Ceiling, 5) { }
+
       public CeilingTruncation(int precision, int digit) : base(precision, Type.Ceiling, digit) { }
    }
 
@@ -210,7 +227,7 @@ namespace QLNet
    public class FloorTruncation : Rounding
    {
       public FloorTruncation(int precision) : base(precision, Type.Floor, 5) { }
+
       public FloorTruncation(int precision, int digit) : base(precision, Type.Floor, digit) { }
    }
-
 }

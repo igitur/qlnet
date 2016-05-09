@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -24,6 +25,7 @@ namespace QLNet
    /*! \test the correctness of the returned value is tested by
              checking it against numerical calculations.
    */
+
    public static class Factorial
    {
       public static double get(uint i)
@@ -50,7 +52,7 @@ namespace QLNet
          }
       }
 
-      static double[] firstFactorials = {
+      private static double[] firstFactorials = {
                                    1.0,                                   1.0,
                                    2.0,                                   6.0,
                                   24.0,                                 120.0,
@@ -67,6 +69,6 @@ namespace QLNet
          403291461126605635584000000.0,       10888869450418352160768000000.0
         };
 
-      static int tabulated = firstFactorials.Length - 1;
+      private static int tabulated = firstFactorials.Length - 1;
    }
 }

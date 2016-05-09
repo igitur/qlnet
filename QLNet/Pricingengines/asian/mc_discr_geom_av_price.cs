@@ -16,11 +16,11 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-
    /*! \file analytic_discr_geom_av_price.hpp
        \brief Analytic engine for discrete geometric average price Asian
    */
@@ -41,6 +41,7 @@ namespace QLNet
 
        \ingroup asianengines
    */
+
    public class MCDiscreteGeometricAPEngine<RNG, S>
        : MCDiscreteAveragingAsianEngine<RNG, S>
        where RNG : IRSG, new()
@@ -83,7 +84,6 @@ namespace QLNet
 
    public class GeometricAPOPathPricer : PathPricer<Path>
    {
-
       private PlainVanillaPayoff payoff_;
       private double discount_;
       private double runningProduct_;
@@ -102,6 +102,7 @@ namespace QLNet
          if (!(strike >= 0.0))
             throw new ApplicationException("negative strike given");
       }
+
       public GeometricAPOPathPricer(Option.Type type,
                              double strike,
                              double discount,
@@ -153,8 +154,6 @@ namespace QLNet
        where RNG : IRSG, new()
        where S : Statistics, new()
    {
-
-
       public MakeMCDiscreteGeometricAPEngine(GeneralizedBlackScholesProcess process)
       {
          process_ = process;
@@ -237,7 +236,6 @@ namespace QLNet
          return this.withControlVariate(true);
       }
 
-
       // conversion to pricing engine
       public IPricingEngine value()
       {
@@ -260,4 +258,3 @@ namespace QLNet
       private ulong seed_;
    }
 }
-

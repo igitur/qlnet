@@ -32,6 +32,7 @@ namespace QLNet
    {
       [ThreadStatic]
       private static ExchangeRateManager instance_;
+
       public static ExchangeRateManager Instance
       {
          get
@@ -60,6 +61,7 @@ namespace QLNet
             startDate = s;
             endDate = e;
          }
+
          public ExchangeRate rate;
          public Date startDate;
          public Date endDate;
@@ -85,7 +87,6 @@ namespace QLNet
          add(new ExchangeRate(new RONCurrency(), new ROLCurrency(), 10000.0), new Date(1, Month.July, 2005), Date.maxDate());
          add(new ExchangeRate(new PENCurrency(), new PEICurrency(), 1000000.0), new Date(1, Month.July, 1991), Date.maxDate());
          add(new ExchangeRate(new PEICurrency(), new PEHCurrency(), 1000.0), new Date(1, Month.February, 1985), Date.maxDate());
-
       }
 
       public void add(ExchangeRate rate)
@@ -93,11 +94,11 @@ namespace QLNet
          add(rate, Date.minDate(), Date.maxDate());
       }
 
-
       public void add(ExchangeRate rate, Date startDate)
       {
          add(rate, startDate, Date.maxDate());
       }
+
       /// <summary>
       /// Add an exchange rate.
       /// </summary>
@@ -166,7 +167,6 @@ namespace QLNet
       /// <returns></returns>
       public ExchangeRate lookup(Currency source, Currency target, Date date, ExchangeRate.Type type)
       {
-
          if (source == target)
             return new ExchangeRate(source, target, 1.0);
 
@@ -197,7 +197,6 @@ namespace QLNet
          {
             return smartLookup(source, target, date);
          }
-
       }
 
       private ExchangeRate directLookup(Currency source, Currency target, Date date)
@@ -209,6 +208,7 @@ namespace QLNet
          else
             throw new Exception("no direct conversion available from " + source.code + " to " + target.code + " for " + date);
       }
+
       private ExchangeRate smartLookup(Currency source, Currency target, Date date)
       {
          return smartLookup(source, target, date, new List<int>());
@@ -272,6 +272,7 @@ namespace QLNet
          }
          return new ExchangeRate();
       }
+
       /// <summary>
       /// remove the added exchange rates
       /// </summary>
@@ -279,7 +280,6 @@ namespace QLNet
       {
          data_.Clear();
          addKnownRates();
-
       }
    }
 }

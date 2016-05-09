@@ -124,36 +124,38 @@ namespace QLNet
 
    public partial class SobolRsg
    {
-
       public const long PPMT_MAX_DIM = 21200;
       public const int N_MAX_DEGREE = 18;
 
-      static long[] PrimitivePolynomialDegree01 = {
+      private static long[] PrimitivePolynomialDegree01 = {
         0, /* x+1 (1)(1) */
         -1 };
 
       //#if PPMT_MAX_DIM > N_PRIMITIVES_UP_TO_DEGREE_01
-      static long[] PrimitivePolynomialDegree02 = {
+      private static long[] PrimitivePolynomialDegree02 = {
         1, /* x^2+x+1 (1)1(1) */
         -1 };
+
       ////#endif
 
       //#if PPMT_MAX_DIM > N_PRIMITIVES_UP_TO_DEGREE_02
-      static long[] PrimitivePolynomialDegree03 = {
+      private static long[] PrimitivePolynomialDegree03 = {
         1, /* x^3    +x+1 (1)01(1) */
         2, /* x^3+x^2  +1 (1)10(1) */
         -1 };
+
       ////#endif
 
       //#if PPMT_MAX_DIM > N_PRIMITIVES_UP_TO_DEGREE_03
-      static long[] PrimitivePolynomialDegree04 = {
+      private static long[] PrimitivePolynomialDegree04 = {
         1, /* x^4+       +x+1 (1)001(1) */
         4, /* x^4+x^3+     +1 (1)100(1) */
         -1 };
+
       ////#endif
 
       //#if PPMT_MAX_DIM > N_PRIMITIVES_UP_TO_DEGREE_04
-      static long[] PrimitivePolynomialDegree05 = {
+      private static long[] PrimitivePolynomialDegree05 = {
         2,  /* x^5        +x^2  +1 (1)0010(1) */
         4,  /* x^5    +x^3      +1 (1)0100(1) */
         7,  /* x^5    +x^3+x^2+x+1 (1)0111(1) */
@@ -161,10 +163,11 @@ namespace QLNet
         13, /* x^5+x^4+x^3    +x+1 (1)1101(1) */
         14, /* x^5+x^4+x^3+x^2  +1 (1)1110(1) */
         -1 };
+
       ////#endif
 
       //#if PPMT_MAX_DIM > N_PRIMITIVES_UP_TO_DEGREE_05
-      static long[] PrimitivePolynomialDegree06 = {
+      private static long[] PrimitivePolynomialDegree06 = {
         1,  /* x^6                +x+1 (1)00001(1) */
         13, /* x^6    +x^4+x^3    +x+1 (1)01101(1) */
         16, /* x^6+x^5              +1 (1)10000(1) */
@@ -172,10 +175,11 @@ namespace QLNet
         22, /* x^6+x^5    +x^3+x^2  +1 (1)10110(1) */
         25, /* x^6+x^5+x^4        +x+1 (1)11001(1) */
         -1 };
+
       //#endif
 
       //#if PPMT_MAX_DIM > N_PRIMITIVES_UP_TO_DEGREE_06
-      static long[] PrimitivePolynomialDegree07 = {
+      private static long[] PrimitivePolynomialDegree07 = {
         1,  /* x^7                    +x+1 (1)000001(1) */
         4,  /* x^7            +x^3      +1 (1)000100(1) */
         7,  /* x^7            +x^3+x^2+x+1 (1)000111(1) */
@@ -196,10 +200,11 @@ namespace QLNet
         59, /* x^7+x^6+x^5+x^4    +x^2+x+1 (1)111011(1) */
         62, /* x^7+x^6+x^5+x^4+x^3+x^2  +1 (1)111110(1) */
         -1 };
+
       //#endif
 
       //#if PPMT_MAX_DIM > N_PRIMITIVES_UP_TO_DEGREE_07
-      static long[] PrimitivePolynomialDegree08 = {
+      private static long[] PrimitivePolynomialDegree08 = {
         14,
         21,
         22,
@@ -217,10 +222,11 @@ namespace QLNet
         115,
         122,
         -1 };
+
       //#endif
 
       //#if PPMT_MAX_DIM > N_PRIMITIVES_UP_TO_DEGREE_08
-      static long[] PrimitivePolynomialDegree09 = {
+      private static long[] PrimitivePolynomialDegree09 = {
         8,
         13,
         16,
@@ -270,10 +276,11 @@ namespace QLNet
         244,
         253,
         -1 };
+
       //#endif
 
       //#if PPMT_MAX_DIM > N_PRIMITIVES_UP_TO_DEGREE_09
-      static long[] PrimitivePolynomialDegree10 = {
+      private static long[] PrimitivePolynomialDegree10 = {
         4,
         13,
         19,
@@ -335,10 +342,11 @@ namespace QLNet
         505,
         508,
         -1 };
+
       //#endif
 
       //#if PPMT_MAX_DIM > N_PRIMITIVES_UP_TO_DEGREE_10
-      static long[] PrimitivePolynomialDegree11 = {
+      private static long[] PrimitivePolynomialDegree11 = {
         2,
         11,
         21,
@@ -516,10 +524,11 @@ namespace QLNet
         1010,
         1012,
         -1 };
+
       //#endif
 
       //#if PPMT_MAX_DIM > N_PRIMITIVES_UP_TO_DEGREE_11
-      static long[] PrimitivePolynomialDegree12 = {
+      private static long[] PrimitivePolynomialDegree12 = {
         41,
         52,
         61,
@@ -665,10 +674,11 @@ namespace QLNet
         2014,
         2020,
         -1 };
+
       //#endif
 
       //#if PPMT_MAX_DIM > N_PRIMITIVES_UP_TO_DEGREE_12
-      static long[] PrimitivePolynomialDegree13 = {
+      private static long[] PrimitivePolynomialDegree13 = {
         13,
         19,
         26,
@@ -1300,10 +1310,11 @@ namespace QLNet
         4091,
         4094,
         -1 };
+
       //#endif
 
       //#if PPMT_MAX_DIM > N_PRIMITIVES_UP_TO_DEGREE_13
-      static long[] PrimitivePolynomialDegree14 = {
+      private static long[] PrimitivePolynomialDegree14 = {
         21,
         28,
         41,
@@ -2061,10 +2072,11 @@ namespace QLNet
         8168,
         8179,
         -1 };
+
       //#endif
 
       //#if PPMT_MAX_DIM > N_PRIMITIVES_UP_TO_DEGREE_14
-      static long[] PrimitivePolynomialDegree15 = {
+      private static long[] PrimitivePolynomialDegree15 = {
         1,
         8,
         11,
@@ -3866,10 +3878,11 @@ namespace QLNet
         16375,
         16382,
         -1 };
+
       //#endif
 
       //#if PPMT_MAX_DIM > N_PRIMITIVES_UP_TO_DEGREE_15
-      static long[] PrimitivePolynomialDegree16 = {
+      private static long[] PrimitivePolynomialDegree16 = {
         22,
         28,
         31,
@@ -5919,10 +5932,11 @@ namespace QLNet
         32757,
         32758,
         -1 };
+
       //#endif
 
       //#if PPMT_MAX_DIM > N_PRIMITIVES_UP_TO_DEGREE_16
-      static long[] PrimitivePolynomialDegree17 = {
+      private static long[] PrimitivePolynomialDegree17 = {
         4,
         7,
         16,
@@ -13634,10 +13648,11 @@ namespace QLNet
         65519,
         65527,
         -1 };
+
       //#endif
 
       //#if PPMT_MAX_DIM > N_PRIMITIVES_UP_TO_DEGREE_17
-      static long[] PrimitivePolynomialDegree18 = {
+      private static long[] PrimitivePolynomialDegree18 = {
         19,
         31,
         38,
@@ -21415,6 +21430,7 @@ namespace QLNet
         131020,
         131059,
         -1 };
+
       //#endif
 
       /*! You can access the following array as in PrimitivePolynomials[i][j]
@@ -21423,6 +21439,7 @@ namespace QLNet
   i+1. Each one-dimensional array of primitive polynomials of a given
   degree is terminated with an entry of -1. Accessing beyond this entry
   will result in a memory violation and must be avoided.  */
+
       public static long[][] PrimitivePolynomials = new long[N_MAX_DEGREE][] {
             PrimitivePolynomialDegree01
             //#if PPMT_MAX_DIM > N_PRIMITIVES_UP_TO_DEGREE_01
@@ -21477,10 +21494,7 @@ namespace QLNet
             , PrimitivePolynomialDegree18
             //#endif
         };
-
    }
 
 #endif
-
-
 }

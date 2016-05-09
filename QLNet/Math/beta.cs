@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -33,6 +34,7 @@ namespace QLNet
       {
          return betaContinuedFraction(a, b, x, 1e-16, 100);
       }
+
       public static double betaContinuedFraction(double a, double b, double x, double accuracy, int maxIteration)
       {
          double aa, del;
@@ -77,16 +79,16 @@ namespace QLNet
           "Numerical Recipes in C", 2nd edition,
           Press, Teukolsky, Vetterling, Flannery, chapter 6
       */
+
       public static double incompleteBetaFunction(double a, double b, double x)
       {
          return incompleteBetaFunction(a, b, x, 1e-16, 100);
       }
+
       public static double incompleteBetaFunction(double a, double b, double x, double accuracy, int maxIteration)
       {
-
          if (!(a > 0.0)) throw new ApplicationException("a must be greater than zero");
          if (!(b > 0.0)) throw new ApplicationException("b must be greater than zero");
-
 
          if (x == 0.0)
             return 0.0;

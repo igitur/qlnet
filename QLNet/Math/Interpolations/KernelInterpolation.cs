@@ -16,12 +16,12 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
 namespace QLNet
 {
-
    public class KernelInterpolationImpl<Kernel> : Interpolation.templateImpl where Kernel : IKernelFunction
    {
       public KernelInterpolationImpl(List<double> xBegin, int size, List<double> yBegin, Kernel kernel)
@@ -98,7 +98,6 @@ namespace QLNet
 
          for (int rowIt = 0; rowIt < xSize_; ++rowIt)
          {
-
             yVec_[rowIt] = this.yBegin_[rowIt];
             tmp = 1.0 / gammaFunc(this.xBegin_[rowIt]);
 
@@ -122,7 +121,6 @@ namespace QLNet
             Utils.QL_REQUIRE(diffVec[i] < invPrec_, () =>
                          "Inversion failed in 1d kernel interpolation");
          }
-
       }
 
       private int xSize_;
@@ -130,7 +128,6 @@ namespace QLNet
       private Matrix M_;
       private Vector alphaVec_, yVec_;
       private Kernel kernel_;
-
    }
 
    //! Kernel interpolation between discrete points
@@ -141,18 +138,17 @@ namespace QLNet
       The kernel in the implementation is kept general, although a Gaussian
       is considered in the cited text.
    */
+
    public class KernelInterpolation : Interpolation
    {
-
       /*! \pre the \f$ x \f$ values must be sorted.
          \pre kernel needs a Real operator()(Real x) implementation
       */
+
       public KernelInterpolation(List<double> xBegin, int size, List<double> yBegin, IKernelFunction kernel)
       {
          impl_ = new KernelInterpolationImpl<IKernelFunction>(xBegin, size, yBegin, kernel);
          impl_.update();
       }
    };
-
-
 }

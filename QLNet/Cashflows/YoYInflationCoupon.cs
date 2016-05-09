@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System.Collections.Generic;
 
 namespace QLNet
@@ -48,10 +49,14 @@ namespace QLNet
       //@{
       //! index gearing, i.e. multiplicative coefficient for the index
       public double gearing() { return gearing_; }
+
       //! spread paid over the fixing of the underlying index
       public double spread() { return spread_; }
+
       public double adjustedFixing() { return (rate() - spread()) / gearing(); }
+
       public YoYInflationIndex yoyIndex() { return yoyIndex_; }
+
       //@}
 
       private YoYInflationIndex yoyIndex_;
@@ -63,7 +68,6 @@ namespace QLNet
          return (i is YoYInflationCouponPricer);
       }
    }
-
 
    //! Helper class building a sequence of capped/floored yoy inflation coupons
    //! payoff is: spread + gearing x index
@@ -80,7 +84,6 @@ namespace QLNet
          paymentCalendar_ = cal;
       }
 
-
       public override List<CashFlow> value()
       {
          return CashFlowVectors.yoyInflationLeg(notionals_,
@@ -96,6 +99,5 @@ namespace QLNet
                                                 fixingDays_,
                                                 observationLag_);
       }
-
    };
 }

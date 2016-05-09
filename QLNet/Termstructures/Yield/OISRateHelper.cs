@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -39,7 +40,6 @@ namespace QLNet
 
       protected override void initializeDates()
       {
-
          // dummy OvernightIndex with curve/swap arguments
          // review here
          IborIndex clonedIborIndex = overnightIndex_.clone(termStructureHandle_);
@@ -76,11 +76,9 @@ namespace QLNet
       protected RelinkableHandle<YieldTermStructure> termStructureHandle_ = new RelinkableHandle<YieldTermStructure>();
    }
 
-
    //! Rate helper for bootstrapping over Overnight Indexed Swap rates
    public class DatedOISRateHelper : RateHelper
    {
-
       public DatedOISRateHelper(Date startDate,
                                 Date endDate,
                                 Handle<Quote> fixedRate,
@@ -88,7 +86,6 @@ namespace QLNet
 
          : base(fixedRate)
       {
-
          overnightIndex.registerWith(update);
 
          // dummy OvernightIndex with curve/swap arguments
@@ -103,16 +100,13 @@ namespace QLNet
 
          earliestDate_ = swap_.startDate();
          latestDate_ = swap_.maturityDate();
-
       }
-
 
       public override void setTermStructure(YieldTermStructure t)
       {
          // no need to register---the index is not lazy
          termStructureHandle_.linkTo(t, false);
          base.setTermStructure(t);
-
       }
 
       public override double impliedQuote()

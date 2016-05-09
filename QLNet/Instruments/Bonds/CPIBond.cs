@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System.Collections.Generic;
 
 namespace QLNet
@@ -25,6 +26,7 @@ namespace QLNet
    /*! \ingroup instruments
 
     */
+
    public class CPIBond : Bond
    {
       public CPIBond(int settlementDays,
@@ -71,7 +73,6 @@ namespace QLNet
           .withNotionals(faceAmount)
           .withPaymentAdjustment(paymentConvention);
 
-
          calculateNotionalsFromCashflows();
 
          cpiIndex_.registerWith(update);
@@ -81,11 +82,17 @@ namespace QLNet
       }
 
       public Frequency frequency() { return frequency_; }
+
       public DayCounter dayCounter() { return dayCounter_; }
+
       public bool growthOnly() { return growthOnly_; }
+
       public double baseCPI() { return baseCPI_; }
+
       public Period observationLag() { return observationLag_; }
+
       public ZeroInflationIndex cpiIndex() { return cpiIndex_; }
+
       public InterpolationType observationInterpolation() { return observationInterpolation_; }
 
       protected Frequency frequency_;

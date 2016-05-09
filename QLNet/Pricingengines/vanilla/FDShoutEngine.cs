@@ -26,6 +26,7 @@ namespace QLNet
        \test the correctness of the returned greeks is tested by
              reproducing numerical derivatives.
    */
+
    public class FDShoutEngine : FDEngineAdapter<FDShoutCondition<FDStepConditionEngine>, VanillaOption.Engine>,
                                 IFDEngine
    {

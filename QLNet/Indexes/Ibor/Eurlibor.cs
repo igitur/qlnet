@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -30,9 +31,11 @@ namespace QLNet
             case TimeUnit.Days:
             case TimeUnit.Weeks:
                return BusinessDayConvention.Following;
+
             case TimeUnit.Months:
             case TimeUnit.Years:
                return BusinessDayConvention.ModifiedFollowing;
+
             default:
                throw new ArgumentException("Unknown TimeUnit: " + p.units());
          }
@@ -45,9 +48,11 @@ namespace QLNet
             case TimeUnit.Days:
             case TimeUnit.Weeks:
                return false;
+
             case TimeUnit.Months:
             case TimeUnit.Years:
                return true;
+
             default:
                throw new ArgumentException("Unknown TimeUnit: " + p.units());
          }
@@ -99,7 +104,6 @@ namespace QLNet
       //
       public override Date valueDate(Date fixingDate)
       {
-
          if (!(isValidFixingDate(fixingDate)))
             throw new ApplicationException("Fixing date " + fixingDate + " is not valid");
 
@@ -108,6 +112,7 @@ namespace QLNet
          // business days after the Fixing Date.
          return target_.advance(fixingDate, fixingDays_, TimeUnit.Days);
       }
+
       public override Date maturityDate(Date valueDate)
       {
          // http://www.bba.org.uk/bba/jsp/polopoly.jsp?d=225&a=1412 :
@@ -128,7 +133,6 @@ namespace QLNet
    //
    public class DailyTenorEURLibor : IborIndex
    {
-
       // http://www.bba.org.uk/bba/jsp/polopoly.jsp?d=225&a=1412 :
       // no o/n or s/n fixings (as the case may be) will take place
       // when the principal centre of the currency concerned is
@@ -137,11 +141,13 @@ namespace QLNet
           : this(settlementDays, new Handle<YieldTermStructure>())
       {
       }
+
       public DailyTenorEURLibor()
           : base("EURLibor", new Period(1, TimeUnit.Days), 0, new EURCurrency(), new TARGET(),
           Utils.eurliborConvention(new Period(1, TimeUnit.Days)), Utils.eurliborEOM(new Period(1, TimeUnit.Days)), new Actual360(), new Handle<YieldTermStructure>())
       {
       }
+
       public DailyTenorEURLibor(int settlementDays, Handle<YieldTermStructure> h)
           : base("EURLibor", new Period(1, TimeUnit.Days), settlementDays, new EURCurrency(), new TARGET(),
           Utils.eurliborConvention(new Period(1, TimeUnit.Days)), Utils.eurliborEOM(new Period(1, TimeUnit.Days)), new Actual360(), h)
@@ -170,6 +176,7 @@ namespace QLNet
           : base(new Period(1, TimeUnit.Weeks), new Handle<YieldTermStructure>())
       {
       }
+
       public EURLiborSW(Handle<YieldTermStructure> h)
           : base(new Period(1, TimeUnit.Weeks), h)
       {
@@ -183,12 +190,12 @@ namespace QLNet
           : base(new Period(2, TimeUnit.Weeks), new Handle<YieldTermStructure>())
       {
       }
+
       public EURLibor2W(Handle<YieldTermStructure> h)
           : base(new Period(2, TimeUnit.Weeks), h)
       {
       }
    }
-
 
    //! 1-month %EUR %Libor index
    public class EURLibor1M : EURLibor
@@ -197,6 +204,7 @@ namespace QLNet
           : base(new Period(1, TimeUnit.Months), new Handle<YieldTermStructure>())
       {
       }
+
       public EURLibor1M(Handle<YieldTermStructure> h)
           : base(new Period(1, TimeUnit.Months), h)
       {
@@ -210,6 +218,7 @@ namespace QLNet
           : base(new Period(2, TimeUnit.Months), new Handle<YieldTermStructure>())
       {
       }
+
       public EURLibor2M(Handle<YieldTermStructure> h)
           : base(new Period(2, TimeUnit.Months), h)
       {
@@ -223,6 +232,7 @@ namespace QLNet
           : base(new Period(3, TimeUnit.Months), new Handle<YieldTermStructure>())
       {
       }
+
       public EURLibor3M(Handle<YieldTermStructure> h)
           : base(new Period(3, TimeUnit.Months), h)
       {
@@ -236,6 +246,7 @@ namespace QLNet
           : base(new Period(4, TimeUnit.Months), new Handle<YieldTermStructure>())
       {
       }
+
       public EURLibor4M(Handle<YieldTermStructure> h)
           : base(new Period(4, TimeUnit.Months), h)
       {
@@ -249,6 +260,7 @@ namespace QLNet
           : base(new Period(5, TimeUnit.Months), new Handle<YieldTermStructure>())
       {
       }
+
       public EURLibor5M(Handle<YieldTermStructure> h)
           : base(new Period(5, TimeUnit.Months), h)
       {
@@ -262,6 +274,7 @@ namespace QLNet
           : base(new Period(6, TimeUnit.Months), new Handle<YieldTermStructure>())
       {
       }
+
       public EURLibor6M(Handle<YieldTermStructure> h)
           : base(new Period(6, TimeUnit.Months), h)
       {
@@ -275,6 +288,7 @@ namespace QLNet
           : base(new Period(7, TimeUnit.Months), new Handle<YieldTermStructure>())
       {
       }
+
       public EURLibor7M(Handle<YieldTermStructure> h)
           : base(new Period(7, TimeUnit.Months), h)
       {
@@ -288,6 +302,7 @@ namespace QLNet
           : base(new Period(8, TimeUnit.Months), new Handle<YieldTermStructure>())
       {
       }
+
       public EURLibor8M(Handle<YieldTermStructure> h)
           : base(new Period(8, TimeUnit.Months), h)
       {
@@ -301,6 +316,7 @@ namespace QLNet
           : base(new Period(9, TimeUnit.Months), new Handle<YieldTermStructure>())
       {
       }
+
       public EURLibor9M(Handle<YieldTermStructure> h)
           : base(new Period(9, TimeUnit.Months), h)
       {
@@ -314,6 +330,7 @@ namespace QLNet
           : base(new Period(10, TimeUnit.Months), new Handle<YieldTermStructure>())
       {
       }
+
       public EURLibor10M(Handle<YieldTermStructure> h)
           : base(new Period(10, TimeUnit.Months), h)
       {
@@ -327,6 +344,7 @@ namespace QLNet
           : base(new Period(11, TimeUnit.Months), new Handle<YieldTermStructure>())
       {
       }
+
       public EURLibor11M(Handle<YieldTermStructure> h)
           : base(new Period(11, TimeUnit.Months), h)
       {
@@ -340,11 +358,10 @@ namespace QLNet
           : base(new Period(1, TimeUnit.Years), new Handle<YieldTermStructure>())
       {
       }
+
       public EURLibor1Y(Handle<YieldTermStructure> h)
           : base(new Period(1, TimeUnit.Years), h)
       {
       }
    }
-
-
 }

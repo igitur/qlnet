@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,9 +30,11 @@ namespace QLNet
       public enum Type { American, Bermudan, European };
 
       protected Type type_;
+
       public Type type() { return type_; }
 
       protected List<Date> dates_;
+
       public List<Date> dates() { return dates_; }
 
       // constructor
@@ -42,14 +45,17 @@ namespace QLNet
 
       // inspectors
       public Date date(int index) { return dates_[index]; }
+
       public Date lastDate() { return dates_.Last(); }
    }
 
    //! Early-exercise base class
    /*! The payoff can be at exercise (the default) or at expiry */
+
    public class EarlyExercise : Exercise
    {
       private bool payoffAtExpiry_;
+
       public bool payoffAtExpiry() { return payoffAtExpiry_; }
 
       // public EarlyExercise(Type type, bool payoffAtExpiry = false) : base(type) {
@@ -67,12 +73,12 @@ namespace QLNet
        \todo check that everywhere the American condition is applied
              from earliestDate and not earlier
    */
+
    public class AmericanExercise : EarlyExercise
    {
       public AmericanExercise(Date earliestDate, Date latestDate, bool payoffAtExpiry = false)
           : base(Type.American, payoffAtExpiry)
       {
-
          if (!(earliestDate <= latestDate))
             throw new ApplicationException("earliest > latest exercise date");
          dates_ = new InitializedList<Date>(2);
@@ -90,13 +96,14 @@ namespace QLNet
 
    //! Bermudan exercise
    /*! A Bermudan option can only be exercised at a set of fixed dates. */
+
    public class BermudanExercise : EarlyExercise
    {
       public BermudanExercise(List<Date> dates) : this(dates, false) { }
+
       public BermudanExercise(List<Date> dates, bool payoffAtExpiry)
           : base(Type.Bermudan, payoffAtExpiry)
       {
-
          if (dates.Count == 0)
             throw new ApplicationException("no exercise date given");
 
@@ -107,6 +114,7 @@ namespace QLNet
 
    //! European exercise
    /*! A European option can only be exercised at one (expiry) date. */
+
    public class EuropeanExercise : Exercise
    {
       public EuropeanExercise(Date date) : base(Type.European)

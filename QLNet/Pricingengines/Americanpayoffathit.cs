@@ -16,11 +16,11 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-
    //! Analytic formula for American exercise payoff at-hit options
    //! \todo calculate greeks
    public class AmericanPayoffAtHit
@@ -78,7 +78,6 @@ namespace QLNet
          Option.Type type = payoff.optionType();
          strike_ = payoff.strike();
 
-
          log_H_S_ = Math.Log(strike_ / spot_);
 
          double n_d1;
@@ -128,7 +127,6 @@ namespace QLNet
             n_d2 = 0.0;
          }
 
-
          switch (type)
          {
             // up-and-in cash-(at-hit)-or-nothing option
@@ -167,10 +165,10 @@ namespace QLNet
                   DbetaDd2_ = 0.0;
                }
                break;
+
             default:
                throw new ApplicationException("invalid option type");
          }
-
 
          muPlusLambda_ = mu_ + lambda_;
          muMinusLambda_ = mu_ - lambda_;
@@ -188,7 +186,6 @@ namespace QLNet
             X_ = Math.Pow(strike_ / spot_, muMinusLambda_);
             //            DXDstrike_ = ......;
          }
-
 
          // Binary Cash-Or-Nothing payoff?
          CashOrNothingPayoff coo = payoff as CashOrNothingPayoff;
@@ -272,7 +269,6 @@ namespace QLNet
          }
 
          return K_ * (D2alphaDs2 * forward_ + DalphaDs * DforwardDs + DalphaDs * DforwardDs + alpha_ * D2forwardDs2 + D2betaDs2 * X_ + DbetaDs * DXDs + DbetaDs * DXDs + beta_ * D2XDs2);
-
       }
 
       public double rho(double maturity)
@@ -299,5 +295,4 @@ namespace QLNet
          return maturity * K_ * (DalphaDr * forward_ + alpha_ * DforwardDr + DbetaDr * X_ + beta_ * DXDr);
       }
    }
-
 }

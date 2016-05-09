@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -25,23 +26,24 @@ namespace QLNet
    public abstract class DiscretizedAsset
    {
       private Lattice method_;
+
       public Lattice method() { return method_; }
 
       protected double time_;
+
       public double time() { return time_; }
 
       protected double latestPreAdjustment_, latestPostAdjustment_;
 
       protected Vector values_;
-      public Vector values() { return values_; }
 
+      public Vector values() { return values_; }
 
       public DiscretizedAsset()
       {
          latestPreAdjustment_ = double.MaxValue;
          latestPostAdjustment_ = double.MaxValue;
       }
-
 
       /*! \name High-level interface
 
@@ -53,6 +55,7 @@ namespace QLNet
 
           @{
       */
+
       public void initialize(Lattice method, double t)
       {
          method_ = method;
@@ -63,10 +66,12 @@ namespace QLNet
       {
          method_.rollback(this, to);
       }
+
       public void partialRollback(double to)
       {
          method_.partialRollback(this, to);
       }
+
       public double presentValue()
       {
          return method_.presentValue(this);
@@ -88,6 +93,7 @@ namespace QLNet
           of the given size and with values depending on the
           particular asset.
       */
+
       public abstract void reset(int size);
 
       /*! This method will be invoked after rollback and before any
@@ -97,6 +103,7 @@ namespace QLNet
 
       This method is not virtual; derived classes must override
       the protected preAdjustValuesImpl() method instead. */
+
       public void preAdjustValues()
       {
          if (!Utils.close(time(), latestPreAdjustment_))
@@ -114,6 +121,7 @@ namespace QLNet
 
       This method is not virtual; derived classes must override
       the protected postAdjustValuesImpl() method instead. */
+
       public void postAdjustValues()
       {
          if (!Utils.close(time(), latestPostAdjustment_))
@@ -124,6 +132,7 @@ namespace QLNet
       }
 
       /*! This method performs both pre- and post-adjustment */
+
       public void adjustValues()
       {
          preAdjustValues();
@@ -136,18 +145,23 @@ namespace QLNet
 
           \note The returned values are not guaranteed to be sorted.
       */
+
       public abstract List<double> mandatoryTimes();
 
-
       /*! This method checks whether the asset was rolled at the given time. */
+
       protected bool isOnTime(double t)
       {
          TimeGrid grid = method().timeGrid();
          return Utils.close(grid[grid.index(t)], time());
       }
+
       /*! This method performs the actual pre-adjustment */
+
       protected virtual void preAdjustValuesImpl() { }
+
       /*! This method performs the actual post-adjustment */
+
       protected virtual void postAdjustValuesImpl() { }
 
       // safe version of QL double* time()
@@ -160,7 +174,6 @@ namespace QLNet
    //! Useful discretized discount bond asset
    public class DiscretizedDiscountBond : DiscretizedAsset
    {
-
       public override void reset(int size)
       {
          values_ = new Vector(size, 1.0);
@@ -177,6 +190,7 @@ namespace QLNet
                 creating and initializing themselves an instance of
                 the underlying.
    */
+
    public class DiscretizedOption : DiscretizedAsset
    {
       protected DiscretizedAsset underlying_;
@@ -222,6 +236,7 @@ namespace QLNet
                if (time_ >= exerciseTimes_[0] && time_ <= exerciseTimes_[1])
                   applyExerciseCondition();
                break;
+
             case Exercise.Type.Bermudan:
             case Exercise.Type.European:
                for (int i = 0; i < exerciseTimes_.Count; i++)
@@ -231,6 +246,7 @@ namespace QLNet
                      applyExerciseCondition();
                }
                break;
+
             default:
                throw new ApplicationException("invalid exercise type");
          }

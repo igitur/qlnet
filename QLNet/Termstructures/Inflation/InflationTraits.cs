@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,8 +26,8 @@ namespace QLNet
 {
    public class ZeroInflationTraits : ITraits<ZeroInflationTermStructure>
    {
-      const double avgInflation = 0.02;
-      const double maxInflation = 0.5;
+      private const double avgInflation = 0.02;
+      private const double maxInflation = 0.5;
 
       public Date initialDate(ZeroInflationTermStructure t)
       {
@@ -120,13 +121,12 @@ namespace QLNet
       {
          throw new NotImplementedException();
       }
-
    }
 
    public class YoYInflationTraits : ITraits<YoYInflationTermStructure>
    {
-      const double avgInflation = 0.02;
-      const double maxInflation = 0.5;
+      private const double avgInflation = 0.02;
+      private const double maxInflation = 0.5;
 
       public Date initialDate(YoYInflationTermStructure t)
       {
@@ -180,7 +180,7 @@ namespace QLNet
          return maxInflation;
       }
 
-      void updateGuess(List<double> data, double discount, int i)
+      private void updateGuess(List<double> data, double discount, int i)
       {
          data[i] = discount;
       }
@@ -191,7 +191,9 @@ namespace QLNet
       }
 
       public double discountImpl(Interpolation i, double t) { throw new NotSupportedException(); }
+
       public double zeroYieldImpl(Interpolation i, double t) { throw new NotSupportedException(); }
+
       public double forwardImpl(Interpolation i, double t) { throw new NotSupportedException(); }
 
       double ITraits<YoYInflationTermStructure>.initialGuess()
@@ -224,7 +226,5 @@ namespace QLNet
       {
          throw new NotImplementedException();
       }
-
    }
-
 }

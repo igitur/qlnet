@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -27,11 +28,13 @@ namespace QLNet
           - the ISMA and US Treasury convention, also known as "Actual/Actual (Bond)";
           - the AFB convention, also known as "Actual/Actual (Euro)".
   For more details, refer to http://www.isda.org/publications/pdf/Day-Count-Fracation1999.pdf  */
+
    public class ActualActual : DayCounter
    {
       public enum Convention { ISMA, Bond, ISDA, Historical, Actual365, AFB, Euro };
 
       public ActualActual() : base(ISDA_Impl.Singleton) { }
+
       public ActualActual(Convention c) : base(conventions(c)) { }
 
       private static DayCounter conventions(Convention c)
@@ -41,13 +44,16 @@ namespace QLNet
             case Convention.ISMA:
             case Convention.Bond:
                return ISMA_Impl.Singleton;
+
             case Convention.ISDA:
             case Convention.Historical:
             case Convention.Actual365:
                return ISDA_Impl.Singleton;
+
             case Convention.AFB:
             case Convention.Euro:
                return AFB_Impl.Singleton;
+
             default:
                throw new ArgumentException("Unknown day count convention: " + c);
          }
@@ -56,6 +62,7 @@ namespace QLNet
       private class ISMA_Impl : DayCounter
       {
          public static readonly ISMA_Impl Singleton = new ISMA_Impl();
+
          private ISMA_Impl() { }
 
          public override string name() { return "Actual/Actual (ISMA)"; }
@@ -153,6 +160,7 @@ namespace QLNet
       private class ISDA_Impl : DayCounter
       {
          public static readonly ISDA_Impl Singleton = new ISDA_Impl();
+
          private ISDA_Impl() { }
 
          public override string name() { return "Actual/Actual (ISDA)"; }
@@ -178,6 +186,7 @@ namespace QLNet
       private class AFB_Impl : DayCounter
       {
          public static readonly AFB_Impl Singleton = new AFB_Impl();
+
          private AFB_Impl() { }
 
          public override string name() { return "Actual/Actual (AFB)"; }
@@ -221,6 +230,5 @@ namespace QLNet
             return sum + Date.daysBetween(d1, newD2) / den;
          }
       };
-
    }
 }

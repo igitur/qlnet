@@ -24,6 +24,7 @@ namespace QLNet
 
        \ingroup mcarlo
    */
+
    public interface PathPricer<PathType>
    {
       double value(PathType pt);

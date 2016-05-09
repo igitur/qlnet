@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -32,7 +33,9 @@ namespace QLNet
       public static Func<InterestRateIndex, DateTime, double> MissingPastFixingCallBack { get; set; }
 
       private static readonly IndexManager instance_ = new IndexManager();
+
       public static IndexManager instance() { return instance_; }
+
       private IndexManager() { }
 
       //! returns whether historical fixings were stored for the index

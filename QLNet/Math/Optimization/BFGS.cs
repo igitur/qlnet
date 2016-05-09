@@ -14,9 +14,6 @@
 //  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 //  FOR A PARTICULAR PURPOSE.  See the license for more details.
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace QLNet
 {
@@ -27,6 +24,7 @@ namespace QLNet
 
        User has to provide line-search method and optimization end criteria.
    */
+
    public class BFGS : LineSearchBasedMethod
    {
       public BFGS(LineSearch lineSearch = null)
@@ -86,7 +84,6 @@ namespace QLNet
          //else
          //  throw "BFGS: FAC not sufficiently positive";
 
-
          Vector direction = new Vector(P.currentValue().size());
          for (int i = 0; i < P.currentValue().size(); ++i)
          {
@@ -96,8 +93,8 @@ namespace QLNet
          }
 
          return direction;
-
       }
+
       //@}
       //! inverse of hessian matrix
       private Matrix inverseHessian_;

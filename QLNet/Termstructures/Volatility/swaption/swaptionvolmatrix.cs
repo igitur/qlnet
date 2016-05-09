@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,7 @@ namespace QLNet
        - <tt>M[i][j]</tt> contains the volatility corresponding
          to the <tt>i</tt>-th option and <tt>j</tt>-th tenor.
    */
+
    public class SwaptionVolatilityMatrix : SwaptionVolatilityDiscrete
    {
       //! floating reference date, floating market data
@@ -199,6 +201,7 @@ namespace QLNet
       {
          return double.MaxValue;
       }
+
       //@}
       //! \name SwaptionVolatilityStructure interface
       //@{
@@ -225,15 +228,17 @@ namespace QLNet
          return new KeyValuePair<int, int>(interpolation_.locateY(optionTime),
                                interpolation_.locateX(swapLength));
       }
+
       //@}
+
       #region protected
+
       // defining the following method would break CMS test suite
       // to be further investigated
       protected override SmileSection smileSectionImpl(double optionTime, double swapLength)
       {
          double atmVol = volatilityImpl(optionTime, swapLength, 0.05);
          return (SmileSection)new FlatSmileSection(optionTime, atmVol, dayCounter());
-
       }
 
       protected override double volatilityImpl(double optionTime, double swapLength,
@@ -242,9 +247,11 @@ namespace QLNet
          calculate();
          return interpolation_.value(swapLength, optionTime, true);
       }
-      #endregion
+
+      #endregion protected
 
       #region private
+
       private void checkInputs(int volRows,
                               int volsColumns)
       {
@@ -256,19 +263,19 @@ namespace QLNet
             throw new ArgumentException("mismatch between number of swap tenors (" +
                    nSwapTenors_ + ") and number of rows (" + volsColumns +
                    ") in the vol matrix");
-
-
       }
+
       private void registerWithMarketData()
       {
          for (int i = 0; i < volHandles_.Count; ++i)
             for (int j = 0; j < volHandles_.First().Count; ++j)
                volHandles_[i][j].registerWith(update);
       }
+
       private List<List<Handle<Quote>>> volHandles_;
       private Matrix volatilities_;
       private Interpolation2D interpolation_;
-      #endregion
-   }
 
+      #endregion private
+   }
 }

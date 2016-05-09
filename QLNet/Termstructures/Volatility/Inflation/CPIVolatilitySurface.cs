@@ -27,6 +27,7 @@ namespace QLNet
        some base date.  Also deal with lagged observations of an index
        with a (usually different) availability lag.
    */
+
    public class CPIVolatilitySurface : VolatilityTermStructure
    {
       //public CPIVolatilitySurface()
@@ -35,6 +36,7 @@ namespace QLNet
       /*! calculates the reference date based on the global
           evaluation date.
       */
+
       public CPIVolatilitySurface(int settlementDays,
                                   Calendar cal,
                                   BusinessDayConvention bdc,
@@ -48,7 +50,6 @@ namespace QLNet
          observationLag_ = observationLag;
          frequency_ = frequency;
          indexIsInterpolated_ = indexIsInterpolated;
-
       }
 
       //! \name Volatility
@@ -62,7 +63,7 @@ namespace QLNet
 
       //@{
       //! Returns the volatility for a given maturity date and strike rate.
-      double volatility(Date maturityDate, double strike,
+      private double volatility(Date maturityDate, double strike,
                          Period obsLag = null,
                          bool extrapolate = false)
       {
@@ -109,6 +110,7 @@ namespace QLNet
           variance.  These are virtual so alternate connections
           between const vol and total var are possible.
       */
+
       public virtual double totalVariance(Date exerciseDate,
                                            double strike,
                                            Period obsLag = null,
@@ -133,6 +135,7 @@ namespace QLNet
          Date maturityDate = optionDateFromTenor(optionTenor);
          return totalVariance(maturityDate, strike, obsLag, extrapolate);
       }
+
       //@}
 
       //! \name Inspectors
@@ -142,9 +145,13 @@ namespace QLNet
           inflation rate is given, by default, for the maturity
           requested assuming this lag.
       */
+
       public virtual Period observationLag() { return observationLag_; }
+
       public virtual Frequency frequency() { return frequency_; }
+
       public virtual bool indexIsInterpolated() { return indexIsInterpolated_; }
+
       public virtual Date baseDate()
       {
          // Depends on interpolation, or not, of observed index
@@ -161,6 +168,7 @@ namespace QLNet
                                    frequency()).Key;
          }
       }
+
       //! base date will be in the past because of observation lag
       public virtual double timeFromBase(Date maturityDate, Period obsLag = null)
       {
@@ -196,14 +204,17 @@ namespace QLNet
             throw new ApplicationException("Base volatility, for baseDate(), not set.");
          return baseLevel_;
       }
+
       //@}
 
       //! \name Limits
       //@{
       //! the minimum strike for which the term structure can return vols
       public override double minStrike() { throw new NotSupportedException(); }
+
       //! the maximum strike for which the term structure can return vols
       public override double maxStrike() { throw new NotSupportedException(); }
+
       //@}
 
       protected virtual void checkRange(Date d, double strike, bool extrapolate)
@@ -236,11 +247,14 @@ namespace QLNet
           derived classes e.g. bilinear interpolation.  N.B. does
           not derive the surface.
       */
+
       protected virtual double volatilityImpl(double length, double strike) { throw new NotSupportedException(); }
 
       protected double? baseLevel_;
+
       // so you do not need an index
       protected Period observationLag_;
+
       protected Frequency frequency_;
       protected bool indexIsInterpolated_;
    }

@@ -31,17 +31,25 @@ namespace QLNet
 
       // access to properties
       public double nominal() { return nominal_; }
+
       public override Date date() { return paymentDate_; }
+
       public Date accrualStartDate() { return accrualStartDate_; }
+
       public Date accrualEndDate() { return accrualEndDate_; }
+
       public Date refPeriodStart { get { return refPeriodStart_; } }
       public Date refPeriodEnd { get { return refPeriodEnd_; } }
+
       public override double amount() { return amount_; }
+
       public void setAmount(double amount) { amount_ = amount; }
+
       public DayCounter dayCounter() { return dayCounter_; }
 
       // Constructors
       public Principal() { }       // default constructor
+
       public Principal(double amount,
                        double nominal,
                        Date paymentDate,

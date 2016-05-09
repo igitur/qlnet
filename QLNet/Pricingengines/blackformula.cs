@@ -18,13 +18,13 @@ using System;
 
 namespace QLNet
 {
-
    public partial class Utils
    {
       /*! Black 1976 formula
         \warning instead of volatility it uses standard deviation,
                  i.e. volatility*sqrt(timeToMaturity)
       */
+
       public static double blackFormula(Option.Type optionType,
                                          double strike,
                                          double forward,
@@ -78,6 +78,7 @@ namespace QLNet
           (1988) approximation for at-the-money forward option, with the
           extended moneyness approximation by Corrado and Miller (1996)
       */
+
       public static double blackFormulaImpliedStdDevApproximation(Option.Type optionType,
                                                                    double strike,
                                                                    double forward,
@@ -130,7 +131,6 @@ namespace QLNet
             payoff.strike(), forward, blackPrice, discount, displacement);
       }
 
-
       /*! Approximated Black 1976 implied standard deviation,
           i.e. volatility*sqrt(timeToMaturity).
 
@@ -139,6 +139,7 @@ namespace QLNet
           2001, 89-100. The atm option price must be known to use this
           method.
       */
+
       public static double blackFormulaImpliedStdDevChambers(Option.Type optionType,
                                                               double strike,
                                                               double forward,
@@ -200,10 +201,10 @@ namespace QLNet
              blackAtmPrice, discount, displacement);
       }
 
-
       /*! Black 1976 implied standard deviation,
             i.e. volatility*sqrt(timeToMaturity)
       */
+
       public static double blackFormulaImpliedStdDev(Option.Type optionType,
                                                       double strike,
                                                       double forward,
@@ -276,11 +277,11 @@ namespace QLNet
             forward, blackPrice, discount, displacement, guess, accuracy, maxIterations);
       }
 
-
       /*! Black 1976 probability of being in the money (in the bond martingale measure), i.e. N(d2).
             It is a risk-neutral probability, not the real world one.
              \warning instead of volatility it uses standard deviation, i.e. volatility*sqrt(timeToMaturity)
       */
+
       public static double blackFormulaCashItmProbability(Option.Type optionType,
                                                            double strike,
                                                            double forward,
@@ -316,6 +317,7 @@ namespace QLNet
                    If T is the time to maturity Black vega would be
                    blackStdDevDerivative(strike, forward, stdDev)*sqrt(T)
       */
+
       public static double blackFormulaStdDevDerivative(double strike,
                                                          double forward,
                                                          double stdDev,
@@ -338,9 +340,11 @@ namespace QLNet
          return discount * forward *
             new CumulativeNormalDistribution().derivative(d1);
       }
+
       /*! Black 1976 formula for  derivative with respect to implied vol, this
         is basically the vega, but if you want 1% change multiply by 1%
       */
+
       public static double blackFormulaVolDerivative(double strike,
                                                       double forward,
                                                       double stdDev,
@@ -365,6 +369,7 @@ namespace QLNet
              volatility*sqrt(timeToMaturity), and it returns the
              derivative with respect to the standard deviation.
       */
+
       public static double blackFormulaStdDevSecondDerivative(double strike,
                                                                double forward,
                                                                double stdDev,
@@ -405,6 +410,7 @@ namespace QLNet
              percentage volatility. Standard deviation is
              absoluteVolatility*sqrt(timeToMaturity)
       */
+
       public static double bachelierBlackFormula(Option.Type optionType,
                                                   double strike,
                                                   double forward,
@@ -444,6 +450,7 @@ namespace QLNet
          Implied Volatility Under Arithmetic Brownian Motion”,
          Applied Math. Finance, 16(3), pp. 261-268.
       */
+
       public static double bachelierBlackFormulaImpliedVol(Option.Type optionType,
                                                             double strike,
                                                             double forward,
@@ -485,7 +492,6 @@ namespace QLNet
 
       public static double h(double eta)
       {
-
          const double A0 = 3.994961687345134e-1;
          const double A1 = 2.100960795068497e+1;
          const double A2 = 4.980340217855084e+1;
@@ -516,7 +522,6 @@ namespace QLNet
                     * (B5 + eta * (B6 + eta * (B7 + eta * (B8 + eta * B9))))))));
 
          return Math.Sqrt(eta) * (num / den);
-
       }
 
       /*! Bachelier formula for standard deviation derivative
@@ -563,7 +568,7 @@ namespace QLNet
            "forward + displacement (" + forward + " + " + displacement + ") must be positive");
       }
 
-      class BlackImpliedStdDevHelper : ISolver1d
+      private class BlackImpliedStdDevHelper : ISolver1d
       {
          public BlackImpliedStdDevHelper(Option.Type optionType,
                                          double strike,
@@ -582,6 +587,7 @@ namespace QLNet
                       undiscountedBlackPrice + ") must be non-negative");
             signedMoneyness_ = (int)optionType * Math.Log((forward + displacement) / (strike + displacement));
          }
+
          public override double value(double stdDev)
          {
 #if QL_EXTRA_SAFETY_CHECKS
@@ -609,7 +615,6 @@ namespace QLNet
             double signedD1 = signedMoneyness_ / stdDev + halfOptionType_ * stdDev;
             return signedForward_ * N_.derivative(signedD1);
          }
-
 
          private double halfOptionType_;
          private double signedStrike_, signedForward_;

@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -23,12 +24,12 @@ namespace QLNet
    //! helper class for one-asset implied-volatility calculation
    /*! The passed engine must be linked to the passed quote (see,
        e.g., VanillaOption to see how this can be achieved.) */
+
    public static class ImpliedVolatilityHelper
    {
       public static double calculate(Instrument instrument, IPricingEngine engine, SimpleQuote volQuote,
                                      double targetValue, double accuracy, int maxEvaluations, double minVol, double maxVol)
       {
-
          instrument.setupArguments(engine.getArguments());
          engine.getArguments().validate();
 

@@ -44,7 +44,6 @@ namespace QLNet
                                    new NullCalendar(), gYield);
       }
 
-
       public static AmortizingFixedRateBond makeAmortizingFixedBond(Date startDate,
                                                                     Period bondLength,
                                                                     DayCounter dCounter,
@@ -54,7 +53,6 @@ namespace QLNet
       {
          return makeAmortizingFixedBond(startDate, bondLength, dCounter, payFrequency, amount, rate, new TARGET());
       }
-
 
       public static AmortizingFixedRateBond makeAmortizingFixedBond(Date startDate,
                                                                      Period bondLength,
@@ -73,7 +71,6 @@ namespace QLNet
          bond = new AmortizingFixedRateBond(0, calendar, amount, startDate, bondLength, payFrequency, rate, dCounter);
 
          return bond;
-
       }
 
       public static MBSFixedRateBond makeMBSFixedBond(Date startDate,
@@ -88,7 +85,6 @@ namespace QLNet
       {
          return makeMBSFixedBond(startDate, bondLength, originalLength, dCounter, payFrequency, amount, WACRate, PassThroughRate, psaCurve, new TARGET());
       }
-
 
       public static MBSFixedRateBond makeMBSFixedBond(Date startDate,
                                                       Period bondLength,
@@ -110,7 +106,6 @@ namespace QLNet
          bond = new MBSFixedRateBond(0, calendar, amount, startDate, bondLength, originalLength, payFrequency, WACrate, PassThroughRate, dCounter, psaCurve);
 
          return bond;
-
       }
    }
 }

@@ -16,11 +16,11 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-
    //! Base class for options on multiple assets
    public class MultiAssetOption : Option
    {
@@ -37,16 +37,18 @@ namespace QLNet
             delta = gamma = theta = vega = rho = dividendRho = null;
          }
       }
+
       public MultiAssetOption(Payoff payoff, Exercise exercise) : base(payoff, exercise)
       {
       }
+
       //! \name Instrument interface
       //@{
-
       public override bool isExpired()
       {
          return exercise_.lastDate() < Settings.evaluationDate();
       }
+
       //@}
       //! \name greeks
       //@{
@@ -57,6 +59,7 @@ namespace QLNet
             throw new ApplicationException("delta not provided");
          return delta_.GetValueOrDefault();
       }
+
       public double gamma()
       {
          calculate();
@@ -64,6 +67,7 @@ namespace QLNet
             throw new ApplicationException("gamma not provided");
          return gamma_.GetValueOrDefault();
       }
+
       public double theta()
       {
          calculate();
@@ -71,6 +75,7 @@ namespace QLNet
             throw new ApplicationException("theta not provided");
          return theta_.GetValueOrDefault();
       }
+
       public double vega()
       {
          calculate();
@@ -78,6 +83,7 @@ namespace QLNet
             throw new ApplicationException("vega not provided");
          return vega_.GetValueOrDefault();
       }
+
       public double rho()
       {
          calculate();
@@ -85,6 +91,7 @@ namespace QLNet
             throw new ApplicationException("rho not provided");
          return rho_.GetValueOrDefault();
       }
+
       public double dividendRho()
       {
          calculate();
@@ -126,6 +133,7 @@ namespace QLNet
 
       // results
       protected double? delta_;
+
       protected double? gamma_;
       protected double? theta_;
       protected double? vega_;

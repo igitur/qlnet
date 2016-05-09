@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -29,6 +30,7 @@ namespace QLNet
 
    //! Simple binomial lattice approximating the Black-Scholes model
    /*! \ingroup lattices */
+
    public class BlackScholesLattice : TreeLattice1D<BlackScholesLattice>, IGenericLattice
    {
       private ITree tree_;
@@ -45,6 +47,7 @@ namespace QLNet
       }
 
       public int size(int i) { return tree_.size(i); }
+
       public double discount(int i, int j) { return discount_; }
 
       public override void stepback(int i, Vector values, Vector newValues)
@@ -54,7 +57,9 @@ namespace QLNet
       }
 
       public override double underlying(int i, int index) { return tree_.underlying(i, index); }
+
       public int descendant(int i, int index, int branch) { return tree_.descendant(i, index, branch); }
+
       public double probability(int i, int index, int branch) { return tree_.probability(i, index, branch); }
 
       // this is a workaround for CuriouslyRecurringTemplate of TreeLattice

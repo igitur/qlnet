@@ -16,12 +16,14 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
    //! Pricing engine for vanilla options using Monte Carlo simulation
    /*! \ingroup vanillaengines */
+
    public abstract class MCVanillaEngine<MC, RNG, S> : MCVanillaEngine<MC, RNG, S, VanillaOption>
            where RNG : IRSG, new()
            where S : IGeneralStatistics, new()
@@ -49,7 +51,6 @@ namespace QLNet
       protected bool brownianBridge_;
       protected ulong seed_;
 
-
       protected MCVanillaEngine(StochasticProcess process, int timeSteps, int timeStepsPerYear, bool brownianBridge,
                                 bool antitheticVariate, bool controlVariate, int requiredSamples, double requiredTolerance,
                                 int maxSamples, ulong seed) : base(antitheticVariate, controlVariate)
@@ -74,7 +75,6 @@ namespace QLNet
 
          process_.registerWith(update);
       }
-
 
       public void calculate()
       {
@@ -133,18 +133,25 @@ namespace QLNet
       }
 
       #region PricingEngine
+
       protected OneAssetOption.Arguments arguments_ = new OneAssetOption.Arguments();
       protected OneAssetOption.Results results_ = new OneAssetOption.Results();
 
       public IPricingEngineArguments getArguments() { return arguments_; }
+
       public IPricingEngineResults getResults() { return results_; }
+
       public void reset() { results_.reset(); }
 
       #region Observer & Observable
+
       // observable interface
       public event Callback notifyObserversEvent;
+
       public void registerWith(Callback handler) { notifyObserversEvent += handler; }
+
       public void unregisterWith(Callback handler) { notifyObserversEvent -= handler; }
+
       protected void notifyObservers()
       {
          Callback handler = notifyObserversEvent;
@@ -155,7 +162,9 @@ namespace QLNet
       }
 
       public void update() { notifyObservers(); }
-      #endregion
-      #endregion
+
+      #endregion Observer & Observable
+
+      #endregion PricingEngine
    }
 }

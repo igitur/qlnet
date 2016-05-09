@@ -21,6 +21,7 @@ namespace QLNet
 {
    //! weighted sample
    /*! \ingroup mcarlo */
+
    // todo check for Sample for value types and Sample for object types to take care of proper object copying
    public struct Sample<T>
    {

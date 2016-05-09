@@ -18,6 +18,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -26,7 +27,6 @@ namespace QLNet
    // we can not derive it from IObservable because the class is static
    public static class Settings
    {
-
       [ThreadStatic]
       private static Date evaluationDate_;
 
@@ -45,7 +45,6 @@ namespace QLNet
             evaluationDate_ = Date.Today;
          return evaluationDate_;
       }
-
 
       public static void setEvaluationDate(Date d)
       {
@@ -76,7 +75,9 @@ namespace QLNet
       private static event Callback notifyObserversEvent;
 
       public static void registerWith(Callback handler) { notifyObserversEvent += handler; }
+
       public static void unregisterWith(Callback handler) { notifyObserversEvent -= handler; }
+
       private static void notifyObservers()
       {
          Callback handler = notifyObserversEvent;

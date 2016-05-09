@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -28,9 +29,9 @@ namespace QLNet
 
        \note inflation indices do not contain day counters or calendars.
    */
+
    public class InflationCoupon : Coupon, IObserver
    {
-
       public InflationCoupon(Date paymentDate,
                              double nominal,
                              Date startDate,
@@ -59,13 +60,16 @@ namespace QLNet
       {
          return rate() * accrualPeriod() * nominal();
       }
+
       //! \name Coupon interface
       //@{
-      double price(Handle<YieldTermStructure> discountingCurve)
+      private double price(Handle<YieldTermStructure> discountingCurve)
       {
          return amount() * discountingCurve.link.discount(date());
       }
+
       public override DayCounter dayCounter() { return dayCounter_; }
+
       public override double accruedAmount(Date d)
       {
          if (d <= accrualStartDate_ || d > paymentDate_)
@@ -81,6 +85,7 @@ namespace QLNet
                                       refPeriodEnd_);
          }
       }
+
       public override double rate()
       {
          if (pricer_ == null)
@@ -91,16 +96,20 @@ namespace QLNet
          pricer_.initialize(this);
          return pricer_.swapletRate();
       }
+
       //@}
 
       //! \name Inspectors
       //@{
       //! yoy inflation index
       public InflationIndex index() { return index_; }
+
       //! how the coupon observes the index
       public Period observationLag() { return observationLag_; }
+
       //! fixing days
       public int fixingDays() { return fixingDays_; }
+
       //! fixing date
       public virtual Date fixingDate()
       {
@@ -108,13 +117,14 @@ namespace QLNet
          return index_.fixingCalendar().advance(refPeriodEnd_ - observationLag_,
                          -(fixingDays_), TimeUnit.Days, BusinessDayConvention.ModifiedPreceding);
       }
+
       //! fixing of the underlying index, as observed by the coupon
       public virtual double indexFixing()
       {
          return index_.fixing(fixingDate());
       }
-      //@}
 
+      //@}
 
       public void update() { notifyObservers(); }
 
@@ -143,6 +153,5 @@ namespace QLNet
       // this can also done in external pricer setter classes via
       // accept/visit mechanism
       protected virtual bool checkPricerImpl(InflationCouponPricer i) { return false; }
-
    }
 }

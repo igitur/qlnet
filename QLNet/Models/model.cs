@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -26,14 +27,18 @@ namespace QLNet
 
        \ingroup shortrate
    */
+
    public abstract class AffineModel : IObservable
    {
       //! Implied discount curve
       public abstract double discount(double t);
+
       public abstract double discountBond(double now, double maturity, Vector factors);
+
       public abstract double discountBondOption(Option.Type type, double strike, double maturity, double bondMaturity);
 
       public event Callback notifyObserversEvent;
+
       // this method is required for calling from derived classes
       protected void notifyObservers()
       {
@@ -43,7 +48,9 @@ namespace QLNet
             handler();
          }
       }
+
       public void registerWith(Callback handler) { notifyObserversEvent += handler; }
+
       public void unregisterWith(Callback handler) { notifyObserversEvent -= handler; }
    }
 
@@ -52,8 +59,11 @@ namespace QLNet
    public interface IAffineModel : IObservable
    {
       double discount(double t);
+
       double discountBond(double now, double maturity, Vector factors);
+
       double discountBondOption(Option.Type type, double strike, double maturity, double bondMaturity);
+
       //event Callback notifyObserversEvent;
       // this method is required for calling from derived classes
    }
@@ -70,9 +80,11 @@ namespace QLNet
       {
          return termStructure_;
       }
+
       private Handle<YieldTermStructure> termStructure_;
 
       public event Callback notifyObserversEvent;
+
       // this method is required for calling from derived classes
       protected void notifyObservers()
       {
@@ -82,7 +94,9 @@ namespace QLNet
             handler();
          }
       }
+
       public void registerWith(Callback handler) { notifyObserversEvent += handler; }
+
       public void unregisterWith(Callback handler) { notifyObserversEvent -= handler; }
    }
 
@@ -90,11 +104,17 @@ namespace QLNet
    public interface ITermStructureConsistentModel
    {
       Handle<YieldTermStructure> termStructure();
+
       Handle<YieldTermStructure> termStructure_ { get; set; }
+
       void notifyObservers();
+
       event Callback notifyObserversEvent;
+
       void registerWith(Callback handler);
+
       void unregisterWith(Callback handler);
+
       void update();
    }
 
@@ -104,11 +124,12 @@ namespace QLNet
       protected List<Parameter> arguments_;
 
       protected Constraint constraint_;
+
       public Constraint constraint() { return constraint_; }
 
       protected EndCriteria.Type shortRateEndCriteria_;
-      public EndCriteria.Type endCriteria() { return shortRateEndCriteria_; }
 
+      public EndCriteria.Type endCriteria() { return shortRateEndCriteria_; }
 
       public CalibratedModel(int nArguments)
       {
@@ -121,12 +142,12 @@ namespace QLNet
       /*! An additional constraint can be passed which must be
           satisfied in addition to the constraints of the model.
       */
+
       //public void calibrate(List<CalibrationHelper> instruments, OptimizationMethod method, EndCriteria endCriteria,
       //           Constraint constraint = new Constraint(), List<double> weights = new List<double>()) {
       public void calibrate(List<CalibrationHelper> instruments, OptimizationMethod method, EndCriteria endCriteria,
                  Constraint additionalConstraint, List<double> weights)
       {
-
          if (!(weights.Count == 0 || weights.Count == instruments.Count))
             throw new ApplicationException("mismatch between number of instruments and weights");
 
@@ -191,7 +212,6 @@ namespace QLNet
 
       protected virtual void generateArguments() { }
 
-
       //! Constraint imposed on arguments
       private class PrivateConstraint : Constraint
       {
@@ -228,7 +248,7 @@ namespace QLNet
       {
          private CalibratedModel model_;
          private List<CalibrationHelper> instruments_;
-         List<double> weights_;
+         private List<double> weights_;
 
          public CalibrationFunction(CalibratedModel model, List<CalibrationHelper> instruments, List<double> weights)
          {
@@ -267,8 +287,8 @@ namespace QLNet
          public override double finiteDifferenceEpsilon() { return 1e-6; }
       }
 
-
       #region Observer & Observable
+
       public event Callback notifyObserversEvent;
 
       // this method is required for calling from derived classes
@@ -280,7 +300,9 @@ namespace QLNet
             handler();
          }
       }
+
       public void registerWith(Callback handler) { notifyObserversEvent += handler; }
+
       public void unregisterWith(Callback handler) { notifyObserversEvent -= handler; }
 
       public void update()
@@ -288,11 +310,13 @@ namespace QLNet
          generateArguments();
          notifyObservers();
       }
-      #endregion
+
+      #endregion Observer & Observable
    }
 
    //! Abstract short-rate model class
    /*! \ingroup shortrate */
+
    public abstract class ShortRateModel : CalibratedModel
    {
       public ShortRateModel(int nArguments) : base(nArguments) { }

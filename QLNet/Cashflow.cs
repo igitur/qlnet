@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -28,7 +29,6 @@ namespace QLNet
 
       public override bool hasOccurred(Date refDate = null, bool? includeRefDate = null)
       {
-
          // easy and quick handling of most cases
          if (refDate != null)
          {
@@ -48,18 +48,19 @@ namespace QLNet
                includeRefDate = includeToday;
          }
          return base.hasOccurred(refDate, includeRefDate);
-
       }
 
-      #endregion
+      #endregion Event interface
 
       #region CashFlow interface
 
       //! returns the amount of the cash flow
       //! The amount is not discounted, i.e., it is the actual  amount paid at the cash flow date.
       public abstract double amount();
+
       //! returns the date that the cash flow trades exCoupon
       public virtual Date exCouponDate() { return null; }
+
       //! returns true if the cashflow is trading ex-coupon on the refDate
       public bool tradingExCoupon(Date refDate = null)
       {
@@ -72,7 +73,7 @@ namespace QLNet
          return ecd <= ref_;
       }
 
-      #endregion
+      #endregion CashFlow interface
 
       public int CompareTo(CashFlow cf) { return this.date().CompareTo(cf.date()); }
    }

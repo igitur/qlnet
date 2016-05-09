@@ -21,7 +21,7 @@ namespace QLNet
 {
    public class MidPointCdsEngine : CreditDefaultSwap.Engine
    {
-      const double basisPoint = 1.0e-4;
+      private const double basisPoint = 1.0e-4;
 
       public MidPointCdsEngine(Handle<DefaultProbabilityTermStructure> probability,
                                 double recoveryRate,
@@ -131,11 +131,13 @@ namespace QLNet
             case Protection.Side.Seller:
                results_.defaultLegNPV *= -1.0;
                break;
+
             case Protection.Side.Buyer:
                results_.couponLegNPV *= -1.0;
                results_.upfrontNPV *= -1.0;
                upfrontSign = -1.0;
                break;
+
             default:
                Utils.QL_FAIL("unknown protection side");
                break;
@@ -166,7 +168,6 @@ namespace QLNet
             results_.fairUpfront = null;
          }
 
-
          if (arguments_.spread != 0.0)
          {
             results_.couponLegBPS =
@@ -187,8 +188,6 @@ namespace QLNet
             results_.upfrontBPS = null;
          }
       }
-
-
 
       private Handle<DefaultProbabilityTermStructure> probability_;
       private double recoveryRate_;

@@ -15,6 +15,7 @@
  This program is distributed in the hope that it will be useful, but WITHOUT
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
+
 */using System;
 
 namespace QLNet
@@ -40,6 +41,7 @@ namespace QLNet
       }
 
       public YoYInflationIndex index() { return index_; }
+
       public Handle<YoYOptionletVolatilitySurface> volatility() { return volatility_; }
 
       public void setVolatility(Handle<YoYOptionletVolatilitySurface> vol)
@@ -67,7 +69,6 @@ namespace QLNet
          Handle<YieldTermStructure> nominalTS
          = yoyTS.link.nominalTermStructure();
          Date settlement = nominalTS.link.referenceDate();
-
 
          for (int i = 0; i < optionlets; ++i)
          {
@@ -103,7 +104,6 @@ namespace QLNet
                   if (sqrtTime > 0.0)
                   {
                      stdDevs[i] = Math.Sqrt(volatility_.link.totalVariance(fixingDate, strike, new Period(0, TimeUnit.Days)));
-
                   }
 
                   // sttDev=0 for already-fixed dates so everything on forward
@@ -126,7 +126,6 @@ namespace QLNet
                      // a collar is long a cap and short a floor
                      values[i] -= floorlet;
                   }
-
                }
                value += values[i];
             }
@@ -137,9 +136,7 @@ namespace QLNet
          results_.additionalResults["optionletsAtmForward"] = forwards;
          if (type != CapFloorType.Collar)
             results_.additionalResults["optionletsStdDev"] = stdDevs;
-
       }
-
 
       //! descendents only need to implement this
       protected virtual double optionletImpl(Option.Type type, double strike, double forward, double stdDev,
@@ -162,7 +159,6 @@ namespace QLNet
       {
          return Utils.blackFormula(type, strike, forward, stdDev, d);
       }
-
    }
 
    //! Unit Displaced Black-formula inflation cap/floor engine (standalone, i.e. no coupon pricer)
@@ -179,7 +175,6 @@ namespace QLNet
          // could use displacement parameter in blackFormula but this is clearer
          return Utils.blackFormula(type, strike + 1.0, forward + 1.0, stdDev, d);
       }
-
    }
 
    //! Unit Displaced Black-formula inflation cap/floor engine (standalone, i.e. no coupon pricer)
@@ -195,7 +190,5 @@ namespace QLNet
       {
          return Utils.bachelierBlackFormula(type, strike, forward, stdDev, d);
       }
-
-
    };
 }

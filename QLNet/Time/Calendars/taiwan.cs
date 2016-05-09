@@ -46,20 +46,24 @@ namespace QLNet
 
        \ingroup calendars
    */
+
    public class Taiwan : Calendar
    {
       public Taiwan() : base(Impl.Singleton) { }
 
-      class Impl : Calendar
+      private class Impl : Calendar
       {
          public static readonly Impl Singleton = new Impl();
+
          private Impl() { }
 
          public override string name() { return "Taiwan stock exchange"; }
+
          public override bool isWeekend(DayOfWeek w)
          {
             return w == DayOfWeek.Saturday || w == DayOfWeek.Sunday;
          }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;
@@ -284,7 +288,5 @@ namespace QLNet
             return true;
          }
       };
-
    };
-
 }

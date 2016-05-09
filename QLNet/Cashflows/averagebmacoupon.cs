@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,7 @@ namespace QLNet
        Before weights are computed, the fixing schedule is adjusted
        for the index's fixing day gap. See rate() method for details.
    */
+
    public class AverageBMACoupon : FloatingRateCoupon
    {
       private Schedule fixingSchedule_;
@@ -138,18 +140,22 @@ namespace QLNet
       {
          throw new ApplicationException("not available");
       }
+
       public override double capletPrice(double d)
       {
          throw new ApplicationException("not available");
       }
+
       public override double capletRate(double d)
       {
          throw new ApplicationException("not available");
       }
+
       public override double floorletPrice(double d)
       {
          throw new ApplicationException("not available");
       }
+
       public override double floorletRate(double d)
       {
          throw new ApplicationException("not available");
@@ -181,21 +187,25 @@ namespace QLNet
          paymentDayCounter_ = dayCounter;
          return this;
       }
+
       public AverageBMALeg withGearings(double gearing)
       {
          gearings_ = new List<double>() { gearing };
          return this;
       }
+
       public AverageBMALeg withGearings(List<double> gearings)
       {
          gearings_ = gearings;
          return this;
       }
+
       public AverageBMALeg withSpreads(double spread)
       {
          spreads_ = new List<double>() { spread };
          return this;
       }
+
       public AverageBMALeg withSpreads(List<double> spreads)
       {
          spreads_ = spreads;

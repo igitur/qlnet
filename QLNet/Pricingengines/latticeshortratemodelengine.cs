@@ -16,15 +16,16 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-
    //! Engine for a short-rate model specialized on a lattice
    /*! Derived engines only need to implement the <tt>calculate()</tt>
        method
    */
+
    public class LatticeShortRateModelEngine<ArgumentsType, ResultsType>
                : GenericModelEngine<ShortRateModel, ArgumentsType, ResultsType>
                where ArgumentsType : IPricingEngineArguments, new()
@@ -64,6 +65,7 @@ namespace QLNet
       }*/
 
       #region PricingEngine
+
       /* protected OneAssetOption.Arguments arguments_ = new OneAssetOption.Arguments();
        protected OneAssetOption.Results results_ = new OneAssetOption.Results();
 
@@ -71,15 +73,18 @@ namespace QLNet
        public IPricingEngineResults getResults() { return results_; }
        public void reset() { results_.reset(); }
        */
+
       #region Observer & Observable
+
       public override void update()
       {
          if (!timeGrid_.empty())
             lattice_ = this.model_.tree(timeGrid_);
          notifyObservers();
       }
-      #endregion
-      #endregion
-   }
 
+      #endregion Observer & Observable
+
+      #endregion PricingEngine
+   }
 }

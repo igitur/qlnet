@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -27,6 +28,7 @@ namespace QLNet
       private double? value_;
 
       public SimpleQuote() { }
+
       public SimpleQuote(double? value) { value_ = value; }
 
       //! Quote interface
@@ -35,6 +37,7 @@ namespace QLNet
          if (!isValid()) throw new ArgumentException("invalid SimpleQuote");
          return value_.GetValueOrDefault();
       }
+
       public override bool isValid() { return value_ != null; }
 
       //! returns the difference between the new value and the old value

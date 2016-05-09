@@ -19,7 +19,6 @@
 
 namespace QLNet
 {
-
    //! %ChfLiborSwapIsdaFix index base class
    /*! %CHF %Libor %Swap indexes fixed by ISDA in cooperation with
        Reuters and Intercapital Brokers at 11am London.
@@ -30,6 +29,7 @@ namespace QLNet
        Reuters page ISDAFIX.
 
    */
+
    public class ChfLiborSwapIsdaFix : SwapIndex
    {
       public ChfLiborSwapIsdaFix(Period tenor)

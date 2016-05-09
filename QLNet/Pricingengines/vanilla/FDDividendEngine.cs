@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -26,6 +27,7 @@ namespace QLNet
    /*! \todo The dividend class really needs to be made more
              sophisticated to distinguish between fixed dividends and fractional dividends
    */
+
    public abstract class FDDividendEngineBase : FDMultiPeriodEngine
    {
       // required for generics
@@ -77,7 +79,6 @@ namespace QLNet
       }
    }
 
-
    //! Finite-differences pricing engine for dividend options using
    // escowed dividend model
    /*! \ingroup vanillaengines */
@@ -88,6 +89,7 @@ namespace QLNet
       This is set as the default engine, because it is consistent
       with the analytic version.
    */
+
    public class FDDividendEngineMerton73 : FDDividendEngineBase
    {
       // required for generics
@@ -100,6 +102,7 @@ namespace QLNet
       {
          throw new NotImplementedException();
       }
+
       // The value of the x axis is the NPV of the underlying minus the
       // value of the paid dividends.
 
@@ -137,10 +140,7 @@ namespace QLNet
          initializeStepCondition();
          stepCondition_.applyTo(prices_.values(), getDividendTime(step));
       }
-
-
    }
-
 
    //! Finite-differences engine for dividend options using shifted dividends
    /*! \ingroup vanillaengines */
@@ -150,6 +150,7 @@ namespace QLNet
 
       \todo Review literature to see whether this is described
    */
+
    public class FDDividendEngineShiftScale : FDDividendEngineBase
    {
       public FDDividendEngineShiftScale(GeneralizedBlackScholesProcess process, int timeSteps, int gridPoints, bool timeDependent)
@@ -195,7 +196,7 @@ namespace QLNet
          stepCondition_.applyTo(prices_.values(), getDividendTime(step));
       }
 
-      class DividendAdder
+      private class DividendAdder
       {
          private Dividend dividend;
 
@@ -203,6 +204,7 @@ namespace QLNet
          {
             dividend = d;
          }
+
          public double value(double x)
          {
             return x + dividend.amount(x);
@@ -213,7 +215,6 @@ namespace QLNet
    // Use Merton73 engine as default.
    public class FDDividendEngine : FDDividendEngineMerton73
    {
-
       public FDDividendEngine()
       { }
 

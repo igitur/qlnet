@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,8 +56,11 @@ namespace QLNet
 
       //! Coupon interface
       public override double rate() { return rate_.rate(); }
+
       public InterestRate interestRate() { return rate_; }
+
       public override DayCounter dayCounter() { return rate_.dayCounter(); }
+
       public override double accruedAmount(Date d)
       {
          if (d <= accrualStartDate_ || d > paymentDate_)
@@ -74,7 +78,6 @@ namespace QLNet
       }
 
       private InterestRate rate_;
-
    }
 
    //! helper class building a sequence of fixed rate coupons
@@ -82,6 +85,7 @@ namespace QLNet
    {
       // properties
       private List<InterestRate> couponRates_ = new List<InterestRate>();
+
       private DayCounter firstPeriodDC_ = null;
       private Calendar calendar_;
       private Period exCouponPeriod_;
@@ -102,6 +106,7 @@ namespace QLNet
       {
          return withCouponRates(couponRate, paymentDayCounter, Compounding.Simple, Frequency.Annual);
       }
+
       public FixedRateLeg withCouponRates(double couponRate, DayCounter paymentDayCounter, Compounding comp)
       {
          return withCouponRates(couponRate, paymentDayCounter, comp, Frequency.Annual);
@@ -115,11 +120,11 @@ namespace QLNet
          return this;
       }
 
-
       public FixedRateLeg withCouponRates(List<double> couponRates, DayCounter paymentDayCounter)
       {
          return withCouponRates(couponRates, paymentDayCounter, Compounding.Simple, Frequency.Annual);
       }
+
       public FixedRateLeg withCouponRates(List<double> couponRates, DayCounter paymentDayCounter, Compounding comp)
       {
          return withCouponRates(couponRates, paymentDayCounter, comp, Frequency.Annual);
@@ -171,7 +176,6 @@ namespace QLNet
       // creator
       public override List<CashFlow> value()
       {
-
          if (couponRates_.Count == 0) throw new ArgumentException("no coupon rates given");
          if (notionals_.Count == 0) throw new ArgumentException("no nominals given");
 

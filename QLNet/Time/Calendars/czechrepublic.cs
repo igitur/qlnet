@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -42,16 +43,19 @@ namespace QLNet
 
        \ingroup calendars
    */
+
    public class CzechRepublic : Calendar
    {
       public CzechRepublic() : base(Impl.Singleton) { }
 
-      class Impl : Calendar.WesternImpl
+      private class Impl : Calendar.WesternImpl
       {
          public static readonly Impl Singleton = new Impl();
+
          private Impl() { }
 
          public override string name() { return "Prague stock exchange"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;

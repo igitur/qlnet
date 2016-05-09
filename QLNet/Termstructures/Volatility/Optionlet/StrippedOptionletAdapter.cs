@@ -25,6 +25,7 @@ namespace QLNet
       /*! Adapter class for turning a StrippedOptionletBase object into an
        OptionletVolatilityStructure.
      */
+
       public StrippedOptionletAdapter(StrippedOptionletBase s)
          : base(s.settlementDays(), s.calendar(), s.businessDayConvention(), s.dayCounter())
       {
@@ -38,11 +39,14 @@ namespace QLNet
       //! \name TermStructure interface
       //@{
       public override Date maxDate() { return optionletStripper_.optionletFixingDates().Last(); }
+
       //@}
       //! \name VolatilityTermStructure interface
       //@{
       public override double minStrike() { return optionletStripper_.optionletStrikes(0).First(); }
+
       public override double maxStrike() { return optionletStripper_.optionletStrikes(0).Last(); }
+
       //@}
       //! \name LazyObject interface
       //@{
@@ -57,8 +61,8 @@ namespace QLNet
             strikeInterpolations_.Add(new LinearInterpolation(optionletStrikes, optionletStrikes.Count, optionletVolatilities));
          }
       }
-      //@}
 
+      //@}
 
       //! \name OptionletVolatilityStructure interface
       //@{
@@ -75,6 +79,7 @@ namespace QLNet
          return new InterpolatedSmileSection<Cubic>(t, optionletStrikes, stddevs, 0,
                   new Cubic(CubicInterpolation.DerivativeApprox.Spline, false, bc, 0.0, bc, 0.0));
       }
+
       protected override double volatilityImpl(double length, double strike)
       {
          calculate();
@@ -87,11 +92,11 @@ namespace QLNet
          LinearInterpolation timeInterpolator = new LinearInterpolation(optionletTimes, optionletTimes.Count, vol);
          return timeInterpolator.value(length, true);
       }
+
       //@}
 
       private StrippedOptionletBase optionletStripper_;
       private int nInterpolations_;
       private List<Interpolation> strikeInterpolations_;
-
    }
 }

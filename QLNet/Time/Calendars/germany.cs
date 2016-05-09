@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -106,6 +107,7 @@ namespace QLNet
        \test the correctness of the returned results is tested
              against a list of known holidays.
    */
+
    public class Germany : Calendar
    {
       //! German calendars
@@ -119,6 +121,7 @@ namespace QLNet
       };
 
       public Germany() : this(Market.FrankfurtStockExchange) { }
+
       public Germany(Market m)
           : base()
       {
@@ -129,29 +132,36 @@ namespace QLNet
             case Market.Settlement:
                calendar_ = Settlement.Singleton;
                break;
+
             case Market.FrankfurtStockExchange:
                calendar_ = FrankfurtStockExchange.Singleton;
                break;
+
             case Market.Xetra:
                calendar_ = Xetra.Singleton;
                break;
+
             case Market.Eurex:
                calendar_ = Eurex.Singleton;
                break;
+
             case Market.Euwax:
                calendar_ = Euwax.Singleton;
                break;
+
             default:
                throw new ArgumentException("Unknown market: " + m);
          }
       }
 
-      class Settlement : Calendar.WesternImpl
+      private class Settlement : Calendar.WesternImpl
       {
          public static readonly Settlement Singleton = new Settlement();
+
          private Settlement() { }
 
          public override string name() { return "German settlement"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;
@@ -189,12 +199,15 @@ namespace QLNet
             return true;
          }
       }
-      class FrankfurtStockExchange : Calendar.WesternImpl
+
+      private class FrankfurtStockExchange : Calendar.WesternImpl
       {
          public static readonly FrankfurtStockExchange Singleton = new FrankfurtStockExchange();
+
          private FrankfurtStockExchange() { }
 
          public override string name() { return "Frankfurt stock exchange"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;
@@ -224,12 +237,15 @@ namespace QLNet
             return true;
          }
       }
-      class Xetra : Calendar.WesternImpl
+
+      private class Xetra : Calendar.WesternImpl
       {
          public static readonly Xetra Singleton = new Xetra();
+
          private Xetra() { }
 
          public override string name() { return "Xetra"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;
@@ -259,12 +275,15 @@ namespace QLNet
             return true;
          }
       }
-      class Eurex : Calendar.WesternImpl
+
+      private class Eurex : Calendar.WesternImpl
       {
          public static readonly Eurex Singleton = new Eurex();
+
          private Eurex() { }
 
          public override string name() { return "Eurex"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;
@@ -294,12 +313,15 @@ namespace QLNet
             return true;
          }
       };
-      class Euwax : Calendar.WesternImpl
+
+      private class Euwax : Calendar.WesternImpl
       {
          public static readonly Euwax Singleton = new Euwax();
+
          private Euwax() { }
 
          public override string name() { return "Euwax"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;

@@ -16,18 +16,22 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
    //! This class contains a sampled curve.
    /*! Initially the class will contain one indexed curve */
+
    public class SampledCurve : ICloneable
    {
       private Vector grid_;
+
       public Vector grid() { return grid_; }
 
       private Vector values_;
+
       public Vector values() { return values_; }
 
       //public SampledCurve(int gridSize = 0);
@@ -47,14 +51,18 @@ namespace QLNet
       public object Clone() { return this.MemberwiseClone(); }
 
       public double gridValue(int i) { return grid_[i]; }
+
       public double value(int i) { return values_[i]; }
+
       public void setValue(int i, double v) { values_[i] = v; }
 
       public int size() { return grid_.Count; }
+
       public bool empty() { return grid_.Count == 0; }
 
       //! \name modifiers
       public void setGrid(Vector g) { grid_ = (Vector)g.Clone(); }
+
       public void setValues(Vector g) { values_ = (Vector)g.Clone(); }
 
       public void sample(Func<double, double> f)
@@ -65,6 +73,7 @@ namespace QLNet
 
       //! \name calculations
       /*! \todo replace or complement with a more general function valueAt(spot) */
+
       public double valueAtCenter()
       {
          if (empty())
@@ -78,6 +87,7 @@ namespace QLNet
       }
 
       /*! \todo replace or complement with a more general function firstDerivativeAt(spot) */
+
       public double firstDerivativeAtCenter()
       {
          if (!(size() >= 3))
@@ -95,6 +105,7 @@ namespace QLNet
       }
 
       /*! \todo replace or complement with a more general function secondDerivativeAt(spot) */
+
       public double secondDerivativeAtCenter()
       {
          if (!(size() >= 4))

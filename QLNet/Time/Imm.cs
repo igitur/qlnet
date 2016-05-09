@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Linq;
 
@@ -24,7 +25,7 @@ namespace QLNet
    //! Main cycle of the International %Money Market (a.k.a. %IMM) months
    public struct IMM
    {
-      enum Month
+      private enum Month
       {
          F = 1, G = 2, H = 3,
          J = 4, K = 5, M = 6,
@@ -34,6 +35,7 @@ namespace QLNet
 
       //! returns whether or not the given date is an IMM date
       public static bool isIMMdate(Date date) { return isIMMdate(date, true); }
+
       public static bool isIMMdate(Date date, bool mainCycle)
       {
          if (date.DayOfWeek != DayOfWeek.Wednesday)
@@ -51,6 +53,7 @@ namespace QLNet
             case QLNet.Month.September:
             case QLNet.Month.December:
                return true;
+
             default:
                return false;
          }
@@ -58,6 +61,7 @@ namespace QLNet
 
       //! returns whether or not the given string is an IMM code
       public static bool isIMMcode(string s) { return isIMMcode(s, true); }
+
       public static bool isIMMcode(string s, bool mainCycle)
       {
          if (s.Length != 2)
@@ -84,6 +88,7 @@ namespace QLNet
 
       // returns the IMM date for the given IMM code (e.g. March 20th, 2013 for H3).
       public static Date date(string immCode) { return date(immCode, null); }
+
       public static Date date(string immCode, Date refDate)
       {
          if (!isIMMcode(immCode, false)) throw new ArgumentException(immCode + " is not a valid IMM code");
@@ -114,8 +119,11 @@ namespace QLNet
       //! next IMM date following the given date
       /*! returns the 1st delivery date for next contract listed in the
           International Money Market section of the Chicago Mercantile Exchange. */
+
       public static Date nextDate() { return nextDate((Date)null, true); }
+
       public static Date nextDate(Date d) { return nextDate(d, true); }
+
       public static Date nextDate(Date date, bool mainCycle)
       {
          Date refDate = (date ?? Settings.evaluationDate());
@@ -148,8 +156,11 @@ namespace QLNet
       //! next IMM date following the given IMM code
       /*! returns the 1st delivery date for next contract listed in the
           International Money Market section of the Chicago Mercantile Exchange. */
+
       public static Date nextDate(string immCode) { return nextDate(immCode, true, null); }
+
       public static Date nextDate(string immCode, bool mainCycle) { return nextDate(immCode, mainCycle, null); }
+
       public static Date nextDate(string immCode, bool mainCycle, Date referenceDate)
       {
          Date immDate = date(immCode, referenceDate);
@@ -158,8 +169,11 @@ namespace QLNet
 
       /*! returns the IMM code for next contract listed in the
           International Money Market section of the Chicago Mercantile Exchange.*/
+
       public static string nextCode() { return nextCode((Date)null, true); }
+
       public static string nextCode(Date d) { return nextCode(d, true); }
+
       public static string nextCode(Date d, bool mainCycle)
       {
          Date date = nextDate(d, mainCycle);
@@ -168,8 +182,11 @@ namespace QLNet
 
       /*! returns the IMM code for next contract listed in the
           International Money Market section of the Chicago Mercantile Exchange. */
+
       public static string nextCode(string immCode) { return nextCode(immCode, true, null); }
+
       public static string nextCode(string immCode, bool mainCycle) { return nextCode(immCode, mainCycle, null); }
+
       public static string nextCode(string immCode, bool mainCycle, Date referenceDate)
       {
          Date date = nextDate(immCode, mainCycle, referenceDate);

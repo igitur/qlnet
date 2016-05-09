@@ -16,12 +16,14 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
    //! Flat hazard-rate curve
    /*! \ingroup defaultprobabilitytermstructures */
+
    public class FlatHazardRate : HazardRateStructure
    {
       #region Constructors
@@ -52,21 +54,19 @@ namespace QLNet
          hazardRate_ = new Handle<Quote>(new SimpleQuote(hazardRate));
       }
 
-      #endregion
-
+      #endregion Constructors
 
       #region TermStructure interface
 
       public override Date maxDate() { return Date.maxDate(); }
 
-      #endregion
-
+      #endregion TermStructure interface
 
       #region HazardRateStructure interface
 
       protected override double hazardRateImpl(double t) { return hazardRate_.link.value(); }
 
-      #endregion
+      #endregion HazardRateStructure interface
 
       #region DefaultProbabilityTermStructure interface
 
@@ -75,9 +75,8 @@ namespace QLNet
          return Math.Exp(-hazardRate_.link.value() * t);
       }
 
-      #endregion
+      #endregion DefaultProbabilityTermStructure interface
 
       private Handle<Quote> hazardRate_;
-
    }
 }

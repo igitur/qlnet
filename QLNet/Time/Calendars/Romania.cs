@@ -38,16 +38,19 @@ namespace QLNet
 
        \ingroup calendars
    */
+
    public class Romania : Calendar
    {
       public Romania() : base(Impl.Singleton) { }
 
-      class Impl : Calendar.OrthodoxImpl
+      private class Impl : Calendar.OrthodoxImpl
       {
          public static readonly Impl Singleton = new Impl();
+
          private Impl() { }
 
          public override string name() { return "Romania"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;

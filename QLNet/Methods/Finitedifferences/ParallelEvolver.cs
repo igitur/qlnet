@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System.Collections.Generic;
 
 namespace QLNet
@@ -53,6 +54,7 @@ namespace QLNet
 
       // required for generics
       public ParallelEvolver() { }
+
       public ParallelEvolver(List<IOperator> L, BoundaryConditionSet bcs)
       {
          evolvers_ = new List<IMixedScheme>(L.Count);

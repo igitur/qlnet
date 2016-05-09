@@ -19,7 +19,6 @@
 
 namespace QLNet
 {
-
    //! %JPY %TIBOR index
    //    ! Tokyo Interbank Offered Rate.
    //
@@ -34,10 +33,10 @@ namespace QLNet
           : base("Tibor", tenor, 2, new JPYCurrency(), new Japan(), BusinessDayConvention.ModifiedFollowing, false, new Actual365Fixed(), new Handle<YieldTermStructure>())
       {
       }
+
       public Tibor(Period tenor, Handle<YieldTermStructure> h)
           : base("Tibor", tenor, 2, new JPYCurrency(), new Japan(), BusinessDayConvention.ModifiedFollowing, false, new Actual365Fixed(), h)
       {
       }
    }
-
 }

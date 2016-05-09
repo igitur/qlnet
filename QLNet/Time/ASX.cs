@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -24,7 +25,7 @@ namespace QLNet
    {
       //! Main cycle of the Australian Securities Exchange (a.k.a. ASX) months
 
-      enum Months
+      private enum Months
       {
          F = 1, G = 2, H = 3,
          J = 4, K = 5, M = 6,
@@ -51,6 +52,7 @@ namespace QLNet
             case Month.September:
             case Month.December:
                return true;
+
             default:
                return false;
          }
@@ -81,9 +83,9 @@ namespace QLNet
       /*! returns the ASX code for the given date
          (e.g. M5 for June 12th, 2015).
       */
+
       public static String code(Date date)
       {
-
          Utils.QL_REQUIRE(isASXdate(date, false), () => date + " is not an ASX date");
 
          String ASXcode = String.Empty;
@@ -93,39 +95,51 @@ namespace QLNet
             case Month.January:
                ASXcode = 'F' + y;
                break;
+
             case Month.February:
                ASXcode = 'G' + y;
                break;
+
             case Month.March:
                ASXcode = 'H' + y;
                break;
+
             case Month.April:
                ASXcode = 'J' + y;
                break;
+
             case Month.May:
                ASXcode = 'K' + y;
                break;
+
             case Month.June:
                ASXcode = 'M' + y;
                break;
+
             case Month.July:
                ASXcode = 'N' + y;
                break;
+
             case Month.August:
                ASXcode = 'Q' + y;
                break;
+
             case Month.September:
                ASXcode = 'U' + y;
                break;
+
             case Month.October:
                ASXcode = 'V' + y;
                break;
+
             case Month.November:
                ASXcode = 'X' + y;
                break;
+
             case Month.December:
                ASXcode = 'Z' + y;
                break;
+
             default:
                Utils.QL_FAIL("not an ASX month (and it should have been)");
                break;
@@ -140,6 +154,7 @@ namespace QLNet
          \warning It raises an exception if the input
                   string is not an ASX code
       */
+
       public static Date date(String asxCode, Date refDate = null)
       {
          Utils.QL_REQUIRE(isASXcode(asxCode, false), () =>
@@ -179,11 +194,11 @@ namespace QLNet
          return result;
       }
 
-
       //! next ASX date following the given date
       /*! returns the 1st delivery date for next contract listed in the
          Australian Securities Exchange.
       */
+
       public static Date nextDate(Date date = null, bool mainCycle = true)
       {
          Date refDate = date ?? Settings.evaluationDate();
@@ -216,6 +231,7 @@ namespace QLNet
       /*! returns the 1st delivery date for next contract listed in the
          Australian Securities Exchange
       */
+
       public static Date nextDate(String ASXcode, bool mainCycle = true, Date referenceDate = null)
       {
          Date asxDate = date(ASXcode, referenceDate);
@@ -226,6 +242,7 @@ namespace QLNet
       /*! returns the ASX code for next contract listed in the
          Australian Securities Exchange
       */
+
       public static String nextCode(Date d = null, bool mainCycle = true)
       {
          Date date = nextDate(d, mainCycle);
@@ -236,6 +253,7 @@ namespace QLNet
       /*! returns the ASX code for next contract listed in the
          Australian Securities Exchange
       */
+
       public static String nextCode(String asxCode, bool mainCycle = true, Date referenceDate = null)
       {
          Date date = nextDate(asxCode, mainCycle, referenceDate);

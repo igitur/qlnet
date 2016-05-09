@@ -17,33 +17,41 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
    //! base class for interest rate indexes
    /*! \todo add methods returning InterestRate */
+
    public abstract class InterestRateIndex : Index, IObserver
    {
-
       #region properties
+
       protected string familyName_;
+
       public string familyName() { return familyName_; }
 
       protected Period tenor_;
+
       public Period tenor() { return tenor_; }
 
       protected int fixingDays_;
+
       public int fixingDays() { return fixingDays_; }
 
       protected Calendar fixingCalendar_;
 
       protected Currency currency_;
+
       public Currency currency() { return currency_; }
 
       protected DayCounter dayCounter_;
+
       public DayCounter dayCounter() { return dayCounter_; }
-      #endregion
+
+      #endregion properties
 
       // need by CashFlowVectors
       public InterestRateIndex() { }
@@ -68,6 +76,7 @@ namespace QLNet
       public void update() { notifyObservers(); }
 
       #region Index interface
+
       public override string name()
       {
          string res = familyName_;
@@ -89,6 +98,7 @@ namespace QLNet
       }
 
       public override Calendar fixingCalendar() { return fixingCalendar_; }
+
       public override bool isValidFixingDate(Date fixingDate) { return fixingCalendar_.isBusinessDay(fixingDate); }
 
       public override double fixing(Date fixingDate, bool forecastTodaysFixing)
@@ -130,16 +140,19 @@ namespace QLNet
             return forecastFixing(fixingDate);
          }
       }
-      #endregion
+
+      #endregion Index interface
 
       /*! \name Date calculations
           These methods can be overridden to implement particular conventions (e.g. EurLibor) */
+
       public virtual Date valueDate(Date fixingDate)
       {
          if (!isValidFixingDate(fixingDate))
             throw new ArgumentException("fixing date " + fixingDate + " is not valid");
          return fixingCalendar().advance(fixingDate, fixingDays_, TimeUnit.Days);
       }
+
       public abstract Date maturityDate(Date valueDate);
 
       public Date fixingDate(Date valueDate)
@@ -152,6 +165,7 @@ namespace QLNet
 
       // //////////////////////////////////////////////////////////
       protected abstract double forecastFixing(Date fixingDate);
+
       //public abstract Handle<YieldTermStructure> termStructure();
    }
 }

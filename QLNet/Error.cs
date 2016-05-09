@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -26,6 +27,7 @@ namespace QLNet
       {
          return new ArgumentException("Unknown frequency: " + f);
       }
+
       public static ArgumentException UnknownBusinessDayConvention(BusinessDayConvention c)
       {
          return new ArgumentException("Unknown business-day convention: " + c);

@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -25,6 +26,7 @@ namespace QLNet
        Given an integer k it returns its probability in a Binomial
        distribution with parameters p and n.
    */
+
    public class BinomialDistribution
    {
       private int n_;
@@ -73,6 +75,7 @@ namespace QLNet
        of observing kk<=k:
        formula here ...
    */
+
    public class CumulativeBinomialDistribution
    {
       private int n_;
@@ -105,9 +108,9 @@ namespace QLNet
 
       \pre n must be odd
       */
+
       public static double PeizerPrattMethod2Inversion(double z, int n)
       {
-
          if (!(n % 2 == 1)) throw new ApplicationException("n must be an odd number: " + n + " not allowed");
 
          double result = (z / (n + 1.0 / 3.0 + 0.1 / (n + 1.0)));

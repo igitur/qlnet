@@ -16,12 +16,12 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Numerics;
 
 namespace QLNet
 {
-
    public static partial class Utils
    {
       /*  Compute modified Bessel functions I_nv(x) and K_nv(x)
@@ -36,35 +36,45 @@ namespace QLNet
       public interface Weight<T>
       {
          T weightSmallX(T x);
+
          T weight1LargeX(T x);
+
          T weight2LargeX(T x);
       }
 
       public class doubleUnweighted : Weight<double>
       {
          public double weightSmallX(double x) { return 1.0; }
+
          public double weight1LargeX(double x) { return Math.Exp(x); }
+
          public double weight2LargeX(double x) { return Math.Exp(-x); }
       }
 
       public class complexUnweighted : Weight<Complex>
       {
          public Complex weightSmallX(Complex x) { return 1.0; }
+
          public Complex weight1LargeX(Complex x) { return Complex.Exp(x); }
+
          public Complex weight2LargeX(Complex x) { return Complex.Exp(-x); }
       }
 
       public class doubleExponentiallyWeighted : Weight<double>
       {
          public double weightSmallX(double x) { return Math.Exp(-x); }
+
          public double weight1LargeX(double x) { return 1.0; }
+
          public double weight2LargeX(double x) { return Math.Exp(-2.0 * x); }
       }
 
       public class complexExponentiallyWeighted : Weight<Complex>
       {
          public Complex weightSmallX(Complex x) { return Complex.Exp(-x); }
+
          public Complex weight1LargeX(Complex x) { return 1.0; }
+
          public Complex weight2LargeX(Complex x) { return Complex.Exp(-2.0 * x); }
       }
 
@@ -223,7 +233,6 @@ namespace QLNet
                                 modifiedBesselFunction_i_impl<T, I>(nu, x)) /
                                 Math.Sin(Const.M_PI * nu);
       }
-
 
       public static Complex modifiedBesselFunction_k_impl<T, I>(double nu, Complex x)
          where T : Weight<Complex>, new()

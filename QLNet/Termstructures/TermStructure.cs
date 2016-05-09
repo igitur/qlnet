@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -23,7 +24,6 @@ namespace QLNet
    //! Basic term-structure functionality
    public class TermStructure : Extrapolator, IObserver, IObservable
    {
-
       #region Constructors
 
       // There are three ways in which a term structure can keep
@@ -43,7 +43,6 @@ namespace QLNet
       // changes. In the last case, the referenceDate() method must
       // be overridden in derived classes so that it fetches and
       // return the appropriate date.
-
 
       //! default constructor
       /*! \warning term structures initialized by means of this
@@ -82,19 +81,22 @@ namespace QLNet
          Settings.registerWith(update);
       }
 
-
-      #endregion
+      #endregion Constructors
 
       #region Dates and Time
 
       //! the day counter used for date/time conversion
       public virtual DayCounter dayCounter() { return dayCounter_; }
+
       //! date/time conversion
       public double timeFromReference(Date date) { return dayCounter().yearFraction(referenceDate(), date); }
+
       //! the latest date for which the curve can return values
       public virtual Date maxDate() { throw new NotSupportedException(); }
+
       //! the latest time for which the curve can return values
       public virtual double maxTime() { return timeFromReference(maxDate()); }
+
       //! the date at which discount = 1.0 and/or variance = 0.0
       public virtual Date referenceDate()
       {
@@ -106,8 +108,10 @@ namespace QLNet
          }
          return referenceDate_;
       }
+
       //! the calendar used for reference and/or option date calculation
       public virtual Calendar calendar() { return calendar_; }
+
       //! the settlementDays used for reference date calculation
       public virtual int settlementDays()
       {
@@ -115,7 +119,7 @@ namespace QLNet
          return settlementDays_.Value;
       }
 
-      #endregion
+      #endregion Dates and Time
 
       #region observable & observer interface
 
@@ -133,7 +137,8 @@ namespace QLNet
          //    notifyObservers();
          // the grand reason is that multiple inheritance is not allowed in c# and we need to notify observers in such way
       }
-      #endregion
+
+      #endregion observable & observer interface
 
       //! date-range check
       protected virtual void checkRange(Date d, bool extrapolate)
@@ -160,11 +165,9 @@ namespace QLNet
       protected bool moving_;
       protected bool updated_;
 
-
       private Calendar calendar_;
       private Date referenceDate_;
       private int? settlementDays_;
       private DayCounter dayCounter_;
    }
-
 }

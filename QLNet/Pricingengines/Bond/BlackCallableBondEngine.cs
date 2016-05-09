@@ -33,6 +33,7 @@ namespace QLNet
 
        \ingroup callablebondengines
    */
+
    public class BlackCallableFixedRateBondEngine : CallableFixedRateBond.Engine
    {
       //! volatility is the quoted fwd yield volatility, not price vol
@@ -46,6 +47,7 @@ namespace QLNet
          volatility_.registerWith(update);
          discountCurve_.registerWith(update);
       }
+
       //! volatility is the quoted fwd yield volatility, not price vol
       public BlackCallableFixedRateBondEngine(Handle<CallableBondVolatilityStructure> yieldVolStructure,
                                               Handle<YieldTermStructure> discountCurve)
@@ -103,6 +105,7 @@ namespace QLNet
 
       private Handle<CallableBondVolatilityStructure> volatility_;
       private Handle<YieldTermStructure> discountCurve_;
+
       // present value of all coupons paid during the life of option
       private double spotIncome()
       {
@@ -191,9 +194,9 @@ namespace QLNet
 
        \ingroup callablebondengines
    */
+
    public class BlackCallableZeroCouponBondEngine : BlackCallableFixedRateBondEngine
    {
-
       //! volatility is the quoted fwd yield volatility, not price vol
       public BlackCallableZeroCouponBondEngine(Handle<Quote> fwdYieldVol, Handle<YieldTermStructure> discountCurve)
       : base(fwdYieldVol, discountCurve) { }

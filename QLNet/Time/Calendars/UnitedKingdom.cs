@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -79,6 +80,7 @@ namespace QLNet
       public enum Market { Settlement, Exchange, Metals }
 
       public UnitedKingdom() : this(Market.Settlement) { }
+
       public UnitedKingdom(Market m) : base()
       {
          switch (m)
@@ -86,12 +88,15 @@ namespace QLNet
             case Market.Settlement:
                calendar_ = Settlement.Singleton;
                break;
+
             case Market.Exchange:
                calendar_ = Exchange.Singleton;
                break;
+
             case Market.Metals:
                calendar_ = Metals.Singleton;
                break;
+
             default:
                throw new ArgumentException("Unknown market: " + m);
          }
@@ -100,9 +105,11 @@ namespace QLNet
       private class Settlement : Calendar.WesternImpl
       {
          public static readonly Settlement Singleton = new Settlement();
+
          private Settlement() { }
 
          public override string name() { return "UK settlement"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;
@@ -137,12 +144,15 @@ namespace QLNet
             return true;
          }
       }
+
       private class Exchange : Calendar.WesternImpl
       {
          internal static readonly Exchange Singleton = new Exchange();
+
          private Exchange() { }
 
          public override string name() { return "London stock exchange"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;
@@ -176,12 +186,15 @@ namespace QLNet
             return true;
          }
       }
+
       private class Metals : Calendar.WesternImpl
       {
          internal static readonly Metals Singleton = new Metals();
+
          private Metals() { }
 
          public override string name() { return "London metals exchange"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;

@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -37,10 +38,13 @@ namespace QLNet
              typical VanillaSwap type design conventions
              w.r.t. Schedules etc.
    */
+
    public class YearOnYearInflationSwap : Swap
    {
-      const double basisPoint = 1.0e-4;
+      private const double basisPoint = 1.0e-4;
+
       public enum Type { Receiver = -1, Payer = 1 };
+
       public YearOnYearInflationSwap(
                     Type type,
                     double nominal,
@@ -83,7 +87,6 @@ namespace QLNet
 
          yoyLeg.ForEach(x => x.registerWith(update));
 
-
          legs_[0] = fixedLeg;
          legs_[1] = yoyLeg;
          if (type_ == Type.Payer)
@@ -96,8 +99,8 @@ namespace QLNet
             payer_[0] = +1.0;
             payer_[1] = -1.0;
          }
-
       }
+
       // results
       public virtual double fixedLegNPV()
       {
@@ -105,6 +108,7 @@ namespace QLNet
          Utils.QL_REQUIRE(legNPV_[0] != null, () => "result not available");
          return legNPV_[0].Value;
       }
+
       public virtual double fairRate()
       {
          calculate();
@@ -118,30 +122,41 @@ namespace QLNet
          Utils.QL_REQUIRE(legNPV_[1] != null, () => "result not available");
          return legNPV_[1].Value;
       }
+
       public virtual double fairSpread()
       {
          calculate();
          Utils.QL_REQUIRE(fairSpread_ != null, () => "result not available");
          return fairSpread_.Value;
       }
+
       // inspectors
       public virtual Type type() { return type_; }
+
       public virtual double nominal() { return nominal_; }
 
       public virtual Schedule fixedSchedule() { return fixedSchedule_; }
+
       public virtual double fixedRate() { return fixedRate_; }
+
       public virtual DayCounter fixedDayCount() { return fixedDayCount_; }
 
       public virtual Schedule yoySchedule() { return yoySchedule_; }
+
       public virtual YoYInflationIndex yoyInflationIndex() { return yoyIndex_; }
+
       public virtual Period observationLag() { return observationLag_; }
+
       public virtual double spread() { return spread_; }
+
       public virtual DayCounter yoyDayCount() { return yoyDayCount_; }
 
       public virtual Calendar paymentCalendar() { return paymentCalendar_; }
+
       public virtual BusinessDayConvention paymentConvention() { return paymentConvention_; }
 
       public virtual List<CashFlow> fixedLeg() { return legs_[0]; }
+
       public virtual List<CashFlow> yoyLeg() { return legs_[1]; }
 
       // other
@@ -196,8 +211,8 @@ namespace QLNet
                arguments.yoyCoupons.Add(null);
             }
          }
-
       }
+
       public override void fetchResults(IPricingEngineResults r)
       {
          // copy from VanillaSwap
@@ -231,9 +246,7 @@ namespace QLNet
             if (legBPS_[1] != null)
                fairSpread_ = spread_ - NPV_ / (legBPS_[1] / basisPoint);
          }
-
       }
-
 
       protected override void setupExpired()
       {
@@ -242,6 +255,7 @@ namespace QLNet
          fairRate_ = null;
          fairSpread_ = null;
       }
+
       private Type type_;
       private double nominal_;
       private Schedule fixedSchedule_;
@@ -254,8 +268,10 @@ namespace QLNet
       private DayCounter yoyDayCount_;
       private Calendar paymentCalendar_;
       private BusinessDayConvention paymentConvention_;
+
       // results
       private double? fairRate_;
+
       private double? fairSpread_;
 
       //! %Arguments for YoY swap calculation
@@ -280,6 +296,7 @@ namespace QLNet
          public List<double> fixedCoupons;
          public List<double> yoySpreads;
          public List<double?> yoyCoupons;
+
          public override void validate()
          {
             base.validate();
@@ -306,6 +323,7 @@ namespace QLNet
       {
          public double? fairRate;
          public double? fairSpread;
+
          public override void reset()
          {
             base.reset();
@@ -315,6 +333,5 @@ namespace QLNet
       }
 
       public class Engine : GenericEngine<YearOnYearInflationSwap.Arguments, YearOnYearInflationSwap.Results> { };
-
    }
 }

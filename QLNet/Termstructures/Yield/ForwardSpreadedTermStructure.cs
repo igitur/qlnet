@@ -29,6 +29,7 @@ namespace QLNet
        - the correctness of the returned values is tested by checking them against numerical calculations.
        - observability against changes in the underlying term structure and in the added spread is checked.
    */
+
    public class ForwardSpreadedTermStructure : ForwardRateStructure
    {
       private Handle<YieldTermStructure> originalCurve_;
@@ -44,10 +45,15 @@ namespace QLNet
       }
 
       public override DayCounter dayCounter() { return originalCurve_.link.dayCounter(); }
+
       public override Calendar calendar() { return originalCurve_.link.calendar(); }
+
       public override int settlementDays() { return originalCurve_.link.settlementDays(); }
+
       public override Date referenceDate() { return originalCurve_.link.referenceDate(); }
+
       public override Date maxDate() { return originalCurve_.link.maxDate(); }
+
       public override double maxTime() { return originalCurve_.link.maxTime(); }
 
       //! returns the spreaded forward rate
@@ -59,6 +65,7 @@ namespace QLNet
 
       //! returns the spreaded zero yield rate
       /* This method must disappear should the spread become a curve */
+
       protected override double zeroYieldImpl(double t)
       {
          return originalCurve_.link.zeroRate(t, Compounding.Continuous, Frequency.NoFrequency, true).rate()

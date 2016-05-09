@@ -29,7 +29,9 @@ namespace QLNet
 
       // some extra functionality
       public bool allowsExtrapolation() { return extrapolate_; }      //! tells whether extrapolation is enabled
+
       public void enableExtrapolation(bool b = true) { extrapolate_ = b; }      //! enable extrapolation in subsequent calls
+
       public void disableExtrapolation(bool b = true) { extrapolate_ = !b; }    //! disable extrapolation in subsequent calls
    }
 }

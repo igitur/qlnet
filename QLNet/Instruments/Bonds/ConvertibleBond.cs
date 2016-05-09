@@ -16,20 +16,23 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System.Collections.Generic;
 using System.Linq;
 
 namespace QLNet
 {
    //! %callability leaving to the holder the possibility to convert
-   class SoftCallability : Callability
+   internal class SoftCallability : Callability
    {
       public SoftCallability(Callability.Price price, Date date, double trigger)
        : base(price, Callability.Type.Call, date)
       {
          trigger_ = trigger;
       }
+
       public double trigger() { return trigger_; }
+
       private double trigger_;
    }
 
@@ -63,6 +66,7 @@ namespace QLNet
 
             public int? settlementDays;
             public double? redemption;
+
             public override void validate()
             {
                base.validate();
@@ -83,7 +87,6 @@ namespace QLNet
 
                Utils.QL_REQUIRE(couponDates.Count == couponAmounts.Count, () => "different number of coupon dates and amounts");
             }
-
          }
 
          //public class engine;
@@ -199,8 +202,11 @@ namespace QLNet
       }
 
       public double conversionRatio() { return conversionRatio_; }
+
       public DividendSchedule dividends() { return dividends_; }
+
       public CallabilitySchedule callability() { return callability_; }
+
       public Handle<Quote> creditSpread() { return creditSpread_; }
 
       protected ConvertibleBond(Exercise exercise,
@@ -232,6 +238,7 @@ namespace QLNet
 
          creditSpread.registerWith(update);
       }
+
       protected override void performCalculations()
       {
          option_.setPricingEngine(engine_);
@@ -252,6 +259,7 @@ namespace QLNet
                the underlying plain-vanilla bond and do not take
                convertibility and callability into account.
    */
+
    public class ConvertibleZeroCouponBond : ConvertibleBond
    {
       public ConvertibleZeroCouponBond(Exercise exercise,
@@ -266,7 +274,6 @@ namespace QLNet
                                         double redemption = 100)
          : base(exercise, conversionRatio, dividends, callability, creditSpread, issueDate, settlementDays, schedule, redemption)
       {
-
          cashflows_ = new List<CashFlow>();
 
          // !!! notional forcibly set to 100
@@ -283,6 +290,7 @@ namespace QLNet
                 the underlying plain-vanilla bond and do not take
                 convertibility and callability into account.
    */
+
    public class ConvertibleFixedCouponBond : ConvertibleBond
    {
       public ConvertibleFixedCouponBond(Exercise exercise,
@@ -298,7 +306,6 @@ namespace QLNet
                                          double redemption = 100)
          : base(exercise, conversionRatio, dividends, callability, creditSpread, issueDate, settlementDays, schedule, redemption)
       {
-
          // !!! notional forcibly set to 100
          cashflows_ = new FixedRateLeg(schedule)
                             .withCouponRates(coupons, dayCounter)
@@ -320,6 +327,7 @@ namespace QLNet
                 the underlying plain-vanilla bond and do not take
                 convertibility and callability into account.
    */
+
    public class ConvertibleFloatingRateBond : ConvertibleBond
    {
       public ConvertibleFloatingRateBond(Exercise exercise,
@@ -352,7 +360,6 @@ namespace QLNet
 
          option_ = new option(this, exercise, conversionRatio, dividends, callability, creditSpread, cashflows_, dayCounter, schedule,
                               issueDate, settlementDays, redemption);
-
       }
    }
 }

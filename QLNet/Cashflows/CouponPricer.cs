@@ -18,31 +18,42 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 
 namespace QLNet
 {
-
    //! generic pricer for floating-rate coupons
    public abstract class FloatingRateCouponPricer : IObservable, IObserver
    {
       //! \name required interface
       //@{
       public abstract double swapletPrice();
+
       public abstract double swapletRate();
+
       public abstract double capletPrice(double effectiveCap);
+
       public abstract double capletRate(double effectiveCap);
+
       public abstract double floorletPrice(double effectiveFloor);
+
       public abstract double floorletRate(double effectiveFloor);
+
       public abstract void initialize(FloatingRateCoupon coupon);
+
       protected abstract double optionletPrice(Option.Type optionType, double effStrike);
 
       #region Observer & observable
+
       public event Callback notifyObserversEvent;
+
       public void registerWith(Callback handler) { notifyObserversEvent += handler; }
+
       public void unregisterWith(Callback handler) { notifyObserversEvent -= handler; }
+
       protected void notifyObservers()
       {
          Callback handler = notifyObserversEvent;
@@ -54,7 +65,8 @@ namespace QLNet
 
       // observer interface
       public void update() { notifyObservers(); }
-      #endregion
+
+      #endregion Observer & observable
    }
 
    //! base pricer for capped/floored Ibor coupons
@@ -64,6 +76,7 @@ namespace QLNet
           : this(new Handle<OptionletVolatilityStructure>())
       {
       }
+
       public IborCouponPricer(Handle<OptionletVolatilityStructure> v)
       {
          capletVol_ = v;
@@ -75,10 +88,12 @@ namespace QLNet
       {
          return capletVol_;
       }
+
       public void setCapletVolatility()
       {
          setCapletVolatility(new Handle<OptionletVolatilityStructure>());
       }
+
       public void setCapletVolatility(Handle<OptionletVolatilityStructure> v)
       {
          capletVol_.unregisterWith(update);
@@ -88,6 +103,7 @@ namespace QLNet
 
          update();
       }
+
       private Handle<OptionletVolatilityStructure> capletVol_;
    }
 
@@ -98,6 +114,7 @@ namespace QLNet
           : this(new Handle<OptionletVolatilityStructure>())
       {
       }
+
       public BlackIborCouponPricer(Handle<OptionletVolatilityStructure> v)
           : base(v)
       {
@@ -124,6 +141,7 @@ namespace QLNet
 
          spreadLegValue_ = spread_ * coupon_.accrualPeriod() * discount_;
       }
+
       //
       public override double swapletPrice()
       {
@@ -132,24 +150,29 @@ namespace QLNet
          double swapletPrice = adjustedFixing() * coupon_.accrualPeriod() * discount_;
          return gearing_ * swapletPrice + spreadLegValue_;
       }
+
       public override double swapletRate()
       {
          return swapletPrice() / (coupon_.accrualPeriod() * discount_);
       }
+
       public override double capletPrice(double effectiveCap)
       {
          double capletPrice = optionletPrice(Option.Type.Call, effectiveCap);
          return gearing_ * capletPrice;
       }
+
       public override double capletRate(double effectiveCap)
       {
          return capletPrice(effectiveCap) / (coupon_.accrualPeriod() * discount_);
       }
+
       public override double floorletPrice(double effectiveFloor)
       {
          double floorletPrice = optionletPrice(Option.Type.Put, effectiveFloor);
          return gearing_ * floorletPrice;
       }
+
       public override double floorletRate(double effectiveFloor)
       {
          return floorletPrice(effectiveFloor) / (coupon_.accrualPeriod() * discount_);
@@ -180,7 +203,6 @@ namespace QLNet
             // not yet determined, use Black model
             Utils.QL_REQUIRE(!capletVolatility().empty(), () => "missing optionlet volatility");
 
-
             double stdDev = Math.Sqrt(capletVolatility().link.blackVariance(fixingDate, effStrike));
             double fixing = Utils.blackFormula(optionType, effStrike, adjustedFixing(), stdDev);
             return fixing * coupon_.accrualPeriod() * discount_;
@@ -188,9 +210,9 @@ namespace QLNet
       }
 
       protected double adjustedFixing() { return adjustedFixing(null); }
+
       protected virtual double adjustedFixing(double? fixing_)
       {
-
          double adjustement = 0.0;
          double fixing = (fixing_ == null) ? coupon_.indexFixing() : fixing_.GetValueOrDefault();
 
@@ -244,10 +266,12 @@ namespace QLNet
       {
          return swaptionVol_;
       }
+
       public void setSwaptionVolatility()
       {
          setSwaptionVolatility(new Handle<SwaptionVolatilityStructure>());
       }
+
       public void setSwaptionVolatility(Handle<SwaptionVolatilityStructure> v)
       {
          if (swaptionVol_ != null)
@@ -257,9 +281,9 @@ namespace QLNet
             swaptionVol_.registerWith(update);
          update();
       }
+
       private Handle<SwaptionVolatilityStructure> swaptionVol_;
    }
-
 
    //===========================================================================//
    //                         CouponSelectorToSetPricer                         //
@@ -268,6 +292,7 @@ namespace QLNet
    public class PricerSetter : IAcyclicVisitor
    {
       private FloatingRateCouponPricer pricer_;
+
       public PricerSetter(FloatingRateCouponPricer pricer)
       {
          pricer_ = pricer;
@@ -287,10 +312,12 @@ namespace QLNet
       {
          // nothing to do
       }
+
       public void visit(Coupon c)
       {
          // nothing to do
       }
+
       public void visit(IborCoupon c)
       {
          IborCouponPricer pricer = pricer_ as IborCouponPricer;
@@ -298,6 +325,7 @@ namespace QLNet
             throw new ApplicationException("pricer not compatible with Ibor coupon");
          c.setPricer(pricer);
       }
+
       public void visit(CappedFlooredIborCoupon c)
       {
          IborCouponPricer pricer = pricer_ as IborCouponPricer;
@@ -305,6 +333,7 @@ namespace QLNet
             throw new ApplicationException("pricer not compatible with Ibor coupon");
          c.setPricer(pricer);
       }
+
       public void visit(DigitalIborCoupon c)
       {
          IborCouponPricer pricer = pricer_ as IborCouponPricer;
@@ -312,6 +341,7 @@ namespace QLNet
             throw new ApplicationException("pricer not compatible with Ibor coupon");
          c.setPricer(pricer);
       }
+
       public void visit(CmsCoupon c)
       {
          CmsCouponPricer pricer = pricer_ as CmsCouponPricer;
@@ -319,6 +349,7 @@ namespace QLNet
             throw new ApplicationException("pricer not compatible with CMS coupon");
          c.setPricer(pricer);
       }
+
       public void visit(CappedFlooredCoupon c)
       {
          CmsCouponPricer pricer = pricer_ as CmsCouponPricer;
@@ -326,6 +357,7 @@ namespace QLNet
             throw new ApplicationException("pricer not compatible with CMS coupon");
          c.setPricer(pricer);
       }
+
       public void visit(CappedFlooredCmsCoupon c)
       {
          CmsCouponPricer pricer = pricer_ as CmsCouponPricer;
@@ -333,6 +365,7 @@ namespace QLNet
             throw new ApplicationException("pricer not compatible with CMS coupon");
          c.setPricer(pricer);
       }
+
       public void visit(DigitalCmsCoupon c)
       {
          CmsCouponPricer pricer = pricer_ as CmsCouponPricer;
@@ -340,6 +373,7 @@ namespace QLNet
             throw new ApplicationException("pricer not compatible with CMS coupon");
          c.setPricer(pricer);
       }
+
       //public void visit(RangeAccrualFloatersCoupon c)
       //{
       //    if (!(pricer_ is RangeAccrualPricer))

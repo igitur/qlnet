@@ -17,12 +17,12 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
-
 namespace QLNet
 {
    //! Constant Black volatility, no time-strike dependence
    /*! This class implements the BlackVolatilityTermStructure interface for a constant Black volatility (no time/strike
        dependence). */
+
    public class BlackConstantVol : BlackVolatilityTermStructure
    {
       private Handle<Quote> volatility_;
@@ -55,9 +55,10 @@ namespace QLNet
          volatility_.registerWith(update);
       }
 
-
       public override Date maxDate() { return Date.maxDate(); }
+
       public override double minStrike() { return double.MinValue; }
+
       public override double maxStrike() { return double.MaxValue; }
 
       protected override double blackVolImpl(double t, double x) { return volatility_.link.value(); }

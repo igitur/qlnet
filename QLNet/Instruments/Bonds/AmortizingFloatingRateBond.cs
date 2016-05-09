@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System.Collections.Generic;
 
 namespace QLNet
@@ -52,7 +53,6 @@ namespace QLNet
 
          maturityDate_ = schedule.endDate();
 
-
          cashflows_ = new IborLeg(schedule, index)
                          .withCaps(caps)
                          .withFloors(floors)
@@ -69,7 +69,6 @@ namespace QLNet
          Utils.QL_REQUIRE(!cashflows().empty(), () => "bond with no cashflows!");
 
          index.registerWith(update);
-
       }
    }
 }

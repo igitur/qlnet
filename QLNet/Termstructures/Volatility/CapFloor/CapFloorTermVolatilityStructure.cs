@@ -25,13 +25,16 @@ namespace QLNet
    /*! This class is purely abstract and defines the interface of concrete
        structures which will be derived from this one.
    */
+
    public class CapFloorTermVolatilityStructure : VolatilityTermStructure
    {
       #region Constructors
+
       /*! \warning term structures initialized by means of this
                    constructor must manage their own reference date
                    by overriding the referenceDate() method.
       */
+
       public CapFloorTermVolatilityStructure(BusinessDayConvention bdc, DayCounter dc = null)
          : base(bdc, dc) { }
 
@@ -43,7 +46,7 @@ namespace QLNet
       public CapFloorTermVolatilityStructure(int settlementDays, Calendar cal, BusinessDayConvention bdc, DayCounter dc = null)
          : base(settlementDays, cal, bdc, dc) { }
 
-      #endregion
+      #endregion Constructors
 
       #region Volatility
 
@@ -69,7 +72,7 @@ namespace QLNet
          return volatilityImpl(t, strike);
       }
 
-      #endregion
+      #endregion Volatility
 
       //! implements the actual volatility calculation in derived classes
       protected virtual double volatilityImpl(double length, double strike) { throw new NotSupportedException(); }

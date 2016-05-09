@@ -16,12 +16,14 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
    //! Finite-differences Bermudan engine
    /*! \ingroup vanillaengines */
+
    public class FDBermudanEngine : FDMultiPeriodEngine, IGenericEngine
    {
       protected double extraTermInBermudan;
@@ -50,18 +52,25 @@ namespace QLNet
       }
 
       #region IGenericEngine copy-cat
+
       protected OneAssetOption.Arguments arguments_ = new OneAssetOption.Arguments();
       protected OneAssetOption.Results results_ = new OneAssetOption.Results();
 
       public IPricingEngineArguments getArguments() { return arguments_; }
+
       public IPricingEngineResults getResults() { return results_; }
+
       public void reset() { results_.reset(); }
 
       #region Observer & Observable
+
       // observable interface
       public event Callback notifyObserversEvent;
+
       public void registerWith(Callback handler) { notifyObserversEvent += handler; }
+
       public void unregisterWith(Callback handler) { notifyObserversEvent -= handler; }
+
       protected void notifyObservers()
       {
          Callback handler = notifyObserversEvent;
@@ -72,7 +81,9 @@ namespace QLNet
       }
 
       public void update() { notifyObservers(); }
-      #endregion
-      #endregion
+
+      #endregion Observer & Observable
+
+      #endregion IGenericEngine copy-cat
    }
 }

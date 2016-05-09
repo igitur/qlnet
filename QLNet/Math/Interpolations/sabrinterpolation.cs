@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -30,6 +31,7 @@ namespace QLNet
          params_ = param;
          Utils.validateSabrParameters(param[0].Value, param[1].Value, param[2].Value, param[3].Value);
       }
+
       public double volatility(double x)
       {
          return Utils.sabrVolatility(x, forward_, t_, params_[0].Value, params_[1].Value, params_[2].Value, params_[3].Value);
@@ -44,6 +46,7 @@ namespace QLNet
       //private SABRWrapper wrapper;
 
       public int dimension() { return 4; }
+
       public void defaultValues(List<double?> param, List<bool> b, double forward, double expiryTIme)
       {
          if (param[1] == null)
@@ -76,8 +79,11 @@ namespace QLNet
       }
 
       public double eps1() { return .0000001; }
+
       public double eps2() { return .9999; }
+
       public double dilationFactor() { return 0.001; }
+
       public Vector inverse(Vector y, List<bool> b, List<double?> c, double d)
       {
          Vector x = new Vector(4);
@@ -90,6 +96,7 @@ namespace QLNet
          x[3] = Math.Asin(y[3] / eps2());
          return x;
       }
+
       public Vector direct(Vector x, List<bool> b, List<double?> c, double d)
       {
          Vector y = new Vector(4);
@@ -108,10 +115,12 @@ namespace QLNet
                      : eps2() * (x[3] > 0.0 ? 1.0 : (-1.0));
          return y;
       }
+
       public IWrapper instance(double t, double forward, List<double?> param)
       {
          return new SABRWrapper(t, forward, param);
       }
+
       public SABRWrapper modelInstance_ { get; set; }
    }
 
@@ -138,7 +147,6 @@ namespace QLNet
                                bool useMaxError = false,
                                int maxGuesses = 50)
       {
-
          impl_ = new XABRInterpolationImpl<SABRSpecs>(
                  xBegin, xEnd, yBegin, t, forward,
                  new List<double?>() { alpha, beta, nu, rho },
@@ -149,15 +157,25 @@ namespace QLNet
                  maxGuesses);
          coeffs_ = (impl_ as XABRInterpolationImpl<SABRSpecs>).coeff_;
       }
+
       public double expiry() { return coeffs_.t_; }
+
       public double forward() { return coeffs_.forward_; }
+
       public double alpha() { return coeffs_.params_[0].Value; }
+
       public double beta() { return coeffs_.params_[1].Value; }
+
       public double nu() { return coeffs_.params_[2].Value; }
+
       public double rho() { return coeffs_.params_[3].Value; }
+
       public double rmsError() { return coeffs_.error_.Value; }
+
       public double maxError() { return coeffs_.maxError_.Value; }
+
       public List<double> interpolationWeights() { return coeffs_.weights_; }
+
       public EndCriteria.Type endCriteria() { return coeffs_.XABREndCriteria_; }
 
       private XABRCoeffHolder<SABRSpecs> coeffs_;
@@ -191,14 +209,14 @@ namespace QLNet
          maxGuesses_ = maxGuesses;
       }
 
-      Interpolation interpolate(List<double> xBegin, int xEnd, List<double> yBegin)
+      private Interpolation interpolate(List<double> xBegin, int xEnd, List<double> yBegin)
       {
          return new SABRInterpolation(xBegin, xEnd, yBegin, t_, forward_, alpha_, beta_, nu_, rho_,
                 alphaIsFixed_, betaIsFixed_, nuIsFixed_, rhoIsFixed_, vegaWeighted_,
                 endCriteria_, optMethod_, errorAccept_, useMaxError_, maxGuesses_);
       }
-      public static bool global = true;
 
+      public static bool global = true;
 
       private double t_;
       private double forward_;
@@ -212,4 +230,3 @@ namespace QLNet
       private int maxGuesses_;
    }
 }
-

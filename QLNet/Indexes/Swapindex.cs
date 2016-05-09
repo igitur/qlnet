@@ -20,12 +20,10 @@
 
 namespace QLNet
 {
-
    public class SwapIndex : InterestRateIndex
    {
       // need by CashFlowVectors
       public SwapIndex() { }
-
 
       public SwapIndex(string familyName, Period tenor, int settlementDays, Currency currency,
                         Calendar calendar, Period fixedLegTenor, BusinessDayConvention fixedLegConvention,
@@ -70,15 +68,22 @@ namespace QLNet
          Date fixDate = fixingDate(valueDate);
          return underlyingSwap(fixDate).maturityDate();
       }
+
       //@}
       //! \name Inspectors
       //@{
       public Period fixedLegTenor() { return fixedLegTenor_; }
+
       public BusinessDayConvention fixedLegConvention() { return fixedLegConvention_; }
+
       public IborIndex iborIndex() { return iborIndex_; }
+
       public Handle<YieldTermStructure> forwardingTermStructure() { return iborIndex_.forwardingTermStructure(); }
+
       public Handle<YieldTermStructure> discountingTermStructure() { return discount_; }
+
       public bool exogenousDiscount() { return exogenousDiscount_; }
+
       // \warning Relinking the term structure underlying the index will not have effect on the returned swap.
       // recheck
       public VanillaSwap underlyingSwap(Date fixingDate)
@@ -103,8 +108,8 @@ namespace QLNet
                  .withFixedLegConvention(fixedLegConvention_)
                  .withFixedLegTerminationDateConvention(fixedLegConvention_)
                  .value();
-
       }
+
       //@}
       //! \name Other methods
       //@{
@@ -133,6 +138,7 @@ namespace QLNet
                        dayCounter(),
                        iborIndex_.clone(forwarding));
       }
+
       //! returns a copy of itself linked to a different curves
       public virtual SwapIndex clone(Handle<YieldTermStructure> forwarding, Handle<YieldTermStructure> discounting)
       {
@@ -147,6 +153,7 @@ namespace QLNet
                     iborIndex_.clone(forwarding),
                     discounting);
       }
+
       //! returns a copy of itself linked to a different tenor
       public virtual SwapIndex clone(Period tenor)
       {
@@ -172,17 +179,19 @@ namespace QLNet
                        dayCounter(),
                        iborIndex());
       }
+
       // @}
       protected override double forecastFixing(Date fixingDate)
       {
          return underlyingSwap(fixingDate).fairRate();
       }
+
       protected new Period tenor_;
       protected IborIndex iborIndex_;
       protected Period fixedLegTenor_;
-      BusinessDayConvention fixedLegConvention_;
-      bool exogenousDiscount_;
-      Handle<YieldTermStructure> discount_;
+      private BusinessDayConvention fixedLegConvention_;
+      private bool exogenousDiscount_;
+      private Handle<YieldTermStructure> discount_;
    }
 
    //! base class for overnight indexed swap indexes
@@ -201,12 +210,15 @@ namespace QLNet
       {
          overnightIndex_ = overnightIndex;
       }
+
       //! \name Inspectors
       //@{
       public OvernightIndex overnightIndex() { return overnightIndex_; }
+
       /*! \warning Relinking the term structure underlying the index will
                    not have effect on the returned swap.
       */
+
       public new OvernightIndexedSwap underlyingSwap(Date fixingDate)
       {
          double fixedRate = 0.0;
@@ -214,9 +226,8 @@ namespace QLNet
              .withEffectiveDate(valueDate(fixingDate))
              .withFixedLegDayCount(dayCounter_);
       }
+
       //@}
       protected OvernightIndex overnightIndex_;
    };
-
-
 }

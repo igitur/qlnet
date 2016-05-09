@@ -34,6 +34,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,24 +59,31 @@ namespace QLNet
                case PolynomType.Monomial:
                   ret.Add(new MonomialFct(i).value);
                   break;
+
                case PolynomType.Laguerre:
                   ret.Add((x) => new GaussLaguerrePolynomial().weightedValue(i, x));
                   break;
+
                case PolynomType.Hermite:
                   ret.Add((x) => new GaussHermitePolynomial().weightedValue(i, x));
                   break;
+
                case PolynomType.Hyperbolic:
                   ret.Add((x) => new GaussHyperbolicPolynomial().weightedValue(i, x));
                   break;
+
                case PolynomType.Legendre:
                   ret.Add((x) => new GaussLegendrePolynomial().weightedValue(i, x));
                   break;
+
                case PolynomType.Chebyshev:
                   ret.Add((x) => new GaussChebyshevPolynomial().weightedValue(i, x));
                   break;
+
                case PolynomType.Chebyshev2th:
                   ret.Add((x) => new GaussChebyshev2ndPolynomial().weightedValue(i, x));
                   break;
+
                default:
                   throw new ApplicationException("unknown regression type");
             }
@@ -83,10 +91,8 @@ namespace QLNet
          return ret;
       }
 
-
       public static List<Func<Vector, double>> multiPathBasisSystem(int dim, int order, PolynomType polynomType)
       {
-
          List<Func<double, double>> b = pathBasisSystem(order, polynomType);
 
          List<Func<Vector, double>> ret = new List<Func<Vector, double>>();
@@ -155,7 +161,6 @@ namespace QLNet
 
       private static List<Func<Vector, double>> w(int dim, int order, PolynomType polynomType, List<Func<double, double>> b)
       {
-
          List<Func<Vector, double>> ret = new List<Func<Vector, double>>();
 
          for (int i = order; i >= 1; --i)
@@ -176,7 +181,6 @@ namespace QLNet
          return ret;
       }
    }
-
 
    public class MonomialFct : IValue
    {

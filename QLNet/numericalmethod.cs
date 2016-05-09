@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -24,6 +25,7 @@ namespace QLNet
    public abstract class Lattice
    {
       protected TimeGrid t_;
+
       public TimeGrid timeGrid() { return t_; }
 
       public Lattice(TimeGrid timeGrid)
@@ -45,6 +47,7 @@ namespace QLNet
       public abstract void initialize(DiscretizedAsset a, double time);
 
       /*! Roll back an asset until the given time, performing any needed adjustment. */
+
       public abstract void rollback(DiscretizedAsset a, double to);
 
       /*! Roll back an asset until the given time, but do not perform
@@ -62,6 +65,7 @@ namespace QLNet
                    asset->preAdjustValues();
                    \endcode
       */
+
       public abstract void partialRollback(DiscretizedAsset a, double to);
 
       //! computes the present value of an asset.

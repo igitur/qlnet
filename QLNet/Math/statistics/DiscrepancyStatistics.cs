@@ -16,9 +16,9 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
-
 
 namespace QLNet
 {
@@ -26,12 +26,11 @@ namespace QLNet
    /*! It inherit from SequenceStatistics<Statistics> and adds
        \f$ L^2 \f$ discrepancy calculation
    */
+
    public class DiscrepancyStatistics : SequenceStatistics
    {
-
       private double adiscr_, cdiscr_;
       private double bdiscr_, ddiscr_;
-
 
       // typedef SequenceStatistics::value_type value_type;
 
@@ -99,8 +98,8 @@ namespace QLNet
          adiscr_ += temp;
       }
 
-      void reset() { reset(0); }
-
+      private void reset()
+      { reset(0); }
 
       public override void reset(int dimension)
       {

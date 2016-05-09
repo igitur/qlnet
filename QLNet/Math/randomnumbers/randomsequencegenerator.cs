@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -24,7 +25,9 @@ namespace QLNet
    public interface IRNG
    {
       int dimension();
+
       Sample<List<double>> nextSequence();
+
       Sample<List<double>> lastSequence();
 
       IRNG factory(int dimensionality, ulong seed);
@@ -39,6 +42,7 @@ namespace QLNet
 
        \warning do not use with low-discrepancy sequence generator.
    */
+
    public class RandomSequenceGenerator<RNG> : IRNG where RNG : IRNGTraits, new()
    {
       // typedef Sample<std::vector<Real> > sample_type;
@@ -81,6 +85,7 @@ namespace QLNet
       }
 
       #region IRGN interface
+
       public Sample<List<double>> nextSequence()
       {
          sequence_.weight = 1.0;
@@ -101,6 +106,7 @@ namespace QLNet
       {
          return new RandomSequenceGenerator<RNG>(dimensionality, seed);
       }
-      #endregion
+
+      #endregion IRGN interface
    }
 }

@@ -25,7 +25,6 @@ namespace QLNet
       //! default theta calculation for Black-Scholes options
       public static double blackScholesTheta(GeneralizedBlackScholesProcess p, double value, double delta, double gamma)
       {
-
          double u = p.stateVariable().currentLink().value();
          double r = p.riskFreeRate().currentLink().zeroRate(0.0, Compounding.Continuous).rate();
          double q = p.dividendYield().currentLink().zeroRate(0.0, Compounding.Continuous).rate();

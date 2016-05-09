@@ -21,7 +21,6 @@ namespace QLNet
 {
    public class LmConstWrapperCorrelationModel : LmCorrelationModel
    {
-
       public LmConstWrapperCorrelationModel(LmCorrelationModel corrModel)
       : base(corrModel.size(), 0)
       {

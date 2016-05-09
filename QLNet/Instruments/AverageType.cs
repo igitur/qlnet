@@ -19,8 +19,6 @@
 
 namespace QLNet
 {
-
-
    //! Placeholder for enumerated averaging types
    public struct Average
    {
@@ -31,5 +29,4 @@ namespace QLNet
          NULL
       }
    }
-
 }

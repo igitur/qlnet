@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 /*! \file mc_discr_arith_av_strike.hpp
@@ -24,16 +25,15 @@ using System;
 
 namespace QLNet
 {
-
    //!  Monte Carlo pricing engine for discrete arithmetic average-strike Asian
    /*!  \ingroup asianengines */
+
    //template <class RNG = PseudoRandom, class S = Statistics>
    public class MCDiscreteArithmeticASEngine<RNG, S>
        : MCDiscreteAveragingAsianEngine<RNG, S>
        where RNG : IRSG, new()
        where S : Statistics, new()
    {
-
       // constructor
       public MCDiscreteArithmeticASEngine(
            GeneralizedBlackScholesProcess process,
@@ -46,7 +46,6 @@ namespace QLNet
       : base(process, 1, brownianBridge, antitheticVariate, false,
               requiredSamples, requiredTolerance, maxSamples, seed)
       { }
-
 
       protected override PathPricer<IPath> pathPricer()
       {
@@ -68,7 +67,6 @@ namespace QLNet
 
    public class ArithmeticASOPathPricer : PathPricer<Path>
    {
-
       private Option.Type type_;
       private double discount_;
       private double runningSum_;
@@ -157,7 +155,6 @@ namespace QLNet
 
       public MakeMCDiscreteArithmeticASEngine<RNG, S> withTolerance(double tolerance)
       {
-
          Utils.QL_REQUIRE(samples_ == null, () => "number of samples already set");
          if ((new RNG().allowsErrorEstimate == 0))
             throw new ApplicationException("chosen random generator policy " +
@@ -208,5 +205,3 @@ namespace QLNet
       private ulong seed_;
    }
 }
-
-

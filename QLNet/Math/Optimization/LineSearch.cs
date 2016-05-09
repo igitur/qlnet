@@ -17,27 +17,33 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-
    //! Base class for line search
    public abstract class LineSearch
    {
       //! current values of the search direction
       protected Vector searchDirection_;
+
       //! new x and its gradient
       protected Vector xtd_;
+
       protected Vector gradient_ = new Vector();
+
       //! cost function value and gradient norm corresponding to xtd_
       protected double qt_;
+
       protected double qpt_;
+
       //! flag to know if linesearch succeed
       protected bool succeed_;
 
       //! Default constructor
       public LineSearch() : this(0.0) { }
+
       public LineSearch(double UnnamedParameter1)
       {
          qt_ = 0.0;
@@ -47,10 +53,13 @@ namespace QLNet
 
       //! return last x value
       public Vector lastX() { return xtd_; }
+
       //! return last cost function value
       public double lastFunctionValue() { return qt_; }
+
       //! return last gradient
       public Vector lastGradient() { return gradient_; }
+
       //! return square norm of last gradient
       public double lastGradientNorm2() { return qpt_; }
 
@@ -58,9 +67,9 @@ namespace QLNet
 
       //! Perform line search
       public abstract double value(Problem P, ref EndCriteria.Type ecType, EndCriteria NamelessParameter3, double t_ini); // initial value of line-search step
+
       public double update(ref Vector data, Vector direction, double beta, Constraint constraint)
       {
-
          double diff = beta;
          Vector newParams = data + diff * direction;
          bool valid = constraint.test(newParams);

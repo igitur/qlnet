@@ -23,7 +23,6 @@ namespace QLNet
    //! Rate helper for bootstrapping over interest-rate futures prices
    public class FuturesRateHelper : RateHelper
    {
-
       public FuturesRateHelper(Handle<Quote> price,
                                 Date iborStartDate,
                                 int lengthInMonths,
@@ -41,10 +40,12 @@ namespace QLNet
                Utils.QL_REQUIRE(QLNet.IMM.isIMMdate(iborStartDate, false), () =>
                    iborStartDate + " is not a valid IMM date");
                break;
+
             case QLNet.Futures.Type.ASX:
                Utils.QL_REQUIRE(ASX.isASXdate(iborStartDate, false), () =>
                    iborStartDate + " is not a valid ASX date");
                break;
+
             default:
                Utils.QL_FAIL("unknown futures type (" + type + ")");
                break;
@@ -56,7 +57,6 @@ namespace QLNet
 
          convAdj_.registerWith(update);
       }
-
 
       public FuturesRateHelper(double price,
                                 Date iborStartDate,
@@ -77,10 +77,12 @@ namespace QLNet
                Utils.QL_REQUIRE(IMM.isIMMdate(iborStartDate, false), () =>
                    iborStartDate + " is not a valid IMM date");
                break;
+
             case Futures.Type.ASX:
                Utils.QL_REQUIRE(ASX.isASXdate(iborStartDate, false), () =>
                    iborStartDate + " is not a valid ASX date");
                break;
+
             default:
                Utils.QL_FAIL("unknown futures type (" + type + ")");
                break;
@@ -122,6 +124,7 @@ namespace QLNet
                   maturityDate_ = iborEndDate;
                }
                break;
+
             case QLNet.Futures.Type.ASX:
                Utils.QL_REQUIRE(ASX.isASXdate(iborStartDate, false), () =>
                    iborStartDate + " is not a valid ASX date");
@@ -141,6 +144,7 @@ namespace QLNet
                   maturityDate_ = iborEndDate;
                }
                break;
+
             default:
                Utils.QL_FAIL("unknown futures type (" + type + ")");
                break;
@@ -183,6 +187,7 @@ namespace QLNet
                   maturityDate_ = iborEndDate;
                }
                break;
+
             case Futures.Type.ASX:
                Utils.QL_REQUIRE(ASX.isASXdate(iborStartDate, false), () =>
                iborStartDate + " is not a valid ASX date");
@@ -202,6 +207,7 @@ namespace QLNet
                   maturityDate_ = iborEndDate;
                }
                break;
+
             default:
                Utils.QL_FAIL("unknown futures type (" + type + ")");
                break;
@@ -226,10 +232,12 @@ namespace QLNet
                Utils.QL_REQUIRE(IMM.isIMMdate(iborStartDate, false), () =>
                    iborStartDate + " is not a valid IMM date");
                break;
+
             case Futures.Type.ASX:
                Utils.QL_REQUIRE(ASX.isASXdate(iborStartDate, false), () =>
                    iborStartDate + " is not a valid ASX date");
                break;
+
             default:
                Utils.QL_FAIL("unknown futures type (" + type + ")");
                break;
@@ -257,10 +265,12 @@ namespace QLNet
                Utils.QL_REQUIRE(IMM.isIMMdate(iborStartDate, false), () =>
                    iborStartDate + " is not a valid IMM date");
                break;
+
             case Futures.Type.ASX:
                Utils.QL_REQUIRE(ASX.isASXdate(iborStartDate, false), () =>
                    iborStartDate + " is not a valid ASX date");
                break;
+
             default:
                Utils.QL_FAIL("unknown futures type (" + type + ")");
                break;
@@ -295,7 +305,6 @@ namespace QLNet
 
       private double yearFraction_;
       private Handle<Quote> convAdj_;
-
    }
 
    // Rate helper with date schedule relative to the global evaluation date
@@ -319,7 +328,6 @@ namespace QLNet
          Settings.registerWith(update);
          evaluationDate_ = Settings.evaluationDate();
       }
-
 
       //////////////////////////////////////
       //! Observer interface
@@ -374,13 +382,13 @@ namespace QLNet
          iborIndex_ = i.clone(termStructureHandle_);
          initializeDates();
       }
+
       public DepositRateHelper(double rate, IborIndex i)
          : base(rate)
       {
          iborIndex_ = i.clone(termStructureHandle_);
          initializeDates();
       }
-
 
       /////////////////////////////////////////
       //! RateHelper interface
@@ -412,15 +420,14 @@ namespace QLNet
 
       private Date fixingDate_;
       private IborIndex iborIndex_;
+
       // need to init this because it is used before the handle has any link, i.e. setTermStructure will be used after ctor
       private RelinkableHandle<YieldTermStructure> termStructureHandle_ = new RelinkableHandle<YieldTermStructure>();
-
    }
 
    //! Rate helper for bootstrapping over %FRA rates
    public class FraRateHelper : RelativeDateRateHelper
    {
-
       public FraRateHelper(Handle<Quote> rate,
                             int monthsToStart,
                             int monthsToEnd,
@@ -629,9 +636,11 @@ namespace QLNet
             case Pillar.Choice.MaturityDate:
                pillarDate_ = maturityDate_;
                break;
+
             case Pillar.Choice.LastRelevantDate:
                pillarDate_ = latestRelevantDate_;
                break;
+
             case Pillar.Choice.CustomDate:
                // pillarDate_ already assigned at construction time
                Utils.QL_REQUIRE(pillarDate_ >= earliestDate_, () =>
@@ -641,6 +650,7 @@ namespace QLNet
                    "pillar date (" + pillarDate_ + ") must be before or equal to the instrument's latest relevant date (" +
                    latestRelevantDate_ + ")");
                break;
+
             default:
                Utils.QL_FAIL("unknown Pillar::Choice(" + pillarChoice_ + ")");
                break;
@@ -654,9 +664,9 @@ namespace QLNet
       private Period periodToStart_;
       private Pillar.Choice pillarChoice_;
       private IborIndex iborIndex_;
-      // need to init this because it is used before the handle has any link, i.e. setTermStructure will be used after ctor
-      RelinkableHandle<YieldTermStructure> termStructureHandle_ = new RelinkableHandle<YieldTermStructure>();
 
+      // need to init this because it is used before the handle has any link, i.e. setTermStructure will be used after ctor
+      private RelinkableHandle<YieldTermStructure> termStructureHandle_ = new RelinkableHandle<YieldTermStructure>();
    }
 
    // Rate helper for bootstrapping over swap rates
@@ -702,7 +712,6 @@ namespace QLNet
          initializeDates();
       }
 
-
       public SwapRateHelper(Handle<Quote> rate,
                              Period tenor,
                              Calendar calendar,
@@ -784,7 +793,6 @@ namespace QLNet
          initializeDates();
       }
 
-
       public SwapRateHelper(double rate,
                              Period tenor,
                              Calendar calendar,
@@ -830,8 +838,6 @@ namespace QLNet
          initializeDates();
       }
 
-
-
       protected override void initializeDates()
       {
          // do not pass the spread here, as it might be a Quote i.e. it can dinamically change
@@ -866,9 +872,11 @@ namespace QLNet
             case Pillar.Choice.MaturityDate:
                pillarDate_ = maturityDate_;
                break;
+
             case Pillar.Choice.LastRelevantDate:
                pillarDate_ = latestRelevantDate_;
                break;
+
             case Pillar.Choice.CustomDate:
                // pillarDate_ already assigned at construction time
                Utils.QL_REQUIRE(pillarDate_ >= earliestDate_, () =>
@@ -880,13 +888,13 @@ namespace QLNet
                       "or equal to the instrument's latest relevant date (" +
                       latestRelevantDate_ + ")");
                break;
+
             default:
                Utils.QL_FAIL("unknown Pillar::Choice(" + pillarChoice_ + ")");
                break;
          }
 
          latestDate_ = pillarDate_; // backward compatibility
-
       }
 
       public override void setTermStructure(YieldTermStructure t)
@@ -915,7 +923,9 @@ namespace QLNet
 
       //! \name SwapRateHelper inspectors
       public double spread() { return spread_.empty() ? 0.0 : spread_.link.value(); }
+
       public VanillaSwap swap() { return swap_; }
+
       public Period forwardStart() { return fwdStart_; }
 
       protected int? settlementDays_;
@@ -927,13 +937,14 @@ namespace QLNet
       protected DayCounter fixedDayCount_;
       protected IborIndex iborIndex_;
       protected VanillaSwap swap_;
+
       // need to init this because it is used before the handle has any link, i.e. setTermStructure will be used after ctor
       protected RelinkableHandle<YieldTermStructure> termStructureHandle_ = new RelinkableHandle<YieldTermStructure>();
+
       protected Handle<Quote> spread_;
       protected Period fwdStart_;
       protected Handle<YieldTermStructure> discountHandle_;
       protected RelinkableHandle<YieldTermStructure> discountRelinkableHandle_ = new RelinkableHandle<YieldTermStructure>();
-
    }
 
    //! Rate helper for bootstrapping over BMA swap rates
@@ -1020,7 +1031,6 @@ namespace QLNet
             d + new Period((11 - w), TimeUnit.Days) :
             d + new Period((4 - w), TimeUnit.Days);
          latestDate_ = clonedIndex.valueDate(clonedIndex.fixingCalendar().adjust(nextWednesday));
-
       }
 
       protected Period tenor_;
@@ -1034,7 +1044,6 @@ namespace QLNet
 
       protected BMASwap swap_;
       protected RelinkableHandle<YieldTermStructure> termStructureHandle_ = new RelinkableHandle<YieldTermStructure>();
-
    }
 
    //! Rate helper for bootstrapping over Fx Swap rates
@@ -1042,6 +1051,7 @@ namespace QLNet
       isFxBaseCurrencyCollateralCurrency indicates if the base currency
       of the fx currency pair is the one used as collateral
    */
+
    public class FxSwapRateHelper : RelativeDateRateHelper
    {
       public FxSwapRateHelper(Handle<Quote> fwdPoint,
@@ -1092,8 +1102,8 @@ namespace QLNet
          {
             return (collRatio / ratio - 1) * spot;
          }
-
       }
+
       public override void setTermStructure(YieldTermStructure t)
       {
          // do not set the relinkable handle as an observer -
@@ -1102,18 +1112,25 @@ namespace QLNet
          termStructureHandle_.linkTo(t, false);
          collRelinkableHandle_.linkTo(collHandle_, false);
          base.setTermStructure(t);
-
       }
+
       //@}
       //! \name FxSwapRateHelper inspectors
       //@{
       public double spot() { return spot_.link.value(); }
+
       public Period tenor() { return tenor_; }
+
       public int fixingDays() { return fixingDays_; }
+
       public Calendar calendar() { return cal_; }
+
       public BusinessDayConvention businessDayConvention() { return conv_; }
+
       public bool endOfMonth() { return eom_; }
+
       public bool isFxBaseCurrencyCollateralCurrency() { return isFxBaseCurrencyCollateralCurrency_; }
+
       //@}
       //! \name Visitability
       //@{
@@ -1128,6 +1145,7 @@ namespace QLNet
          earliestDate_ = cal_.advance(refDate, new Period(fixingDays_, TimeUnit.Days));
          latestDate_ = cal_.advance(earliestDate_, tenor_, conv_, eom_);
       }
+
       private Handle<Quote> spot_;
       private Period tenor_;
       private int fixingDays_;

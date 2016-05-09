@@ -31,7 +31,6 @@ using System.Collections.Generic;
 
 namespace QLNet
 {
-
    //! Halton low-discrepancy sequence generator
    /*! Halton algorithm for low-discrepancy sequence.  For more
        details see chapter 8, paragraph 2 of "Monte Carlo Methods in
@@ -43,11 +42,12 @@ namespace QLNet
        - the correctness of the returned values is tested by checking
          their discrepancy against known good values.
    */
+
    public class HaltonRsg : IRNG
    {
-
       //typedef Sample<std::vector<Real> > sample_type;
       private int dimensionality_;
+
       private ulong sequenceCounter_;
       private Sample<List<double>> sequence_;
       private List<ulong> randomStart_;
@@ -112,7 +112,5 @@ namespace QLNet
       }
 
       public int dimension() { return dimensionality_; }
-
    }
 }
-

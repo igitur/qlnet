@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace QLNet
    public interface IInterpolationFactory
    {
       Interpolation interpolate(List<double> xBegin, int size, List<double> yBegin);
+
       bool global { get; }
       int requiredPoints { get; }
    }
@@ -41,6 +43,7 @@ namespace QLNet
       public bool empty() { return impl_ == null; }
 
       public double primitive(double x) { return primitive(x, false); }
+
       public double primitive(double x, bool allowExtrapolation)
       {
          checkRange(x, allowExtrapolation);
@@ -48,6 +51,7 @@ namespace QLNet
       }
 
       public double derivative(double x) { return derivative(x, false); }
+
       public double derivative(double x, bool allowExtrapolation)
       {
          checkRange(x, allowExtrapolation);
@@ -55,6 +59,7 @@ namespace QLNet
       }
 
       public double secondDerivative(double x) { return secondDerivative(x, false); }
+
       public double secondDerivative(double x, bool allowExtrapolation)
       {
          checkRange(x, allowExtrapolation);
@@ -65,14 +70,17 @@ namespace QLNet
       {
          return impl_.xMin();
       }
+
       public double xMax()
       {
          return impl_.xMax();
       }
-      bool isInRange(double x)
+
+      private bool isInRange(double x)
       {
          return impl_.isInRange(x);
       }
+
       public override void update()
       {
          impl_.update();
@@ -80,6 +88,7 @@ namespace QLNet
 
       // main method to derive an interpolated point
       public double value(double x) { return value(x, false); }
+
       public double value(double x, bool allowExtrapolation)
       {
          checkRange(x, allowExtrapolation);
@@ -93,20 +102,28 @@ namespace QLNet
                                         + "]: extrapolation at " + x + " not allowed");
       }
 
-
       // abstract base class interface for interpolation implementations
       protected interface Impl : IValue
       {
          void update();
+
          double xMin();
+
          double xMax();
+
          List<double> xValues();
+
          List<double> yValues();
+
          bool isInRange(double d);
+
          double primitive(double d);
+
          double derivative(double d);
+
          double secondDerivative(double d);
       }
+
       public abstract class templateImpl : Impl
       {
          protected List<double> xBegin_;
@@ -125,8 +142,11 @@ namespace QLNet
          }
 
          public double xMin() { return xBegin_.First(); }
+
          public double xMax() { return xBegin_[size_ - 1]; }
+
          public List<double> xValues() { return xBegin_.GetRange(0, size_); }
+
          public List<double> yValues() { return yBegin_.GetRange(0, size_); }
 
          public bool isInRange(double x)
@@ -150,9 +170,13 @@ namespace QLNet
          }
 
          public abstract double value(double d);
+
          public abstract void update();
+
          public abstract double primitive(double d);
+
          public abstract double derivative(double d);
+
          public abstract double secondDerivative(double d);
       }
    }

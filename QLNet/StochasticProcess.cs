@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -24,7 +25,9 @@ namespace QLNet
    public interface IDiscretization
    {
       Vector drift(StochasticProcess sp, double t0, Vector x0, double dt);
+
       Matrix diffusion(StochasticProcess sp, double t0, Vector x0, double dt);
+
       Matrix covariance(StochasticProcess sp, double t0, Vector x0, double dt);
    }
 
@@ -32,7 +35,9 @@ namespace QLNet
    public interface IDiscretization1D
    {
       double drift(StochasticProcess1D sp, double t0, double x0, double dt);
+
       double diffusion(StochasticProcess1D sp, double t0, double x0, double dt);
+
       double variance(StochasticProcess1D sp, double t0, double x0, double dt);
    }
 
@@ -43,11 +48,13 @@ namespace QLNet
                      + \sigma(t, \mathrm{x}_t) \cdot d\mathrm{W}_t.
        \f]
    */
+
    public abstract class StochasticProcess : IObservable, IObserver
    {
       protected IDiscretization discretization_;
 
       protected StochasticProcess() { }
+
       protected StochasticProcess(IDiscretization disc)
       {
          discretization_ = disc;
@@ -65,10 +72,12 @@ namespace QLNet
 
       /*! \brief returns the drift part of the equation, i.e.,
                  \f$ \mu(t, \mathrm{x}_t) \f$ */
+
       public abstract Vector drift(double t, Vector x);
 
       /*! \brief returns the diffusion part of the equation, i.e.
                  \f$ \sigma(t, \mathrm{x}_t) \f$ */
+
       public abstract Matrix diffusion(double t, Vector x);
 
       /*! returns the expectation
@@ -79,6 +88,7 @@ namespace QLNet
           overridden in derived classes which want to hard-code a
           particular discretization.
       */
+
       public virtual Vector expectation(double t0, Vector x0, double dt)
       {
          return apply(x0, discretization_.drift(this, t0, x0, dt));
@@ -92,6 +102,7 @@ namespace QLNet
           overridden in derived classes which want to hard-code a
           particular discretization.
       */
+
       public virtual Matrix stdDeviation(double t0, Vector x0, double dt)
       {
          return discretization_.diffusion(this, t0, x0, dt);
@@ -105,6 +116,7 @@ namespace QLNet
           overridden in derived classes which want to hard-code a
           particular discretization.
       */
+
       public virtual Matrix covariance(double t0, Vector x0, double dt)
       {
          return discretization_.covariance(this, t0, x0, dt);
@@ -120,6 +132,7 @@ namespace QLNet
           where \f$ E \f$ is the expectation and \f$ S \f$ the
           standard deviation.
       */
+
       public virtual Vector evolve(double t0, Vector x0, double dt, Vector dw)
       {
          return apply(expectation(t0, x0, dt), stdDeviation(t0, x0, dt) * dw);
@@ -128,6 +141,7 @@ namespace QLNet
       /*! applies a change to the asset value. By default, it
           returns \f$ \mathrm{x} + \Delta \mathrm{x} \f$.
       */
+
       public virtual Vector apply(Vector x0, Vector dx)
       {
          return x0 + dx;
@@ -142,15 +156,17 @@ namespace QLNet
                 functionality, a default implementation is given
                 which raises an exception.
       */
+
       public virtual double time(Date d)
       {
          throw new NotSupportedException("date/time conversion not supported");
       }
 
-
       #region Observer & Observable
+
       // Subjects, i.e. observables, should define interface internally like follows.
       public event Callback notifyObserversEvent;
+
       // this method is required for calling from derived classes
       protected void notifyObservers()
       {
@@ -160,14 +176,17 @@ namespace QLNet
             handler();
          }
       }
+
       public void registerWith(Callback handler) { notifyObserversEvent += handler; }
+
       public void unregisterWith(Callback handler) { notifyObserversEvent -= handler; }
 
       public virtual void update()
       {
          notifyObservers();
       }
-      #endregion
+
+      #endregion Observer & Observable
    }
 
    //! 1-dimensional stochastic process
@@ -176,11 +195,13 @@ namespace QLNet
            dx_t = \mu(t, x_t)dt + \sigma(t, x_t)dW_t.
        \f]
    */
+
    public abstract class StochasticProcess1D : StochasticProcess
    {
       new protected IDiscretization1D discretization_;
 
       protected StochasticProcess1D() { }
+
       protected StochasticProcess1D(IDiscretization1D disc)
       {
          discretization_ = disc;
@@ -193,6 +214,7 @@ namespace QLNet
 
       //! returns the drift part of the equation, i.e. \f$ \mu(t, x_t) \f$
       public abstract double drift(double t, double x);
+
       public override Vector drift(double t, Vector x)
       {
 #if QL_EXTRA_SAFETY_CHECKS
@@ -205,7 +227,9 @@ namespace QLNet
       /*! \brief returns the diffusion part of the equation, i.e.
           \f$ \sigma(t, x_t) \f$
       */
+
       public abstract double diffusion(double t, double x);
+
       public override Matrix diffusion(double t, Vector x)
       {
 #if QL_EXTRA_SAFETY_CHECKS
@@ -222,10 +246,12 @@ namespace QLNet
           overridden in derived classes which want to hard-code a
           particular discretization.
       */
+
       public virtual double expectation(double t0, double x0, double dt)
       {
          return apply(x0, discretization_.drift(this, t0, x0, dt));
       }
+
       public override Vector expectation(double t0, Vector x0, double dt)
       {
 #if QL_EXTRA_SAFETY_CHECKS
@@ -242,10 +268,12 @@ namespace QLNet
           overridden in derived classes which want to hard-code a
           particular discretization.
       */
+
       public virtual double stdDeviation(double t0, double x0, double dt)
       {
          return discretization_.diffusion(this, t0, x0, dt);
       }
+
       public override Matrix stdDeviation(double t0, Vector x0, double dt)
       {
 #if QL_EXTRA_SAFETY_CHECKS
@@ -262,10 +290,12 @@ namespace QLNet
           overridden in derived classes which want to hard-code a
           particular discretization.
       */
+
       public virtual double variance(double t0, double x0, double dt)
       {
          return discretization_.variance(this, t0, x0, dt);
       }
+
       public virtual Matrix variance(double t0, Vector x0, double dt)
       {
 #if QL_EXTRA_SAFETY_CHECKS
@@ -284,10 +314,12 @@ namespace QLNet
           where \f$ E \f$ is the expectation and \f$ S \f$ the
           standard deviation.
       */
+
       public virtual double evolve(double t0, double x0, double dt, double dw)
       {
          return apply(expectation(t0, x0, dt), stdDeviation(t0, x0, dt) * dw);
       }
+
       public virtual Vector evolve(double t0, ref Vector x0, double dt, ref Vector dw)
       {
 #if QL_EXTRA_SAFETY_CHECKS
@@ -301,7 +333,9 @@ namespace QLNet
       /*! applies a change to the asset value. By default, it
           returns \f$ x + \Delta x \f$.
       */
+
       public virtual double apply(double x0, double dx) { return x0 + dx; }
+
       public virtual Vector apply(ref Vector x0, ref Vector dx)
       {
 #if QL_EXTRA_SAFETY_CHECKS
@@ -318,6 +352,7 @@ namespace QLNet
          Vector a = new Vector(1, x0());
          return a;
       }
+
       public override int size() { return 1; }
    }
 }

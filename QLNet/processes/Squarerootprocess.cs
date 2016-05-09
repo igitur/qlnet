@@ -16,11 +16,11 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-
    //! Square-root process class
    //    ! This class describes a square-root process governed by
    //        \f[
@@ -39,9 +39,11 @@ namespace QLNet
       public SquareRootProcess(double b, double a, double sigma, double x0) : this(b, a, sigma, x0, new EulerDiscretization())
       {
       }
+
       public SquareRootProcess(double b, double a, double sigma) : this(b, a, sigma, 0.0, new EulerDiscretization())
       {
       }
+
       public SquareRootProcess(double b, double a, double sigma, double x0, IDiscretization1D disc)
           : base(disc)
       {
@@ -50,20 +52,22 @@ namespace QLNet
          speed_ = a;
          volatility_ = sigma;
       }
+
       //! \name StochasticProcess interface
       //@{
       public override double x0()
       {
          return x0_;
       }
+
       public override double drift(double UnnamedParameter1, double x)
       {
          return speed_ * (mean_ - x);
       }
+
       public override double diffusion(double UnnamedParameter1, double x)
       {
          return volatility_ * Math.Sqrt(x);
       }
    }
-
 }

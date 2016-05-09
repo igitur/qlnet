@@ -75,15 +75,12 @@ namespace QLNet
                      " index period " + pShift +
                      " and index availability " + zii_.availabilityLag() +
                      " need (obsLag-index period) > availLag");
-
          }
          Settings.registerWith(update);
       }
 
-
       public override void setTermStructure(ZeroInflationTermStructure z)
       {
-
          base.setTermStructure(z);
 
          // set up a new ZCIIS
@@ -117,7 +114,6 @@ namespace QLNet
          zciis_.recalculate();
          return zciis_.fairRate();
       }
-
 
       protected Period swapObsLag_;
       protected Date maturity_;
@@ -225,7 +221,6 @@ namespace QLNet
              calendar_,  // inflation index does not have a calendar
              paymentConvention_);
 
-
          // Because very simple instrument only takes
          // standard discounting swap engine.
          yyiis_.setPricingEngine(new DiscountingSwapEngine(y.nominalTermStructure()));
@@ -248,5 +243,4 @@ namespace QLNet
       protected YoYInflationIndex yii_;
       protected YearOnYearInflationSwap yyiis_;
    }
-
 }

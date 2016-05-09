@@ -15,8 +15,6 @@
 //  FOR A PARTICULAR PURPOSE.  See the license for more details.
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace QLNet
 {
@@ -68,6 +66,7 @@ namespace QLNet
 
        \ingroup yieldtermstructures
    */
+
    public class FittedBondDiscountCurve : YieldTermStructure
    {
       //! \name Constructors
@@ -120,29 +119,34 @@ namespace QLNet
          fittingMethod_.curve_ = this;
          setup();
       }
+
       //@}
 
       //! \name Inspectors
       //@{
       //! total number of bonds used to fit the yield curve
       public int numberOfBonds() { return bondHelpers_.Count; }
+
       //! the latest date for which the curve can return values
       public override Date maxDate()
       {
          calculate();
          return maxDate_;
       }
+
       //! class holding the results of the fit
       public FittingMethod fitResults()
       {
          calculate();
          return fittingMethod_.clone();
       }
+
       //@}
 
       //! \name Observer interface
       //@{
       public override void update() { base.update(); }
+
       //@}
 
       private void setup()
@@ -153,7 +157,6 @@ namespace QLNet
 
       protected override void performCalculations()
       {
-
          Utils.QL_REQUIRE(!bondHelpers_.empty(), () => "no bondHelpers given");
 
          maxDate_ = Date.minDate();
@@ -180,7 +183,6 @@ namespace QLNet
          }
          fittingMethod_.init();
          fittingMethod_.calculate();
-
       }
 
       protected override double discountImpl(double t)
@@ -188,16 +190,22 @@ namespace QLNet
          calculate();
          return fittingMethod_.discountFunction(fittingMethod_.solution_, t);
       }
+
       // target accuracy level to be used in the optimization routine
       private double accuracy_;
+
       // max number of evaluations to be used in the optimization routine
       private int maxEvaluations_;
+
       // sets the scale in the (Simplex) optimization routine
       private double simplexLambda_;
+
       // max number of evaluations where no improvement to solution is made
       private int maxStationaryStateIterations_;
+
       // a guess solution may be passed into the constructor to speed calcs
       private Vector guessSolution_;
+
       private Date maxDate_;
       private List<BondHelper> bondHelpers_;
       private FittingMethod fittingMethod_; // TODO Clone
@@ -233,6 +241,7 @@ namespace QLNet
                    depending on the fitting method used, in order to get
                    proper/reasonable/faster convergence.
       */
+
       public class FittingMethod
       {
          //friend class FittedBondDiscountCurve;
@@ -254,6 +263,7 @@ namespace QLNet
                }
                return squaredError;
             }
+
             public override Vector values(Vector x)
             {
                Date refDate = fittingMethod_.curve_.referenceDate();
@@ -294,26 +304,32 @@ namespace QLNet
 
             private FittedBondDiscountCurve.FittingMethod fittingMethod_;
             internal List<int> firstCashFlow_;
-
-
          }
 
          //! total number of coefficients to fit/solve for
          public virtual int size() { throw new NotImplementedException(); }
+
          //! output array of results of optimization problem
          public Vector solution() { return solution_; }
+
          //! final number of iterations used in the optimization problem
          public int numberOfIterations() { return numberOfIterations_; }
+
          //! final value of cost function after optimization
          public double minimumCostValue() { return costValue_; }
+
          //! clone of the current object
          public virtual FittingMethod clone() { throw new NotImplementedException(); }
+
          //! return whether there is a constraint at zero
          public bool constrainAtZero() { return constrainAtZero_; }
+
          //! return weights being used
          public Vector weights() { return weights_; }
+
          //! return optimization method being used
          public OptimizationMethod optimizationMethod() { return optimizationMethod_; }
+
          //! open discountFunction to public
          public double discount(Vector x, double t) { return discountFunction(x, t); }
 
@@ -327,6 +343,7 @@ namespace QLNet
             calculateWeights_ = weights_.empty();
             optimizationMethod_ = optimizationMethod;
          }
+
          //! rerun every time instruments/referenceDate changes
          internal virtual void init()
          {
@@ -379,7 +396,6 @@ namespace QLNet
 
             Utils.QL_REQUIRE(weights_.size() == n, () =>
                 "Given weights do not cover all boostrapping helpers");
-
          }
 
          //! discount function called by FittedBondDiscountCurve
@@ -387,15 +403,19 @@ namespace QLNet
 
          //! constrains discount function to unity at \f$ T=0 \f$, if true
          protected bool constrainAtZero_;
+
          //! internal reference to the FittedBondDiscountCurve instance
          internal FittedBondDiscountCurve curve_;
+
          //! solution array found from optimization, set in calculate()
          internal Vector solution_;
+
          //! optional guess solution to be passed into constructor.
          /*! The idea is to use a previous solution as a guess solution to
             the discount curve, in an attempt to speed up calculations.
          */
          protected Vector guessSolution_;
+
          //! base class sets this cost function used in the optimization routine
          protected FittingCost costFunction_;
 
@@ -453,16 +473,19 @@ namespace QLNet
 
          // array of normalized (duration) weights, one for each bond helper
          private Vector weights_;
+
          // whether or not the weights should be calculated internally
          private bool calculateWeights_;
+
          // total number of iterations used in the optimization routine
          // (possibly including gradient evaluations)
          private int numberOfIterations_;
+
          // final value for the minimized cost function
          private double costValue_;
+
          // optimization method to be used, if none provided use Simplex
          private OptimizationMethod optimizationMethod_;
-
       }
    }
 }

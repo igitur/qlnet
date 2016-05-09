@@ -23,9 +23,9 @@ namespace QLNet
         forward-forward volatilities) from the (cap/floor) At-The-Money
         term volatilities of a CapFloorTermVolCurve.
    */
+
    public class OptionletStripper2 : OptionletStripper
    {
-
       public OptionletStripper2(OptionletStripper1 optionletStripper1, Handle<CapFloorTermVolCurve> atmCapFloorTermVolCurve)
          : base(optionletStripper1.termVolSurface(),
                         optionletStripper1.iborIndex(),
@@ -55,6 +55,7 @@ namespace QLNet
          calculate();
          return atmCapFloorStrikes_;
       }
+
       public List<double> atmCapFloorPrices()
       {
          calculate();
@@ -128,8 +129,8 @@ namespace QLNet
             }
          }
       }
-      //@}
 
+      //@}
 
       private List<double> spreadsVolImplied()
       {
@@ -166,8 +167,8 @@ namespace QLNet
                    new Handle<OptionletVolatilityStructure>(spreadedAdapter));
 
             cap_.setPricingEngine(engine);
-
          }
+
          public override double value(double s)
          {
             if (s != spreadQuote_.value())
@@ -190,6 +191,5 @@ namespace QLNet
       private List<CapFloor> caps_;
       private int maxEvaluations_;
       private double accuracy_;
-
    }
 }

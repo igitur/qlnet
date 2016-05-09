@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -24,11 +25,13 @@ namespace QLNet
    /*! \test the correctness of the returned value is tested by
              checking it against known good results.
    */
+
    public class InverseCumulativePoisson : IValue
    {
       private double lambda_;
 
       public InverseCumulativePoisson() : this(1) { }
+
       public InverseCumulativePoisson(double lambda)
       {
          lambda_ = lambda;

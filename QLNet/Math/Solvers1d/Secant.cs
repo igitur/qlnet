@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -25,7 +26,6 @@ namespace QLNet
    {
       protected override double solveImpl(ISolver1d f, double xAccuracy)
       {
-
          /* The implementation of the algorithm was inspired by
             Press, Teukolsky, Vetterling, and Flannery,
             "Numerical Recipes in C", 2nd edition, Cambridge

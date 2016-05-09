@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -34,6 +35,7 @@ namespace QLNet
 
        \test the generated paths are checked against cached results
    */
+
    public class MultiPathGenerator<GSG> where GSG : IRNG
    {
       // typedef Sample<MultiPath> sample_type;
@@ -61,7 +63,9 @@ namespace QLNet
       }
 
       public Sample<MultiPath> next() { return next(false); }
+
       public Sample<MultiPath> antithetic() { return next(true); }
+
       private Sample<MultiPath> next(bool antithetic)
       {
          if (brownianBridge_)

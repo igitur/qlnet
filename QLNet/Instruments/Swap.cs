@@ -41,7 +41,7 @@ namespace QLNet
       public Results results;
       public SwapEngine engine;
 
-      #endregion
+      #endregion Data members
 
       #region Constructors
 
@@ -91,6 +91,7 @@ namespace QLNet
       /*! This constructor can be used by derived classes that will
             build their legs themselves.
       */
+
       protected Swap(int legs)
       {
          legs_ = new InitializedList<List<CashFlow>>(legs);
@@ -101,7 +102,8 @@ namespace QLNet
          endDiscounts_ = new InitializedList<double?>(legs, 0.0);
          npvDateDiscount_ = 0.0;
       }
-      #endregion
+
+      #endregion Constructors
 
       #region Instrument interface
 
@@ -187,7 +189,7 @@ namespace QLNet
          }
       }
 
-      #endregion
+      #endregion Instrument interface
 
       #region Additional interface
 
@@ -243,7 +245,7 @@ namespace QLNet
          return legs_[j];
       }
 
-      #endregion
+      #endregion Additional interface
 
       ////////////////////////////////////////////////////////////////
       // arguments, results, pricing engine
@@ -251,6 +253,7 @@ namespace QLNet
       {
          public List<List<CashFlow>> legs;
          public List<double> payer;
+
          public virtual void validate()
          {
             Utils.QL_REQUIRE(legs.Count == payer.Count, () => "number of legs and multipliers differ");
@@ -264,6 +267,7 @@ namespace QLNet
          public InitializedList<double?> startDiscounts = new InitializedList<double?>();
          public InitializedList<double?> endDiscounts = new InitializedList<double?>();
          public double? npvDateDiscount;
+
          public override void reset()
          {
             base.reset();

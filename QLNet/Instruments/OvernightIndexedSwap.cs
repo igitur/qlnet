@@ -44,7 +44,6 @@ namespace QLNet
                                   double spread) :
       base(2)
       {
-
          type_ = type;
          nominal_ = nominal;
          paymentFrequency_ = schedule.tenor().frequency();
@@ -76,27 +75,36 @@ namespace QLNet
                payer_[0] = -1.0;
                payer_[1] = +1.0;
                break;
+
             case Type.Receiver:
                payer_[0] = +1.0;
                payer_[1] = -1.0;
                break;
+
             default:
                throw new ApplicationException("Unknown overnight-swap type");
-
          }
       }
 
       public Type type() { return type_; }
+
       public double nominal() { return nominal_; }
+
       public Frequency paymentFrequency() { return paymentFrequency_; }
+
       public double fixedRate() { return fixedRate_; }
+
       public DayCounter fixedDayCount() { return fixedDC_; }
+
       //OvernightIndex overnightIndex();
-      double spread() { return spread_; }
+      private double spread()
+      { return spread_; }
 
-      List<CashFlow> fixedLeg() { return legs_[0]; }
-      List<CashFlow> overnightLeg() { return legs_[1]; }
+      private List<CashFlow> fixedLeg()
+      { return legs_[0]; }
 
+      private List<CashFlow> overnightLeg()
+      { return legs_[1]; }
 
       public double? fairRate()
       {

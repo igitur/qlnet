@@ -43,16 +43,19 @@ namespace QLNet
 
        \ingroup calendars
    */
+
    public class Australia : Calendar
    {
       public Australia() : base(Impl.Singleton) { }
 
-      class Impl : Calendar.WesternImpl
+      private class Impl : Calendar.WesternImpl
       {
          public static readonly Impl Singleton = new Impl();
+
          private Impl() { }
 
          public override string name() { return "Australia"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;
@@ -90,9 +93,4 @@ namespace QLNet
          }
       };
    };
-
 }
-
-
-
-

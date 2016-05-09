@@ -57,6 +57,7 @@ namespace QLNet
          {
             y_ = new Vector(4);
          }
+
          // to constrained <- from unconstrained
          public Vector direct(Vector x)
          {
@@ -79,7 +80,6 @@ namespace QLNet
 
          private Vector y_;
       }
-
 
       public AbcdCalibration() { }
 
@@ -113,7 +113,6 @@ namespace QLNet
          vegaWeighted_ = vegaWeighted;
          times_ = t;
          blackVols_ = blackVols;
-
 
          AbcdMathFunction.validate(aGuess, bGuess, cGuess, dGuess);
 
@@ -155,7 +154,6 @@ namespace QLNet
          return k;
       }
 
-
       public void compute()
       {
          if (vegaWeighted_)
@@ -173,7 +171,6 @@ namespace QLNet
             {
                weights_[i] /= weightsSum;
             }
-
          }
          // there is nothing to optimize
          if (aIsFixed_ && bIsFixed_ && cIsFixed_ && dIsFixed_)
@@ -265,23 +262,28 @@ namespace QLNet
       }
 
       public EndCriteria.Type endCriteria() { return abcdEndCriteria_; }
+
       public double a() { return a_; }
+
       public double b() { return b_; }
+
       public double c() { return c_; }
+
       public double d() { return d_; }
+
       public bool aIsFixed_, bIsFixed_, cIsFixed_, dIsFixed_;
       public double a_, b_, c_, d_;
       public IParametersTransformation transformation_;
 
-
       // optimization method used for fitting
       private EndCriteria.Type abcdEndCriteria_;
+
       private EndCriteria endCriteria_;
       private OptimizationMethod optMethod_;
       private List<double> weights_;
       private bool vegaWeighted_;
+
       //! Parameters
       private List<double> times_, blackVols_;
-
    }
 }

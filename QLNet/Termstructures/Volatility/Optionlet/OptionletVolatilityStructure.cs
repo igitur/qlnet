@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -24,9 +25,11 @@ namespace QLNet
    /*! This class is purely abstract and defines the interface of
       concrete structures which will be derived from this one.
    */
+
    public class OptionletVolatilityStructure : VolatilityTermStructure
    {
       #region Constructors
+
       //! default constructor
       /*! \warning term structures initialized by means of this
                    constructor must manage their own reference date
@@ -47,7 +50,7 @@ namespace QLNet
       public OptionletVolatilityStructure(int settlementDays, Calendar cal, BusinessDayConvention bdc, DayCounter dc = null)
          : base(settlementDays, cal, bdc, dc) { }
 
-      #endregion
+      #endregion Constructors
 
       #region Volatility and Variance
 
@@ -117,7 +120,7 @@ namespace QLNet
          return smileSectionImpl(optionTime);
       }
 
-      #endregion
+      #endregion Volatility and Variance
 
       protected virtual SmileSection smileSectionImpl(Date optionDate)
       {
@@ -134,7 +137,5 @@ namespace QLNet
 
       //! implements the actual volatility calculation in derived classes
       protected virtual double volatilityImpl(double optionTime, double strike) { throw new NotImplementedException(); }
-
    }
-
 }

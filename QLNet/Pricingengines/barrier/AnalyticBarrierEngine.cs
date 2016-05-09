@@ -16,11 +16,11 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-
    //! Pricing Engine for barrier options using analytical formulae
    //    ! The formulas are taken from "Option pricing formulas",
    //         E.G. Haug, McGraw-Hill, p.69 and following.
@@ -38,9 +38,9 @@ namespace QLNet
          //registerWith(process_);
          process_.registerWith(update);
       }
+
       public override void calculate()
       {
-
          PlainVanillaPayoff payoff = arguments_.payoff as PlainVanillaPayoff;
 
          if (payoff == null)
@@ -69,18 +69,21 @@ namespace QLNet
                      else
                         results_.value = A(1) - B(1) + D(1, 1) + E(1);
                      break;
+
                   case Barrier.Type.UpIn:
                      if (strike >= barrier())
                         results_.value = A(1) + E(-1);
                      else
                         results_.value = B(1) - C(-1, 1) + D(-1, 1) + E(-1);
                      break;
+
                   case Barrier.Type.DownOut:
                      if (strike >= barrier())
                         results_.value = A(1) - C(1, 1) + F(1);
                      else
                         results_.value = B(1) - D(1, 1) + F(1);
                      break;
+
                   case Barrier.Type.UpOut:
                      if (strike >= barrier())
                         results_.value = F(-1);
@@ -89,6 +92,7 @@ namespace QLNet
                      break;
                }
                break;
+
             case Option.Type.Put:
                switch (barrierType)
                {
@@ -98,18 +102,21 @@ namespace QLNet
                      else
                         results_.value = A(-1) + E(1);
                      break;
+
                   case Barrier.Type.UpIn:
                      if (strike >= barrier())
                         results_.value = A(-1) - B(-1) + D(-1, -1) + E(-1);
                      else
                         results_.value = C(-1, -1) + E(-1);
                      break;
+
                   case Barrier.Type.DownOut:
                      if (strike >= barrier())
                         results_.value = A(-1) - B(-1) + C(1, -1) - D(1, -1) + F(1);
                      else
                         results_.value = F(1);
                      break;
+
                   case Barrier.Type.UpOut:
                      if (strike >= barrier())
                         results_.value = B(-1) - D(-1, -1) + F(-1);
@@ -118,10 +125,12 @@ namespace QLNet
                      break;
                }
                break;
+
             default:
                throw new ApplicationException("unknown type");
          }
       }
+
       private GeneralizedBlackScholesProcess process_;
       private CumulativeNormalDistribution f_ = new CumulativeNormalDistribution();
 
@@ -137,51 +146,63 @@ namespace QLNet
             throw new ApplicationException("non-plain payoff given");
          return payoff.strike();
       }
+
       private double residualTime()
       {
          return process_.time(arguments_.exercise.lastDate());
       }
+
       private double volatility()
       {
          return process_.blackVolatility().link.blackVol(residualTime(), strike());
       }
+
       private double barrier()
       {
          return arguments_.barrier.GetValueOrDefault();
       }
+
       private double rebate()
       {
          return arguments_.rebate.GetValueOrDefault();
       }
+
       private double stdDeviation()
       {
          return volatility() * Math.Sqrt(residualTime());
       }
+
       private double riskFreeRate()
       {
          return process_.riskFreeRate().link.zeroRate(residualTime(), Compounding.Continuous, Frequency.NoFrequency).rate();
       }
+
       private double riskFreeDiscount()
       {
          return process_.riskFreeRate().link.discount(residualTime());
       }
+
       private double dividendYield()
       {
          return process_.dividendYield().link.zeroRate(residualTime(), Compounding.Continuous, Frequency.NoFrequency).rate();
       }
+
       private double dividendDiscount()
       {
          return process_.dividendYield().link.discount(residualTime());
       }
+
       private double mu()
       {
          double vol = volatility();
          return (riskFreeRate() - dividendYield()) / (vol * vol) - 0.5;
       }
+
       private double muSigma()
       {
          return (1 + mu()) * stdDeviation();
       }
+
       private double A(double phi)
       {
          double x1 = Math.Log(underlying() / strike()) / stdDeviation() + muSigma();
@@ -189,6 +210,7 @@ namespace QLNet
          double N2 = f_.value(phi * (x1 - stdDeviation()));
          return phi * (underlying() * dividendDiscount() * N1 - strike() * riskFreeDiscount() * N2);
       }
+
       private double B(double phi)
       {
          double x2 = Math.Log(underlying() / barrier()) / stdDeviation() + muSigma();
@@ -196,6 +218,7 @@ namespace QLNet
          double N2 = f_.value(phi * (x2 - stdDeviation()));
          return phi * (underlying() * dividendDiscount() * N1 - strike() * riskFreeDiscount() * N2);
       }
+
       private double C(double eta, double phi)
       {
          double HS = barrier() / underlying();
@@ -206,6 +229,7 @@ namespace QLNet
          double N2 = f_.value(eta * (y1 - stdDeviation()));
          return phi * (underlying() * dividendDiscount() * powHS1 * N1 - strike() * riskFreeDiscount() * powHS0 * N2);
       }
+
       private double D(double eta, double phi)
       {
          double HS = barrier() / underlying();
@@ -216,6 +240,7 @@ namespace QLNet
          double N2 = f_.value(eta * (y2 - stdDeviation()));
          return phi * (underlying() * dividendDiscount() * powHS1 * N1 - strike() * riskFreeDiscount() * powHS0 * N2);
       }
+
       private double E(double eta)
       {
          if (rebate() > 0)
@@ -232,6 +257,7 @@ namespace QLNet
             return 0.0;
          }
       }
+
       private double F(double eta)
       {
          if (rebate() > 0)

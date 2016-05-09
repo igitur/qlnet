@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -56,7 +57,6 @@ namespace QLNet
                ((root_ - xl) * dfroot - froot) > 0.0)
                || (Math.Abs(2.0 * froot) > Math.Abs(dxold * dfroot)))
             {
-
                dx = (xh - xl) / 2.0;
                root_ = xl + dx;
             }
@@ -81,7 +81,6 @@ namespace QLNet
          }
 
          throw new ArgumentException("maximum number of function evaluations (" + maxEvaluations_ + ") exceeded");
-
       }
    }
 }

@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -25,14 +26,19 @@ namespace QLNet
    public interface IPricingEngine : IObservable
    {
       IPricingEngineArguments getArguments();
+
       IPricingEngineResults getResults();
+
       void reset();
+
       void calculate();
    }
+
    public interface IPricingEngineArguments
    {
       void validate();
    }
+
    public interface IPricingEngineResults
    {
       void reset();
@@ -50,16 +56,22 @@ namespace QLNet
       protected ResultsType results_ = new ResultsType();
 
       public IPricingEngineArguments getArguments() { return arguments_; }
+
       public IPricingEngineResults getResults() { return results_; }
+
       public void reset() { results_.reset(); }
 
       public virtual void calculate() { throw new NotSupportedException(); }
 
       #region Observer & Observable
+
       // observable interface
       public event Callback notifyObserversEvent;
+
       public void registerWith(Callback handler) { notifyObserversEvent += handler; }
+
       public void unregisterWith(Callback handler) { notifyObserversEvent -= handler; }
+
       protected void notifyObservers()
       {
          Callback handler = notifyObserversEvent;
@@ -70,9 +82,9 @@ namespace QLNet
       }
 
       public virtual void update() { notifyObservers(); }
-      #endregion
-   }
 
+      #endregion Observer & Observable
+   }
 
    //! abstract class for pricing engines
    //public abstract class PricingEngine

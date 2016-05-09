@@ -20,7 +20,6 @@
 
 namespace QLNet
 {
-
    //! %JPY %LIBOR rate
    //    ! Japanese Yen LIBOR fixed by BBA.
    //
@@ -35,6 +34,7 @@ namespace QLNet
           : base("JPYLibor", tenor, 2, new JPYCurrency(), new Japan(), new Actual360(), new Handle<YieldTermStructure>())
       {
       }
+
       public JPYLibor(Period tenor, Handle<YieldTermStructure> h)
           : base("JPYLibor", tenor, 2, new JPYCurrency(), new Japan(), new Actual360(), h)
       {
@@ -45,6 +45,7 @@ namespace QLNet
    public class DailyTenorJPYLibor : DailyTenorLibor
    {
       public DailyTenorJPYLibor(int settlementDays) : this(settlementDays, new Handle<YieldTermStructure>()) { }
+
       public DailyTenorJPYLibor(int settlementDays, Handle<YieldTermStructure> h)
           : base("JPYLibor", settlementDays, new JPYCurrency(), new Japan(), new Actual360(), h) { }
    };

@@ -69,7 +69,6 @@ namespace QLNet
          return result;
       }
 
-
       public virtual Matrix integratedCovariance(double t, Vector x = null)
       {
          // this implementation is not intended for production.
@@ -99,5 +98,4 @@ namespace QLNet
 
       //private Var_Helper varHelper_;
    }
-
 }

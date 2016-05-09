@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -39,6 +40,7 @@ namespace QLNet
        corresponding to the grid above.
      - kernel is a template which needs a Real operator()(Real x) implementation
    */
+
    public class KernelInterpolation2DImpl<Kernel> : Interpolation2D.templateImpl where Kernel : IKernelFunction
    {
       public KernelInterpolation2DImpl(List<double> xBegin, int size, List<double> yBegin, int ySize,
@@ -88,8 +90,8 @@ namespace QLNet
       // singularity or rounding errors the recalculation
       // M*a may not give y. Here, a failure will be thrown if
       // |M*a-y|>=invPrec_
-      void setInverseResultPrecision(double invPrec) { invPrec_ = invPrec; }
-
+      private void setInverseResultPrecision(double invPrec)
+      { invPrec_ = invPrec; }
 
       // returns K(||X-Y||) where X,Y are vectors
       private double kernelAbs(Vector X, Vector Y)
@@ -175,7 +177,6 @@ namespace QLNet
       private Vector alphaVec_, yVec_;
       private Matrix M_;
       private Kernel kernel_;
-
    }
 
    /*! Implementation of the 2D kernel interpolation approach, which
@@ -185,19 +186,17 @@ namespace QLNet
          The kernel in the implementation is kept general, although a
          Gaussian is considered in the cited text.
    */
+
    public class KernelInterpolation2D : Interpolation2D
    {
-
       /*! \pre the \f$ x \f$ values must be sorted.
             \pre kernel needs a Real operator()(Real x) implementation
 
        */
 
-
       public KernelInterpolation2D(List<double> xBegin, int size, List<double> yBegin, int ySize,
                                       Matrix zData, IKernelFunction kernel)
       {
-
          impl_ = new KernelInterpolation2DImpl<IKernelFunction>(xBegin, size, yBegin, ySize, zData, kernel);
          this.update();
       }

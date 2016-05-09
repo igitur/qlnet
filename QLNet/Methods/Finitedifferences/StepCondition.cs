@@ -16,31 +16,35 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
    //! condition to be applied at every time step
    /*! \ingroup findiff */
+
    public interface IStepCondition<array_type> where array_type : Vector
    {
       void applyTo(object o, double t);
    }
 
-
    /* Abstract base class which allows step conditions to use both payoff and array functions */
+
    public class CurveDependentStepCondition<array_type> : IStepCondition<array_type> where array_type : Vector
    {
-      CurveWrapper curveItem_;
+      private CurveWrapper curveItem_;
 
       protected CurveDependentStepCondition(Option.Type type, double strike)
       {
          curveItem_ = new PayoffWrapper(type, strike);
       }
+
       protected CurveDependentStepCondition(Payoff p)
       {
          curveItem_ = new PayoffWrapper(p);
       }
+
       protected CurveDependentStepCondition(array_type a)
       {
          curveItem_ = new ArrayWrapper(a);
@@ -90,10 +94,12 @@ namespace QLNet
          {
             payoff_ = p;
          }
+
          public PayoffWrapper(Option.Type type, double strike)
          {
             payoff_ = new PlainVanillaPayoff(type, strike);
          }
+
          public override double getValue(array_type a, int i)
          {
             return a[i];
@@ -101,9 +107,9 @@ namespace QLNet
       }
    }
 
-
    //! %null step condition
    /*! \ingroup findiff */
+
    public class NullCondition<array_type> : IStepCondition<array_type> where array_type : Vector
    {
       public void applyTo(object a, double t) { }

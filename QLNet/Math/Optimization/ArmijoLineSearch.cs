@@ -20,7 +20,6 @@
 
 namespace QLNet
 {
-
    //! Armijo line search.
    //    ! Let \f$ \alpha \f$ and \f$ \beta \f$ be 2 scalars in \f$ [0,1]
    //        \f$.  Let \f$ x \f$ be the current value of the unknown, \f$ d
@@ -40,8 +39,11 @@ namespace QLNet
    {
       //! Default constructor
       public ArmijoLineSearch(double eps, double alpha) : this(eps, alpha, 0.65) { }
+
       public ArmijoLineSearch(double eps) : this(eps, 0.05, 0.65) { }
+
       public ArmijoLineSearch() : this(1e-8, 0.05, 0.65) { }
+
       public ArmijoLineSearch(double eps, double alpha, double beta)
           : base(eps)
       {
@@ -107,6 +109,7 @@ namespace QLNet
          // Return new step value
          return t;
       }
+
       private double alpha_;
       private double beta_;
    }

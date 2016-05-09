@@ -16,29 +16,31 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System;
 
+using System;
 
 namespace QLNet
 {
-
    //! Two-dimensional tree-based lattice.
    /*! This lattice is based on two trinomial trees and primarily used
        for the G2 short-rate model.
 
        \ingroup lattices
    */
+
    public class TreeLattice2D<T, Tl> : TreeLattice<T>
        where T : IGenericLattice
        where Tl : TrinomialTree
    {
-      Matrix m_;
-      double rho_;
+      private Matrix m_;
+      private double rho_;
 
       protected Tl tree1_;
       protected Tl tree2_;
+
       //public enum Branches { branches = 3 };
       public enum Branches { branches = 3 };
+
       //// smelly
 
       public override Vector grid(double t) { throw new NotImplementedException("not implemented"); }
@@ -47,6 +49,7 @@ namespace QLNet
       // recheck it
       /*  public override TreeLattice2D impl() { return this; }
       */
+
       public TreeLattice2D(TrinomialTree tree1, TrinomialTree tree2, double correlation)
           : base(tree1.timeGrid(), (int)Branches.branches * (int)Branches.branches)
       {
@@ -111,9 +114,5 @@ namespace QLNet
          // does the 36 below depend on T::branches?
          return prob1 * prob2 + rho_ * (m_[branch1, branch2]) / 36.0;
       }
-
    }
-
 }
-
-

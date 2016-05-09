@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -25,6 +26,7 @@ namespace QLNet
    /*! \note This solver requires that the passed function object
              implement a method <tt>Real derivative(Real)</tt>.
    */
+
    public class Newton : Solver1D
    {
       protected override double solveImpl(ISolver1d f, double xAccuracy)

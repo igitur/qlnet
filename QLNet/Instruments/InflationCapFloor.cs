@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System.Collections.Generic;
 using System.Linq;
 
@@ -73,7 +74,6 @@ namespace QLNet
             cf.registerWith(update);
 
          Settings.registerWith(update);
-
       }
 
       public YoYInflationCapFloor(CapFloorType type, List<CashFlow> yoyLeg, List<double> strikes)
@@ -114,6 +114,7 @@ namespace QLNet
                return false;
          return true;
       }
+
       public override void setupArguments(IPricingEngineArguments args)
       {
          YoYInflationCapFloor.Arguments arguments = args as YoYInflationCapFloor.Arguments;
@@ -160,23 +161,29 @@ namespace QLNet
             else
                arguments.floorRates.Add(null);
          }
-
       }
+
       //@}
       //! \name Inspectors
       //@{
       public CapFloorType type() { return type_; }
+
       public List<double> capRates() { return capRates_; }
+
       public List<double> floorRates() { return floorRates_; }
+
       public List<CashFlow> yoyLeg() { return yoyLeg_; }
 
       public Date startDate() { return CashFlows.startDate(yoyLeg_); }
+
       public Date maturityDate() { return CashFlows.maturityDate(yoyLeg_); }
+
       public YoYInflationCoupon lastYoYInflationCoupon()
       {
          YoYInflationCoupon lastYoYInflationCoupon = yoyLeg_.Last() as YoYInflationCoupon;
          return lastYoYInflationCoupon;
       }
+
       //! Returns the n-th optionlet as a cap/floor with only one cash flow.
       public YoYInflationCapFloor optionlet(int i)
       {
@@ -192,6 +199,7 @@ namespace QLNet
 
          return new YoYInflationCapFloor(type(), cf, cap, floor);
       }
+
       //@}
       public virtual double atmRate(YieldTermStructure discountCurve)
       {
@@ -233,6 +241,7 @@ namespace QLNet
          public List<double> gearings;
          public List<double> spreads;
          public List<double> nominals;
+
          public void validate()
          {
             Utils.QL_REQUIRE(payDates.Count == startDates.Count, () =>
@@ -271,11 +280,11 @@ namespace QLNet
       //! base class for cap/floor engines
       public class Engine : GenericEngine<YoYInflationCapFloor.Arguments, YoYInflationCapFloor.Results>
       { }
-
    }
 
    //! Concrete YoY Inflation cap class
    /*! \ingroup instruments */
+
    public class YoYInflationCap : YoYInflationCapFloor
    {
       public YoYInflationCap(List<CashFlow> yoyLeg, List<double> exerciseRates)
@@ -285,6 +294,7 @@ namespace QLNet
 
    //! Concrete YoY Inflation floor class
    /*! \ingroup instruments */
+
    public class YoYInflationFloor : YoYInflationCapFloor
    {
       public YoYInflationFloor(List<CashFlow> yoyLeg, List<double> exerciseRates)
@@ -294,11 +304,10 @@ namespace QLNet
 
    //! Concrete YoY Inflation collar class
    /*! \ingroup instruments */
+
    public class YoYInflationCollar : YoYInflationCapFloor
    {
       public YoYInflationCollar(List<CashFlow> yoyLeg, List<double> capRates, List<double> floorRates)
         : base(CapFloorType.Collar, yoyLeg, capRates, floorRates) { }
    }
-
-
 }

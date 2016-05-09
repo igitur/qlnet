@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -24,6 +25,7 @@ namespace QLNet
 {
    //! Single-asset vanilla option (no barriers) with discrete dividends
    /*! \ingroup instruments */
+
    public class DividendVanillaOption : OneAssetOption
    {
       private List<Dividend> cashFlow_;
@@ -35,14 +37,13 @@ namespace QLNet
          cashFlow_ = Utils.DividendVector(dividendDates, dividends);
       }
 
-
       /*! \warning see VanillaOption for notes on implied-volatility
                    calculation.
       */
+
       public double impliedVolatility(double targetValue, GeneralizedBlackScholesProcess process,
            double accuracy = 1.0e-4, int maxEvaluations = 100, double minVol = 1.0e-7, double maxVol = 4.0)
       {
-
          if (isExpired()) throw new ApplicationException("option expired");
 
          SimpleQuote volQuote = new SimpleQuote();
@@ -56,9 +57,11 @@ namespace QLNet
             case Exercise.Type.European:
                engine = new AnalyticDividendEuropeanEngine(newProcess);
                break;
+
             case Exercise.Type.American:
                engine = new FDDividendAmericanEngine(newProcess);
                break;
+
             case Exercise.Type.Bermudan:
                throw new ApplicationException("engine not available for Bermudan option with dividends");
             default:
@@ -69,7 +72,6 @@ namespace QLNet
                                                   maxEvaluations, minVol, maxVol);
       }
 
-
       public override void setupArguments(IPricingEngineArguments args)
       {
          base.setupArguments(args);
@@ -79,7 +81,6 @@ namespace QLNet
 
          arguments.cashFlow = cashFlow_;
       }
-
 
       //! %Arguments for dividend vanilla option calculation
       new public class Arguments : OneAssetOption.Arguments

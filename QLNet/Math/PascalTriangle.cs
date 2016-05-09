@@ -41,6 +41,7 @@ namespace QLNet
       }
 
       private PascalTriangle() { }
+
       private static void nextOrder()
       {
          int order = coefficients_.Count;

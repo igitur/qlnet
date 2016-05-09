@@ -18,6 +18,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -26,13 +27,16 @@ namespace QLNet
    public class IborIndex : InterestRateIndex
    {
       protected BusinessDayConvention convention_;
+
       public BusinessDayConvention businessDayConvention() { return convention_; }
 
       protected Handle<YieldTermStructure> termStructure_;
+
       // InterestRateIndex interface
       public Handle<YieldTermStructure> forwardingTermStructure() { return termStructure_; }
 
-      bool endOfMonth_;
+      private bool endOfMonth_;
+
       public bool endOfMonth() { return endOfMonth_; }
 
       // need by CashFlowVectors
@@ -105,7 +109,6 @@ namespace QLNet
       {
          return new OvernightIndex(familyName(), fixingDays(), currency(), fixingCalendar(),
                                    dayCounter(), h);
-
       }
    };
 }

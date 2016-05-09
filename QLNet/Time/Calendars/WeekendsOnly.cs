@@ -23,14 +23,15 @@ namespace QLNet
    {
       public WeekendsOnly() : base(Impl.Singleton) { }
 
-      class Impl : Calendar.WesternImpl
+      private class Impl : Calendar.WesternImpl
       {
          public static readonly Impl Singleton = new Impl();
+
          private Impl() { }
 
          public override string name() { return "weekends only"; }
-         public override bool isBusinessDay(Date date) { return !isWeekend(date.DayOfWeek); }
 
+         public override bool isBusinessDay(Date date) { return !isWeekend(date.DayOfWeek); }
       }
    }
 }

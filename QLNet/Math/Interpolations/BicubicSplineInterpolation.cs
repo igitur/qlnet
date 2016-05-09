@@ -24,9 +24,13 @@ namespace QLNet
    public interface IBicubicSplineDerivatives
    {
       double derivativeX(double x, double y);
+
       double derivativeY(double x, double y);
+
       double derivativeXY(double x, double y);
+
       double secondDerivativeX(double x, double y);
+
       double secondDerivativeY(double x, double y);
    }
 
@@ -46,7 +50,6 @@ namespace QLNet
                                                   CubicInterpolation.DerivativeApprox.Spline, false,
                                                   CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0,
                                                   CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0));
-
       }
 
       public override double value(double x, double y)
@@ -62,7 +65,6 @@ namespace QLNet
          return spline.value(y, true);
       }
 
-
       public double derivativeX(double x, double y)
       {
          List<double> section = new InitializedList<double>(this.zData_.columns());
@@ -77,7 +79,6 @@ namespace QLNet
                                         CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0).derivative(x);
       }
 
-
       public double secondDerivativeX(double x, double y)
       {
          List<double> section = new InitializedList<double>(this.zData_.columns());
@@ -91,7 +92,6 @@ namespace QLNet
                                         CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0,
                                         CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0).secondDerivative(x);
       }
-
 
       public double derivativeY(double x, double y)
       {
@@ -131,17 +131,16 @@ namespace QLNet
                                         CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0).derivative(x);
       }
 
-
       private List<Interpolation> splines_;
-
    }
-
 
    //! bicubic-spline interpolation between discrete points
    /*! \todo revise end conditions */
+
    public class BicubicSpline : Interpolation2D
    {
       /*! \pre the \f$ x \f$ and \f$ y \f$ values must be sorted. */
+
       public BicubicSpline(List<double> xBegin, int size, List<double> yBegin, int ySize, Matrix zData)
       {
          impl_ = new BicubicSplineImpl(xBegin, size, yBegin, ySize, zData);
@@ -181,5 +180,4 @@ namespace QLNet
          return new BicubicSpline(xBegin, size, yBegin, ySize, zData);
       }
    }
-
 }

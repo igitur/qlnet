@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -40,6 +41,7 @@ namespace QLNet
 
 		\ingroup instruments
 	*/
+
    public abstract class Forward : Instrument
    {
       /*! derived classes must set this, typically via spotIncome() */
@@ -54,12 +56,13 @@ namespace QLNet
       protected Payoff payoff_;
       /*! valueDate = settlement date (date the fwd contract starts accruing) */
       protected Date valueDate_;
+
       //! maturityDate of the forward contract or delivery date of underlying
       protected Date maturityDate_;
+
       protected Handle<YieldTermStructure> discountCurve_;
       /*! must set this in derived classes, based on particular underlying */
       protected Handle<YieldTermStructure> incomeDiscountCurve_;
-
 
       //protected Forward(DayCounter dayCounter, Calendar calendar, BusinessDayConvention businessDayConvention,
       //                  int settlementDays, Payoff payoff, Date valueDate, Date maturityDate,
@@ -98,9 +101,9 @@ namespace QLNet
 #endif
       }
 
-
       //! returns spot value/price of an underlying financial instrument
       public abstract double spotValue();
+
       //! NPV of income/dividends/storage-costs etc. of underlying instrument
       public abstract double spotIncome(Handle<YieldTermStructure> incomeDiscountCurve);
 
@@ -110,6 +113,7 @@ namespace QLNet
       /*! \note if this is a bond forward price, is must be a dirty
 				  forward price.
 		*/
+
       public double forwardValue()
       {
          calculate();
@@ -125,10 +129,10 @@ namespace QLNet
 		spot repo rate. For FRA's, this should reproduce the
 		relevant zero rate at the FRA's maturityDate_;
 		*/
+
       public InterestRate impliedYield(double underlyingSpotValue, double forwardValue, Date settlementDate,
                                          Compounding compoundingConvention, DayCounter dayCounter)
       {
-
          double tenor = dayCounter.yearFraction(settlementDate, maturityDate_);
          double compoundingFactor = forwardValue / (underlyingSpotValue - spotIncome(incomeDiscountCurve_));
          return InterestRate.impliedRate(compoundingFactor, dayCounter, compoundingConvention, Frequency.Annual, tenor);
@@ -149,9 +153,11 @@ namespace QLNet
    public class ForwardTypePayoff : Payoff
    {
       protected Position.Type type_;
+
       public Position.Type forwardType() { return type_; }
 
       protected double strike_;
+
       public double strike() { return strike_; }
 
       public ForwardTypePayoff(Position.Type type, double strike)
@@ -164,19 +170,23 @@ namespace QLNet
 
       //! \name Payoff interface
       public override string name() { return "Forward"; }
+
       public override string description()
       {
          string result = name() + ", " + strike() + " strike";
          return result;
       }
+
       public override double value(double price)
       {
          switch (type_)
          {
             case Position.Type.Long:
                return (price - strike_);
+
             case Position.Type.Short:
                return (strike_ - price);
+
             default:
                throw new ApplicationException("unknown/illegal position type");
          }

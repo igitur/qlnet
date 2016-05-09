@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -28,10 +29,14 @@ namespace QLNet
       protected bool frozen_;
 
       #region Observer interface
+
       // Here we define this object as observable
       public event Callback notifyObserversEvent;
+
       public void registerWith(Callback handler) { notifyObserversEvent += handler; }
+
       public void unregisterWith(Callback handler) { notifyObserversEvent -= handler; }
+
       protected void notifyObservers()
       {
          Callback handler = notifyObserversEvent;
@@ -51,14 +56,17 @@ namespace QLNet
             notifyObservers();
          calculated_ = false;
       }
-      #endregion
+
+      #endregion Observer interface
 
       #region Calculation methods
+
       /*! This method forces recalculation of any results which would otherwise be cached.
        * It needs to call the <i><b>LazyCalculationEvent</b></i> event.
          Explicit invocation of this method is <b>not</b> necessary if the object has registered itself as
          observer with the structures on which such results depend.  It is strongly advised to follow this
          policy when possible. */
+
       public virtual void recalculate()
       {
          bool wasFrozen = frozen_;
@@ -79,6 +87,7 @@ namespace QLNet
 
       /*! This method constrains the object to return the presently cached results on successive invocations,
        * even if arguments upon which they depend should change. */
+
       public void freeze() { frozen_ = true; }
 
       // This method reverts the effect of the <i><b>freeze</b></i> method, thus re-enabling recalculations.
@@ -95,6 +104,7 @@ namespace QLNet
           as observer of such objects for the calculations to be performed again when they change.
           Should this method be redefined in derived classes, LazyObject::calculate() should be called
           in the overriding method. */
+
       protected virtual void calculate()
       {
          if (!calculated_ && !frozen_)
@@ -114,10 +124,12 @@ namespace QLNet
 
       /* This method must implement any calculations which must be (re)done
        * in order to calculate the desired results. */
+
       protected virtual void performCalculations()
       {
          throw new NotSupportedException();
       }
-      #endregion
+
+      #endregion Calculation methods
    }
 }

@@ -16,11 +16,11 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-
    //! Black-Scholes 1973 calculator class
    public class BlackScholesCalculator : BlackCalculator
    {
@@ -60,11 +60,13 @@ namespace QLNet
       {
          return base.gamma(spot_);
       }
+
       //! Sensitivity to time to maturity.
       public double theta(double maturity)
       {
          return base.theta(spot_, maturity);
       }
+
       //        ! Sensitivity to time to maturity per day
       //            (assuming 365 day in a year).
       public double thetaPerDay(double maturity)

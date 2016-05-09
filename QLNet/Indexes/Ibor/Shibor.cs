@@ -28,9 +28,11 @@ namespace QLNet
             case TimeUnit.Days:
             case TimeUnit.Weeks:
                return BusinessDayConvention.Following;
+
             case TimeUnit.Months:
             case TimeUnit.Years:
                return BusinessDayConvention.ModifiedFollowing;
+
             default:
                Utils.QL_FAIL("invalid time units");
                return BusinessDayConvention.Unadjusted;

@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -39,24 +40,36 @@ namespace QLNet
        We add the inverse prices so that conventional caps can be
        priced simply.
    */
+
    public class InflationCouponPricer : IObserver, IObservable
    {
       //public virtual ~InflationCouponPricer() { }
       //! \name Interface
       //@{
       public virtual double swapletPrice() { return 0; }
+
       public virtual double swapletRate() { return 0; }
+
       public virtual double capletPrice(double effectiveCap) { return 0; }
+
       public virtual double capletRate(double effectiveCap) { return 0; }
+
       public virtual double floorletPrice(double effectiveFloor) { return 0; }
+
       public virtual double floorletRate(double effectiveFloor) { return 0; }
+
       public virtual void initialize(InflationCoupon i) { }
+
       //@}
 
       #region Observer & observable
+
       public event Callback notifyObserversEvent;
+
       public void registerWith(Callback handler) { notifyObserversEvent += handler; }
+
       public void unregisterWith(Callback handler) { notifyObserversEvent -= handler; }
+
       protected void notifyObservers()
       {
          Callback handler = notifyObserversEvent;
@@ -68,17 +81,18 @@ namespace QLNet
 
       // observer interface
       public void update() { notifyObservers(); }
-      #endregion
+
+      #endregion Observer & observable
 
       protected Handle<YieldTermStructure> rateCurve_;
       protected Date paymentDate_;
-
    }
 
    //! base pricer for capped/floored YoY inflation coupons
    /*! \note this pricer can already do swaplets but to get
              volatility-dependent coupons you need the descendents.
    */
+
    public class YoYInflationCouponPricer : InflationCouponPricer
    {
       public YoYInflationCouponPricer(Handle<YoYOptionletVolatilitySurface> capletVol = null)
@@ -138,6 +152,7 @@ namespace QLNet
          double floorletPrice = optionletPrice(Option.Type.Put, effectiveFloor);
          return gearing_ * floorletPrice;
       }
+
       public override double floorletRate(double effectiveFloor)
       {
          return floorletPrice(effectiveFloor) /
@@ -162,12 +177,12 @@ namespace QLNet
 
          spreadLegValue_ = spread_ * coupon_.accrualPeriod() * discount_;
       }
+
       //@}
 
       //! car replace this if really required
       protected virtual double optionletPrice(Option.Type optionType, double effStrike)
       {
-
          Date fixingDate = coupon_.fixingDate();
          if (fixingDate <= Settings.evaluationDate())
          {
@@ -184,7 +199,6 @@ namespace QLNet
                b = coupon_.indexFixing();
             }
             return Math.Max(a - b, 0.0) * coupon_.accrualPeriod() * discount_;
-
          }
          else
          {
@@ -200,7 +214,6 @@ namespace QLNet
                                               adjustedFixing(),
                                               stdDev);
             return fixing * coupon_.accrualPeriod() * discount_;
-
          }
       }
 
@@ -227,24 +240,23 @@ namespace QLNet
       }
 
       //! data
-      Handle<YoYOptionletVolatilitySurface> capletVol_;
-      YoYInflationCoupon coupon_;
-      double gearing_;
-      double spread_;
-      double discount_;
-      double spreadLegValue_;
+      private Handle<YoYOptionletVolatilitySurface> capletVol_;
+
+      private YoYInflationCoupon coupon_;
+      private double gearing_;
+      private double spread_;
+      private double discount_;
+      private double spreadLegValue_;
    }
 
    //! Black-formula pricer for capped/floored yoy inflation coupons
    public class BlackYoYInflationCouponPricer : YoYInflationCouponPricer
    {
-
       public BlackYoYInflationCouponPricer(Handle<YoYOptionletVolatilitySurface> capletVol)
          : base(capletVol)
       {
          if (capletVol == null)
             capletVol = new Handle<YoYOptionletVolatilitySurface>();
-
       }
 
       protected override double optionletPriceImp(Option.Type optionType, double effStrike,
@@ -255,7 +267,6 @@ namespace QLNet
                                    forward,
                                    stdDev);
       }
-
    }
 
    //! Unit-Displaced-Black-formula pricer for capped/floored yoy inflation coupons
@@ -266,13 +277,11 @@ namespace QLNet
       {
          if (capletVol == null)
             capletVol = new Handle<YoYOptionletVolatilitySurface>();
-
       }
 
       protected override double optionletPriceImp(Option.Type optionType, double effStrike,
                                          double forward, double stdDev)
       {
-
          return Utils.blackFormula(optionType,
                                    effStrike + 1.0,
                                    forward + 1.0,

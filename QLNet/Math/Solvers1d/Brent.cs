@@ -17,8 +17,8 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System;
 
+using System;
 
 namespace QLNet
 {
@@ -41,7 +41,6 @@ namespace QLNet
             if ((froot > 0.0 && fxMax_ > 0.0) ||
                 (froot < 0.0 && fxMax_ < 0.0))
             {
-
                // Rename xMin_, root_, xMax_ and adjust bounds
                xMax_ = xMin_;
                fxMax_ = fxMin_;
@@ -64,7 +63,6 @@ namespace QLNet
             if (Math.Abs(e) >= xAcc1 &&
                 Math.Abs(fxMin_) > Math.Abs(froot))
             {
-
                // Attempt inverse quadratic interpolation
                s = froot / fxMin_;
                if (Utils.close(xMin_, xMax_))

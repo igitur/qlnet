@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -28,7 +29,6 @@ namespace QLNet
 
    public class AmortizingBond : Bond
    {
-
       public AmortizingBond(double FaceValue,
                             double MarketValue,
                             double CouponRate,
@@ -70,10 +70,10 @@ namespace QLNet
             case AmortizingMethod.EffectiveInterestRate:
                addEffectiveInterestRateAmortizing();
                break;
+
             default:
                break;
          }
-
       }
 
       public bool isPremium()
@@ -81,9 +81,8 @@ namespace QLNet
          return _isPremium;
       }
 
-      void addEffectiveInterestRateAmortizing()
+      private void addEffectiveInterestRateAmortizing()
       {
-
          // Amortizing Schedule
          Schedule schedule = new Schedule(_tradeDate, _maturityDate, new Period(_payFrequency),
                                            _calendar, BusinessDayConvention.Unadjusted, BusinessDayConvention.Unadjusted,
@@ -94,7 +93,6 @@ namespace QLNet
 
          for (int i = 1; i < schedule.Count; ++i)
          {
-
             actualDate = schedule[i];
             InterestRate rate = new InterestRate(_yield, _dCounter, Compounding.Simple, Frequency.Annual);
             InterestRate rate2 = new InterestRate(_couponRate, _dCounter, Compounding.Simple, Frequency.Annual);
@@ -104,7 +102,6 @@ namespace QLNet
                r = new FixedRateCoupon(currentNominal, actualDate, rate, prevDate, actualDate, prevDate, actualDate);
                r2 = new FixedRateCoupon(currentNominal, actualDate, rate2, prevDate, actualDate, prevDate, actualDate, null, _originalPayment);
             }
-
             else
             {
                Calendar nullCalendar = new NullCalendar();
@@ -123,7 +120,6 @@ namespace QLNet
             else
                currentNominal += Math.Abs(amort);
 
-
             cashflows_.Add(r2);
             cashflows_.Add(p);
             prevDate = actualDate;
@@ -131,7 +127,6 @@ namespace QLNet
 
          // Add single redemption for yield calculation
          setSingleRedemption(_faceValue, 100, _maturityDate);
-
       }
 
       public double AmortizationValue(Date d)
@@ -154,7 +149,6 @@ namespace QLNet
                break;
          }
 
-
          if (lastDate < d)
          {
             // lastDate < d let calculate last interest
@@ -172,12 +166,10 @@ namespace QLNet
             totAmortized += Math.Abs(baseInterest - yieldInterest);
          }
 
-
          if (_isPremium)
             return (_marketValue - totAmortized);
          else
             return (_marketValue + totAmortized);
-
       }
 
       public double Yield() { return _yield; }
@@ -189,7 +181,6 @@ namespace QLNet
          Schedule schedule = new Schedule(_issueDate, _maturityDate, new Period(_payFrequency),
                                            _calendar, BusinessDayConvention.Unadjusted, BusinessDayConvention.Unadjusted,
                                            DateGeneration.Rule.Backward, false);
-
 
          List<CashFlow> cashflows = new FixedRateLeg(schedule)
             .withCouponRates(_couponRate, _dCounter)
@@ -233,6 +224,5 @@ namespace QLNet
       protected double _yield;
       protected double _originalPayment;
       protected bool _isPremium;
-
    }
 }

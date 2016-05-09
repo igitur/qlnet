@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -28,12 +29,15 @@ namespace QLNet
        gap from Thursdays on for one week.  It is the tax-exempt
        correspondent of the 1M USD-Libor.
    */
+
    public class BMAIndex : InterestRateIndex
    {
       protected Handle<YieldTermStructure> termStructure_;
+
       public Handle<YieldTermStructure> forwardingTermStructure() { return termStructure_; }
 
       public BMAIndex() : this(new Handle<YieldTermStructure>()) { }
+
       public BMAIndex(Handle<YieldTermStructure> h)
           : base("BMA", new Period(1, TimeUnit.Weeks), 1, new USDCurrency(),
                  new UnitedStates(UnitedStates.Market.NYSE), new ActualActual(ActualActual.Convention.ISDA))
@@ -69,6 +73,7 @@ namespace QLNet
 
       //! \name Date calculations
       /*! This method returns a schedule of fixing dates between start and end. */
+
       public Schedule fixingSchedule(Date start, Date end)
       {
          return new MakeSchedule().from(Utils.previousWednesday(start))

@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -38,9 +39,11 @@ namespace QLNet
        \test the correctness of the returned values is tested by
              checking them against numerical calculations.
    */
+
    public class GenericSequenceStatistics<S> where S : IGeneralStatistics, new()
    {
       protected int dimension_;
+
       public int size() { return dimension_; }
 
       protected List<S> stats_;
@@ -72,6 +75,7 @@ namespace QLNet
          result *= (sampleNumber / (sampleNumber - 1.0));
          return result;
       }
+
       //! returns the correlation Matrix
       public Matrix correlation()
       {
@@ -114,6 +118,7 @@ namespace QLNet
 
       //! \name 1-D inspectors lifted from underlying statistics class
       public int samples() { return (stats_.Count == 0) ? 0 : stats_[0].samples(); }
+
       public double weightSum() { return (stats_.Count == 0) ? 0.0 : stats_[0].weightSum(); }
 
       //@}
@@ -129,6 +134,7 @@ namespace QLNet
          }
          return results_;
       }
+
       // single argument list
       private List<double> singleArg(double x, string method)
       {
@@ -147,36 +153,47 @@ namespace QLNet
          for (int i = 0; i < dimension_; i++) results_[i] = stats_[i].mean();
          return results_;
       }
+
       public List<double> variance()
       {
          for (int i = 0; i < dimension_; i++) results_[i] = stats_[i].variance();
          return results_;
       }
+
       public List<double> standardDeviation()
       {
          for (int i = 0; i < dimension_; i++) results_[i] = stats_[i].standardDeviation();
          return results_;
       }
+
       public List<double> downsideVariance() { return noArg("downsideVariance"); }
+
       public List<double> downsideDeviation() { return noArg("downsideDeviation"); }
+
       public List<double> semiVariance() { return noArg("semiVariance"); }
+
       public List<double> semiDeviation() { return noArg("semiDeviation"); }
+
       public List<double> errorEstimate() { return noArg("errorEstimate"); }
+
       public List<double> skewness()
       {
          for (int i = 0; i < dimension_; i++) results_[i] = stats_[i].skewness();
          return results_;
       }
+
       public List<double> kurtosis()
       {
          for (int i = 0; i < dimension_; i++) results_[i] = stats_[i].kurtosis();
          return results_;
       }
+
       public List<double> min()
       {
          for (int i = 0; i < dimension_; i++) results_[i] = stats_[i].min();
          return results_;
       }
+
       public List<double> max()
       {
          for (int i = 0; i < dimension_; i++) results_[i] = stats_[i].max();
@@ -185,23 +202,34 @@ namespace QLNet
 
       // single argument list
       public List<double> gaussianPercentile(double x) { return singleArg(x, "gaussianPercentile"); }
+
       public List<double> percentile(double x)
       {
          for (int i = 0; i < dimension_; i++) results_[i] = stats_[i].percentile(x);
          return results_;
       }
-      public List<double> gaussianPotentialUpside(double x) { return singleArg(x, "gaussianPotentialUpside"); }
-      public List<double> potentialUpside(double x) { return singleArg(x, "potentialUpside"); }
-      public List<double> gaussianValueAtRisk(double x) { return singleArg(x, "gaussianValueAtRisk"); }
-      public List<double> valueAtRisk(double x) { return singleArg(x, "valueAtRisk"); }
-      public List<double> gaussianExpectedShortfall(double x) { return singleArg(x, "gaussianExpectedShortfall"); }
-      public List<double> expectedShortfall(double x) { return singleArg(x, "expectedShortfall"); }
-      public List<double> gaussianShortfall(double x) { return singleArg(x, "gaussianShortfall"); }
-      public List<double> shortfall(double x) { return singleArg(x, "shortfall"); }
-      public List<double> gaussianAverageShortfall(double x) { return singleArg(x, "gaussianAverageShortfall"); }
-      public List<double> averageShortfall(double x) { return singleArg(x, "averageShortfall"); }
-      public List<double> regret(double x) { return singleArg(x, "regret"); }
 
+      public List<double> gaussianPotentialUpside(double x) { return singleArg(x, "gaussianPotentialUpside"); }
+
+      public List<double> potentialUpside(double x) { return singleArg(x, "potentialUpside"); }
+
+      public List<double> gaussianValueAtRisk(double x) { return singleArg(x, "gaussianValueAtRisk"); }
+
+      public List<double> valueAtRisk(double x) { return singleArg(x, "valueAtRisk"); }
+
+      public List<double> gaussianExpectedShortfall(double x) { return singleArg(x, "gaussianExpectedShortfall"); }
+
+      public List<double> expectedShortfall(double x) { return singleArg(x, "expectedShortfall"); }
+
+      public List<double> gaussianShortfall(double x) { return singleArg(x, "gaussianShortfall"); }
+
+      public List<double> shortfall(double x) { return singleArg(x, "shortfall"); }
+
+      public List<double> gaussianAverageShortfall(double x) { return singleArg(x, "gaussianAverageShortfall"); }
+
+      public List<double> averageShortfall(double x) { return singleArg(x, "averageShortfall"); }
+
+      public List<double> regret(double x) { return singleArg(x, "regret"); }
 
       //! \name Modifiers
       //public void reset(Size dimension = 0) {
@@ -258,6 +286,7 @@ namespace QLNet
    /*! \test the correctness of the returned values is tested by
              checking them against numerical calculations.
    */
+
    // typedef GenericSequenceStatistics<Statistics> SequenceStatistics;
    public class SequenceStatistics : GenericSequenceStatistics<RiskStatistics>
    {

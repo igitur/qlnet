@@ -26,17 +26,18 @@ namespace QLNet
    /*! \file treeswapengine.hpp
        \brief Numerical lattice engine for swaps
    */
+
    public class TreeVanillaSwapEngine
    : LatticeShortRateModelEngine<VanillaSwap.Arguments,
                                  VanillaSwap.Results>
    {
-
       private Handle<YieldTermStructure> termStructure_;
 
       /*! \name Constructors
           \note the term structure is only needed when the short-rate
                 model cannot provide one itself.
       */
+
       //@{
       public TreeVanillaSwapEngine(ShortRateModel model,
                          int timeSteps,
@@ -104,6 +105,5 @@ namespace QLNet
 
          results_.value = swap.presentValue();
       }
-
    }
 }

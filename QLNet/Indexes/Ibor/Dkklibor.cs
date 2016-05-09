@@ -19,7 +19,6 @@
 
 namespace QLNet
 {
-
    //! %DKK %LIBOR rate
    //    ! Danish Krona LIBOR fixed by BBA.
    //
@@ -31,10 +30,10 @@ namespace QLNet
           : base("DKKLibor", tenor, 2, new DKKCurrency(), new Denmark(), new Actual360(), new Handle<YieldTermStructure>())
       {
       }
+
       public DKKLibor(Period tenor, Handle<YieldTermStructure> h)
           : base("DKKLibor", tenor, 2, new DKKCurrency(), new Denmark(), new Actual360(), h)
       {
       }
    }
-
 }

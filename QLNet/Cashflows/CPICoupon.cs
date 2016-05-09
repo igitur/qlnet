@@ -47,6 +47,7 @@ namespace QLNet
             to the natural ZCIIS lag that was used to create the
             forward inflation curve.
    */
+
    public class CPICoupon : InflationCoupon
    {
       protected double baseCPI_;
@@ -90,7 +91,6 @@ namespace QLNet
                // no interpolation, i.e. flat = constant, so use start-of-period value
                I1 = indexStart;
             }
-
          }
          return I1;
       }
@@ -113,7 +113,6 @@ namespace QLNet
          : base(paymentDate, nominal, startDate, endDate, fixingDays, index,
                observationLag, dayCounter, refPeriodStart, refPeriodEnd, exCouponDate)
       {
-
          baseCPI_ = baseCPI;
          fixedRate_ = fixedRate;
          spread_ = spread;
@@ -125,30 +124,39 @@ namespace QLNet
       //@{
       //! fixed rate that will be inflated by the index ratio
       public double fixedRate() { return fixedRate_; }
+
       //! spread paid over the fixing of the underlying index
       public double spread() { return spread_; }
 
       //! adjusted fixing (already divided by the base fixing)
       public double adjustedFixing() { return (rate() - spread()) / fixedRate(); }
+
       //! allows for a different interpolation from the index
       public override double indexFixing() { return indexFixing(fixingDate()); }
+
       //! base value for the CPI index
       /*! \warning make sure that the interpolation used to create
                   this is what you are using for the fixing,
                   i.e. the observationInterpolation.
       */
+
       public double baseCPI() { return baseCPI_; }
+
       //! how do you observe the index?  as-is, flat, linear?
       public InterpolationType observationInterpolation() { return observationInterpolation_; }
+
       //! utility method, calls indexFixing
       public double indexObservation(Date onDate) { return indexFixing(onDate); }
+
       //! index used
       public ZeroInflationIndex cpiIndex() { return index() as ZeroInflationIndex; }
+
       //@}
    }
 
    //! Cash flow paying the performance of a CPI (zero inflation) index
    /*! It is NOT a coupon, i.e. no accruals. */
+
    public class CPICashFlow : IndexedCashFlow
    {
       public CPICashFlow(double notional,
@@ -178,6 +186,7 @@ namespace QLNet
 
       //! value used on base date
       /*! This does not have to agree with index on that date. */
+
       public virtual double baseFixing() { return baseFixing_; }
 
       //! you may not have a valid date
@@ -221,7 +230,6 @@ namespace QLNet
                // no interpolation, i.e. flat = constant, so use start-of-period value
                I1 = indexStart;
             }
-
          }
 
          if (growthOnly())
@@ -243,6 +251,7 @@ namespace QLNet
 
        payoff is: spread + fixedRate x index
    */
+
    public class CPILeg : CPILegBase
    {
       public CPILeg(Schedule schedule,
@@ -336,7 +345,6 @@ namespace QLNet
                      CPICouponPricer pricer = new CPICouponPricer();
                      coup.setPricer(pricer);
                      leg.Add(coup);
-
                   }
                   else
                   {

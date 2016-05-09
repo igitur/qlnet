@@ -34,10 +34,10 @@ namespace QLNet
                                                                Swaption.Arguments,
                                                                Swaption.Results>
    {
-
       /*! \note the term structure is only needed when the short-rate
                model cannot provide one itself.
       */
+
       public JamshidianSwaptionEngine(OneFactorAffineModel model,
                               Handle<YieldTermStructure> termStructure)
           : base(model)
@@ -54,7 +54,6 @@ namespace QLNet
 
       public class rStarFinder : ISolver1d
       {
-
          public rStarFinder(OneFactorAffineModel model,
                      double nominal,
                      double maturity,

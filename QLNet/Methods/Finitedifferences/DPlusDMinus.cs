@@ -31,6 +31,7 @@ namespace QLNet
        \test the correctness of the returned values is tested by
              checking them against numerical calculations.
    */
+
    public class DPlusDMinus : TridiagonalOperator
    {
       public DPlusDMinus(int gridPoints, double h)

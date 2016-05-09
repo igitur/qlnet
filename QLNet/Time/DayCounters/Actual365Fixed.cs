@@ -23,22 +23,25 @@ namespace QLNet
      According to ISDA, "Actual/365" (without "Fixed") is an alias for "Actual/Actual (ISDA)" (see ActualActual.)
     * If Actual/365 is not explicitly specified as fixed in an instrument specification,
     * you might want to double-check its meaning.   */
+
    public class Actual365Fixed : DayCounter
    {
       public Actual365Fixed() : base(Impl.Singleton) { }
 
-      class Impl : DayCounter
+      private class Impl : DayCounter
       {
          public static readonly Impl Singleton = new Impl();
+
          private Impl() { }
 
          public override string name() { return "Actual/365 (Fixed)"; }
+
          public override int dayCount(Date d1, Date d2) { return (d2 - d1); }
+
          public override double yearFraction(Date d1, Date d2, Date refPeriodStart, Date refPeriodEnd)
          {
             return Date.daysBetween(d1, d2) / 365.0;
          }
-
       }
    }
 }

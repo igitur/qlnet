@@ -126,6 +126,7 @@ namespace QLNet
       }
 
       private double rho_, rho2_;
+
       private static double[] x_ = { 0.24840615,
                                      0.39233107,
                                      0.21141819,
@@ -137,7 +138,6 @@ namespace QLNet
                                       1.06094980,
                                       1.77972940,
                                       2.66976040000};
-
    }
 
    //! Cumulative bivariate normal distibution function (West 2004)
@@ -162,6 +162,7 @@ namespace QLNet
       \test the correctness of the returned value is tested by
             checking it against known good results.
    */
+
    public class BivariateCumulativeNormalDistributionWe04DP
    {
       public BivariateCumulativeNormalDistributionWe04DP(double rho)
@@ -273,8 +274,8 @@ namespace QLNet
             }
          }
          return BVN;
-
       }
+
       private double correlation_;
       private CumulativeNormalDistribution cumnorm_ = new CumulativeNormalDistribution();
    }
@@ -282,12 +283,14 @@ namespace QLNet
    public class eqn3
    {
       /* Relates to eqn3 Genz 2004 */
+
       public eqn3(double h, double k, double asr)
       {
          hk_ = h * k;
          hs_ = (h * h + k * k) / 2;
          asr_ = asr;
       }
+
       public double value(double x)
       {
          double sn = Math.Sin(asr_ * (-x + 1) * 0.5);
@@ -295,12 +298,12 @@ namespace QLNet
       }
 
       private double hk_, asr_, hs_;
-
    }
 
    public class eqn6
    {
       /* Relates to eqn6 Genz 2004 */
+
       public eqn6(double a, double c, double d, double bs, double hk)
       {
          a_ = a;
@@ -326,12 +329,8 @@ namespace QLNet
          {
             return 0.0;
          }
-
       }
 
       private double a_, c_, d_, bs_, hk_;
-
    }
-
-
 }

@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -30,10 +31,10 @@ namespace QLNet
       public List<double> fixingTimes_;
       public List<Date> fixingDates_;
       public List<double> accrualStartTimes_;
-      List<double> accrualEndTimes_;
+      private List<double> accrualEndTimes_;
       public List<double> accrualPeriod_;
-      Vector m1;
-      Vector m2;
+      private Vector m1;
+      private Vector m2;
 
       public LiborForwardModelProcess(int size, IborIndex index, IDiscretization disc)
           : base(disc)
@@ -257,7 +258,6 @@ namespace QLNet
 
       public List<double> discountBond(List<double> rates)
       {
-
          List<double> discountFactors = new InitializedList<double>(size_);
          discountFactors[0] = 1.0 / (1.0 + rates[0] * accrualPeriod_[0]);
 

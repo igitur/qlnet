@@ -20,7 +20,6 @@
 
 namespace QLNet
 {
-
    //! %CHF %LIBOR rate
    //    ! Swiss Franc LIBOR fixed by BBA.
    //

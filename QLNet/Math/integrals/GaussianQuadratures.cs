@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,7 @@ namespace QLNet
       \test the correctness of the result is tested by checking it
             against known good values.
    */
+
    public class GaussianQuadrature
    {
       public GaussianQuadrature(int n, GaussianOrthogonalPolynomial orthPoly)
@@ -67,7 +69,6 @@ namespace QLNet
          }
       }
 
-
       public double value(Func<double, double> f)
       {
          double sum = 0.0;
@@ -78,10 +79,14 @@ namespace QLNet
          return sum;
       }
 
-      int order() { return x_.size(); }
-      Vector weights() { return w_; }
-      Vector x() { return x_; }
+      private int order()
+      { return x_.size(); }
 
+      private Vector weights()
+      { return w_; }
+
+      private Vector x()
+      { return x_; }
 
       private Vector x_, w_;
    }
@@ -97,6 +102,7 @@ namespace QLNet
        \f]
        and \f[ s > -1 \f]
    */
+
    public class GaussLaguerreIntegration : GaussianQuadrature
    {
       public GaussLaguerreIntegration(int n, double s = 0.0)
@@ -114,6 +120,7 @@ namespace QLNet
        \f]
        and \f[ \mu > -0.5 \f]
    */
+
    public class GaussHermiteIntegration : GaussianQuadrature
    {
       public GaussHermiteIntegration(int n, double mu = 0.0)
@@ -130,6 +137,7 @@ namespace QLNet
            w(x;\alpha,\beta)=(1-x)^\alpha (1+x)^\beta
        \f]
    */
+
    public class GaussJacobiIntegration : GaussianQuadrature
    {
       public GaussJacobiIntegration(int n, double alpha, double beta)
@@ -146,6 +154,7 @@ namespace QLNet
            w(x)=1/cosh(x)
        \f]
    */
+
    public class GaussHyperbolicIntegration : GaussianQuadrature
    {
       public GaussHyperbolicIntegration(int n)
@@ -162,6 +171,7 @@ namespace QLNet
            w(x)=1
        \f]
    */
+
    public class GaussLegendreIntegration : GaussianQuadrature
    {
       public GaussLegendreIntegration(int n)
@@ -178,6 +188,7 @@ namespace QLNet
            w(x)=(1-x^2)^{-1/2}
        \f]
    */
+
    public class GaussChebyshevIntegration : GaussianQuadrature
    {
       public GaussChebyshevIntegration(int n)
@@ -194,6 +205,7 @@ namespace QLNet
            w(x)=(1-x^2)^{1/2}
        \f]
    */
+
    public class GaussChebyshev2ndIntegration : GaussianQuadrature
    {
       public GaussChebyshev2ndIntegration(int n)
@@ -210,6 +222,7 @@ namespace QLNet
            w(x)=(1-x^2)^{\lambda-1/2}
        \f]
    */
+
    public class GaussGegenbauerIntegration : GaussianQuadrature
    {
       public GaussGegenbauerIntegration(int n, double lambda)
@@ -220,6 +233,7 @@ namespace QLNet
    public class TabulatedGaussLegendre
    {
       public TabulatedGaussLegendre(int n = 20) { order(n); }
+
       //template <class F>
       //Real operator() (const F& f) const {
       //    QL_ASSERT(w_!=0, "Null weights" );
@@ -281,15 +295,19 @@ namespace QLNet
             case (6):
                order_ = order; x_ = x6.ToList(); w_ = w6.ToList(); n_ = n6;
                break;
+
             case (7):
                order_ = order; x_ = x7.ToList(); w_ = w7.ToList(); n_ = n7;
                break;
+
             case (12):
                order_ = order; x_ = x12.ToList(); w_ = w12.ToList(); n_ = n12;
                break;
+
             case (20):
                order_ = order; x_ = x20.ToList(); w_ = w20.ToList(); n_ = n20;
                break;
+
             default:
                Utils.QL_FAIL("order " + order + " not supported");
                break;
@@ -297,7 +315,6 @@ namespace QLNet
       }
 
       public int order() { return order_; }
-
 
       private int order_;
 
@@ -315,16 +332,20 @@ namespace QLNet
 
       private static double[] w12 = { 0.249147045813403,0.233492536538355,0.203167426723066,0.160078328543346,
                                          0.106939325995318,0.047175336386512 };
+
       private static double[] x12 = { 0.125233408511469,0.367831498998180,0.587317954286617,0.769902674194305,
                                          0.904117256370475,0.981560634246719 };
+
       private static int n12 = 6;
 
       private static double[] w20 = { 0.152753387130726,0.149172986472604,0.142096109318382,0.131688638449177,
                                          0.118194531961518,0.101930119817240,0.083276741576704,0.062672048334109,
                                          0.040601429800387,0.017614007139152 };
+
       private static double[] x20 = { 0.076526521133497,0.227785851141645,0.373706088715420,0.510867001950827,
                                          0.636053680726515,0.746331906460151,0.839116971822219,0.912234428251326,
                                          0.963971927277914,0.993128599185095 };
+
       private static int n20 = 10;
    }
 }

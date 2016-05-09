@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -27,11 +28,13 @@ namespace QLNet
 
       Volatilities are assumed to be expressed on an annual basis.
    */
+
    public class BlackVolTermStructure : VolatilityTermStructure
    {
       private const double dT = 1.0 / 365.0;
 
       #region Constructors
+
       //! default constructor
       /*! \warning term structures initialized by means of this
                    constructor must manage their own reference date
@@ -57,7 +60,7 @@ namespace QLNet
          : base(settlementDays, cal, bdc, dc)
       { }
 
-      #endregion
+      #endregion Constructors
 
       #region Black Volatility
 
@@ -165,7 +168,7 @@ namespace QLNet
          return v2 - v1;
       }
 
-      #endregion
+      #endregion Black Volatility
 
       #region Visitability
 
@@ -179,7 +182,7 @@ namespace QLNet
       //      QL_FAIL("not a Black-volatility term structure visitor");
       //}
 
-      #endregion
+      #endregion Visitability
 
       #region Calculations
 
@@ -194,8 +197,7 @@ namespace QLNet
       //! Black volatility calculation
       protected virtual double blackVolImpl(double t, double strike) { throw new NotSupportedException(); }
 
-      #endregion
-
+      #endregion Calculations
    }
 
    //! Black-volatility term structure
@@ -215,6 +217,7 @@ namespace QLNet
                    constructor must manage their own reference date
                    by overriding the referenceDate() method.
       */
+
       public BlackVolatilityTermStructure(BusinessDayConvention bdc = BusinessDayConvention.Following,
          DayCounter dc = null)
          : base(bdc, dc)
@@ -232,24 +235,24 @@ namespace QLNet
          : base(settlementDays, cal, bdc, dc)
       { }
 
-      #endregion
+      #endregion Constructors
 
       #region Visitability
 
       // public virtual void accept(IAcyclicVisitor v);
 
-      #endregion
+      #endregion Visitability
 
       /*! Returns the variance for the given strike and date calculating it
           from the volatility.
       */
+
       protected override double blackVarianceImpl(double maturity, double strike)
       {
          double vol = blackVolImpl(maturity, strike);
          return vol * vol * maturity;
       }
    };
-
 
    //! Black variance term structure
    /*! This abstract class acts as an adapter to VolTermStructure allowing
@@ -263,11 +266,13 @@ namespace QLNet
    public class BlackVarianceTermStructure : BlackVolTermStructure
    {
       #region Constructors
+
       //! default constructor
       /*! \warning term structures initialized by means of this
                    constructor must manage their own reference date
                    by overriding the referenceDate() method.
       */
+
       public BlackVarianceTermStructure(BusinessDayConvention bdc = BusinessDayConvention.Following,
          DayCounter dc = null)
          : base(bdc, dc)
@@ -285,24 +290,23 @@ namespace QLNet
          : base(settlementDays, cal, bdc, dc)
       { }
 
-      #endregion
+      #endregion Constructors
 
       #region Visitability
 
       //public virtual void accept(IAcyclicVisitor v);
 
-      #endregion
+      #endregion Visitability
 
       /*! Returns the volatility for the given strike and date calculating it
           from the variance.
       */
+
       protected override double blackVolImpl(double t, double strike)
       {
          double nonZeroMaturity = (t == 0.0 ? 0.00001 : t);
          double var = blackVarianceImpl(nonZeroMaturity, strike);
          return Math.Sqrt(var / nonZeroMaturity);
       }
-
    }
-
 }

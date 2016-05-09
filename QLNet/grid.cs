@@ -16,13 +16,13 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
    public partial class Utils
    {
-
       public static Vector CenteredGrid(double center, double dx, int steps)
       {
          Vector result = new Vector(steps + 1);
@@ -49,6 +49,5 @@ namespace QLNet
          }
          return result;
       }
-
    }
 }

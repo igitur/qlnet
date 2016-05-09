@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -26,9 +27,11 @@ namespace QLNet
    public class Parameter
    {
       protected Impl impl_;
+
       public Impl implementation() { return impl_; }
 
       protected Vector params_;
+
       public Vector parameters() { return params_; }
 
       protected Constraint constraint_;
@@ -46,9 +49,11 @@ namespace QLNet
       }
 
       public void setParam(int i, double x) { params_[i] = x; }
+
       public bool testParams(Vector p) { return constraint_.test(p); }
 
       public int size() { return params_.size(); }
+
       public double value(double t) { return impl_.value(params_, t); }
 
       //! Base class for model parameter implementation
@@ -68,6 +73,7 @@ namespace QLNet
             return parameters[0];
          }
       }
+
       public ConstantParameter(Constraint constraint)
           : base(1, new ConstantParameter.Impl(), constraint)
       {
@@ -81,7 +87,6 @@ namespace QLNet
          if (!(testParams(params_)))
             throw new ApplicationException(": invalid value");
       }
-
    }
 
    //! %Parameter which is always zero \f$ a(t) = 0 \f$
@@ -94,6 +99,7 @@ namespace QLNet
             return 0.0;
          }
       }
+
       public NullParameter()
           : base(0, new NullParameter.Impl(), new NoConstraint())
       {
@@ -124,8 +130,10 @@ namespace QLNet
             }
             return parameters[size];
          }
+
          private List<double> times_;
       }
+
       public PiecewiseConstantParameter(List<double> times)
           : base(times.Count + 1, new PiecewiseConstantParameter.Impl(times), new NoConstraint())
       {
@@ -164,6 +172,7 @@ namespace QLNet
             times_.Clear();
             values_.Clear();
          }
+
          public override double value(Vector UnnamedParameter1, double t)
          {
             //std::vector<Time>::const_iterator result =
@@ -195,5 +204,4 @@ namespace QLNet
       {
       }
    }
-
 }

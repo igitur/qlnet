@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,6 @@ namespace QLNet
 {
    public class LmFixedVolatilityModel : LmVolatilityModel
    {
-
       private Vector volatilities_;
       private List<double> startTimes_;
 
@@ -75,7 +75,6 @@ namespace QLNet
          }
 
          return tmp;
-
       }
 
       public override double volatility(int i, double t, Vector x)

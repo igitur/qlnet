@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -30,6 +31,7 @@ namespace QLNet
        \test the correctness of the returned value is tested by
              reproducing results available in web/literature
    */
+
    public abstract class MCLongstaffSchwartzEngine<GenericEngine, MC, RNG>
        : MCLongstaffSchwartzEngine<GenericEngine, MC, RNG, Statistics>
        where GenericEngine : IPricingEngine, new()
@@ -43,12 +45,12 @@ namespace QLNet
                requiredSamples, requiredTolerance, maxSamples, seed, nCalibrationSamples)
       { }
    }
+
    public abstract class MCLongstaffSchwartzEngine<GenericEngine, MC, RNG, S> : McSimulation<MC, RNG, S>, IPricingEngine
        where GenericEngine : IPricingEngine, new()
        where RNG : IRSG, new()
        where S : IGeneralStatistics, new()
    {
-
       //typedef typename MC<RNG>::path_type path_type;
       //typedef typename McSimulation<MC,RNG,S>::stats_type stats_type;
       //typedef typename McSimulation<MC,RNG,S>::path_pricer_type path_pricer_type;
@@ -65,7 +67,6 @@ namespace QLNet
       protected int nCalibrationSamples_;
 
       protected LongstaffSchwartzPathPricer<IPath> pathPricer_;
-
 
       protected MCLongstaffSchwartzEngine(StochasticProcess process, int timeSteps, int timeStepsPerYear,
                                           bool brownianBridge, bool antitheticVariate, bool controlVariate,
@@ -148,18 +149,25 @@ namespace QLNet
       protected abstract LongstaffSchwartzPathPricer<IPath> lsmPathPricer();
 
       #region PricingEngine
+
       protected OneAssetOption.Arguments arguments_ = new OneAssetOption.Arguments();
       protected OneAssetOption.Results results_ = new OneAssetOption.Results();
 
       public IPricingEngineArguments getArguments() { return arguments_; }
+
       public IPricingEngineResults getResults() { return results_; }
+
       public void reset() { results_.reset(); }
 
       #region Observer & Observable
+
       // observable interface
       public event Callback notifyObserversEvent;
+
       public void registerWith(Callback handler) { notifyObserversEvent += handler; }
+
       public void unregisterWith(Callback handler) { notifyObserversEvent -= handler; }
+
       protected void notifyObservers()
       {
          Callback handler = notifyObserversEvent;
@@ -170,7 +178,9 @@ namespace QLNet
       }
 
       public void update() { notifyObservers(); }
-      #endregion
-      #endregion
+
+      #endregion Observer & Observable
+
+      #endregion PricingEngine
    }
 }

@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,8 @@ namespace QLNet
    //! European Central Bank reserve maintenance dates
    public struct ECB
    {
-      static List<Date> knownDateSet = new List<Date>();
+      private static List<Date> knownDateSet = new List<Date>();
+
       public static List<Date> knownDates()
       {
          // one-off inizialization
@@ -59,7 +61,6 @@ namespace QLNet
          }
 
          return knownDateSet;
-
       }
 
       public static void addDate(Date d)
@@ -84,6 +85,7 @@ namespace QLNet
          \warning It raises an exception if the input
                   string is not an ECB code
       */
+
       public static Date date(string ecbCode, Date refDate = null)
       {
          Utils.QL_REQUIRE(isECBcode(ecbCode), () => ecbCode + " is not a valid ECB code");
@@ -124,6 +126,7 @@ namespace QLNet
          \warning It raises an exception if the input
                   date is not an ECB date
       */
+
       public static string code(Date ecbDate)
       {
          Utils.QL_REQUIRE(isECBdate(ecbDate), () => ecbDate + " is not a valid ECB date");
@@ -138,39 +141,51 @@ namespace QLNet
             case (int)Month.January:
                ECBcode += "JAN" + padding + y;
                break;
+
             case (int)Month.February:
                ECBcode += "FEB" + padding + y;
                break;
+
             case (int)Month.March:
                ECBcode += "MAR" + padding + y;
                break;
+
             case (int)Month.April:
                ECBcode += "APR" + padding + y;
                break;
+
             case (int)Month.May:
                ECBcode += "MAY" + padding + y;
                break;
+
             case (int)Month.June:
                ECBcode += "JUN" + padding + y;
                break;
+
             case (int)Month.July:
                ECBcode += "JUL" + padding + y;
                break;
+
             case (int)Month.August:
                ECBcode += "AUG" + padding + y;
                break;
+
             case (int)Month.September:
                ECBcode += "SEP" + padding + y;
                break;
+
             case (int)Month.October:
                ECBcode += "OCT" + padding + y;
                break;
+
             case (int)Month.November:
                ECBcode += "NOV" + padding + y;
                break;
+
             case (int)Month.December:
                ECBcode += "DEC" + padding + y;
                break;
+
             default:
                Utils.QL_FAIL("not an ECB month (and it should have been)");
                break;
@@ -223,6 +238,7 @@ namespace QLNet
 
       /*! returns whether or not the given date is
          a maintenance period start date */
+
       public static bool isECBdate(Date d)
       {
          Date date = nextDate(d - 1);
@@ -260,7 +276,7 @@ namespace QLNet
       }
 
       //! next ECB code following the given date
-      static string nextCode(Date d = null)
+      private static string nextCode(Date d = null)
       {
          return code(nextDate(d));
       }
@@ -299,7 +315,6 @@ namespace QLNet
          }
          else Utils.QL_FAIL("not an ECB month (and it should have been)");
 
-
 #if QL_EXTRA_SAFETY_CHECKS
         QL_ENSURE(isECBcode(result.str()),
                   "the result " << result.str() <<
@@ -307,6 +322,5 @@ namespace QLNet
 #endif
          return result;
       }
-
    };
 }

@@ -21,7 +21,6 @@
     \brief Swaption pricing engine for two-factor additive Gaussian Model G2++
 */
 
-
 using System;
 
 namespace QLNet
@@ -32,11 +31,12 @@ namespace QLNet
        \warning The engine assumes that the exercise date equals the
                 start date of the passed swap.
    */
+
    public class G2SwaptionEngine : GenericModelEngine<G2, Swaption.Arguments,
                                                           Swaption.Results>
    {
-      double range_;
-      int intervals_;
+      private double range_;
+      private int intervals_;
 
       // range is the number of standard deviations to use in the
       // exponential term of the integral for the european swaption.
@@ -46,7 +46,6 @@ namespace QLNet
                        int intervals)
       : base(model)
       {
-
          range_ = range;
          intervals_ = intervals;
       }
@@ -68,7 +67,5 @@ namespace QLNet
          results_.value = model_.swaption(arguments_, fixedRate,
                                             range_, intervals_);
       }
-
    }
-
 }

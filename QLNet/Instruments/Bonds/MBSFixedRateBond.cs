@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -55,7 +56,6 @@ namespace QLNet
          WACRate_ = WACRate;
          PassThroughRate_ = PassThroughRate;
          dCounter_ = accrualDayCounter;
-
       }
 
       //public List<CashFlow> interestCashflows()
@@ -92,7 +92,6 @@ namespace QLNet
             expectedcashflows.Add(c1);
             expectedcashflows.Add(c2);
             expectedcashflows.Add(c3);
-
          }
          notionals[notionals.Count - 1] = 0.0;
 
@@ -144,13 +143,13 @@ namespace QLNet
       protected double WACRate_;
       protected double PassThroughRate_;
       protected DayCounter dCounter_;
-
    }
 
    public class MonthlyYieldFinder : ISolver1d
    {
       private double faceAmount_;
       private List<CashFlow> cashflows_;
+
       //private double PVDifference_;
       private Date settlement_;
 
@@ -167,7 +166,6 @@ namespace QLNet
       }
    }
 
-
    public partial class Utils
    {
       public static double PVDifference(double faceAmount, List<CashFlow> cashflows, double yield, Date settlement)
@@ -175,7 +173,6 @@ namespace QLNet
          double price = 0.0;
          Date actualDate = new Date(1, 1, 1970);
          int cashflowindex = 0;
-
 
          for (int i = 0; i < cashflows.Count; i++)
          {
@@ -192,8 +189,6 @@ namespace QLNet
          }
 
          return price - faceAmount;
-
-
       }
    }
 }

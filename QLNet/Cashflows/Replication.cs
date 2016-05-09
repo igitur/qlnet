@@ -2,7 +2,6 @@
  Copyright (C) 2008 Toyin Akin (toyin_akin@hotmail.com)
  Copyright (C) 2008, 2009 , 2010  Andrea Maggiulli (a.maggiulli@gmail.com)
 
-
  This file is part of QLNet Project https://github.com/amaggiulli/qlnet
 
  QLNet is free software: you can redistribute it and/or modify it
@@ -21,7 +20,6 @@
 
 namespace QLNet
 {
-
    //! Digital option replication strategy
    //    ! Specification of replication strategies used to price
    //        the embedded digital option in a digital coupon.
@@ -48,6 +46,7 @@ namespace QLNet
       }
 
       public Replication.Type replicationType() { return replicationType_; }
+
       public double gap() { return gap_; }
    }
 }

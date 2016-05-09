@@ -54,6 +54,7 @@ namespace QLNet
        </ul>
        \ingroup calendars
    */
+
    public class Indonesia : Calendar
    {
       public enum Market
@@ -64,6 +65,7 @@ namespace QLNet
       };
 
       public Indonesia() : this(Market.IDX) { }
+
       public Indonesia(Market m)
           : base()
       {
@@ -76,17 +78,20 @@ namespace QLNet
             case Market.IDX:
                calendar_ = BEJ.Singleton;
                break;
+
             default:
                throw new ArgumentException("Unknown market: " + m);
          }
       }
 
-      class BEJ : Calendar.WesternImpl
+      private class BEJ : Calendar.WesternImpl
       {
          public static readonly BEJ Singleton = new BEJ();
+
          private BEJ() { }
 
          public override string name() { return "Jakarta stock exchange"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;

@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,19 +26,31 @@ namespace QLNet
    public interface IGeneralStatistics
    {
       int samples();
+
       double mean();
+
       double min();
+
       double max();
+
       double standardDeviation();
+
       double variance();
+
       double skewness();
+
       double kurtosis();
+
       double percentile(double percent);
+
       double weightSum();
+
       double errorEstimate();
 
       void reset();
+
       void add(double value, double weight);
+
       void addSequence(List<double> data, List<double> weight);
 
       KeyValuePair<double, int> expectationValue(Func<KeyValuePair<double, double>, double> f,
@@ -54,26 +67,29 @@ namespace QLNet
        IncrementalStatistics. The downside is that it stores all
        samples, thus increasing the memory requirements.
    */
+
    public class GeneralStatistics : IGeneralStatistics
    {
       private List<KeyValuePair<double, double>> samples_;
+
       //! number of samples collected
       public int samples() { return samples_.Count; }
+
       //! collected data
       public List<KeyValuePair<double, double>> data() { return samples_; }
 
       private bool sorted_;
       private double? mean_ = null, weightSum_ = null, variance_ = null, skewness_ = null, kurtosis_ = null;
 
-
       public GeneralStatistics() { reset(); }
-
 
       /*! returns the error estimate on the mean value, defined as
           \f$ \epsilon = \sigma/\sqrt{N}. \f$ */
+
       public double errorEstimate() { return Math.Sqrt(variance() / samples()); }
 
       /*! returns the minimum sample value */
+
       public double min()
       {
          if (!(samples() > 0)) throw new ApplicationException("empty sample set");
@@ -81,15 +97,16 @@ namespace QLNet
       }
 
       /*! returns the maximum sample value */
+
       public double max()
       {
          if (!(samples() > 0)) throw new ApplicationException("empty sample set");
          return samples_.Max<KeyValuePair<double, double>>(x => x.Key);
       }
 
-
       //! adds a datum to the set, possibly with a weight
       public void add(double value) { add(value, 1); }
+
       public void add(double value, double weight)
       {
          if (!(weight >= 0.0)) throw new ApplicationException("negative weight not allowed");
@@ -118,7 +135,6 @@ namespace QLNet
          }
       }
 
-
       //! sum of data weights
       public double weightSum()
       {
@@ -129,6 +145,7 @@ namespace QLNet
 
       /*! returns the mean, defined as
           \f[ \langle x \rangle = \frac{\sum w_i x_i}{\sum w_i}. \f] */
+
       public double mean()
       {
          if (mean_ == null)
@@ -143,11 +160,13 @@ namespace QLNet
 
       /*! returns the standard deviation \f$ \sigma \f$, defined as the
       square root of the variance. */
+
       public double standardDeviation() { return Math.Sqrt(variance()); }
 
       /*! returns the variance, defined as
           \f[ \sigma^2 = \frac{N}{N-1} \left\langle \left(
               x-\langle x \rangle \right)^2 \right\rangle. \f] */
+
       public double variance()
       {
          if (variance_ == null)
@@ -169,6 +188,7 @@ namespace QLNet
               x-\langle x \rangle \right)^3 \right\rangle}{\sigma^3}. \f]
           The above evaluates to 0 for a Gaussian distribution.
       */
+
       public double skewness()
       {
          if (skewness_ == null)
@@ -190,6 +210,7 @@ namespace QLNet
               \right\rangle}{\sigma^4} - \frac{3(N-1)^2}{(N-2)(N-3)}. \f]
           The above evaluates to 0 for a Gaussian distribution.
       */
+
       public double kurtosis()
       {
          if (kurtosis_ == null)
@@ -217,6 +238,7 @@ namespace QLNet
           or <tt>false</tt> otherwise.
 
           The function returns a pair made of the result and the number of observations in the given range. */
+
       public KeyValuePair<double, int> expectationValue(Func<KeyValuePair<double, double>, double> f,
                                                         Func<KeyValuePair<double, double>, bool> inRange)
       {
@@ -241,9 +263,9 @@ namespace QLNet
 
           \pre \f$ y \f$ must be in the range \f$ (0-1]. \f$
       */
+
       public double percentile(double percent)
       {
-
          if (!(percent > 0.0 && percent <= 1.0))
             throw new ApplicationException("percentile (" + percent + ") must be in (0.0, 1.0]");
 
@@ -264,6 +286,7 @@ namespace QLNet
 
           \pre \f$ y \f$ must be in the range \f$ (0-1]. \f$
       */
+
       public double topPercentile(double percent)
       {
          if (!(percent > 0.0 && percent <= 1.0))
@@ -285,6 +308,7 @@ namespace QLNet
          foreach (double v in list)
             add(v, 1);
       }
+
       //! adds a sequence of data to the set, each with its weight
       public void addSequence(List<double> data, List<double> weight)
       {

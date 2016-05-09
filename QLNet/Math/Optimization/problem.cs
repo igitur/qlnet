@@ -25,26 +25,32 @@ namespace QLNet
    {
       //! Unconstrained cost function
       protected CostFunction costFunction_;
+
       public CostFunction costFunction() { return costFunction_; }
 
       //! Constraint
       protected Constraint constraint_;
+
       public Constraint constraint() { return constraint_; }
 
       //! current value of the local minimum
       protected Vector currentValue_;
+
       public Vector currentValue() { return currentValue_; }
 
       //! function and gradient norm values at the curentValue_ (i.e. the last step)
       protected double? functionValue_, squaredNorm_;
+
       public double functionValue() { return functionValue_.GetValueOrDefault(); }
+
       public double gradientNormValue() { return squaredNorm_.GetValueOrDefault(); }
 
       //! number of evaluation of cost function and its gradient
       protected int functionEvaluation_, gradientEvaluation_;
-      public int functionEvaluation() { return functionEvaluation_; }
-      public int gradientEvaluation() { return gradientEvaluation_; }
 
+      public int functionEvaluation() { return functionEvaluation_; }
+
+      public int gradientEvaluation() { return gradientEvaluation_; }
 
       //! default constructor
       //public Problem(CostFunction costFunction, Constraint constraint, Vector initialValue = Array())
@@ -57,6 +63,7 @@ namespace QLNet
 
       /*! \warning it does not reset the current minumum to any initial value
       */
+
       public void reset()
       {
          functionEvaluation_ = gradientEvaluation_ = 0;

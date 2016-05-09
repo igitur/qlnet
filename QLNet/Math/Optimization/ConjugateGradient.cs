@@ -34,6 +34,7 @@ namespace QLNet
 
        \ingroup optimizers
    */
+
    public class ConjugateGradient : LineSearchBasedMethod
    {
       public ConjugateGradient(LineSearch lineSearch = null)

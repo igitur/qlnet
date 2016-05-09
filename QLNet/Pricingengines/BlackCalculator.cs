@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Reflection;
 
@@ -26,12 +27,13 @@ namespace QLNet
             the calculation of delta, delta forward, gamma, gamma
             forward, rho, dividend rho, vega, and strike sensitivity.
    */
+
    public class BlackCalculator
    {
       protected double strike_, forward_, stdDev_, discount_, variance_;
-      double D1_, D2_, alpha_, beta_, DalphaDd1_, DbetaDd2_;
-      double n_d1_, cum_d1_, n_d2_, cum_d2_;
-      double X_, DXDs_, DXDstrike_;
+      private double D1_, D2_, alpha_, beta_, DalphaDd1_, DbetaDd2_;
+      private double n_d1_, cum_d1_, n_d2_, cum_d2_;
+      private double X_, DXDs_, DXDstrike_;
 
       // public BlackCalculator(StrikedTypePayoff payoff, double forward, double stdDev, double discount = 1.0) {
       public BlackCalculator(StrikedTypePayoff payoff, double forward, double stdDev, double discount)
@@ -105,12 +107,14 @@ namespace QLNet
                beta_ = -cum_d2_;// -N(d2)
                DbetaDd2_ = -n_d2_;// -n(d2)
                break;
+
             case Option.Type.Put:
                alpha_ = -1.0 + cum_d1_;// -N(-d1)
                DalphaDd1_ = n_d1_;//  n( d1)
                beta_ = 1.0 - cum_d2_;//  N(-d2)
                DbetaDd2_ = -n_d2_;// -n( d2)
                break;
+
             default:
                throw new ArgumentException("invalid option type");
          }
@@ -128,9 +132,9 @@ namespace QLNet
       }
 
       /*! Sensitivity to change in the underlying forward price. */
+
       public double deltaForward()
       {
-
          double temp = stdDev_ * forward_;
          double DalphaDforward = DalphaDd1_ / temp;
          double DbetaDforward = DbetaDd2_ / temp;
@@ -141,6 +145,7 @@ namespace QLNet
       }
 
       /*! Sensitivity to change in the underlying spot price. */
+
       public virtual double delta(double spot)
       {
          if (!(spot > 0.0))
@@ -159,6 +164,7 @@ namespace QLNet
 
       /*! Sensitivity in percent to a percent change in the
           underlying forward price. */
+
       public double elasticityForward()
       {
          double val = value();
@@ -175,6 +181,7 @@ namespace QLNet
 
       /*! Sensitivity in percent to a percent change in the
           underlying spot price. */
+
       public virtual double elasticity(double spot)
       {
          double val = value();
@@ -191,9 +198,9 @@ namespace QLNet
 
       /*! Second order derivative with respect to change in the
           underlying forward price. */
+
       public double gammaForward()
       {
-
          double temp = stdDev_ * forward_;
          double DalphaDforward = DalphaDd1_ / temp;
          double DbetaDforward = DbetaDd2_ / temp;
@@ -209,9 +216,9 @@ namespace QLNet
 
       /*! Second order derivative with respect to change in the
           underlying spot price. */
+
       public virtual double gamma(double spot)
       {
-
          if (!(spot > 0.0))
             throw new ApplicationException("positive spot value required: " + spot + " not allowed");
 
@@ -231,9 +238,9 @@ namespace QLNet
       }
 
       /*! Sensitivity to time to maturity. */
+
       public virtual double theta(double spot, double maturity)
       {
-
          if (maturity == 0.0) return 0.0;
          if (!(maturity > 0.0))
             throw new ApplicationException("non negative maturity required: " + maturity + " not allowed");
@@ -249,12 +256,14 @@ namespace QLNet
 
       /*! Sensitivity to time to maturity per day,
           assuming 365 day per year. */
+
       public virtual double thetaPerDay(double spot, double maturity)
       {
          return theta(spot, maturity) / 365.0;
       }
 
       /*! Sensitivity to volatility. */
+
       public double vega(double maturity)
       {
          if (!(maturity >= 0.0))
@@ -268,10 +277,10 @@ namespace QLNet
          double temp2 = DalphaDsigma * forward_ + DbetaDsigma * X_;
 
          return discount_ * Math.Sqrt(maturity) * temp2;
-
       }
 
       /*! Sensitivity to discounting rate. */
+
       public double rho(double maturity)
       {
          if (!(maturity >= 0.0))
@@ -286,6 +295,7 @@ namespace QLNet
       }
 
       /*! Sensitivity to dividend/growth rate. */
+
       public double dividendRho(double maturity)
       {
          if (!(maturity >= 0.0))
@@ -304,6 +314,7 @@ namespace QLNet
           measure, i.e. N(d2).
           It is a risk-neutral probability, not the real world one.
       */
+
       public double itmCashProbability()
       {
          return cum_d2_;
@@ -313,15 +324,16 @@ namespace QLNet
           measure, i.e. N(d1).
           It is a risk-neutral probability, not the real world one.
       */
+
       public double itmAssetProbability()
       {
          return cum_d1_;
       }
 
       /*! Sensitivity to strike. */
+
       public double strikeSensitivity()
       {
-
          double temp = stdDev_ * strike_;
          double DalphaDstrike = -DalphaDd1_ / temp;
          double DbetaDstrike = -DbetaDd2_ / temp;
@@ -335,13 +347,13 @@ namespace QLNet
       {
          return alpha_;
       }
+
       public double beta()
       {
          return beta_;
       }
 
-
-      class Calculator : IAcyclicVisitor
+      private class Calculator : IAcyclicVisitor
       {
          private BlackCalculator black_;
 
@@ -378,10 +390,12 @@ namespace QLNet
                   black_.beta_ = black_.cum_d2_;
                   black_.DbetaDd2_ = black_.n_d2_;
                   break;
+
                case Option.Type.Put:
                   black_.beta_ = 1.0 - black_.cum_d2_;
                   black_.DbetaDd2_ = -black_.n_d2_;
                   break;
+
                default:
                   throw new ArgumentException("invalid option type");
             }
@@ -396,10 +410,12 @@ namespace QLNet
                   black_.alpha_ = black_.cum_d1_;
                   black_.DalphaDd1_ = black_.n_d1_;
                   break;
+
                case Option.Type.Put:
                   black_.alpha_ = 1.0 - black_.cum_d1_;
                   black_.DalphaDd1_ = -black_.n_d1_;
                   break;
+
                default:
                   throw new ArgumentException("invalid option type");
             }

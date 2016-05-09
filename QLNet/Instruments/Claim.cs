@@ -49,11 +49,10 @@ namespace QLNet
          }
       }
 
-      #endregion
+      #endregion Observer & Observable
 
       public abstract double amount(Date defaultDate, double notional, double recoveryRate);
    }
-
 
    //! Claim on a notional
    public class FaceValueClaim : Claim
@@ -62,7 +61,6 @@ namespace QLNet
       {
          return notional * (1.0 - recoveryRate);
       }
-
    }
 
    //! Claim on the notional of a reference security, including accrual
@@ -73,12 +71,14 @@ namespace QLNet
          referenceSecurity_ = referenceSecurity;
          referenceSecurity.registerWith(update);
       }
+
       public override double amount(Date d, double notional, double recoveryRate)
       {
          double accrual = referenceSecurity_.accruedAmount(d) /
                           referenceSecurity_.notional(d);
          return notional * (1.0 - recoveryRate - accrual);
       }
+
       private Bond referenceSecurity_;
    }
 }

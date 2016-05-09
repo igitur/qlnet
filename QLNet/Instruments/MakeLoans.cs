@@ -105,7 +105,6 @@ namespace QLNet
 
       public FixedLoan value()
       {
-
          Schedule fixedSchedule = new Schedule(startDate_, endDate_, new Period(frequency_),
                                   calendar_, convention_, convention_, rule_, endOfMonth_);
 
@@ -119,9 +118,7 @@ namespace QLNet
          FixedLoan fl = new FixedLoan(type_, nominal_, fixedSchedule, fixedRate_, dayCounter_,
                                      principalSchedule, convention_);
          return fl;
-
       }
-
    }
 
    public class MakeFloatingLoan
@@ -218,7 +215,6 @@ namespace QLNet
 
       public FloatingLoan value()
       {
-
          Schedule floatingSchedule = new Schedule(startDate_, endDate_, new Period(frequency_),
                                   calendar_, convention_, convention_, rule_, endOfMonth_);
 
@@ -232,9 +228,7 @@ namespace QLNet
          FloatingLoan fl = new FloatingLoan(type_, nominal_, floatingSchedule, spread_, dayCounter_,
                                      principalSchedule, convention_, index_);
          return fl;
-
       }
-
    }
 
    public class MakeCommercialPaper
@@ -323,7 +317,6 @@ namespace QLNet
 
       public CommercialPaper value()
       {
-
          Schedule fixedSchedule = new Schedule(startDate_, endDate_, new Period(frequency_),
                                   calendar_, convention_, convention_, rule_, endOfMonth_);
 
@@ -337,9 +330,7 @@ namespace QLNet
          CommercialPaper fl = new CommercialPaper(type_, nominal_, fixedSchedule, fixedRate_, dayCounter_,
                                      principalSchedule, convention_);
          return fl;
-
       }
-
    }
 
    public class MakeCash
@@ -420,7 +411,6 @@ namespace QLNet
 
       public Cash value()
       {
-
          Period principalPeriod = amortising_ == Loan.Amortising.Bullet ?
                                   new Period(Frequency.Once) :
                                   new Period(frequency_);
@@ -430,9 +420,6 @@ namespace QLNet
 
          Cash c = new Cash(type_, nominal_, principalSchedule, convention_);
          return c;
-
       }
-
    }
-
 }

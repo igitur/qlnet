@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,16 +86,27 @@ namespace QLNet
       protected interface Impl //: IValue
       {
          void calculate();
+
          double xMin();
+
          double xMax();
+
          List<double> xValues();
+
          int locateX(double x);
+
          double yMin();
+
          double yMax();
+
          List<double> yValues();
+
          int locateY(double y);
+
          Matrix zData();
+
          bool isInRange(double x, double y);
+
          double value(double x, double y);
       }
 
@@ -188,8 +200,8 @@ namespace QLNet
          }
 
          public abstract double value(double x, double y);
-         public abstract void calculate();
 
+         public abstract void calculate();
       }
    }
 }

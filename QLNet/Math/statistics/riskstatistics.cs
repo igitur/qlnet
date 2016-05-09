@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -29,27 +30,41 @@ namespace QLNet
 
        \todo add historical annualized volatility
    */
+
    public class GenericRiskStatistics<Stat> : IGeneralStatistics where Stat : IGeneralStatistics, new()
    {
       //typedef typename S::value_type value_type;
 
       #region wrap-up Stat
+
       protected Stat impl_ = new Stat();
 
       public int samples() { return impl_.samples(); }
+
       public double mean() { return impl_.mean(); }
+
       public double min() { return impl_.min(); }
+
       public double max() { return impl_.max(); }
+
       public double standardDeviation() { return impl_.standardDeviation(); }
+
       public double variance() { return impl_.variance(); }
+
       public double skewness() { return impl_.skewness(); }
+
       public double kurtosis() { return impl_.kurtosis(); }
+
       public double percentile(double percent) { return impl_.percentile(percent); }
+
       public double weightSum() { return impl_.weightSum(); }
+
       public double errorEstimate() { return impl_.errorEstimate(); }
 
       public void reset() { impl_.reset(); }
+
       public void add(double value, double weight) { impl_.add(value, weight); }
+
       public void addSequence(List<double> data, List<double> weight) { impl_.addSequence(data, weight); }
 
       public KeyValuePair<double, int> expectationValue(Func<KeyValuePair<double, double>, double> f,
@@ -57,8 +72,8 @@ namespace QLNet
       {
          return impl_.expectationValue(f, inRange);
       }
-      #endregion
 
+      #endregion wrap-up Stat
 
       /*! returns the variance of observations below the mean,
           \f[ \frac{N}{N-1}
@@ -67,18 +82,22 @@ namespace QLNet
 
           See Markowitz (1959).
       */
+
       public double semiVariance() { return regret(this.mean()); }
 
       /*! returns the semi deviation, defined as the square root of the semi variance. */
+
       public double semiDeviation() { return Math.Sqrt(semiVariance()); }
 
       /*! returns the variance of observations below 0.0,
           \f[ \frac{N}{N-1}
               \mathrm{E}\left[ x^2 \;|\; x < 0\right]. \f]
       */
+
       public double downsideVariance() { return regret(0.0); }
 
       /*! returns the downside deviation, defined as the square root of the downside variance. */
+
       public double downsideDeviation() { return Math.Sqrt(downsideVariance()); }
 
       /*! returns the variance of observations below target,
@@ -88,6 +107,7 @@ namespace QLNet
 
           See Dembo and Freeman, "The Rules Of Risk", Wiley (2001).
       */
+
       public double regret(double target)
       {
          // average over the range below the target
@@ -132,6 +152,7 @@ namespace QLNet
           See Artzner, Delbaen, Eber and Heath,
           "Coherent measures of risk", Mathematical Finance 9 (1999)
       */
+
       public double expectedShortfall(double centile)
       {
          if (!(centile < 1.0 && centile >= 0.9))
@@ -158,6 +179,7 @@ namespace QLNet
               \end{array}
               \right. \f]
       */
+
       public double shortfall(double target)
       {
          if (samples() == 0) throw new ApplicationException("empty sample set");
@@ -168,6 +190,7 @@ namespace QLNet
       /*! averaged shortfallness, defined as
           \f[ \mathrm{E}\left[ t-x \;|\; x<t \right] \f]
       */
+
       public double averageShortfall(double target)
       {
          KeyValuePair<double, int> result = expectationValue(z => target - z.Key, z => z.Key < target);
@@ -180,6 +203,7 @@ namespace QLNet
 
    //! default risk measures tool
    /*! \test the correctness of the returned values is tested by checking them against numerical calculations. */
+
    //typedef GenericRiskStatistics<GaussianStatistics> RiskStatistics;
    public class RiskStatistics : GenericRiskStatistics<GaussianStatistics>
    {
@@ -187,30 +211,37 @@ namespace QLNet
       {
          return ((GaussianStatistics)impl_).gaussianPercentile(value);
       }
+
       public double gaussianPotentialUpside(double value)
       {
          return ((GaussianStatistics)impl_).gaussianPotentialUpside(value);
       }
+
       public double gaussianValueAtRisk(double value)
       {
          return ((GaussianStatistics)impl_).gaussianValueAtRisk(value);
       }
+
       public double gaussianExpectedShortfall(double value)
       {
          return ((GaussianStatistics)impl_).gaussianExpectedShortfall(value);
       }
+
       public double gaussianShortfall(double value)
       {
          return ((GaussianStatistics)impl_).gaussianShortfall(value);
       }
+
       public double gaussianAverageShortfall(double value)
       {
          return ((GaussianStatistics)impl_).gaussianAverageShortfall(value);
       }
+
       public double gaussianRegret(double value)
       {
          return ((GaussianStatistics)impl_).gaussianRegret(value);
       }
+
       public double gaussianDownsideVariance()
       {
          return ((GaussianStatistics)impl_).gaussianDownsideVariance();
@@ -219,5 +250,6 @@ namespace QLNet
 
    //! default statistics tool
    /*! \test the correctness of the returned values is tested by checking them against numerical calculations. */
+
    public class Statistics : RiskStatistics { }
 }

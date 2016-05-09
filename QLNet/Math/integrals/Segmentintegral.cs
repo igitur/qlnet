@@ -17,11 +17,11 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-
    //! Integral of a one-dimensional function
    //    ! Given a number \f$ N \f$ of intervals, the integral of
    //        a function \f$ f \f$ between \f$ a \f$ and \f$ b \f$ is
@@ -62,5 +62,4 @@ namespace QLNet
          return sum * dx;
       }
    }
-
 }

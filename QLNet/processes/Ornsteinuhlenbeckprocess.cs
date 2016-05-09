@@ -16,11 +16,11 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-
    //! Ornstein-Uhlenbeck process class
    //    ! This class describes the Ornstein-Uhlenbeck process governed by
    //        \f[
@@ -40,9 +40,11 @@ namespace QLNet
           : this(speed, vol, x0, 0.0)
       {
       }
+
       public OrnsteinUhlenbeckProcess(double speed, double vol) : this(speed, vol, 0.0, 0.0)
       {
       }
+
       public OrnsteinUhlenbeckProcess(double speed, double vol, double x0, double level)
       {
          x0_ = x0;
@@ -55,40 +57,49 @@ namespace QLNet
          if (!(volatility_ >= 0.0))
             throw new ApplicationException("negative volatility given");
       }
+
       //! \name StochasticProcess interface
       //@{
       public override double x0()
       {
          return x0_;
       }
+
       public double speed()
       {
          return speed_;
       }
+
       public double volatility()
       {
          return volatility_;
       }
+
       public double level()
       {
          return level_;
       }
+
       public override double drift(double UnnamedParameter1, double x)
       {
          return speed_ * (level_ - x);
       }
+
       public override double diffusion(double UnnamedParameter1, double UnnamedParameter2)
       {
          return volatility_;
       }
+
       public override double expectation(double UnnamedParameter1, double x0, double dt)
       {
          return level_ + (x0 - level_) * Math.Exp(-speed_ * dt);
       }
+
       public override double stdDeviation(double t, double x0, double dt)
       {
          return Math.Sqrt(variance(t, x0, dt));
       }
+
       public override double variance(double UnnamedParameter1, double UnnamedParameter2, double dt)
       {
          if (speed_ < Math.Sqrt(((Const.QL_EPSILON))))
@@ -102,5 +113,4 @@ namespace QLNet
          }
       }
    }
-
 }

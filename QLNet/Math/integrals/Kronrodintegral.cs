@@ -16,14 +16,13 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-
    public static class KronrodintegralArrays
    {
-
       public static double rescaleError(double err, double resultAbs, double resultAsc)
       {
          err = Math.Abs(err);
@@ -85,8 +84,10 @@ namespace QLNet
       // weights for 7-point Gauss-Legendre integration
       // (only 4 values out of 7 are given as they are symmetric)
       public static readonly double[] g7w = { 0.417959183673469, 0.381830050505119, 0.279705391489277, 0.129484966168870 };
+
       // weights for 15-point Gauss-Kronrod integration
       public static readonly double[] k15w = { 0.209482141084728, 0.204432940075298, 0.190350578064785, 0.169004726639267, 0.140653259715525, 0.104790010322250, 0.063092092629979, 0.022935322010529 };
+
       // abscissae (evaluation points)
       // for 15-point Gauss-Kronrod integration
       public static readonly double[] k15t = { 0.000000000000000, 0.207784955007898, 0.405845151377397, 0.586087235467691, 0.741531185599394, 0.864864423359769, 0.949107912342758, 0.991455371120813 };
@@ -114,10 +115,12 @@ namespace QLNet
       {
          relativeAccuracy_ = relativeAccuracy;
       }
+
       public double relativeAccuracy()
       {
          return relativeAccuracy_;
       }
+
       protected override double integrate(Func<double, double> f, double a, double b)
       {
          double result;
@@ -243,6 +246,7 @@ namespace QLNet
          setNumberOfEvaluations(87);
          return result;
       }
+
       private double relativeAccuracy_;
    }
 
@@ -272,13 +276,14 @@ namespace QLNet
          if (!(maxEvaluations >= 15))
             throw new ArgumentException("required maxEvaluations (" + maxEvaluations + ") not allowed. It must be >= 15");
       }
+
       protected override double integrate(Func<double, double> f, double a, double b)
       {
          return integrateRecursively(f, a, b, absoluteAccuracy());
       }
+
       private double integrateRecursively(Func<double, double> f, double a, double b, double tolerance)
       {
-
          double halflength = (b - a) / 2;
          double center = (a + b) / 2;
 

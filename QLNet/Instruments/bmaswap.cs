@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -27,17 +28,20 @@ namespace QLNet
       public enum Type { Receiver = -1, Payer = 1 };
 
       private Type type_;
+
       public Type type() { return type_; }
 
       private double nominal_;
+
       public double nominal() { return nominal_; }
 
       private double liborFraction_;
+
       public double liborFraction() { return liborFraction_; }
 
       private double liborSpread_;
-      public double liborSpread() { return liborSpread_; }
 
+      public double liborSpread() { return liborSpread_; }
 
       public BMASwap(Type type, double nominal,
               // Libor leg
@@ -78,17 +82,19 @@ namespace QLNet
                payer_[0] = +1.0;
                payer_[1] = -1.0;
                break;
+
             case Type.Receiver:
                payer_[0] = -1.0;
                payer_[1] = +1.0;
                break;
+
             default:
                throw new ApplicationException("Unknown BMA-swap type");
          }
       }
 
-
       public List<CashFlow> liborLeg() { return legs_[0]; }
+
       public List<CashFlow> bmaLeg() { return legs_[1]; }
 
       public double liborLegBPS()

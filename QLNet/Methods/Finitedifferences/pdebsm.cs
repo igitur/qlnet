@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -28,6 +29,7 @@ namespace QLNet
       private GeneralizedBlackScholesProcess process_;
 
       public PdeBSM() { }     // required for generics
+
       public PdeBSM(GeneralizedBlackScholesProcess process)
       {
          process_ = process;

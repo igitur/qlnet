@@ -16,12 +16,12 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
 namespace QLNet
 {
-
    //! Parameterized cost function
    //    ! This class creates a proxy cost function which can depend
    //        on any arbitrary subset of parameters (the other being fixed)
@@ -60,11 +60,13 @@ namespace QLNet
          mapFreeParameters(freeParameters);
          return costFunction_.value(actualParameters_);
       }
+
       public override Vector values(Vector freeParameters)
       {
          mapFreeParameters(freeParameters);
          return costFunction_.values(actualParameters_);
       }
+
       //@}
 
       //! returns the subset of free parameters corresponding

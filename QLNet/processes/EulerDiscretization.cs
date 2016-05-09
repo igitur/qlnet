@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -25,6 +26,7 @@ namespace QLNet
    {
       /*! Returns an approximation of the drift defined as
           \f$ \mu(t_0, \mathbf{x}_0) \Delta t \f$. */
+
       public Vector drift(StochasticProcess process, double t0, Vector x0, double dt)
       {
          return process.drift(t0, x0) * dt;
@@ -32,6 +34,7 @@ namespace QLNet
 
       /*! Returns an approximation of the drift defined as
           \f$ \mu(t_0, x_0) \Delta t \f$. */
+
       public double drift(StochasticProcess1D process, double t0, double x0, double dt)
       {
          return process.drift(t0, x0) * dt;
@@ -39,6 +42,7 @@ namespace QLNet
 
       /*! Returns an approximation of the diffusion defined as
           \f$ \sigma(t_0, \mathbf{x}_0) \sqrt{\Delta t} \f$. */
+
       public Matrix diffusion(StochasticProcess process, double t0, Vector x0, double dt)
       {
          return process.diffusion(t0, x0) * Math.Sqrt(dt);
@@ -46,6 +50,7 @@ namespace QLNet
 
       /*! Returns an approximation of the diffusion defined as
           \f$ \sigma(t_0, x_0) \sqrt{\Delta t} \f$. */
+
       public double diffusion(StochasticProcess1D process, double t0, double x0, double dt)
       {
          return process.diffusion(t0, x0) * Math.Sqrt(dt);
@@ -53,6 +58,7 @@ namespace QLNet
 
       /*! Returns an approximation of the covariance defined as
           \f$ \sigma(t_0, \mathbf{x}_0)^2 \Delta t \f$. */
+
       public Matrix covariance(StochasticProcess process, double t0, Vector x0, double dt)
       {
          Matrix sigma = process.diffusion(t0, x0);
@@ -62,6 +68,7 @@ namespace QLNet
 
       /*! Returns an approximation of the variance defined as
           \f$ \sigma(t_0, x_0)^2 \Delta t \f$. */
+
       public double variance(StochasticProcess1D process, double t0, double x0, double dt)
       {
          double sigma = process.diffusion(t0, x0);

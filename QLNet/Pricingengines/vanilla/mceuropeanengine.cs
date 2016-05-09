@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -26,11 +27,11 @@ namespace QLNet
        \test the correctness of the returned value is tested by
              checking it against analytic results.
    */
+
    public class MCEuropeanEngine<RNG, S> : MCVanillaEngine<SingleVariate, RNG, S>
        where RNG : IRSG, new()
        where S : IGeneralStatistics, new()
    {
-
       // constructor
       public MCEuropeanEngine(GeneralizedBlackScholesProcess process, int timeSteps, int timeStepsPerYear,
                               bool brownianBridge, bool antitheticVariate,
@@ -53,7 +54,6 @@ namespace QLNet
                                        process.riskFreeRate().link.discount(timeGrid().Last()));
       }
    }
-
 
    //! Monte Carlo European engine factory
    // template <class RNG = PseudoRandom, class S = Statistics>
@@ -82,17 +82,20 @@ namespace QLNet
          steps_ = steps;
          return this;
       }
+
       public MakeMCEuropeanEngine<RNG, S> withStepsPerYear(int steps)
       {
          stepsPerYear_ = steps;
          return this;
       }
+
       //public MakeMCEuropeanEngine withBrownianBridge(bool b = true);
       public MakeMCEuropeanEngine<RNG, S> withBrownianBridge(bool brownianBridge)
       {
          brownianBridge_ = brownianBridge;
          return this;
       }
+
       public MakeMCEuropeanEngine<RNG, S> withSamples(int samples)
       {
          if (tolerance_ != 0)
@@ -100,6 +103,7 @@ namespace QLNet
          samples_ = samples;
          return this;
       }
+
       public MakeMCEuropeanEngine<RNG, S> withAbsoluteTolerance(double tolerance)
       {
          if (samples_ != 0)
@@ -109,16 +113,19 @@ namespace QLNet
          tolerance_ = tolerance;
          return this;
       }
+
       public MakeMCEuropeanEngine<RNG, S> withMaxSamples(int samples)
       {
          maxSamples_ = samples;
          return this;
       }
+
       public MakeMCEuropeanEngine<RNG, S> withSeed(ulong seed)
       {
          seed_ = seed;
          return this;
       }
+
       //public MakeMCEuropeanEngine withAntitheticVariate(bool b = true)
       public MakeMCEuropeanEngine<RNG, S> withAntitheticVariate(bool b)
       {
@@ -137,7 +144,6 @@ namespace QLNet
                                             samples_, tolerance_, maxSamples_, seed_);
       }
    }
-
 
    public class EuropeanPathPricer : PathPricer<IPath>
    {

@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -38,6 +39,7 @@ namespace QLNet
    - that the price of a swap increases with the received floating-rate spread.
    - the correctness of the returned value is tested by checking it against a known good value.
 */
+
    public class VanillaSwap : Swap
    {
       public enum Type { Receiver = -1, Payer = 1 };
@@ -48,21 +50,27 @@ namespace QLNet
       private double nominal_;
 
       private Schedule fixedSchedule_;
+
       public Schedule fixedSchedule() { return fixedSchedule_; }
 
       private DayCounter fixedDayCount_;
+
       public DayCounter fixedDayCount() { return fixedDayCount_; }
 
       private Schedule floatingSchedule_;
+
       public Schedule floatingSchedule() { return floatingSchedule_; }
 
       private IborIndex iborIndex_;
       private DayCounter floatingDayCount_;
+
       public DayCounter floatingDayCount() { return floatingDayCount_; }
+
       private BusinessDayConvention paymentConvention_;
 
       // results
       private double? fairRate_;
+
       private double? fairSpread_;
 
       // constructor
@@ -108,10 +116,12 @@ namespace QLNet
                payer_[0] = -1.0;
                payer_[1] = +1.0;
                break;
+
             case Type.Receiver:
                payer_[0] = +1.0;
                payer_[1] = -1.0;
                break;
+
             default:
                throw new ApplicationException("Unknown vanilla-swap type");
          }
@@ -172,7 +182,6 @@ namespace QLNet
          }
       }
 
-
       ///////////////////////////////////////////////////
       // results
       public double fairRate()
@@ -195,6 +204,7 @@ namespace QLNet
          if (legBPS_[0] == null) throw new ArgumentException("result not available");
          return legBPS_[0].GetValueOrDefault();
       }
+
       public double fixedLegNPV()
       {
          calculate();
@@ -208,6 +218,7 @@ namespace QLNet
          if (legBPS_[1] == null) throw new ArgumentException("result not available");
          return legBPS_[1].GetValueOrDefault();
       }
+
       public double floatingLegNPV()
       {
          calculate();
@@ -224,9 +235,10 @@ namespace QLNet
       public double spread { get { return spread_; } }
       public double nominal { get { return nominal_; } }
       public Type swapType { get { return type_; } }
-      public List<CashFlow> fixedLeg() { return legs_[0]; }
-      public List<CashFlow> floatingLeg() { return legs_[1]; }
 
+      public List<CashFlow> fixedLeg() { return legs_[0]; }
+
+      public List<CashFlow> floatingLeg() { return legs_[1]; }
 
       protected override void setupExpired()
       {
@@ -266,7 +278,6 @@ namespace QLNet
                fairSpread_ = spread_ - NPV_.GetValueOrDefault() / (legBPS_[1] / basisPoint);
          }
       }
-
 
       //! %Arguments for simple swap calculation
       new public class Arguments : Swap.Arguments
@@ -317,6 +328,7 @@ namespace QLNet
       public new class Results : Swap.Results
       {
          public double? fairRate, fairSpread;
+
          public override void reset()
          {
             base.reset();

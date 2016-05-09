@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -26,11 +27,12 @@ namespace QLNet
        during the option's life. The minimum value is the option's
        intrinsic value at the shout time.
    */
+
    public class ShoutCondition : CurveDependentStepCondition<Vector>
    {
-      double resTime_;
-      double rate_;
-      double disc_;
+      private double resTime_;
+      private double rate_;
+      private double disc_;
 
       public ShoutCondition(Option.Type type, double strike, double resTime, double rate)
           : base(type, strike)

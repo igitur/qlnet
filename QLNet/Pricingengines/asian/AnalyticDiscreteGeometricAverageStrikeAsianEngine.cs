@@ -15,8 +15,6 @@
 //  FOR A PARTICULAR PURPOSE.  See the license for more details.
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace QLNet
 {
@@ -32,6 +30,7 @@ namespace QLNet
 
        \ingroup asianengines
    */
+
    public class AnalyticDiscreteGeometricAverageStrikeAsianEngine : DiscreteAveragingAsianOption.Engine
    {
       public AnalyticDiscreteGeometricAverageStrikeAsianEngine(GeneralizedBlackScholesProcess process)
@@ -39,6 +38,7 @@ namespace QLNet
          process_ = process;
          process_.registerWith(update);
       }
+
       public override void calculate()
       {
          Utils.QL_REQUIRE(arguments_.averageType == Average.Type.Geometric, () =>
@@ -84,7 +84,6 @@ namespace QLNet
          double residualTime = rfdc.yearFraction(arguments_.fixingDates[pastFixings.GetValueOrDefault()],
             arguments_.exercise.lastDate());
 
-
          double underlying = process_.stateVariable().link.value();
          Utils.QL_REQUIRE(underlying > 0.0, () => "positive underlying value required");
 
@@ -127,17 +126,17 @@ namespace QLNet
                results_.value = underlying * Math.Exp(-dividendRate * residualTime)
                                  * f.value(y1) - Math.Exp(muG + variance / 2.0 - riskFreeRate * residualTime) * f.value(y2);
                break;
+
             case Option.Type.Put:
                results_.value = -underlying * Math.Exp(-dividendRate * residualTime)
                                 * f.value(-y1) + Math.Exp(muG + variance / 2.0 - riskFreeRate * residualTime) * f.value(-y2);
                break;
+
             default:
                Utils.QL_FAIL("invalid option type");
                break;
          }
       }
-
-
 
       private GeneralizedBlackScholesProcess process_;
    }

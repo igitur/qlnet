@@ -15,6 +15,7 @@
  This program is distributed in the hope that it will be useful, but WITHOUT
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
+
 */using System;
 using System.Collections.Generic;
 
@@ -38,18 +39,20 @@ namespace QLNet
 
        \ingroup mcarlo
    */
+
    public class BrownianBridge
    {
       private int size_;
+
       public int size() { return size_; }
 
       private List<double> t_;
+
       public List<double> times() { return t_; }
 
       private List<double> sqrtdt_;
       private List<int> bridgeIndex_, leftIndex_, rightIndex_;
       private List<double> leftWeight_, rightWeight_, stdDev_;
-
 
       //! unit-time path
       public BrownianBridge(int steps)
@@ -70,6 +73,7 @@ namespace QLNet
 
       //! generic times
       /*! \note the starting time of the path is assumed to be 0 and must not be included */
+
       public BrownianBridge(List<double> times)
       {
          size_ = times.Count;
@@ -101,7 +105,6 @@ namespace QLNet
             t_[i] = timeGrid[i + 1];
          initialize();
       }
-
 
       private void initialize()
       {

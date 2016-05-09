@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -34,9 +35,9 @@ namespace QLNet
        Caps/Swaptions Calibration,
        (<http://www.business.uts.edu.au/qfrc/conferences/qmf2001/Brigo_D.pdf>)
    */
+
    public class LmExponentialCorrelationModel : LmCorrelationModel
    {
-
       private Matrix corrMatrix_, pseudoSqrt_;
 
       public LmExponentialCorrelationModel(int size, double rho)

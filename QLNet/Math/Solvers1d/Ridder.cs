@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -25,7 +26,6 @@ namespace QLNet
    {
       protected override double solveImpl(ISolver1d f, double xAcc)
       {
-
          /* The implementation of the algorithm was inspired by
             Press, Teukolsky, Vetterling, and Flannery,
             "Numerical Recipes in C", 2nd edition, Cambridge
@@ -92,10 +92,10 @@ namespace QLNet
 
          throw new ArgumentException("maximum number of function evaluations (" + maxEvaluations_ + ") exceeded");
       }
+
       private double sign(double a, double b)
       {
          return b >= 0.0 ? Math.Abs(a) : -Math.Abs(a);
       }
-
    }
 }

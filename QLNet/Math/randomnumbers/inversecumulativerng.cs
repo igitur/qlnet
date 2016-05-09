@@ -40,6 +40,7 @@ namespace QLNet
            Real IC::operator() const;
        \endcode
    */
+
    public class InverseCumulativeRng<RNG, IC> where RNG : IRNGTraits where IC : IValue, new()
    {
       private RNG uniformGenerator_;

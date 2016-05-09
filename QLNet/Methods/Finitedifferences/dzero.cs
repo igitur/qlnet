@@ -31,6 +31,7 @@ namespace QLNet
        \test the correctness of the returned values is tested by
              checking them against numerical calculations.
    */
+
    public class DZero : TridiagonalOperator
    {
       public DZero(int gridPoints, double h)

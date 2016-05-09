@@ -22,7 +22,6 @@ namespace QLNet
    //! caplet const volatility model
    public class LmConstWrapperVolatilityModel : LmVolatilityModel
    {
-
       public LmConstWrapperVolatilityModel(LmVolatilityModel volaModel)
       : base(volaModel.size(), 0)
       {

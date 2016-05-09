@@ -40,7 +40,6 @@ namespace QLNet
                new AUDCurrency(),
                ts)
       { }
-
    }
 
    //! Genuine year-on-year AU CPI (i.e. not a ratio)
@@ -66,7 +65,6 @@ namespace QLNet
                ts)
       { }
    }
-
 
    //! Fake year-on-year AUCPI (i.e. a ratio)
    public class YYAUCPIr : YoYInflationIndex

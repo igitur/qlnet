@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -23,6 +24,7 @@ namespace QLNet
    //! transformed grid
    /*! This package encapuslates an array of grid points.  It is used primarily in PDE calculations.
    */
+
    public class TransformedGrid
    {
       protected Vector grid_;
@@ -32,9 +34,13 @@ namespace QLNet
       protected Vector dx_;
 
       public Vector gridArray() { return grid_; }
+
       public Vector transformedGridArray() { return transformedGrid_; }
+
       public Vector dxmArray() { return dxm_; }
+
       public Vector dxpArray() { return dxp_; }
+
       public Vector dxArray() { return dx_; }
 
       public TransformedGrid(Vector grid)
@@ -73,10 +79,15 @@ namespace QLNet
       }
 
       public double grid(int i) { return grid_[i]; }
+
       public double transformedGrid(int i) { return transformedGrid_[i]; }
+
       public double dxm(int i) { return dxm_[i]; }
+
       public double dxp(int i) { return dxp_[i]; }
+
       public double dx(int i) { return dx_[i]; }
+
       public int size() { return grid_.size(); }
    }
 
@@ -85,6 +96,7 @@ namespace QLNet
       public LogGrid(Vector grid) : base(grid, Math.Log) { }
 
       public Vector logGridArray() { return transformedGridArray(); }
+
       public double logGrid(int i) { return transformedGrid(i); }
    };
 }

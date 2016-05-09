@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,14 +26,18 @@ namespace QLNet
    public class InterpolatedZeroCurve<Interpolator> : ZeroYieldStructure, InterpolatedCurve
        where Interpolator : class, IInterpolationFactory, new()
    {
-
       #region InterpolatedCurve
+
       public List<double> times_ { get; set; }
+
       public List<double> times() { return this.times_; }
 
       public List<Date> dates_ { get; set; }
+
       public List<Date> dates() { return dates_; }
+
       public Date maxDate_ { get; set; }
+
       public override Date maxDate()
       {
          if (maxDate_ != null)
@@ -42,7 +47,9 @@ namespace QLNet
       }
 
       public List<double> data_ { get; set; }
+
       public List<double> zeroRates() { return this.data_; }
+
       public List<double> data() { return zeroRates(); }
 
       public Interpolation interpolation_ { get; set; }
@@ -69,7 +76,8 @@ namespace QLNet
          copy.setupInterpolation();
          return copy;
       }
-      #endregion
+
+      #endregion InterpolatedCurve
 
       public InterpolatedZeroCurve(DayCounter dayCounter,
                                    List<Handle<Quote>> jumps = null,
@@ -196,7 +204,6 @@ namespace QLNet
                 data_[i - 1] + " at " + dates_[i - 1] +
                 " (t=" + times_[i - 1] + ")");
 #endif
-
          }
 
          setupInterpolation();

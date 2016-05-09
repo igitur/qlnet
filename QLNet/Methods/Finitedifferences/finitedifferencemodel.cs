@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace QLNet
    public class FiniteDifferenceModel<Evolver> where Evolver : IMixedScheme, ISchemeFactory, new()
    {
       private Evolver evolver_;
+
       public Evolver evolver() { return evolver_; }
 
       private List<double> stoppingTimes_;
@@ -32,6 +34,7 @@ namespace QLNet
       // constructors
       public FiniteDifferenceModel(object L, object bcs)
           : this(L, bcs, new List<double>()) { }
+
       public FiniteDifferenceModel(object L, object bcs, List<double> stoppingTimes)
       {
          evolver_ = (Evolver)new Evolver().factory(L, bcs);
@@ -52,7 +55,9 @@ namespace QLNet
 
       /*! solves the problem between the given times, applying a condition at every step.
           \warning being this a rollback, <tt>from</tt> must be a later time than <tt>to</tt>. */
+
       public void rollback(ref object a, double from, double to, int steps) { rollbackImpl(ref a, from, to, steps, null); }
+
       public void rollback(ref object a, double from, double to, int steps, IStepCondition<Vector> condition)
       {
          rollbackImpl(ref a, from, to, steps, condition);
@@ -60,7 +65,6 @@ namespace QLNet
 
       private void rollbackImpl(ref object o, double from, double to, int steps, IStepCondition<Vector> condition)
       {
-
          if (!(from >= to)) throw new ApplicationException("trying to roll back from " + from + " to " + to);
 
          double dt = (from - to) / steps, t = from;
@@ -112,6 +116,5 @@ namespace QLNet
             }
          }
       }
-
    }
 }

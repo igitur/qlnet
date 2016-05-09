@@ -84,6 +84,7 @@ namespace QLNet
          /// given directly by the user
          /// </summary>
          Direct,
+
          /// <summary>
          /// Derived from exchange rates between other currencies
          /// </summary>

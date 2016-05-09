@@ -18,12 +18,12 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
 namespace QLNet
 {
-
    public static partial class Utils
    {
       public static double? toNullable(double val)
@@ -53,7 +53,6 @@ namespace QLNet
           where FloatingCouponType : FloatingRateCoupon, new()
           where CappedFlooredCouponType : CappedFlooredCoupon, new()
       {
-
          int n = schedule.Count;
          if (nominals.Count == 0) throw new ArgumentException("no notional given");
          if (nominals.Count > n) throw new ArgumentException(
@@ -147,7 +146,6 @@ namespace QLNet
           where FloatingCouponType : FloatingRateCoupon, new()
           where DigitalCouponType : DigitalCoupon, new()
       {
-
          int n = schedule.Count;
          if (nominals.Count == 0) throw new ArgumentException("no nominal given");
          if (nominals.Count > n) throw new ArgumentException(
@@ -160,7 +158,6 @@ namespace QLNet
                     "too many nominals (" + callStrikes.Count + "), only " + n + " required");
          if (putStrikes.Count > n) throw new ArgumentException(
                     "too many nominals (" + putStrikes.Count + "), only " + n + " required");
-
 
          List<CashFlow> leg = new List<CashFlow>();
 
@@ -193,7 +190,6 @@ namespace QLNet
                                    Utils.Get(spreads, i, 1.0),
                                    paymentDayCounter,
                                    start, end, refStart, refEnd));
-
             }
             else
             { // floating digital coupon
@@ -225,7 +221,6 @@ namespace QLNet
          return leg;
       }
 
-
       public static List<CashFlow> OvernightLeg(List<double> nominals,
                                                 Schedule schedule,
                                                 BusinessDayConvention paymentAdjustment,
@@ -234,7 +229,6 @@ namespace QLNet
                                                 List<double> spreads,
                                                 DayCounter paymentDayCounter
                                                )
-
 
       {
          if (nominals.Count == 0) throw new ArgumentException("no nominal given");
@@ -308,7 +302,6 @@ namespace QLNet
          if (floors_ != null && floors_.Count > n)
             throw new ApplicationException("too many floors (" + floors_.Count +
                                            "), only " + n + " required");
-
 
          List<CashFlow> leg = new List<CashFlow>(n);
 
@@ -386,9 +379,6 @@ namespace QLNet
          }
 
          return leg;
-
       }
-
-
    }
 }

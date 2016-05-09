@@ -18,11 +18,11 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-
    //! Capped and/or floored floating-rate coupon
    //    ! The payoff \f$ P \f$ of a capped floating-rate coupon is:
    //        \f[ P = N \times T \times \min(a L + b, C). \f]
@@ -50,6 +50,7 @@ namespace QLNet
    {
       // data
       protected FloatingRateCoupon underlying_;
+
       protected bool isCapped_;
       protected bool isFloored_;
       protected double? cap_;
@@ -96,6 +97,7 @@ namespace QLNet
                throw new ApplicationException("cap level (" + cap + ") less than floor level (" + floor + ")");
          underlying.registerWith(update);
       }
+
       //! \name Coupon interface
       //@{
       public override double rate()
@@ -112,10 +114,12 @@ namespace QLNet
             capletRate = underlying_.pricer().capletRate(effectiveCap().Value);
          return swapletRate + floorletRate - capletRate;
       }
+
       public override double convexityAdjustment()
       {
          return underlying_.convexityAdjustment();
       }
+
       //@}
       //! cap
       public double cap()
@@ -126,6 +130,7 @@ namespace QLNet
             return floor_.GetValueOrDefault();
          return 0.0;
       }
+
       //! floor
       public double floor()
       {
@@ -135,6 +140,7 @@ namespace QLNet
             return cap_.GetValueOrDefault();
          return 0.0;
       }
+
       //! effective cap of fixing
       public double? effectiveCap()
       {
@@ -151,6 +157,7 @@ namespace QLNet
       {
          return isCapped_;
       }
+
       public bool isFloored()
       {
          return isFloored_;
@@ -228,5 +235,4 @@ namespace QLNet
          return new CappedFlooredCmsCoupon(nominal, paymentDate, startDate, endDate, fixingDays, (SwapIndex)index, gearing, spread, cap, floor, refPeriodStart, refPeriodEnd, dayCounter, isInArrears);
       }
    }
-
 }

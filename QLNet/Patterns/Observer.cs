@@ -36,8 +36,10 @@ namespace QLNet
    public interface IObservable
    {
       event Callback notifyObserversEvent;
+
       //void notifyObservers();
       void registerWith(Callback handler);
+
       void unregisterWith(Callback handler);
    }
 

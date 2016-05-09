@@ -62,6 +62,7 @@ namespace QLNet
 
        \ingroup calendars
    */
+
    public class SouthKorea : Calendar
    {
       public enum Market
@@ -71,6 +72,7 @@ namespace QLNet
       }
 
       public SouthKorea() : this(Market.KRX) { }
+
       public SouthKorea(Market m)
           : base()
       {
@@ -81,23 +83,27 @@ namespace QLNet
             case Market.Settlement:
                calendar_ = Settlement.Singleton;
                break;
+
             case Market.KRX:
                calendar_ = KRX.Singleton;
                break;
+
             default:
                throw new ArgumentException("Unknown market: " + m);
          }
       }
 
-      class Settlement : Calendar
+      private class Settlement : Calendar
       {
          public static readonly Settlement Singleton = new Settlement();
 
          public override string name() { return "South-Korean settlement"; }
+
          public override bool isWeekend(DayOfWeek w)
          {
             return w == DayOfWeek.Saturday || w == DayOfWeek.Sunday;
          }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;
@@ -242,11 +248,12 @@ namespace QLNet
          }
       }
 
-      class KRX : Settlement
+      private class KRX : Settlement
       {
          public new static readonly KRX Singleton = new KRX();
 
          public override string name() { return "South-Korea exchange"; }
+
          public override bool isBusinessDay(Date date)
          {
             // public holidays
@@ -268,7 +275,3 @@ namespace QLNet
       }
    }
 }
-
-
-
-

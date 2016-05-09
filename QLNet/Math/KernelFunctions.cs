@@ -30,7 +30,6 @@ namespace QLNet
       double value(double x);
    }
 
-
    //! Gaussian kernel function
    public class GaussianKernel : IKernelFunction
    {
@@ -60,7 +59,5 @@ namespace QLNet
       private NormalDistribution nd_;
       private CumulativeNormalDistribution cnd_;
       private double normFact_;
-
    }
-
 }

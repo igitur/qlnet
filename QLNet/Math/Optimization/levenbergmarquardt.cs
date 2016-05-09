@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -37,6 +38,7 @@ namespace QLNet
        evaluations) compared to the forward
        difference implemented here (order 1).
    */
+
    public class LevenbergMarquardt : OptimizationMethod
    {
       private Problem currentProblem_;
@@ -45,11 +47,13 @@ namespace QLNet
       private bool useCostFunctionsJacobian_;
 
       private int info_;
+
       public int getInfo() { return info_; }
 
       private double epsfcn_, xtol_, gtol_;
 
       public LevenbergMarquardt() : this(1.0e-8, 1.0e-8, 1.0e-8) { }
+
       public LevenbergMarquardt(double epsfcn, double xtol, double gtol, bool useCostFunctionsJacobian = false)
       {
          info_ = 0;

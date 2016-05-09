@@ -17,14 +17,15 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-
    public abstract class Defaultable
    {
       public abstract double defaultRecovery(double t, double underlying);
+
       public abstract double hazardRate(double t, double underlying);
    }
 
@@ -33,6 +34,7 @@ namespace QLNet
       private double alpha_;
       private double p_;
       private double recovery_;
+
       public NegativePowerDefaultIntensity(double alpha, double p) : this(alpha, p, 0.0)
       {
       }
@@ -43,12 +45,14 @@ namespace QLNet
          p_ = p;
          recovery_ = recovery;
       }
+
       public override double hazardRate(double t, double s)
       {
          if (s <= 0.0)
             return 0.0;
          return alpha_ * Math.Pow(s, -p_);
       }
+
       public override double defaultRecovery(double t, double s)
       {
          return recovery_;
@@ -59,18 +63,22 @@ namespace QLNet
    {
       private double constant_;
       private double recovery_;
+
       public ConstantDefaultIntensity(double constant) : this(constant, 0.0)
       {
       }
+
       public ConstantDefaultIntensity(double constant, double recovery)
       {
          constant_ = constant;
          recovery_ = recovery;
       }
+
       public override double hazardRate(double t, double s)
       {
          return constant_;
       }
+
       public override double defaultRecovery(double t, double s)
       {
          return recovery_;

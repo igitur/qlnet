@@ -27,13 +27,17 @@ namespace QLNet
 
       //! returns the current value, 0 by default
       public virtual double value() { return 0; }
+
       //! returns true if the Quote holds a valid value, true by default
       public virtual bool isValid() { return true; }
 
       // observable interface
       public event Callback notifyObserversEvent;
+
       public void registerWith(Callback handler) { notifyObserversEvent += handler; }
+
       public void unregisterWith(Callback handler) { notifyObserversEvent -= handler; }
+
       protected void notifyObservers()
       {
          Callback handler = notifyObserversEvent;

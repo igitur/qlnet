@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -26,6 +27,7 @@ namespace QLNet
    {
       // this is a placeholder for actual day counters for Singleton pattern use
       protected DayCounter dayCounter_;
+
       public DayCounter dayCounter
       {
          get { return dayCounter_; }
@@ -35,7 +37,9 @@ namespace QLNet
       // constructors
       /*! The default constructor returns a day counter with a null implementation, which is therefore unusable except as a
           placeholder. */
+
       public DayCounter() { }
+
       public DayCounter(DayCounter d) { dayCounter_ = d; }
 
       // comparison based on name
@@ -46,8 +50,8 @@ namespace QLNet
                 ((Object)d1 == null && (Object)d2 == null) :
                 (d1.empty() && d2.empty()) || (!d1.empty() && !d2.empty() && d1.name() == d2.name());
       }
-      public static bool operator !=(DayCounter d1, DayCounter d2) { return !(d1 == d2); }
 
+      public static bool operator !=(DayCounter d1, DayCounter d2) { return !(d1 == d2); }
 
       public bool empty() { return dayCounter_ == null; }
 
@@ -64,6 +68,7 @@ namespace QLNet
       }
 
       public double yearFraction(Date d1, Date d2) { return yearFraction(d1, d2, d1, d2); }
+
       public virtual double yearFraction(Date d1, Date d2, Date refPeriodStart, Date refPeriodEnd)
       {
          if (empty()) throw Error.MissingImplementation();
@@ -71,7 +76,9 @@ namespace QLNet
       }
 
       public override bool Equals(object o) { return this == (DayCounter)o; }
+
       public override int GetHashCode() { return 0; }
+
       public override string ToString() { return this.name(); }
    }
 }

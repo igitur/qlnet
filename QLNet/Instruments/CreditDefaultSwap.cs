@@ -39,6 +39,7 @@ namespace QLNet
 
 		  \ingroup instruments
 	*/
+
    public class CreditDefaultSwap : Instrument
    {
       //! \name ructors
@@ -61,6 +62,7 @@ namespace QLNet
           @param protectionStart  The first date where a default
                                   event will trigger the contract.
       */
+
       public CreditDefaultSwap(Protection.Side side,
                           double notional,
                           double spread,
@@ -94,6 +96,7 @@ namespace QLNet
 
          claim_.registerWith(update);
       }
+
       //! CDS quoted as upfront and running spread
       /*! @param side  Whether the protection is bought or sold.
           @param notional  Notional value
@@ -114,6 +117,7 @@ namespace QLNet
                                  event will trigger the contract.
           @param upfrontDate Settlement date for the upfront payment.
       */
+
       public CreditDefaultSwap(Protection.Side side,
                                double notional,
                                double upfront,
@@ -127,7 +131,6 @@ namespace QLNet
                                Date upfrontDate = null,
                                Claim claim = null)
       {
-
          side_ = side;
          notional_ = notional;
          upfront_ = upfront;
@@ -151,6 +154,7 @@ namespace QLNet
             claim_ = new FaceValueClaim();
          claim_.registerWith(update);
       }
+
       //@}
       //! \name Instrument interface
       //@{
@@ -193,20 +197,30 @@ namespace QLNet
          upfrontNPV_ = results.upfrontNPV;
          upfrontBPS_ = results.upfrontBPS;
       }
+
       //@}
       //! \name Inspectors
       //@{
       public Protection.Side side() { return side_; }
+
       public double? notional() { return notional_; }
+
       public double runningSpread() { return runningSpread_; }
+
       public double? upfront() { return upfront_; }
+
       public bool settlesAccrual() { return settlesAccrual_; }
+
       public bool paysAtDefaultTime() { return paysAtDefaultTime_; }
+
       public List<CashFlow> coupons() { return leg_; }
+
       //! The first date for which defaults will trigger the contract
       public Date protectionStartDate() { return protectionStart_; }
+
       //! The last date for which defaults will trigger the contract
       public Date protectionEndDate() { return ((Coupon)(leg_.Last())).accrualEndDate(); }
+
       //@}
       //! \name Results
       //@{
@@ -214,27 +228,32 @@ namespace QLNet
           and the quoted recovery rate, will make the instrument
           have an NPV of 0.
       */
+
       public double fairUpfront()
       {
          calculate();
          Utils.QL_REQUIRE(fairUpfront_ != null, () => "fair upfront not available");
          return fairUpfront_.Value;
       }
+
       /*! Returns the running spread that, given the quoted recovery
           rate, will make the running-only CDS have an NPV of 0.
 
           \note This calculation does not take any upfront into
                 account, even if one was given.
       */
+
       public double fairSpread()
       {
          calculate();
          Utils.QL_REQUIRE(fairSpread_ != null, () => "fair spread not available");
          return fairSpread_.Value;
       }
+
       /*! Returns the variation of the fixed-leg value given a
           one-basis-point change in the running spread.
       */
+
       public double couponLegBPS()
       {
          calculate();
@@ -287,6 +306,7 @@ namespace QLNet
                   IMM dates, settle on trade date +1 and upfront
                   settle on trade date +3.
       */
+
       private class ObjectiveFunction : ISolver1d
       {
          public ObjectiveFunction(double target, SimpleQuote quote, IPricingEngine engine, CreditDefaultSwap.Results results)
@@ -308,8 +328,8 @@ namespace QLNet
          private SimpleQuote quote_;
          private IPricingEngine engine_;
          private CreditDefaultSwap.Results results_;
-
       }
+
       public double impliedHazardRate(double targetNPV,
                                       Handle<YieldTermStructure> discountCurve,
                                       DayCounter dayCounter,
@@ -363,6 +383,7 @@ namespace QLNet
                   IMM dates, settle on trade date +1 and upfront
                   settle on trade date +3.
       */
+
       public double? conventionalSpread(double conventionalRecovery,
                                        Handle<YieldTermStructure> discountCurve,
                                        DayCounter dayCounter)
@@ -381,6 +402,7 @@ namespace QLNet
          CreditDefaultSwap.Results results = engine.getResults() as CreditDefaultSwap.Results;
          return results.fairSpread;
       }
+
       //@}
       //! \name Instrument interface
       //@{
@@ -391,9 +413,11 @@ namespace QLNet
          couponLegBPS_ = upfrontBPS_ = 0.0;
          couponLegNPV_ = defaultLegNPV_ = upfrontNPV_ = 0.0;
       }
+
       //@}
       // data members
       protected Protection.Side side_;
+
       protected double? notional_;
       protected double? upfront_;
       protected double runningSpread_;
@@ -402,14 +426,14 @@ namespace QLNet
       protected List<CashFlow> leg_;
       protected CashFlow upfrontPayment_;
       protected Date protectionStart_;
+
       // results
       protected double? fairUpfront_;
+
       protected double? fairSpread_;
       protected double? couponLegBPS_, couponLegNPV_;
       protected double? upfrontBPS_, upfrontNPV_;
       protected double? defaultLegNPV_;
-
-
 
       public class Arguments : IPricingEngineArguments
       {
@@ -430,6 +454,7 @@ namespace QLNet
          public bool paysAtDefaultTime;
          public Claim claim;
          public Date protectionStart;
+
          public void validate()
          {
             Utils.QL_REQUIRE(side != (Protection.Side)(-1), () => "side not set");
@@ -443,7 +468,6 @@ namespace QLNet
          }
       }
 
-
       public new class Results : Instrument.Results
       {
          public double? fairSpread;
@@ -453,6 +477,7 @@ namespace QLNet
          public double? defaultLegNPV;
          public double? upfrontBPS;
          public double? upfrontNPV;
+
          public override void reset()
          {
             base.reset();
@@ -468,6 +493,5 @@ namespace QLNet
 
       public abstract class Engine : GenericEngine<CreditDefaultSwap.Arguments, CreditDefaultSwap.Results>
       { }
-
    }
 }

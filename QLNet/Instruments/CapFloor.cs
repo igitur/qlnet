@@ -48,13 +48,12 @@ namespace QLNet
       private List<double> capRates_;
       private List<double> floorRates_;
 
-      #endregion
+      #endregion Private Attributes
 
       #region Constructors
 
       public CapFloor(CapFloorType type, List<CashFlow> floatingLeg, List<double> capRates, List<double> floorRates)
       {
-
          type_ = type;
          floatingLeg_ = new List<CashFlow>(floatingLeg);
          capRates_ = new List<double>(capRates);
@@ -81,11 +80,10 @@ namespace QLNet
             floatingLeg_[i].registerWith(update);
 
          Settings.registerWith(update);
-
       }
+
       public CapFloor(CapFloorType type, List<CashFlow> floatingLeg, List<double> strikes)
       {
-
          type_ = type;
          floatingLeg_ = new List<CashFlow>(floatingLeg);
 
@@ -98,7 +96,6 @@ namespace QLNet
 
             while (capRates_.Count < floatingLeg_.Count)
                capRates_.Add(capRates_.Last());
-
          }
          else if (type_ == CapFloorType.Floor)
          {
@@ -110,14 +107,13 @@ namespace QLNet
          else
             throw new ArgumentException("only Cap/Floor types allowed in this constructor");
 
-
          for (int i = 0; i < floatingLeg_.Count; i++)
             floatingLeg_[i].registerWith(update);
 
          Settings.registerWith(update);
       }
 
-      #endregion
+      #endregion Constructors
 
       #region Instrument interface
 
@@ -129,12 +125,12 @@ namespace QLNet
 
          return true;
       }
+
       public override void setupArguments(IPricingEngineArguments args)
       {
          CapFloor.Arguments arguments = args as CapFloor.Arguments;
 
          if (arguments == null) throw new ArgumentException("wrong argument type");
-
 
          int n = floatingLeg_.Count;
 
@@ -196,16 +192,20 @@ namespace QLNet
          }
       }
 
-      #endregion
+      #endregion Instrument interface
 
       #region Inspectors
 
       public CapFloorType getType() { return type_; }
+
       public List<double> capRates() { return capRates_; }
+
       public List<double> floorRates() { return floorRates_; }
+
       public List<CashFlow> floatingLeg() { return floatingLeg_; }
 
       public Date startDate() { return CashFlows.startDate(floatingLeg_); }
+
       public Date maturityDate() { return CashFlows.maturityDate(floatingLeg_); }
 
       public FloatingRateCoupon lastFloatingRateCoupon()
@@ -253,7 +253,6 @@ namespace QLNet
                                   1.0e-7, 4.0);
       }
 
-
       public double impliedVolatility(
                               double targetValue,
                               Handle<YieldTermStructure> discountCurve,
@@ -275,7 +274,7 @@ namespace QLNet
          //return 0;
       }
 
-      #endregion
+      #endregion Inspectors
 
       #region Pricing
 
@@ -292,6 +291,7 @@ namespace QLNet
          public List<double> gearings;
          public List<double> spreads;
          public List<double> nominals;
+
          public void validate()
          {
             if (endDates.Count != startDates.Count)
@@ -333,11 +333,10 @@ namespace QLNet
                throw new ArgumentException("number of start dates (" + startDates.Count
                                             + ") different from that of forwards ("
                                             + forwards.Count + ")");
-
          }
       }
 
-      #endregion
+      #endregion Pricing
    }
 
    /// <summary>
@@ -394,7 +393,6 @@ namespace QLNet
          engine_ = (IPricingEngine)new BlackCapFloorEngine(discountCurve_, h);
          cap.setupArguments(engine_.getArguments());
          results_ = engine_.getResults() as Instrument.Results;
-
       }
 
       //Real operator()(Volatility x) const;

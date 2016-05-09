@@ -43,9 +43,9 @@ namespace QLNet
        <li>Simchat Tora, Tishrei 22nd (between Sep 26th & Oct 26th)</li>
        </ul>
 
-
        \ingroup calendars
    */
+
    public class Israel : Calendar
    {
       public enum Market
@@ -64,24 +64,29 @@ namespace QLNet
             case Market.Settlement:
                calendar_ = TelAvivImpl.Singleton;
                break;
+
             case Market.TASE:
                calendar_ = TelAvivImpl.Singleton;
                break;
+
             default:
                throw new ArgumentException("Unknown market: " + m);
          }
       }
 
-      class TelAvivImpl : Calendar
+      private class TelAvivImpl : Calendar
       {
          public static readonly TelAvivImpl Singleton = new TelAvivImpl();
+
          private TelAvivImpl() { }
 
          public override string name() { return "Tel Aviv stock exchange"; }
+
          public override bool isWeekend(DayOfWeek w)
          {
             return w == DayOfWeek.Friday || w == DayOfWeek.Saturday;
          }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;
@@ -391,12 +396,6 @@ namespace QLNet
 
             return true;
          }
-
       }
-
    }
-
-
 }
-
-

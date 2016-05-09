@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -58,6 +59,7 @@ namespace QLNet
          \param delta_h step size
          \param n if known, n is the order of convergence
       */
+
       public delegate double function(double num);
 
       public RichardsonExtrapolation(function f, double delta_h, double? n = null)
@@ -71,6 +73,7 @@ namespace QLNet
       /*! Extrapolation for known order of convergence
          \param t scaling factor for the step size
       */
+
       public double value(double t = 2.0)
       {
          Utils.QL_REQUIRE(t > 1, () => "scaling factor must be greater than 1");
@@ -85,6 +88,7 @@ namespace QLNet
          \param t first scaling factor for the step size
          \param s second scaling factor for the step size
       */
+
       public double value(double t, double s)
       {
          Utils.QL_REQUIRE(t > 1 && s > 1, () => "scaling factors must be greater than 1");

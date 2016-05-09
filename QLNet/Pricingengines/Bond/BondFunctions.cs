@@ -29,6 +29,7 @@ namespace QLNet
 
        Prices are always clean, as per market convention.
    */
+
    public class BondFunctions
    {
       #region Date inspectors
@@ -37,10 +38,12 @@ namespace QLNet
       {
          return CashFlows.startDate(bond.cashflows());
       }
+
       public static Date maturityDate(Bond bond)
       {
          return CashFlows.maturityDate(bond.cashflows());
       }
+
       public static bool isTradable(Bond bond, Date settlementDate = null)
       {
          if (settlementDate == null)
@@ -49,7 +52,7 @@ namespace QLNet
          return bond.notional(settlementDate) != 0.0;
       }
 
-      #endregion
+      #endregion Date inspectors
 
       #region CashFlow inspectors
 
@@ -60,6 +63,7 @@ namespace QLNet
 
          return CashFlows.previousCashFlow(bond.cashflows(), false, refDate);
       }
+
       public static CashFlow nextCashFlow(Bond bond, Date refDate = null)
       {
          if (refDate == null)
@@ -67,6 +71,7 @@ namespace QLNet
 
          return CashFlows.nextCashFlow(bond.cashflows(), false, refDate);
       }
+
       public static Date previousCashFlowDate(Bond bond, Date refDate = null)
       {
          if (refDate == null)
@@ -74,6 +79,7 @@ namespace QLNet
 
          return CashFlows.previousCashFlowDate(bond.cashflows(), false, refDate);
       }
+
       public static Date nextCashFlowDate(Bond bond, Date refDate = null)
       {
          if (refDate == null)
@@ -81,6 +87,7 @@ namespace QLNet
 
          return CashFlows.nextCashFlowDate(bond.cashflows(), false, refDate);
       }
+
       public static double? previousCashFlowAmount(Bond bond, Date refDate = null)
       {
          if (refDate == null)
@@ -88,6 +95,7 @@ namespace QLNet
 
          return CashFlows.previousCashFlowAmount(bond.cashflows(), false, refDate);
       }
+
       public static double? nextCashFlowAmount(Bond bond, Date refDate = null)
       {
          if (refDate == null)
@@ -96,7 +104,7 @@ namespace QLNet
          return CashFlows.nextCashFlowAmount(bond.cashflows(), false, refDate);
       }
 
-      #endregion
+      #endregion CashFlow inspectors
 
       #region Coupon inspectors
 
@@ -107,6 +115,7 @@ namespace QLNet
 
          return CashFlows.previousCouponRate(bond.cashflows(), false, settlementDate);
       }
+
       public static double nextCouponRate(Bond bond, Date settlementDate = null)
       {
          if (settlementDate == null)
@@ -114,6 +123,7 @@ namespace QLNet
 
          return CashFlows.nextCouponRate(bond.cashflows(), false, settlementDate);
       }
+
       public static Date accrualStartDate(Bond bond, Date settlementDate = null)
       {
          if (settlementDate == null)
@@ -125,6 +135,7 @@ namespace QLNet
 
          return CashFlows.accrualStartDate(bond.cashflows(), false, settlementDate);
       }
+
       public static Date accrualEndDate(Bond bond, Date settlementDate = null)
       {
          if (settlementDate == null)
@@ -136,6 +147,7 @@ namespace QLNet
 
          return CashFlows.accrualEndDate(bond.cashflows(), false, settlementDate);
       }
+
       public static Date referencePeriodStart(Bond bond, Date settlementDate = null)
       {
          if (settlementDate == null)
@@ -147,6 +159,7 @@ namespace QLNet
 
          return CashFlows.referencePeriodStart(bond.cashflows(), false, settlementDate);
       }
+
       public static Date referencePeriodEnd(Bond bond, Date settlementDate = null)
       {
          if (settlementDate == null)
@@ -158,6 +171,7 @@ namespace QLNet
 
          return CashFlows.referencePeriodEnd(bond.cashflows(), false, settlementDate);
       }
+
       public static double accrualPeriod(Bond bond, Date settlementDate = null)
       {
          if (settlementDate == null)
@@ -169,6 +183,7 @@ namespace QLNet
 
          return CashFlows.accrualPeriod(bond.cashflows(), false, settlementDate);
       }
+
       public static int accrualDays(Bond bond, Date settlementDate = null)
       {
          if (settlementDate == null)
@@ -180,6 +195,7 @@ namespace QLNet
 
          return CashFlows.accrualDays(bond.cashflows(), false, settlementDate);
       }
+
       public static double accruedPeriod(Bond bond, Date settlementDate = null)
       {
          if (settlementDate == null)
@@ -191,6 +207,7 @@ namespace QLNet
 
          return CashFlows.accruedPeriod(bond.cashflows(), false, settlementDate);
       }
+
       public static double accruedDays(Bond bond, Date settlementDate = null)
       {
          if (settlementDate == null)
@@ -202,6 +219,7 @@ namespace QLNet
 
          return CashFlows.accruedDays(bond.cashflows(), false, settlementDate);
       }
+
       public static double accruedAmount(Bond bond, Date settlementDate = null)
       {
          if (settlementDate == null)
@@ -214,7 +232,7 @@ namespace QLNet
          return CashFlows.accruedAmount(bond.cashflows(), false, settlementDate) * 100.0 / bond.notional(settlementDate);
       }
 
-      #endregion
+      #endregion Coupon inspectors
 
       #region YieldTermStructure functions
 
@@ -232,6 +250,7 @@ namespace QLNet
                              100.0 / bond.notional(settlementDate);
          return dirtyPrice - bond.accruedAmount(settlementDate);
       }
+
       public static double bps(Bond bond, YieldTermStructure discountCurve, Date settlementDate = null)
       {
          if (settlementDate == null)
@@ -243,6 +262,7 @@ namespace QLNet
 
          return CashFlows.bps(bond.cashflows(), discountCurve, false, settlementDate) * 100.0 / bond.notional(settlementDate);
       }
+
       public static double atmRate(Bond bond, YieldTermStructure discountCurve, Date settlementDate = null, double? cleanPrice = null)
       {
          if (settlementDate == null)
@@ -259,7 +279,7 @@ namespace QLNet
          return CashFlows.atmRate(bond.cashflows(), discountCurve, false, settlementDate, settlementDate, npv);
       }
 
-      #endregion
+      #endregion YieldTermStructure functions
 
       #region Yield (a.k.a. Internal Rate of Return, i.e. IRR) functions
 
@@ -267,11 +287,13 @@ namespace QLNet
       {
          return dirtyPrice(bond, yield, settlementDate) - bond.accruedAmount(settlementDate);
       }
+
       public static double cleanPrice(Bond bond, double yield, DayCounter dayCounter, Compounding compounding, Frequency frequency,
                                 Date settlementDate = null)
       {
          return cleanPrice(bond, new InterestRate(yield, dayCounter, compounding, frequency), settlementDate);
       }
+
       public static double dirtyPrice(Bond bond, InterestRate yield, Date settlementDate = null)
       {
          if (settlementDate == null)
@@ -285,11 +307,13 @@ namespace QLNet
                              100.0 / bond.notional(settlementDate);
          return dirtyPrice;
       }
+
       public static double dirtyPrice(Bond bond, double yield, DayCounter dayCounter, Compounding compounding, Frequency frequency,
                                 Date settlementDate = null)
       {
          return dirtyPrice(bond, new InterestRate(yield, dayCounter, compounding, frequency), settlementDate);
       }
+
       public static double bps(Bond bond, InterestRate yield, Date settlementDate = null)
       {
          if (settlementDate == null)
@@ -302,11 +326,13 @@ namespace QLNet
          return CashFlows.bps(bond.cashflows(), yield, false, settlementDate) *
                               100.0 / bond.notional(settlementDate);
       }
+
       public static double bps(Bond bond, double yield, DayCounter dayCounter, Compounding compounding, Frequency frequency,
                          Date settlementDate = null)
       {
          return bps(bond, new InterestRate(yield, dayCounter, compounding, frequency), settlementDate);
       }
+
       public static double yield(Bond bond, double cleanPrice, DayCounter dayCounter, Compounding compounding, Frequency frequency,
                            Date settlementDate = null, double accuracy = 1.0e-10, int maxIterations = 100, double guess = 0.05)
       {
@@ -325,6 +351,7 @@ namespace QLNet
                                 false, settlementDate, settlementDate,
                                 accuracy, maxIterations, guess);
       }
+
       public static double duration(Bond bond, InterestRate yield, Duration.Type type = Duration.Type.Modified,
                                      Date settlementDate = null)
       {
@@ -337,11 +364,13 @@ namespace QLNet
 
          return CashFlows.duration(bond.cashflows(), yield, type, false, settlementDate);
       }
+
       public static double duration(Bond bond, double yield, DayCounter dayCounter, Compounding compounding, Frequency frequency,
                               Duration.Type type = Duration.Type.Modified, Date settlementDate = null)
       {
          return duration(bond, new InterestRate(yield, dayCounter, compounding, frequency), type, settlementDate);
       }
+
       public static double convexity(Bond bond, InterestRate yield, Date settlementDate = null)
       {
          if (settlementDate == null)
@@ -353,11 +382,13 @@ namespace QLNet
 
          return CashFlows.convexity(bond.cashflows(), yield, false, settlementDate);
       }
+
       public static double convexity(Bond bond, double yield, DayCounter dayCounter, Compounding compounding, Frequency frequency,
                                Date settlementDate = null)
       {
          return convexity(bond, new InterestRate(yield, dayCounter, compounding, frequency), settlementDate);
       }
+
       public static double basisPointValue(Bond bond, InterestRate yield, Date settlementDate = null)
       {
          if (settlementDate == null)
@@ -370,11 +401,13 @@ namespace QLNet
          return CashFlows.basisPointValue(bond.cashflows(), yield,
                                           false, settlementDate);
       }
+
       public static double basisPointValue(Bond bond, double yield, DayCounter dayCounter, Compounding compounding, Frequency frequency,
                                      Date settlementDate = null)
       {
          return CashFlows.basisPointValue(bond.cashflows(), new InterestRate(yield, dayCounter, compounding, frequency), false, settlementDate);
       }
+
       public static double yieldValueBasisPoint(Bond bond, InterestRate yield, Date settlementDate = null)
       {
          if (settlementDate == null)
@@ -387,12 +420,14 @@ namespace QLNet
          return CashFlows.yieldValueBasisPoint(bond.cashflows(), yield,
                                                false, settlementDate);
       }
+
       public static double yieldValueBasisPoint(Bond bond, double yield, DayCounter dayCounter, Compounding compounding,
                                           Frequency frequency, Date settlementDate = null)
       {
          return CashFlows.yieldValueBasisPoint(bond.cashflows(), new InterestRate(yield, dayCounter, compounding, frequency), false, settlementDate);
       }
-      #endregion
+
+      #endregion Yield (a.k.a. Internal Rate of Return, i.e. IRR) functions
 
       #region Z-spread functions
 
@@ -410,6 +445,7 @@ namespace QLNet
                              100.0 / bond.notional(settlementDate);
          return dirtyPrice - bond.accruedAmount(settlementDate);
       }
+
       public static double zSpread(Bond bond, double cleanPrice, YieldTermStructure discount, DayCounter dayCounter, Compounding compounding,
                              Frequency frequency, Date settlementDate = null, double accuracy = 1.0e-10, int maxIterations = 100,
                              double guess = 0.0)
@@ -431,7 +467,7 @@ namespace QLNet
                                   false, settlementDate, settlementDate,
                                   accuracy, maxIterations, guess);
       }
-      #endregion
 
+      #endregion Z-spread functions
    }
 }

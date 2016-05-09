@@ -35,6 +35,7 @@ namespace QLNet
        \bug fair prices are not calculated correctly when using
             indexed coupons.
    */
+
    public class AssetSwap : Swap
    {
       public AssetSwap(bool payBondCoupon,
@@ -228,7 +229,6 @@ namespace QLNet
          foreach (CashFlow c in legs_[1])
             c.registerWith(update);
 
-
          List<CashFlow> bondLeg = bond_.cashflows();
          // skip bond redemption
          int i;
@@ -292,7 +292,6 @@ namespace QLNet
             payer_[0] = +1.0;
             payer_[1] = -1.0;
          }
-
       }
 
       // results
@@ -377,13 +376,21 @@ namespace QLNet
 
       // inspectors
       public bool parSwap() { return parSwap_; }
+
       public double spread() { return spread_; }
+
       public double cleanPrice() { return bondCleanPrice_; }
+
       public double nonParRepayment() { return nonParRepayment_; }
+
       public Bond bond() { return bond_; }
+
       public bool payBondCoupon() { return (payer_[0] == -1.0); }
+
       public List<CashFlow> bondLeg() { return legs_[0]; }
+
       public List<CashFlow> floatingLeg() { return legs_[1]; }
+
       // other
       public override void setupArguments(IPricingEngineArguments args)
       {
@@ -425,8 +432,8 @@ namespace QLNet
             arguments.floatingAccrualTimes[i] = coupon.accrualPeriod();
             arguments.floatingSpreads[i] = coupon.spread();
          }
-
       }
+
       public override void fetchResults(IPricingEngineResults r)
       {
          base.fetchResults(r);
@@ -452,13 +459,16 @@ namespace QLNet
          fairCleanPrice_ = null;
          fairNonParRepayment_ = null;
       }
+
       private Bond bond_;
       private double bondCleanPrice_, nonParRepayment_;
       private double spread_;
       private bool parSwap_;
       private Date upfrontDate_;
+
       // results
       private double? fairSpread_;
+
       private double? fairCleanPrice_, fairNonParRepayment_;
 
       //! %Arguments for asset swap calculation
@@ -472,6 +482,7 @@ namespace QLNet
          public List<Date> floatingFixingDates;
          public List<Date> floatingPayDates;
          public List<double> floatingSpreads;
+
          public override void validate()
          {
             Utils.QL_REQUIRE(fixedResetDates.Count == fixedPayDates.Count, () =>
@@ -500,6 +511,7 @@ namespace QLNet
       {
          public double? fairSpread;
          public double? fairCleanPrice, fairNonParRepayment;
+
          public override void reset()
          {
             base.reset();
@@ -508,7 +520,5 @@ namespace QLNet
             fairNonParRepayment = null;
          }
       }
-
-
    }
 }

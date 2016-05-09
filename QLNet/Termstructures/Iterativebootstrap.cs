@@ -18,6 +18,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -26,6 +27,7 @@ namespace QLNet
    public interface IBootStrap<T>
    {
       void setup(T ts);
+
       void calculate();
    }
 
@@ -40,7 +42,6 @@ namespace QLNet
    public class IterativeBootstrapForYoYInflation : IterativeBootstrap<PiecewiseYoYInflationCurve, YoYInflationTermStructure>
    {
    }
-
 
    //! Universal piecewise-term-structure boostrapper.
    public class IterativeBootstrap<T, U> : IBootStrap<T>
@@ -81,7 +82,6 @@ namespace QLNet
                    " provided, " + (ts_.interpolator_.requiredPoints - 1) +
                    " required");
 
-
          if (ts_.dates_ == null)
          {
             ts_.dates_ = new InitializedList<Date>(alive_ + 1);
@@ -95,7 +95,6 @@ namespace QLNet
 
          List<Date> dates = ts_.dates_;
          List<double> times = ts_.times_;
-
 
          errors_ = new List<BootstrapError<T, U>>(alive_ + 1);
          dates[0] = firstDate;
@@ -138,7 +137,6 @@ namespace QLNet
             previousData_ = new List<double>(alive_ + 1);
          }
          initialized_ = true;
-
       }
 
       public void setup(T ts)
@@ -237,7 +235,6 @@ namespace QLNet
                      ts_.data_[i] = solver_.solve(error, accuracy, guess, min, max);
                   else
                      ts_.data_[i] = firstSolver_.solve(error, accuracy, guess, min, max);
-
                }
                catch (Exception e)
                {
@@ -254,7 +251,6 @@ namespace QLNet
                            ", reference date " + ts_.dates_[0] +
                            ": " + e.Message);
                }
-
             }
 
             if (!loopRequired_)
@@ -274,8 +270,6 @@ namespace QLNet
             validData = true;
          }
          validCurve_ = true;
-
       }
    }
-
 }

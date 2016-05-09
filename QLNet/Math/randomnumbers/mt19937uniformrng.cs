@@ -30,13 +30,16 @@ namespace QLNet
        \test the correctness of the returned values is tested by
              checking them against known good results.
    */
+
    public class MersenneTwisterUniformRng : IRNGTraits
    {
       private static int N = 624; // state size
       private static int M = 397; // shift size
 
       /*! if the given seed is 0, a random seed will be chosen based on clock() */
+
       public MersenneTwisterUniformRng() : this(0) { }
+
       public MersenneTwisterUniformRng(ulong seed = 0)
       {
          mt = new InitializedList<ulong>(N);
@@ -70,8 +73,8 @@ namespace QLNet
 
       public IRNGTraits factory(ulong seed) { return new MersenneTwisterUniformRng(seed); }
 
-
       /*! returns a sample with weight 1.0 containing a random number on (0.0, 1.0)-real-interval  */
+
       public Sample<double> next()
       {
          return new Sample<double>(nextReal(), 1.0);
@@ -143,10 +146,12 @@ namespace QLNet
       private int mti;
 
       // constant vector a
-      const ulong MATRIX_A = 0x9908b0dfUL;
+      private const ulong MATRIX_A = 0x9908b0dfUL;
+
       // most significant w-r bits
-      const ulong UPPER_MASK = 0x80000000UL;
+      private const ulong UPPER_MASK = 0x80000000UL;
+
       // least significant r bits
-      const ulong LOWER_MASK = 0x7fffffffUL;
+      private const ulong LOWER_MASK = 0x7fffffffUL;
    }
 }

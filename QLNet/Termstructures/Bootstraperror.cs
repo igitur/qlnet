@@ -26,7 +26,6 @@ namespace QLNet
       where T : Curve<U>
       where U : TermStructure
    {
-
       private T curve_;
       private BootstrapHelper<U> helper_;
       private int segment_;

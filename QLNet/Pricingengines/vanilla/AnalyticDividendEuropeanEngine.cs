@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -26,6 +27,7 @@ namespace QLNet
 		 \test the correctness of the returned greeks is tested by
 				 reproducing numerical derivatives.
 	*/
+
    public class AnalyticDividendEuropeanEngine : DividendVanillaOption.Engine
    {
       public AnalyticDividendEuropeanEngine(GeneralizedBlackScholesProcess process)
@@ -96,9 +98,7 @@ namespace QLNet
          }
 
          results_.rho = black.rho(t) + delta_rho * black.delta(spot);
-
       }
-
 
       private GeneralizedBlackScholesProcess process_;
    }

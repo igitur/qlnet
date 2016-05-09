@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -35,17 +36,19 @@ namespace QLNet
          /// do not perform conversions
          /// </summary>
          NoConversion,
+
          /// <summary>
          /// convert both operands to the base currency before converting
          /// </summary>
          BaseCurrencyConversion,
+
          /// <summary>
          /// return the result in the currency of the first operand
          /// </summary>
          AutomatedConversion
       }
 
-      #endregion
+      #endregion Define
 
       #region Attributes
 
@@ -58,7 +61,7 @@ namespace QLNet
       private double value_;
       private Currency currency_;
 
-      #endregion
+      #endregion Attributes
 
       #region Constructor
 
@@ -75,7 +78,7 @@ namespace QLNet
 
       public Money(double value, Currency currency) : this(currency, value) { }
 
-      #endregion
+      #endregion Constructor
 
       #region Get/Set
 
@@ -83,12 +86,13 @@ namespace QLNet
       {
          get { return currency_; }
       }
+
       public double value
       {
          get { return value_; }
       }
 
-      #endregion
+      #endregion Get/Set
 
       #region Methods
 
@@ -100,21 +104,25 @@ namespace QLNet
             m = rate.exchange(m).rounded();
          }
       }
+
       public static void convertToBase(ref Money m)
       {
          if (Money.baseCurrency.empty())
             throw new Exception("no base currency set");
          convertTo(ref m, Money.baseCurrency);
       }
+
       public Money rounded()
       {
          return new Money(currency_.rounding.Round(value_), currency_);
       }
+
       public override String ToString()
       {
          return this.rounded().value + "-" + this.currency.code + "-" + this.currency.symbol;
       }
-      #endregion
+
+      #endregion Methods
 
       #region Operators
 
@@ -122,10 +130,12 @@ namespace QLNet
       {
          return new Money(m.value_ * x, m.currency);
       }
+
       public static Money operator *(double x, Money m)
       {
          return m * x;
       }
+
       public static Money operator /(Money m, double x)
       {
          return new Money(m.value_ / x, m.currency);
@@ -159,6 +169,7 @@ namespace QLNet
 
          return m;
       }
+
       public static Money operator -(Money m1, Money m2)
       {
          Money m = new Money(m1.currency, m1.value);
@@ -217,13 +228,16 @@ namespace QLNet
             throw new Exception("currency mismatch and no conversion specified");
          }
       }
+
       public static bool operator !=(Money m1, Money m2)
       {
          return !(m1 == m2);
       }
 
       public override bool Equals(object o) { return (this == (Money)o); }
+
       public override int GetHashCode() { return 0; }
-      #endregion
+
+      #endregion Operators
    }
 }

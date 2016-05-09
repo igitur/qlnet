@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,22 +34,24 @@ namespace QLNet
 
        \test calculations are checked against cached results
    */
+
    public class TreeSwaptionEngine
    : LatticeShortRateModelEngine<Swaption.Arguments,
                                  Swaption.Results>
    {
-
       private Handle<YieldTermStructure> termStructure_;
 
       /*! \name Constructors
           \note the term structure is only needed when the short-rate
                 model cannot provide one itself.
       */
+
       //@{
       public TreeSwaptionEngine(ShortRateModel model,
                          int timeSteps)
           : this(model, timeSteps, new Handle<YieldTermStructure>())
       { }
+
       public TreeSwaptionEngine(ShortRateModel model,
                          int timeSteps,
                          Handle<YieldTermStructure> termStructure)
@@ -57,10 +60,12 @@ namespace QLNet
          termStructure_ = termStructure;
          termStructure_.registerWith(update);
       }
+
       public TreeSwaptionEngine(ShortRateModel model,
                               TimeGrid timeGrid)
           : this(model, timeGrid, new Handle<YieldTermStructure>())
       { }
+
       public TreeSwaptionEngine(ShortRateModel model,
                          TimeGrid timeGrid,
                          Handle<YieldTermStructure> termStructure)
@@ -70,10 +75,10 @@ namespace QLNet
          termStructure_ = termStructure;
          termStructure_.registerWith(update);
       }
+
       //@}
       public override void calculate()
       {
-
          if (!(base.arguments_.settlementType == Settlement.Type.Physical))
             throw new ArgumentException("cash-settled swaptions not priced with tree engine");
          if (base.model_ == null)
@@ -137,6 +142,5 @@ namespace QLNet
 
          results_.value = swaption.presentValue();
       }
-
    }
 }

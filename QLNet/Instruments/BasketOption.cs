@@ -16,30 +16,35 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System.Linq;
 
 namespace QLNet
 {
-
    public abstract class BasketPayoff : Payoff
    {
       private Payoff basePayoff_;
+
       public BasketPayoff(Payoff p)
       {
          basePayoff_ = p;
       }
+
       public override string name()
       {
          return basePayoff_.name();
       }
+
       public override string description()
       {
          return basePayoff_.description();
       }
+
       public override double value(double price)
       {
          return basePayoff_.value(price);
       }
+
       public virtual double value(Vector a)
       {
          return basePayoff_.value(accumulate(a));
@@ -58,6 +63,7 @@ namespace QLNet
       public MinBasketPayoff(Payoff p) : base(p)
       {
       }
+
       public override double accumulate(Vector a)
       {
          //			return std.min_element(a.begin(), a.end());
@@ -70,6 +76,7 @@ namespace QLNet
       public MaxBasketPayoff(Payoff p) : base(p)
       {
       }
+
       public override double accumulate(Vector a)
       {
          //			return std.max_element(a.begin(), a.end());
@@ -83,16 +90,19 @@ namespace QLNet
       {
          weights_ = a;
       }
+
       public AverageBasketPayoff(Payoff p, int n) : base(p)
       {
          weights_ = new Vector(n, 1.0 / (double)(n));
       }
+
       public override double accumulate(Vector a)
       {
          //			return std.inner_product(weights_.begin(), weights_.end(), a.begin(), 0.0);
          double tally = weights_ * a;
          return tally;
       }
+
       private Vector weights_;
    }
 
@@ -100,11 +110,11 @@ namespace QLNet
    {
       public SpreadBasketPayoff(Payoff p)
         : base(p) { }
+
       public override double accumulate(Vector a)
       {
          Utils.QL_REQUIRE(a.size() == 2, () => "payoff is only defined for two underlyings");
          return a[0] - a[1];
-
       }
    }
 
@@ -112,7 +122,7 @@ namespace QLNet
    //! \ingroup instruments
    public class BasketOption : MultiAssetOption
    {
-      new class Engine : GenericEngine<BasketOption.Arguments, BasketOption.Results>
+      private new class Engine : GenericEngine<BasketOption.Arguments, BasketOption.Results>
       {
       };
 

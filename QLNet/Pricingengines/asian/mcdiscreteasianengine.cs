@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,11 +46,12 @@ namespace QLNet
 
       // data members
       protected GeneralizedBlackScholesProcess process_;
+
       protected int maxTimeStepsPerYear_;
       protected int requiredSamples_, maxSamples_;
-      double requiredTolerance_;
-      bool brownianBridge_;
-      ulong seed_;
+      private double requiredTolerance_;
+      private bool brownianBridge_;
+      private ulong seed_;
 
       // constructor
       public MCDiscreteAveragingAsianEngine(
@@ -104,7 +106,6 @@ namespace QLNet
 
       protected override PathGenerator<IRNG> pathGenerator()
       {
-
          TimeGrid grid = this.timeGrid();
          IRNG gen = (IRNG)new RNG().make_sequence_generator(grid.size() - 1, seed_);
          return new PathGenerator<IRNG>(process_, grid,
@@ -127,7 +128,6 @@ namespace QLNet
              (DiscreteAveragingAsianOption.Results)(controlPE.getResults());
 
          return controlResults.value.GetValueOrDefault();
-
       }
 
       protected override PathPricer<IPath> pathPricer()
@@ -136,18 +136,25 @@ namespace QLNet
       }
 
       #region PricingEngine
+
       protected DiscreteAveragingAsianOption.Arguments arguments_ = new DiscreteAveragingAsianOption.Arguments();
       protected DiscreteAveragingAsianOption.Results results_ = new DiscreteAveragingAsianOption.Results();
 
       public IPricingEngineArguments getArguments() { return arguments_; }
+
       public IPricingEngineResults getResults() { return results_; }
+
       public void reset() { results_.reset(); }
 
       #region Observer & Observable
+
       // observable interface
       public event Callback notifyObserversEvent;
+
       public void registerWith(Callback handler) { notifyObserversEvent += handler; }
+
       public void unregisterWith(Callback handler) { notifyObserversEvent -= handler; }
+
       protected void notifyObservers()
       {
          Callback handler = notifyObserversEvent;
@@ -158,7 +165,9 @@ namespace QLNet
       }
 
       public void update() { notifyObservers(); }
-      #endregion
-      #endregion
+
+      #endregion Observer & Observable
+
+      #endregion PricingEngine
    }
 }

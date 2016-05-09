@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 /*! \file coxingersollross.hpp
@@ -24,7 +25,6 @@ using System;
 
 namespace QLNet
 {
-
    //! Cox-Ingersoll-Ross model class.
    /*! This class implements the Cox-Ingersoll-Ross model defined by
        \f[
@@ -36,9 +36,9 @@ namespace QLNet
 
        \ingroup shortrate
    */
+
    public class CoxIngersollRoss : OneFactorAffineModel
    {
-
       private Parameter theta_;
       private Parameter k_;
       private Parameter sigma_;
@@ -76,8 +76,10 @@ namespace QLNet
             {
                case Option.Type.Call:
                   return Math.Max(discountS - strike, 0.0);
+
                case Option.Type.Put:
                   return Math.Max(strike - discountS, 0.0);
+
                default:
                   throw new ApplicationException("unsupported option type");
             }
@@ -139,13 +141,15 @@ namespace QLNet
       }
 
       protected double theta() { return theta_.value(0.0); }
+
       protected double k() { return k_.value(0.0); }
+
       protected double sigma() { return sigma_.value(0.0); }
+
       protected double x0() { return r0_.value(0.0); }
 
       public class HelperProcess : StochasticProcess1D
       {
-
          private double y0_, theta_, k_, sigma_;
 
          public HelperProcess(double theta, double k, double sigma, double y0)
@@ -179,6 +183,7 @@ namespace QLNet
                       \frac{k}{2}y_t \right] d_t+ \frac{\sigma }{2}dW_{t}
           \f].
       */
+
       public class Dynamics : ShortRateDynamics
       {
          public Dynamics(double theta,
@@ -191,6 +196,7 @@ namespace QLNet
          {
             return Math.Sqrt(r);
          }
+
          public override double shortRate(double d, double y)
          {
             return y * y;

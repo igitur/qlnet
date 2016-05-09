@@ -17,44 +17,56 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace QLNet
 {
-
    public class PiecewiseZeroInflationCurve : ZeroInflationTermStructure, InterpolatedCurve, Curve<ZeroInflationTermStructure>
    {
       #region InflationTraits
 
       public bool dummyInitialValue() { return traits_.dummyInitialValue(); }
+
       public double initialGuess() { return traits_.initialGuess(); }
 
       public double minValueAfter(int s, List<double> l) { return traits_.minValueAfter(s, l); }
+
       public double maxValueAfter(int s, List<double> l) { return traits_.maxValueAfter(s, l); }
 
       public double guess(ZeroInflationTermStructure c, Date d) { return traits_.guess(c, d); }
 
       // protected InflationTraits traits_;
       public Date initialDate(ZeroInflationTermStructure c) { return traits_.initialDate(c); }
+
       public double initialValue(ZeroInflationTermStructure c) { return traits_.initialValue(c); }
+
       public double guess(int i, InterpolatedCurve c, bool validData, int first) { return traits_.guess(i, c, validData, first); }
+
       public double minValueAfter(int i, InterpolatedCurve c, bool validData, int first) { return traits_.minValueAfter(i, c, validData, first); }
+
       public double maxValueAfter(int i, InterpolatedCurve c, bool validData, int first) { return traits_.maxValueAfter(i, c, validData, first); }
+
       public void updateGuess(List<double> data, double discount, int i) { traits_.updateGuess(data, discount, i); }
+
       public int maxIterations() { return traits_.maxIterations(); }
 
-      #endregion
+      #endregion InflationTraits
 
       #region InterpolatedCurve
 
       public List<double> times_ { get; set; }
+
       public virtual List<double> times() { return this.times_; }
 
       public List<Date> dates_ { get; set; }
+
       public virtual List<Date> dates() { return dates_; }
+
       public Date maxDate_ { get; set; }
+
       public override Date maxDate()
       {
          if (maxDate_ != null)
@@ -64,7 +76,9 @@ namespace QLNet
       }
 
       public List<double> data_ { get; set; }
+
       public List<double> forwards() { return this.data_; }
+
       public virtual List<double> data() { return forwards(); }
 
       public Interpolation interpolation_ { get; set; }
@@ -92,7 +106,7 @@ namespace QLNet
          return copy;
       }
 
-      #endregion
+      #endregion InterpolatedCurve
 
       public List<double> rates()
       {
@@ -104,23 +118,23 @@ namespace QLNet
          return this.interpolation_.value(t, true);
       }
 
-
       // these are dummy methods (for the sake of ITraits and should not be called directly
       public double discountImpl(Interpolation i, double t) { throw new NotSupportedException(); }
-      public double zeroYieldImpl(Interpolation i, double t) { throw new NotSupportedException(); }
-      public double forwardImpl(Interpolation i, double t) { throw new NotSupportedException(); }
 
+      public double zeroYieldImpl(Interpolation i, double t) { throw new NotSupportedException(); }
+
+      public double forwardImpl(Interpolation i, double t) { throw new NotSupportedException(); }
 
       #region new fields: Curve
 
       public double initialValue() { return _traits_.initialValue(this); }
+
       public Date initialDate() { return _traits_.initialDate(this); }
 
       public void registerWith(BootstrapHelper<ZeroInflationTermStructure> helper)
       {
          helper.registerWith(this.update);
       }
-
 
       //public new bool moving_
       public new bool moving_
@@ -129,16 +143,13 @@ namespace QLNet
          set { base.moving_ = value; }
       }
 
-
-
-
       public void setTermStructure(BootstrapHelper<ZeroInflationTermStructure> helper)
       {
          helper.setTermStructure(this);
       }
 
-
       protected ITraits<ZeroInflationTermStructure> _traits_ = null;//todo define with the trait for yield curve
+
       public ITraits<ZeroInflationTermStructure> traits_
       {
          get
@@ -146,8 +157,6 @@ namespace QLNet
             return _traits_;
          }
       }
-
-
 
       protected List<BootstrapHelper<ZeroInflationTermStructure>> _instruments_ = new List<BootstrapHelper<ZeroInflationTermStructure>>();
 
@@ -164,14 +173,13 @@ namespace QLNet
 
       protected IBootStrap<PiecewiseZeroInflationCurve> bootstrap_;
 
-
       protected double _accuracy_;//= 1.0e-12;
+
       public double accuracy_
       {
          get { return _accuracy_; }
          set { _accuracy_ = value; }
       }
-
 
       public override Date baseDate()
       {
@@ -179,11 +187,7 @@ namespace QLNet
          return dates_.First();
       }
 
-
-      #endregion
-
-
-
+      #endregion new fields: Curve
 
       public PiecewiseZeroInflationCurve(DayCounter dayCounter, double baseZeroRate, Period observationLag, Frequency frequency,
                                          bool indexIsInterpolated, Handle<YieldTermStructure> yTS)
@@ -199,19 +203,16 @@ namespace QLNet
                                          Handle<YieldTermStructure> yTS)
          : base(settlementDays, calendar, dayCounter, baseZeroRate, observationLag, frequency, indexIsInterpolated, yTS) { }
 
-
       public PiecewiseZeroInflationCurve()
          : base()
       { }
    }
-
 
    public class PiecewiseZeroInflationCurve<Interpolator, Bootstrap, Traits> : PiecewiseZeroInflationCurve
       where Traits : ITraits<ZeroInflationTermStructure>, new()
       where Interpolator : IInterpolationFactory, new()
       where Bootstrap : IBootStrap<PiecewiseZeroInflationCurve>, new()
    {
-
       public PiecewiseZeroInflationCurve(Date referenceDate,
                Calendar calendar,
                DayCounter dayCounter,
@@ -240,7 +241,6 @@ namespace QLNet
 
          _traits_ = new Traits();
          bootstrap_.setup(this);
-
       }
 
       //@}
@@ -251,11 +251,13 @@ namespace QLNet
          this.calculate();
          return base.baseDate();
       }
+
       public override Date maxDate()
       {
          this.calculate();
          return base.maxDate();
       }
+
       //@
       //! \name Inspectors
       //@{
@@ -264,31 +266,35 @@ namespace QLNet
          calculate();
          return base.times();
       }
+
       public override List<Date> dates()
       {
          calculate();
          return base.dates();
       }
+
       public override List<double> data()
       {
          calculate();
          return base.rates();
       }
+
       public override Dictionary<Date, double> nodes()
       {
          calculate();
          return base.nodes();
       }
+
       //@}
       //! \name Observer interface
       //@{
       public override void update() { base.update(); }
+
       //@}
 
       // methods
       protected override void performCalculations() { bootstrap_.calculate(); }
    }
-
 
    // Allows for optional 3rd generic parameter defaulted to IterativeBootstrap
    public class PiecewiseZeroInflationCurve<Interpolator> : PiecewiseZeroInflationCurve<Interpolator, IterativeBootstrapForInflation, ZeroInflationTraits>
@@ -308,9 +314,5 @@ namespace QLNet
          : base(referenceDate, calendar, dayCounter, lag, frequency, indexIsInterpolated, baseZeroRate, nominalTS,
                instruments, accuracy, i)
       { }
-
-
    }
-
-
 }

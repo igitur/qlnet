@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -28,6 +29,7 @@ namespace QLNet
       private OneFactorModel.ShortRateDynamics dynamics_;
 
       public PdeShortRate() { } // required for geerics
+
       public PdeShortRate(OneFactorModel.ShortRateDynamics d)
       {
          dynamics_ = d;

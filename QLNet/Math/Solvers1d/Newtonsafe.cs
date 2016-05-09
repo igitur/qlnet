@@ -17,16 +17,18 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-   class NewtonSafe : Solver1D
+   internal class NewtonSafe : Solver1D
    {
       //! safe %Newton 1-D solver
       /*! \note This solver requires that the passed function object
                 implement a method <tt>Real derivative(Real)</tt>.
       */
+
       protected override double solveImpl(ISolver1d f, double xAccuracy)
       {
          /* The implementation of the algorithm was inspired by Press, Teukolsky, Vetterling, and Flannery,
@@ -68,7 +70,6 @@ namespace QLNet
                  ((root_ - xl) * dfroot - froot) > 0.0)
                 || (Math.Abs(2.0 * froot) > Math.Abs(dxold * dfroot)))
             {
-
                dxold = dx;
                dx = (xh - xl) / 2.0;
                root_ = xl + dx;

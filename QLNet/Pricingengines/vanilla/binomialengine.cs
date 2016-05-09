@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -32,6 +33,7 @@ namespace QLNet
              one, while the two side points would be used for
              estimating partial derivatives.
    */
+
    public class BinomialVanillaEngine<T> : VanillaOption.Engine where T : ITreeFactory<T>, ITree, new()
    {
       private GeneralizedBlackScholesProcess process_;
@@ -49,7 +51,6 @@ namespace QLNet
 
       public override void calculate()
       {
-
          DayCounter rfdc = process_.riskFreeRate().link.dayCounter();
          DayCounter divdc = process_.dividendYield().link.dayCounter();
          DayCounter voldc = process_.blackVolatility().link.dayCounter();

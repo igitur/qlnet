@@ -19,7 +19,6 @@
 
 namespace QLNet
 {
-
    //! %JIBAR rate
    //    ! Johannesburg Interbank Agreed Rate
    //
@@ -31,10 +30,10 @@ namespace QLNet
           : base("Jibar", tenor, 0, new ZARCurrency(), new SouthAfrica(), BusinessDayConvention.ModifiedFollowing, false, new Actual365Fixed(), new Handle<YieldTermStructure>())
       {
       }
+
       public Jibar(Period tenor, Handle<YieldTermStructure> h)
           : base("Jibar", tenor, 0, new ZARCurrency(), new SouthAfrica(), BusinessDayConvention.ModifiedFollowing, false, new Actual365Fixed(), h)
       {
       }
    }
-
 }

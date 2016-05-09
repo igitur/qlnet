@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -35,12 +36,16 @@ namespace QLNet
 
       //! \name TermStructure interface
       public override Date referenceDate() { return blackVarianceCurve_.link.referenceDate(); }
+
       public override Calendar calendar() { return blackVarianceCurve_.link.calendar(); }
+
       public override DayCounter dayCounter() { return blackVarianceCurve_.link.dayCounter(); }
+
       public override Date maxDate() { return blackVarianceCurve_.link.maxDate(); }
 
       //! \name VolatilityTermStructure interface
       public override double minStrike() { return double.MinValue; }
+
       public override double maxStrike() { return double.MaxValue; }
 
       /*! The relation
@@ -54,9 +59,9 @@ namespace QLNet
           \sigma_L(t) = \sqrt{\frac{\mathrm{d}}{\mathrm{d}t}\sigma_B^2(t)t}
       \f]
       can be deduced which is here implemented. */
+
       protected override double localVolImpl(double t, double dummy)
       {
-
          double dt = (1.0 / 365.0);
          double var1 = blackVarianceCurve_.link.blackVariance(t, dummy, true);
          double var2 = blackVarianceCurve_.link.blackVariance(t + dt, dummy, true);

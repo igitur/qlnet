@@ -20,6 +20,7 @@ namespace QLNet
    //! %Abcd functional form for instantaneous volatility
    /*! \f[ f(T-t) = [ a + b(T-t) ] e^{-c(T-t)} + d \f]
        following Rebonato's notation. */
+
    public class AbcdFunction : AbcdMathFunction
    {
       public AbcdFunction(double a = -0.06, double b = 0.17, double c = 0.54, double d = 0.17)
@@ -37,6 +38,7 @@ namespace QLNet
 
       /*! instantaneous covariance function at time t between T-fixing and
          S-fixing rates \f[ f(T-t)f(S-t) \f] */
+
       public double covariance(double t, double T, double S)
       {
          return new AbcdFunction().value(T - t) * new AbcdFunction().value(S - t);
@@ -45,6 +47,7 @@ namespace QLNet
       /*! integral of the instantaneous covariance function between
          time t1 and t2 for T-fixing and S-fixing rates
          \f[ \int_{t1}^{t2} f(T-t)f(S-t)dt \f] */
+
       public double covariance(double t1, double t2, double T, double S)
       {
          Utils.QL_REQUIRE(t1 <= t2, () => "integrations bounds (" + t1 + "," + t2 + ") are in reverse order");
@@ -62,6 +65,7 @@ namespace QLNet
 
       /*! average volatility in [tMin,tMax] of T-fixing rate:
          \f[ \sqrt{ \frac{\int_{tMin}^{tMax} f^2(T-u)du}{tMax-tMin} } \f] */
+
       public double volatility(double tMin, double tMax, double T)
       {
          if (tMax == tMin)
@@ -72,16 +76,16 @@ namespace QLNet
 
       /*! variance between tMin and tMax of T-fixing rate:
          \f[ \frac{\int_{tMin}^{tMax} f^2(T-u)du}{tMax-tMin} \f] */
+
       public double variance(double tMin, double tMax, double T)
       {
          return covariance(tMin, tMax, T, T);
       }
 
-
-
       // INSTANTANEOUS
       /*! instantaneous volatility at time t of the T-fixing rate:
          \f[ f(T-t) \f] */
+
       public double instantaneousVolatility(double u, double T)
       {
          return Math.Sqrt(instantaneousVariance(u, T));
@@ -89,6 +93,7 @@ namespace QLNet
 
       /*! instantaneous variance at time t of T-fixing rate:
          \f[ f(T-t)f(T-t) \f] */
+
       public double instantaneousVariance(double u, double T)
       {
          return instantaneousCovariance(u, T, T);
@@ -96,6 +101,7 @@ namespace QLNet
 
       /*! instantaneous covariance at time t between T and S fixing rates:
          \f[ f(T-u)f(S-u) \f] */
+
       public double instantaneousCovariance(double u, double T, double S)
       {
          return new AbcdFunction().value(T - u) * new AbcdFunction().value(S - u);
@@ -105,6 +111,7 @@ namespace QLNet
       /*! indefinite integral of the instantaneous covariance function at
          time t between T-fixing and S-fixing rates
          \f[ \int f(T-t)f(S-t)dt \f] */
+
       public double primitive(double t, double T, double S)
       {
          if (T < t || S < t) return 0.0;

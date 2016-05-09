@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -51,9 +52,8 @@ namespace QLNet
          }
       }
 
-
       //cost function for hypersphere and lower-diagonal algorithm
-      class HypersphereCostFunction : CostFunction
+      private class HypersphereCostFunction : CostFunction
       {
          private int size_;
          private bool lowerDiagonal_;
@@ -134,7 +134,6 @@ namespace QLNet
             return error;
          }
       }
-
 
       // Optimization function for hypersphere and lower-diagonal algorithm
       private static Matrix hypersphereOptimize(Matrix targetMatrix, Matrix currentRoot, bool lowerDiagonal)
@@ -288,7 +287,6 @@ namespace QLNet
          return result;
       }
 
-
       // Matrix infinity norm. See Golub and van Loan (2.3.10) or
       // <http://en.wikipedia.org/wiki/Matrix_norm>
       private static double normInf(Matrix M)
@@ -306,7 +304,6 @@ namespace QLNet
          return norm;
       }
 
-
       // Take a matrix and make all the diagonal entries 1.
       private static Matrix projectToUnitDiagonalMatrix(Matrix M)
       {
@@ -320,7 +317,6 @@ namespace QLNet
 
          return result;
       }
-
 
       // Take a matrix and make all the eigenvalues non-negative
       private static Matrix projectToPositiveSemidefiniteMatrix(Matrix M)
@@ -338,7 +334,6 @@ namespace QLNet
              jd.eigenvectors() * diagonal * Matrix.transpose(jd.eigenvectors());
          return result;
       }
-
 
       // implementation of the Higham algorithm to find the nearest correlation matrix.
       private static Matrix highamImplementation(Matrix A, int maxIterations, double tolerance)
@@ -376,7 +371,6 @@ namespace QLNet
          return Y;
       }
 
-
       //! Returns the pseudo square root of a real symmetric matrix
       /*! Given a matrix \f$ M \f$, the result \f$ S \f$ is defined
           as the matrix such that \f$ S S^T = M. \f$
@@ -405,6 +399,7 @@ namespace QLNet
           - the correctness of the results is tested by checking
             returned values against numerical calculations.
       */
+
       public static Matrix pseudoSqrt(Matrix matrix, SalvagingAlgorithm sa)
       {
          int size = matrix.rows();
@@ -521,11 +516,13 @@ namespace QLNet
                if (!(eigenValues[size - 1] >= -1e-16))
                   throw new ApplicationException("negative eigenvalue(s) (" + eigenValues[size - 1] + ")");
                break;
+
             case SalvagingAlgorithm.Spectral:
                // negative eigenvalues set to zero
                for (int i = 0; i < size; ++i)
                   eigenValues[i] = Math.Max(eigenValues[i], 0.0);
                break;
+
             case SalvagingAlgorithm.Higham:
                {
                   int maxIterations = 40;
@@ -535,9 +532,9 @@ namespace QLNet
                   eigenValues = jd.eigenvalues();
                }
                break;
+
             default:
                throw new ApplicationException("unknown or invalid salvaging algorithm");
-
          }
 
          // factor reduction

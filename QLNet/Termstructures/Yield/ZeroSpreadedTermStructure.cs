@@ -32,6 +32,7 @@ namespace QLNet
    - observability against changes in the underlying term
       structure and in the added spread is checked.
    */
+
    public class ZeroSpreadedTermStructure : ZeroYieldStructure
    {
       public ZeroSpreadedTermStructure(Handle<YieldTermStructure> h,
@@ -50,18 +51,21 @@ namespace QLNet
          spread_.registerWith(update);
       }
 
-
       #region YieldTermStructure interface
 
       public override DayCounter dayCounter() { return originalCurve_.link.dayCounter(); }
+
       public override Calendar calendar() { return originalCurve_.link.calendar(); }
+
       public override int settlementDays() { return originalCurve_.link.settlementDays(); }
+
       public override Date referenceDate() { return originalCurve_.link.referenceDate(); }
+
       public override Date maxDate() { return originalCurve_.link.maxDate(); }
+
       public override double maxTime() { return originalCurve_.link.maxTime(); }
 
-      #endregion
-
+      #endregion YieldTermStructure interface
 
       //! returns the spreaded zero yield rate
       protected override double zeroYieldImpl(double t)
@@ -75,8 +79,10 @@ namespace QLNet
                                    zeroRate.frequency());
          return spreadedRate.equivalentRate(Compounding.Continuous, Frequency.NoFrequency, t).value();
       }
+
       //! returns the spreaded forward rate
       /* This method must disappear should the spread become a curve */
+
       protected double forwardImpl(double t)
       {
          return originalCurve_.link.forwardRate(t, t, comp_, freq_, true).value()
@@ -89,5 +95,4 @@ namespace QLNet
       private Frequency freq_;
       private DayCounter dc_;
    }
-
 }

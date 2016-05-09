@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -31,6 +32,7 @@ namespace QLNet
 
        \ingroup yieldtermstructures
    */
+
    public abstract class ForwardRateStructure : YieldTermStructure
    {
       #region Constructors
@@ -47,7 +49,7 @@ namespace QLNet
             List<Handle<Quote>> jumps = null, List<Date> jumpDates = null)
          : base(settlDays, cal, dc, jumps, jumpDates) { }
 
-      #endregion
+      #endregion Constructors
 
       #region Calculations
 
@@ -58,6 +60,7 @@ namespace QLNet
 
       //! instantaneous forward-rate calculation
       protected abstract double forwardImpl(double s);
+
       /*! Returns the zero yield rate for the given date calculating it
           from the instantaneous forward rate \f$ f(t) \f$ as
           \f[
@@ -69,6 +72,7 @@ namespace QLNet
                    Derived classes should override it if a more efficient
                    implementation is available.
       */
+
       protected virtual double zeroYieldImpl(double t)
       {
          if (t == 0.0)
@@ -83,12 +87,14 @@ namespace QLNet
          return (sum * dt / t);
       }
 
-      #endregion
+      #endregion Calculations
 
       #region YieldTermStructure implementation
+
       /*! Returns the discount factor for the given date calculating it
           from the zero rate as \f$ d(t) = \exp \left( -z(t) t \right) \f$
       */
+
       protected override double discountImpl(double t)
       {
          if (t == 0.0)     // this acts as a safe guard in cases where
@@ -98,8 +104,6 @@ namespace QLNet
          return Math.Exp(-r * t);
       }
 
-      #endregion
+      #endregion YieldTermStructure implementation
    }
-
-
 }

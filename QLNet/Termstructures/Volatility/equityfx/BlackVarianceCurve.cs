@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,15 +37,17 @@ namespace QLNet
        \todo check time extrapolation
 
    */
+
    public class BlackVarianceCurve : BlackVarianceTermStructure
    {
-      DayCounter dayCounter_;
+      private DayCounter dayCounter_;
+
       public override DayCounter dayCounter() { return dayCounter_; }
 
-      Date maxDate_;
-      List<double> times_;
-      List<double> variances_;
-      Interpolation varianceCurve_;
+      private Date maxDate_;
+      private List<double> times_;
+      private List<double> variances_;
+      private Interpolation varianceCurve_;
 
       // required for Handle
       //public BlackVarianceCurve() { }
@@ -55,7 +58,6 @@ namespace QLNet
                                 bool forceMonotoneVariance)
           : base(referenceDate)
       {
-
          dayCounter_ = dayCounter;
          maxDate_ = dates.Last();
 
@@ -104,6 +106,7 @@ namespace QLNet
       {
          setInterpolation<Interpolator>(new Interpolator());
       }
+
       public void setInterpolation<Interpolator>(Interpolator i) where Interpolator : IInterpolationFactory, new()
       {
          varianceCurve_ = i.interpolate(times_, times_.Count, variances_);
@@ -112,7 +115,9 @@ namespace QLNet
       }
 
       public override Date maxDate() { return maxDate_; }
+
       public override double minStrike() { return double.MinValue; }
+
       public override double maxStrike() { return double.MaxValue; }
    }
 }

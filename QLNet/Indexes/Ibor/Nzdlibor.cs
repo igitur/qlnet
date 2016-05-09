@@ -19,7 +19,6 @@
 
 namespace QLNet
 {
-
    //! %NZD %LIBOR rate
    //    ! New Zealand Dollar LIBOR fixed by BBA.
    //
@@ -31,10 +30,10 @@ namespace QLNet
           : base("NZDLibor", tenor, 2, new NZDCurrency(), new NewZealand(), new Actual360(), new Handle<YieldTermStructure>())
       {
       }
+
       public NZDLibor(Period tenor, Handle<YieldTermStructure> h)
           : base("NZDLibor", tenor, 2, new NZDCurrency(), new NewZealand(), new Actual360(), h)
       {
       }
    }
-
 }

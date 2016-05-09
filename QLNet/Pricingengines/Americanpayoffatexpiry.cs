@@ -62,7 +62,6 @@ namespace QLNet
             mu_ += 1.0;
          }
 
-
          log_H_S_ = Math.Log(strike_ / spot_);
          double log_S_H_ = Math.Log(spot_ / strike_);
 
@@ -86,6 +85,7 @@ namespace QLNet
                   phi = -1.0;
                }
                break;
+
             case Option.Type.Put:
                if (knock_in_)
                {
@@ -101,11 +101,11 @@ namespace QLNet
                   phi = 1.0;
                }
                break;
+
             default:
                Utils.QL_FAIL("invalid option type");
                break;
          }
-
 
          if (variance_ >= Const.QL_EPSILON)
          {
@@ -156,6 +156,7 @@ namespace QLNet
                   n_d2_ = 0.0;
                }
                break;
+
             case Option.Type.Put:
                if (strike_ >= spot_)
                {
@@ -177,11 +178,11 @@ namespace QLNet
                   n_d2_ = 0.0;
                }
                break;
+
             default:
                Utils.QL_FAIL("invalid option type");
                break;
          }
-
 
          inTheMoney_ = (type == Option.Type.Call && strike_ < spot_) ||
                        (type == Option.Type.Put && strike_ > spot_);
@@ -206,7 +207,6 @@ namespace QLNet
       {
          return discount_ * K_ * (X_ * cum_d1_ + Y_ * cum_d2_);
       }
-
 
       private double spot_;
       private double discount_;
@@ -234,7 +234,6 @@ namespace QLNet
       private bool inTheMoney_;
       private double Y_;
       private double X_;
-      bool knock_in_;
-
+      private bool knock_in_;
    }
 }

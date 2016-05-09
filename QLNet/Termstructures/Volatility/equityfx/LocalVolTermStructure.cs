@@ -26,9 +26,11 @@ namespace QLNet
 
        Volatilities are assumed to be expressed on an annual basis.
    */
+
    public class LocalVolTermStructure : VolatilityTermStructure
    {
       #region Constructors
+
       //! default constructor
       /*! \warning term structures initialized by means of this
                    constructor must manage their own reference date
@@ -50,7 +52,7 @@ namespace QLNet
          DayCounter dc = null)
          : base(settlementDays, cal, bdc, dc) { }
 
-      #endregion
+      #endregion Constructors
 
       #region Local Volatility
 
@@ -80,7 +82,6 @@ namespace QLNet
       //! local vol calculation
       protected virtual double localVolImpl(double t, double strike) { throw new NotSupportedException(); }
 
-      #endregion
+      #endregion Local Volatility
    }
-
 }

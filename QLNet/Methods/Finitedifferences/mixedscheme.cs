@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System.Collections.Generic;
 
 namespace QLNet
@@ -28,6 +29,7 @@ namespace QLNet
    public interface IMixedScheme
    {
       void step(ref object a, double t);
+
       void setStep(double dt);
    }
 
@@ -41,6 +43,7 @@ namespace QLNet
 
        \ingroup findiff
    */
+
    public class MixedScheme<Operator> : IMixedScheme where Operator : IOperator
    {
       protected Operator L_, I_, explicitPart_, implicitPart_;
@@ -50,6 +53,7 @@ namespace QLNet
 
       // constructors
       public MixedScheme() { }  // required for generics
+
       public MixedScheme(Operator L, double theta, List<BoundaryCondition<IOperator>> bcs)
       {
          L_ = (Operator)L.Clone();

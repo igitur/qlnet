@@ -16,14 +16,15 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 /*! \file vasicek.hpp
     \brief Vasicek model class
 */
+
 namespace QLNet
 {
-
    //! %Vasicek model class
    /*! This class implements the Vasicek model defined by
        \f[
@@ -34,9 +35,9 @@ namespace QLNet
 
        \ingroup shortrate
    */
+
    public class Vasicek : OneFactorAffineModel
    {
-
       protected double r0_;
       protected Parameter a_;
       protected Parameter b_;
@@ -62,10 +63,13 @@ namespace QLNet
 
       public Vasicek(double r0, double a, double b)
       : this(r0, a, 0.05, 0.01, 0.0) { }
+
       public Vasicek(double r0, double a)
       : this(r0, a, 0.05, 0.01, 0.0) { }
+
       public Vasicek(double r0)
       : this(r0, 0.1, 0.05, 0.01, 0.0) { }
+
       public Vasicek()
       : this(0.05, 0.1, 0.05, 0.01, 0.0) { }
 
@@ -127,17 +131,20 @@ namespace QLNet
       }
 
       protected double a() { return a_.value(0.0); }
+
       protected double b() { return b_.value(0.0); }
+
       protected double lambda() { return lambda_.value(0.0); }
+
       protected double sigma() { return sigma_.value(0.0); }
 
       //! Short-rate dynamics in the %Vasicek model
       /*! The short-rate follows an Ornstein-Uhlenbeck process with mean
           \f$ b \f$.
       */
+
       public class Dynamics : ShortRateDynamics
       {
-
          private double a_, b_, r0_;
 
          public Dynamics(double a, double b, double sigma, double r0)
@@ -157,8 +164,6 @@ namespace QLNet
          {
             return x + b_;
          }
-
       }
    }
 }
-

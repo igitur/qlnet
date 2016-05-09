@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -24,6 +25,7 @@ namespace QLNet
    /*! \note this pricer can already do swaplets but to get
              volatility-dependent coupons you need to implement the descendents.
    */
+
    public class CPICouponPricer : InflationCouponPricer
    {
       public CPICouponPricer(Handle<CPIVolatilitySurface> capletVol = null)
@@ -48,7 +50,6 @@ namespace QLNet
          capletVol_.registerWith(update);
       }
 
-
       //! \name InflationCouponPricer interface
       //@{
       public override double swapletPrice()
@@ -56,6 +57,7 @@ namespace QLNet
          double swapletPrice = adjustedFixing() * coupon_.accrualPeriod() * discount_;
          return gearing_ * swapletPrice + spreadLegValue_;
       }
+
       public override double swapletRate()
       {
          // This way we do not require the index to have
@@ -65,24 +67,29 @@ namespace QLNet
          //std::cout << (gearing_ * adjustedFixing() + spread_) << " SWAPLET rate" << gearing_ << " " << spread_ << std::endl;
          return gearing_ * adjustedFixing() + spread_;
       }
+
       public override double capletPrice(double effectiveCap)
       {
          double capletPrice = optionletPrice(Option.Type.Call, effectiveCap);
          return gearing_ * capletPrice;
       }
+
       public override double capletRate(double effectiveCap)
       {
          return capletPrice(effectiveCap) / (coupon_.accrualPeriod() * discount_);
       }
+
       public override double floorletPrice(double effectiveFloor)
       {
          double floorletPrice = optionletPrice(Option.Type.Put, effectiveFloor);
          return gearing_ * floorletPrice;
       }
+
       public override double floorletRate(double effectiveFloor)
       {
          return floorletPrice(effectiveFloor) / (coupon_.accrualPeriod() * discount_);
       }
+
       public override void initialize(InflationCoupon coupon)
       {
          coupon_ = coupon as CPICoupon;
@@ -102,8 +109,8 @@ namespace QLNet
 
          spreadLegValue_ = spread_ * coupon_.accrualPeriod() * discount_;
       }
-      //@}
 
+      //@}
 
       //! can replace this if really required
       protected virtual double optionletPrice(Option.Type optionType, double effStrike)
@@ -145,6 +152,7 @@ namespace QLNet
          Utils.QL_FAIL("you must implement this to get a vol-dependent price");
          return strike * forward * stdDev * (int)optionType;
       }
+
       protected virtual double adjustedFixing(double? fixing = null)
       {
          if (fixing == null)
@@ -156,6 +164,7 @@ namespace QLNet
 
       //! data
       protected Handle<CPIVolatilitySurface> capletVol_;
+
       protected CPICoupon coupon_;
       protected double gearing_;
       protected double spread_;

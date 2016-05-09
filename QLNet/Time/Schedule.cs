@@ -18,6 +18,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,6 @@ namespace QLNet
    //! Payment schedule
    public class Schedule
    {
-
       #region Properties
 
       private Period tenor_;
@@ -40,7 +40,7 @@ namespace QLNet
       private List<Date> dates_ = new List<Date>();
       private IList<bool> isRegular_ = new List<bool>();
 
-      #endregion
+      #endregion Properties
 
       #region Constructors
 
@@ -71,7 +71,6 @@ namespace QLNet
              isRegular_.Count == 0 || isRegular_.Count == dates.Count - 1,
              () => string.Format("isRegular size ({0}) must be zero or equal to the number of dates minus 1 ({1})", isRegular_.Count, dates.Count - 1));
       }
-
 
       public Schedule(Date effectiveDate, Date terminationDate, Period tenor, Calendar calendar,
                       BusinessDayConvention convention, BusinessDayConvention terminationDateConvention,
@@ -145,9 +144,11 @@ namespace QLNet
                                    effectiveDate + ", " + terminationDate + ")");
                   // we should ensure that the above condition is still verified after adjustment
                   break;
+
                case DateGeneration.Rule.ThirdWednesday:
                   Utils.QL_REQUIRE(IMM.isIMMdate(firstDate_, false), () => "first date (" + firstDate_ + ") is not an IMM date");
                   break;
+
                case DateGeneration.Rule.Zero:
                case DateGeneration.Rule.Twentieth:
                case DateGeneration.Rule.TwentiethIMM:
@@ -155,6 +156,7 @@ namespace QLNet
                case DateGeneration.Rule.CDS:
                   Utils.QL_FAIL("first date incompatible with " + rule_.Value + " date generation rule");
                   break;
+
                default:
                   Utils.QL_FAIL("unknown rule (" + rule_.Value + ")");
                   break;
@@ -172,10 +174,12 @@ namespace QLNet
                                   effectiveDate + ", " + terminationDate + "]");
                   // we should ensure that the above condition is still verified after adjustment
                   break;
+
                case DateGeneration.Rule.ThirdWednesday:
                   Utils.QL_REQUIRE(IMM.isIMMdate(nextToLastDate_, false), () => "next-to-last date (" + nextToLastDate_ +
                                  ") is not an IMM date");
                   break;
+
                case DateGeneration.Rule.Zero:
                case DateGeneration.Rule.Twentieth:
                case DateGeneration.Rule.TwentiethIMM:
@@ -183,6 +187,7 @@ namespace QLNet
                case DateGeneration.Rule.CDS:
                   Utils.QL_FAIL("next to last date incompatible with " + rule_.Value + " date generation rule");
                   break;
+
                default:
                   Utils.QL_FAIL("unknown rule (" + rule_.Value + ")");
                   break;
@@ -441,11 +446,14 @@ namespace QLNet
                  "\n generation rule: " + rule_.Value +
                  "\n end of month: " + endOfMonth_.Value);
       }
-      #endregion
+
+      #endregion Constructors
 
       //! \name Date access
       //@{
-      int size() { return dates_.Count; }
+      private int size()
+      { return dates_.Count; }
+
       public Date this[int i]
       {
          get
@@ -455,8 +463,11 @@ namespace QLNet
             return dates_[i];
          }
       }
+
       public Date at(int i) { return this[i]; }
+
       public Date date(int i) { return this[i]; }
+
       public Date previousDate(Date d)
       {
          int i = dates_.BinarySearch(d);
@@ -465,6 +476,7 @@ namespace QLNet
          else
             return dates_[i - 1];
       }
+
       public Date nextDate(Date d)
       {
          int i = dates_.BinarySearch(d);
@@ -473,7 +485,9 @@ namespace QLNet
          else
             return dates_[i + 1];
       }
+
       public List<Date> dates() { return dates_; }
+
       public bool isRegular(int i)
       {
          Utils.QL_REQUIRE(isRegular_.Count > 0, () => "full interface (isRegular) not available");
@@ -486,38 +500,48 @@ namespace QLNet
          Utils.QL_REQUIRE(isRegular_.Count > 0, () => "full interface (isRegular) not available");
          return isRegular_;
       }
+
       //@}
 
       //! \name Other inspectors
       //@{
       public bool empty() { return dates_.Count == 0; }
+
       public Calendar calendar() { return calendar_; }
+
       public Date startDate() { return dates_.First(); }
+
       public Date endDate() { return dates_.Last(); }
+
       public Period tenor()
       {
          Utils.QL_REQUIRE(tenor_ != null, () => "full interface (tenor) not available");
          return tenor_;
       }
+
       public BusinessDayConvention businessDayConvention()
       {
          return convention_;
       }
+
       public BusinessDayConvention terminationDateBusinessDayConvention()
       {
          Utils.QL_REQUIRE(terminationDateConvention_.HasValue, () => "full interface (termination date business day convention) not available");
          return terminationDateConvention_.Value;
       }
+
       public DateGeneration.Rule rule()
       {
          Utils.QL_REQUIRE(rule_.HasValue, () => "full interface (rule) not available");
          return rule_.Value;
       }
+
       public bool endOfMonth()
       {
          Utils.QL_REQUIRE(endOfMonth_.HasValue, () => "full interface (end of month) not available");
          return endOfMonth_.Value;
       }
+
       //@}
 
       //@{
@@ -560,9 +584,10 @@ namespace QLNet
 
          return result;
       }
+
       //@}
 
-      Date nextTwentieth(Date d, DateGeneration.Rule rule)
+      private Date nextTwentieth(Date d, DateGeneration.Rule rule)
       {
          Date result = new Date(20, d.month(), d.year());
          if (result < d)
@@ -580,7 +605,8 @@ namespace QLNet
          }
          return result;
       }
-      Date previousTwentieth(Date d, DateGeneration.Rule rule)
+
+      private Date previousTwentieth(Date d, DateGeneration.Rule rule)
       {
          Date result = new Date(20, d.month(), d.year());
          if (result > d)
@@ -600,11 +626,11 @@ namespace QLNet
       }
 
       public int Count { get { return dates_.Count; } }
-
    }
 
    //! helper class
    /*! This class provides a more comfortable interface to the argument list of Schedule's constructor. */
+
    public class MakeSchedule
    {
       private Calendar calendar_;
@@ -710,7 +736,6 @@ namespace QLNet
 
       public Schedule value()
       {
-
          // check for mandatory arguments
          if (effectiveDate_ == null)
             throw new ApplicationException("effective date not provided");

@@ -26,10 +26,11 @@ namespace QLNet
        same when volatility is at most time dependent, so this class
        is basically a proxy for BlackVolatilityTermStructure.
    */
+
    public class LocalConstantVol : LocalVolTermStructure
    {
-      Handle<Quote> volatility_;
-      DayCounter dayCounter_;
+      private Handle<Quote> volatility_;
+      private DayCounter dayCounter_;
 
       public LocalConstantVol(Date referenceDate, double volatility, DayCounter dc)
           : base(referenceDate)
@@ -66,11 +67,14 @@ namespace QLNet
       //! \name TermStructure interface
       //@{
       public override DayCounter dayCounter() { return dayCounter_; }
+
       public override Date maxDate() { return Date.maxDate(); }
+
       //@}
       //! \name VolatilityTermStructure interface
       //@{
       public override double minStrike() { return double.MinValue; }
+
       public override double maxStrike() { return double.MaxValue; }
 
       protected override double localVolImpl(double t, double s) { return volatility_.link.value(); }

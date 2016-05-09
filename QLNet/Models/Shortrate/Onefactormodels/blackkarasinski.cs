@@ -16,19 +16,20 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-
    public class BlackKarasinski : OneFactorModel,
                                     ITermStructureConsistentModel
    {
       private double a() { return a_.value(0.0); }
+
       private double sigma() { return sigma_.value(0.0); }
 
-      Parameter a_;
-      Parameter sigma_;
+      private Parameter a_;
+      private Parameter sigma_;
 
       public BlackKarasinski(Handle<YieldTermStructure> termStructure,
                               double a, double sigma)
@@ -87,6 +88,7 @@ namespace QLNet
       }
 
       #region ITermStructureConsistentModel
+
       public Handle<YieldTermStructure> termStructure()
       {
          return termStructure_;
@@ -94,7 +96,7 @@ namespace QLNet
 
       public Handle<YieldTermStructure> termStructure_ { get; set; }
 
-      #endregion
+      #endregion ITermStructureConsistentModel
    }
 
    //! Short-rate dynamics in the Black-Karasinski model
@@ -107,9 +109,9 @@ namespace QLNet
         used for term-structure fitting and \f$ x_t \f$ is the state
         variable following an Ornstein-Uhlenbeck process.
    */
+
    public class Dynamics : OneFactorModel.ShortRateDynamics
    {
-
       public Dynamics(Parameter fitting, double alpha, double sigma)
       : base((StochasticProcess1D)(new OrnsteinUhlenbeckProcess(alpha, sigma)))
       {

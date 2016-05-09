@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -33,9 +34,9 @@ namespace QLNet
       \test the correctness of the result is tested by checking it
             against known good values.
    */
+
    public class TqrEigenDecomposition
    {
-
       public enum EigenVectorCalculation
       {
          WithEigenVector,
@@ -184,19 +185,19 @@ namespace QLNet
                ev_[j, i] = sign * temp[i].Value[j];
             }
          }
-
       }
 
       public Vector eigenvalues() { return d_; }
+
       public Matrix eigenvectors() { return ev_; }
 
       public int iterations() { return iter_; }
-
 
       private bool offDiagIsZero(int k, Vector e)
       {
          return Math.Abs(d_[k - 1]) + Math.Abs(d_[k]) == Math.Abs(d_[k - 1]) + Math.Abs(d_[k]) + Math.Abs(e[k]);
       }
+
       private int iter_;
       private Vector d_;
       private Matrix ev_;

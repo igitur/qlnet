@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -40,7 +41,6 @@ namespace QLNet
               Utils.liborConvention(tenor), Utils.liborEOM(tenor),
               dayCounter, h)
       {
-
          financialCenterCalendar_ = financialCenterCalendar;
          jointCalendar_ = new JointCalendar(new UnitedKingdom(UnitedKingdom.Market.Exchange),
                                             financialCenterCalendar, JointCalendar.JointCalendarRule.JoinHolidays);
@@ -125,9 +125,11 @@ namespace QLNet
             case TimeUnit.Days:
             case TimeUnit.Weeks:
                return BusinessDayConvention.Following;
+
             case TimeUnit.Months:
             case TimeUnit.Years:
                return BusinessDayConvention.ModifiedFollowing;
+
             default:
                throw new ApplicationException("invalid time units");
          }
@@ -140,9 +142,11 @@ namespace QLNet
             case TimeUnit.Days:
             case TimeUnit.Weeks:
                return false;
+
             case TimeUnit.Months:
             case TimeUnit.Years:
                return true;
+
             default:
                throw new ApplicationException("invalid time units");
          }

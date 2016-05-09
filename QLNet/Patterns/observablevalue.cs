@@ -29,6 +29,7 @@ namespace QLNet
              would necessarily bypass the notification code; client
              code should modify the value via re-assignment instead.
    */
+
    public class ObservableValue<T> : IObservable where T : new()
    {
       private T value_;
@@ -48,7 +49,6 @@ namespace QLNet
          value_ = t.value_;
       }
 
-
       //! \name controlled assignment
       public ObservableValue<T> Assign(T t)
       {
@@ -67,9 +67,9 @@ namespace QLNet
       //! explicit inspector
       public T value() { return value_; }
 
-
       // Subjects, i.e. observables, should define interface internally like follows.
       public event Callback notifyObserversEvent;
+
       // this method is required for calling from derived classes
       protected void notifyObservers()
       {
@@ -79,7 +79,9 @@ namespace QLNet
             handler();
          }
       }
+
       public void registerWith(Callback handler) { notifyObserversEvent += handler; }
+
       public void unregisterWith(Callback handler) { notifyObserversEvent -= handler; }
    }
 }

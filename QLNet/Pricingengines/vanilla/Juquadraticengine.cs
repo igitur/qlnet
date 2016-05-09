@@ -16,11 +16,11 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-
    //! Pricing engine for American options with Ju quadratic approximation
    //    ! Reference:
    //        An Approximate Formula for Pricing American Options,
@@ -42,7 +42,6 @@ namespace QLNet
    //
    public class JuQuadraticApproximationEngine : VanillaOption.Engine
    {
-
       //     An Approximate Formula for Pricing American Options
       //        Journal of Derivatives Winter 1999
       //        Ju, N.
@@ -131,9 +130,11 @@ namespace QLNet
                case Option.Type.Call:
                   phi = 1;
                   break;
+
                case Option.Type.Put:
                   phi = -1;
                   break;
+
                default:
                   throw new ArgumentException("invalid option type");
             }
@@ -173,9 +174,7 @@ namespace QLNet
             results_.delta = phi * dividendDiscount * cumNormalDist.value(phi * d1_Sk) + (lambda / (spot * (1 - chi)) + chi_prime / ((1 - chi) * (1 - chi))) * (phi * (Sk - payoff.strike()) - black_Sk) * Math.Pow((spot / Sk), lambda);
 
             results_.gamma = phi * dividendDiscount * normalDist.value(phi * d1_Sk) / (spot * Math.Sqrt(variance)) + (2 * lambda * chi_prime / (spot * (1 - chi) * (1 - chi)) + 2 * chi_prime * chi_prime / ((1 - chi) * (1 - chi) * (1 - chi)) + chi_double_prime / ((1 - chi) * (1 - chi)) + lambda * (1 - lambda) / (spot * spot * (1 - chi))) * (phi * (Sk - payoff.strike()) - black_Sk) * Math.Pow((spot / Sk), lambda);
-
          } // end of "early exercise can be optimal"
       }
    }
-
 }

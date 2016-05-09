@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,7 @@ namespace QLNet
 
       // this is a version of element retrieval with some logic for default values
       public static T Get<T>(this List<T> v, int i) { return Get(v, i, default(T)); }
+
       public static T Get<T>(this List<T> v, int i, T defval)
       {
          if (v == null || v.Count == 0) return defval;
@@ -44,7 +46,6 @@ namespace QLNet
          else return v[i];
       }
    }
-
 
    public static partial class Utils
    {
@@ -64,6 +65,7 @@ namespace QLNet
       }
 
       public static void swap(ref double a1, ref double a2) { swap<double>(ref a1, ref a2); }
+
       public static void swap<T>(ref T a1, ref T a2)
       {
          T t = a2;
@@ -88,6 +90,7 @@ namespace QLNet
          if (!condition)
             throw new ApplicationException(message.Invoke());
       }
+
       public static void QL_FAIL(string message)
       {
          throw new ApplicationException(message);
@@ -108,11 +111,13 @@ namespace QLNet
    public class InitializedList<T> : List<T> where T : new()
    {
       public InitializedList() : base() { }
+
       public InitializedList(int size) : base(size)
       {
          for (int i = 0; i < this.Capacity; i++)
             this.Add(default(T) == null ? new T() : default(T));
       }
+
       public InitializedList(int size, T value) : base(size)
       {
          for (int i = 0; i < this.Capacity; i++)

@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -66,9 +67,11 @@ namespace QLNet
             case CalibrationErrorType.RelativePriceError:
                error = Math.Abs(marketValue() - modelValue()) / marketValue();
                break;
+
             case CalibrationErrorType.PriceError:
                error = marketValue() - modelValue();
                break;
+
             case CalibrationErrorType.ImpliedVolError:
                {
                   double lowerPrice = blackPrice(0.001);
@@ -86,13 +89,13 @@ namespace QLNet
                   error = implied - volatility_.link.value();
                }
                break;
+
             default:
                Utils.QL_FAIL("unknown Calibration Error Type");
                break;
          }
 
          return error;
-
       }
 
       public abstract void addTimesTo(List<double> times);
@@ -101,7 +104,6 @@ namespace QLNet
       public double impliedVolatility(double targetValue,
          double accuracy, int maxEvaluations, double minVol, double maxVol)
       {
-
          ImpliedVolatilityHelper f = new ImpliedVolatilityHelper(this, targetValue);
          Brent solver = new Brent();
          solver.setMaxEvaluations(maxEvaluations);
@@ -113,12 +115,10 @@ namespace QLNet
 
       public void setPricingEngine(IPricingEngine engine) { engine_ = engine; }
 
-
       protected double marketValue_;
       protected Handle<Quote> volatility_;
       protected Handle<YieldTermStructure> termStructure_;
       protected IPricingEngine engine_;
-
 
       private CalibrationErrorType calibrationErrorType_;
 
@@ -138,6 +138,5 @@ namespace QLNet
             return value_ - helper_.blackPrice(x);
          }
       }
-
    }
 }

@@ -18,6 +18,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -39,17 +40,21 @@ namespace QLNet
                startMonth = Month.January;
                endMonth = Month.December;
                break;
+
             case Frequency.Semiannual:
                startMonth = (Month)(6 * ((int)month - 1) / 6 + 1);
                endMonth = (Month)(startMonth + 5);
                break;
+
             case Frequency.Quarterly:
                startMonth = (Month)(3 * ((int)month - 1) / 3 + 1);
                endMonth = (Month)(startMonth + 2);
                break;
+
             case Frequency.Monthly:
                startMonth = endMonth = month;
                break;
+
             default:
                throw new ApplicationException("Frequency not handled: " + frequency);
          }
@@ -150,6 +155,7 @@ namespace QLNet
          nominalTermStructure_.registerWith(update);
          setSeasonality(seasonality);
       }
+
       //@}
 
       //! \name Inflation interface
@@ -158,9 +164,13 @@ namespace QLNet
       //! availability lag of the index.  An inflation rate is given,
       //! by default, for the maturity requested assuming this lag.
       public virtual Period observationLag() { return observationLag_; }
+
       public virtual Frequency frequency() { return frequency_; }
+
       public virtual bool indexIsInterpolated() { return indexIsInterpolated_; }
+
       public virtual double baseRate() { return baseRate_; }
+
       public virtual Handle<YieldTermStructure> nominalTermStructure()
       { return nominalTermStructure_; }
 
@@ -174,13 +184,16 @@ namespace QLNet
            a not-interpolated curve because interpolation, usually,
            of fixings is forward looking).
       */
+
       public virtual Date baseDate() { return null; }
+
       //@}
 
       //! Functions to set and get seasonality.
       /*! Calling setSeasonality with no arguments means unsetting
           as the default is used to choose unsetting.
       */
+
       public void setSeasonality(Seasonality seasonality = null)
       {
          // always reset, whether with null or new pointer
@@ -195,8 +208,8 @@ namespace QLNet
       }
 
       public Seasonality seasonality() { return seasonality_; }
-      public bool hasSeasonality() { return seasonality_ != null; }
 
+      public bool hasSeasonality() { return seasonality_ != null; }
 
       protected Handle<YieldTermStructure> nominalTermStructure_;
       protected Period observationLag_;
@@ -224,7 +237,6 @@ namespace QLNet
 
       private Seasonality seasonality_;
    }
-
 
    //! Interface for zero inflation term structures.
    // Child classes use templates but do not want that exposed to
@@ -271,8 +283,8 @@ namespace QLNet
          : base(settlementDays, calendar, baseZeroRate, observationLag, frequency,
                indexIsInterpolated, yTS, dayCounter, seasonality)
       { }
-      //@}
 
+      //@}
 
       //! \name Inspectors
       //@{
@@ -288,14 +300,17 @@ namespace QLNet
           If you want to get predictions of RPI/CPI/etc then use an
           index.
       */
+
       public double zeroRate(Date d)
       {
          return zeroRate(d, new Period(-1, TimeUnit.Days), false, false);
       }
+
       public double zeroRate(Date d, Period instObsLag)
       {
          return zeroRate(d, instObsLag, false, false);
       }
+
       public double zeroRate(Date d, Period instObsLag, bool forceLinearInterpolation)
       {
          return zeroRate(d, instObsLag, forceLinearInterpolation, false);
@@ -347,7 +362,6 @@ namespace QLNet
             zeroRate = seasonality().correctZeroRate(d - useLag, zeroRate, this);
          }
 
-
          return zeroRate;
       }
 
@@ -355,15 +369,13 @@ namespace QLNet
 
       //! to be defined in derived classes
       protected virtual double zeroRateImpl(double t) { return 0; }
-
    }
-
-
 
    //! Base class for year-on-year inflation term structures.
    public class YoYInflationTermStructure : InflationTermStructure
    {
       public YoYInflationTermStructure() { }
+
       //! \name Constructors
       //@{
       public YoYInflationTermStructure(DayCounter dayCounter,
@@ -403,6 +415,7 @@ namespace QLNet
                              frequency, indexIsInterpolated,
                              yTS, dayCounter, seasonality)
       { }
+
       //@}
 
       //! \name Inspectors
@@ -412,14 +425,17 @@ namespace QLNet
       //! Since inflation is highly linked to dates (lags, interpolation, months for seasonality etc)
       //! we do NOT provide a "time" version of the rate lookup.
       /*! \note this is not the year-on-year swap (YYIIS) rate. */
+
       public double yoyRate(Date d)
       {
          return yoyRate(d, new Period(-1, TimeUnit.Days), false, false);
       }
+
       public double yoyRate(Date d, Period instObsLag)
       {
          return yoyRate(d, instObsLag, false, false);
       }
+
       public double yoyRate(Date d, Period instObsLag, bool forceLinearInterpolation)
       {
          return yoyRate(d, instObsLag, forceLinearInterpolation, false);
@@ -471,12 +487,10 @@ namespace QLNet
          }
          return yoyRate;
       }
+
       //@}
 
       //! to be defined in derived classes
       protected virtual double yoyRateImpl(double time) { return 0; }
-
    }
-
-
 }

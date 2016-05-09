@@ -17,9 +17,10 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace QLNet
 {
@@ -28,17 +29,23 @@ namespace QLNet
        algebra. As such, it is <b>not</b> meant to be used as a
        container.
    */
+
    public struct Matrix
    {
       #region properties
+
       private int rows_, columns_;
+
       public int rows() { return rows_; }
+
       public int columns() { return columns_; }
+
       public bool empty() { return rows_ == 0 || columns_ == 0; }
 
       private double[] data_;
       public double this[int i, int j] { get { return data_[i * columns_ + j]; } set { data_[i * columns_ + j] = value; } }
       public double this[int i] { get { return data_[i]; } set { data_[i] = value; } }
+
       public Vector row(int r)
       {
          Vector result = new Vector(columns_);
@@ -46,6 +53,7 @@ namespace QLNet
             result[i] = this[r, i];
          return result;
       }
+
       public Vector column(int c)
       {
          Vector result = new Vector(rows_);
@@ -53,6 +61,7 @@ namespace QLNet
             result[i] = this[i, c];
          return result;
       }
+
       public Vector diagonal()
       {
          int arraySize = Math.Min(rows(), columns());
@@ -61,13 +70,16 @@ namespace QLNet
             tmp[i] = this[i, i];
          return tmp;
       }
+
       public Vector GetRange(int start, int length)
       {
          return new Vector(data_.Skip(start).Take(length).ToList());
       }
-      #endregion
+
+      #endregion properties
 
       #region Constructors
+
       //! creates a null matrix
       // public Matrix() : base(0) { rows_ = 0; columns_ = 0; }
 
@@ -95,16 +107,25 @@ namespace QLNet
          rows_ = from.rows_;
          columns_ = from.columns_;
       }
-      #endregion
+
+      #endregion Constructors
 
       #region Algebraic operators
+
       /*! \pre all matrices involved in an algebraic expression must have the same size. */
+
       public static Matrix operator +(Matrix m1, Matrix m2) { return operMatrix(ref m1, ref m2, (x, y) => x + y); }
+
       public static Matrix operator -(Matrix m1, Matrix m2) { return operMatrix(ref m1, ref m2, (x, y) => x - y); }
+
       public static Matrix operator *(double value, Matrix m1) { return operValue(ref m1, value, (x, y) => x * y); }
+
       public static Matrix operator /(double value, Matrix m1) { return operValue(ref m1, value, (x, y) => x / y); }
+
       public static Matrix operator *(Matrix m1, double value) { return operValue(ref m1, value, (x, y) => x * y); }
+
       public static Matrix operator /(Matrix m1, double value) { return operValue(ref m1, value, (x, y) => x / y); }
+
       private static Matrix operMatrix(ref Matrix m1, ref Matrix m2, Func<double, double, double> func)
       {
          if (!(m1.rows_ == m2.rows_ && m1.columns_ == m2.columns_))
@@ -117,6 +138,7 @@ namespace QLNet
                result[i, j] = func(m1[i, j], m2[i, j]);
          return result;
       }
+
       private static Matrix operValue(ref Matrix m1, double value, Func<double, double, double> func)
       {
          Matrix result = new Matrix(m1.rows_, m1.columns_);
@@ -136,7 +158,9 @@ namespace QLNet
             result[i] = v * m.column(i);
          return result;
       }
+
       /*! \relates Matrix */
+
       public static Vector operator *(Matrix m, Vector v)
       {
          if (!(v.Count == m.columns()))
@@ -147,7 +171,9 @@ namespace QLNet
             result[i] = m.row(i) * v;
          return result;
       }
+
       /*! \relates Matrix */
+
       public static Matrix operator *(Matrix m1, Matrix m2)
       {
          if (!(m1.columns() == m2.rows()))
@@ -160,7 +186,8 @@ namespace QLNet
                result[i, j] = m1.row(i) * m2.column(j);
          return result;
       }
-      #endregion
+
+      #endregion Algebraic operators
 
       public static Matrix transpose(Matrix m)
       {
@@ -173,7 +200,6 @@ namespace QLNet
 
       public static Matrix outerProduct(List<double> v1begin, List<double> v2begin)
       {
-
          int size1 = v1begin.Count;
          if (!(size1 > 0)) throw new ApplicationException("null first vector");
 

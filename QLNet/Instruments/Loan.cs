@@ -26,12 +26,14 @@ namespace QLNet
    public class Loan : Instrument
    {
       public enum Type { Deposit = -1, Loan = 1 };
+
       public enum Amortising
       {
          Bullet = 1,
          Step = 2,
          French = 3
       }
+
       protected InitializedList<List<CashFlow>> legs_;
       protected InitializedList<double> payer_;
       protected List<double> notionals_;
@@ -85,7 +87,6 @@ namespace QLNet
          {
             legNPV_ = new InitializedList<double?>(legNPV_.Count);
          }
-
       }
 
       ////////////////////////////////////////////////////////////////
@@ -94,6 +95,7 @@ namespace QLNet
       {
          public List<List<CashFlow>> legs;
          public List<double> payer;
+
          public virtual void validate()
          {
             if (legs.Count != payer.Count) throw new ArgumentException("number of legs and multipliers differ");
@@ -103,6 +105,7 @@ namespace QLNet
       public new class Results : Instrument.Results
       {
          public InitializedList<double?> legNPV = new InitializedList<double?>();
+
          public override void reset()
          {
             base.reset();
@@ -112,9 +115,7 @@ namespace QLNet
       }
 
       public class Engine : GenericEngine<Arguments, Results> { }
-
    }
-
 
    public class FixedLoan : Loan
    {
@@ -131,7 +132,6 @@ namespace QLNet
                        Schedule principalSchedule, BusinessDayConvention? paymentConvention) :
          base(2)
       {
-
          type_ = type;
          nominal_ = nominal;
          fixedSchedule_ = fixedSchedule;
@@ -161,7 +161,6 @@ namespace QLNet
                                      .withPaymentAdjustment(paymentConvention_)
                                      .withNotionals(notionals_);
 
-
          legs_[0] = fixedLeg;
          legs_[1] = principalLeg;
          if (type_ == Type.Loan)
@@ -177,6 +176,7 @@ namespace QLNet
       }
 
       public List<CashFlow> fixedLeg() { return legs_[0]; }
+
       public List<CashFlow> principalLeg() { return legs_[1]; }
    }
 
@@ -196,7 +196,6 @@ namespace QLNet
                        Schedule principalSchedule, BusinessDayConvention? paymentConvention, IborIndex index) :
          base(2)
       {
-
          type_ = type;
          nominal_ = nominal;
          floatingSchedule_ = floatingSchedule;
@@ -228,7 +227,6 @@ namespace QLNet
                                      .withPaymentAdjustment(paymentConvention_)
                                      .withNotionals(notionals_);
 
-
          legs_[0] = floatingLeg;
          legs_[1] = principalLeg;
          if (type_ == Type.Loan)
@@ -244,6 +242,7 @@ namespace QLNet
       }
 
       public List<CashFlow> floatingLeg() { return legs_[0]; }
+
       public List<CashFlow> principalLeg() { return legs_[1]; }
    }
 
@@ -262,7 +261,6 @@ namespace QLNet
                              Schedule principalSchedule, BusinessDayConvention? paymentConvention) :
          base(2)
       {
-
          type_ = type;
          nominal_ = nominal;
          fixedSchedule_ = fixedSchedule;
@@ -326,6 +324,7 @@ namespace QLNet
       }
 
       public List<CashFlow> fixedLeg() { return legs_[0]; }
+
       public List<CashFlow> principalLeg() { return legs_[1]; }
    }
 
@@ -340,7 +339,6 @@ namespace QLNet
                   Schedule principalSchedule, BusinessDayConvention? paymentConvention) :
          base(1)
       {
-
          type_ = type;
          nominal_ = nominal;
          principalSchedule_ = principalSchedule;
@@ -364,5 +362,4 @@ namespace QLNet
 
       public List<CashFlow> principalLeg() { return legs_[0]; }
    }
-
 }

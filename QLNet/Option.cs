@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -27,9 +28,11 @@ namespace QLNet
 
       // arguments
       protected Payoff payoff_;
+
       public Payoff payoff() { return payoff_; }
 
       protected Exercise exercise_;
+
       public Exercise exercise() { return exercise_; }
 
       public Option(Payoff payoff, Exercise exercise)
@@ -48,7 +51,6 @@ namespace QLNet
          arguments.payoff = payoff_;
          arguments.exercise = exercise_;
       }
-
 
       //! basic %option %arguments
       public class Arguments : IPricingEngineArguments

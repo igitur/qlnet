@@ -71,12 +71,12 @@ SUCH LIABILITY IS ASSERTED ON THE BASIS OF CONTRACT, TORT
 EVEN IF ANY OF SAID PARTIES HAS BEEN WARNED OF THE
 POSSIBILITY OF SUCH LOSS OR DAMAGES.
 
-
 C translation Copyright (C) Steve Moshier
 
 What you see here may be used freely but it comes with no support
 or guarantee.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -85,9 +85,9 @@ namespace QLNet
    public static class MINPACK
    {
       /* resolution of arithmetic */
-      const double MACHEP = 1.2e-16;
+      private const double MACHEP = 1.2e-16;
       /* smallest nonzero number */
-      const double DWARF = 1.0e-38;
+      private const double DWARF = 1.0e-38;
 
       /*
       *     **********
@@ -269,6 +269,7 @@ namespace QLNet
       *
       *     **********
       */
+
       public static void lmdif(int m, int n, Vector x, ref Vector fvec, double ftol,
                                double xtol, double gtol, int maxfev, double epsfcn,
                                Vector diag, int mode, double factor,
@@ -278,7 +279,6 @@ namespace QLNet
                                Func<int, int, Vector, int, Vector> fcn,
                                Func<int, int, Vector, int, Matrix> jacFcn)
       {
-
          int i, iflag, ij, jj, iter, j, l;
          double actred, delta = 0, dirder, fnorm, fnorm1, gnorm;
          double par, pnorm, prered, ratio;
@@ -663,7 +663,8 @@ namespace QLNet
       *
       *     **********
       */
-      static double enorm(int n, List<double> x)
+
+      private static double enorm(int n, List<double> x)
       {
          int i;
          double agiant, floatn, s1, s2, s3, xabs, x1max, x3max;
@@ -832,7 +833,8 @@ namespace QLNet
       *
             **********
       */
-      static void fdjac2(int m, int n, Vector x, Vector fvec, Matrix fjac, int dummy1,
+
+      private static void fdjac2(int m, int n, Vector x, Vector fvec, Matrix fjac, int dummy1,
                          int iflag, double epsfcn, ref Vector wa,
                          Func<int, int, Vector, int, Vector> fcn)
       {
@@ -862,7 +864,6 @@ namespace QLNet
             }
          }
       }
-
 
       /*
       *     **********
@@ -941,6 +942,7 @@ namespace QLNet
       *
       *     **********
       */
+
       public static void qrfac(int m, int n, Matrix a, int dummy1, int pivot, ref List<int> ipvt,
                                int dummy2, ref Vector rdiag, ref Vector acnorm, Vector wa)
       {
@@ -1065,7 +1067,6 @@ namespace QLNet
          }
       }
 
-
       /*
       *     **********
       *
@@ -1145,6 +1146,7 @@ namespace QLNet
       *
       *     **********
       */
+
       public static void qrsolv(int n, Matrix r, int ldr, List<int> ipvt, Vector diag, Vector qtb, Vector x, Vector sdiag, Vector wa)
       {
          int i, ij, ik, kk, j, jp1, k, kp1, l, nsing;
@@ -1291,8 +1293,6 @@ namespace QLNet
          }
       }
 
-
-
       /*     **********
       *
       *     subroutine lmpar
@@ -1388,7 +1388,8 @@ namespace QLNet
       *
       *     **********
       */
-      static void lmpar(int n, Matrix r, int ldr, List<int> ipvt, Vector diag,
+
+      private static void lmpar(int n, Matrix r, int ldr, List<int> ipvt, Vector diag,
                         Vector qtb, double delta, double par, Vector x, Vector sdiag,
                         Vector wa1, Vector wa2)
       {
@@ -1597,11 +1598,16 @@ namespace QLNet
             par = zero;
       }
 
+      private static double dmax1(double a, double b)
+      { return a >= b ? a : b; }
 
-      static double dmax1(double a, double b) { return a >= b ? a : b; }
-      static double dmin1(double a, double b) { return a <= b ? a : b; }
-      static int min0(int a, int b) { return a <= b ? a : b; }
-      static int mod(int k, int m) { return (k % m); }
+      private static double dmin1(double a, double b)
+      { return a <= b ? a : b; }
 
+      private static int min0(int a, int b)
+      { return a <= b ? a : b; }
+
+      private static int mod(int k, int m)
+      { return (k % m); }
    }
 }

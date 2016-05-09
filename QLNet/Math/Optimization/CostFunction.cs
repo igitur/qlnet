@@ -25,6 +25,7 @@ namespace QLNet
    {
       //! method to overload to compute the cost function value in x
       public abstract double value(Vector x);
+
       //! method to overload to compute the cost function values in x
       public abstract Vector values(Vector x);
 
@@ -90,6 +91,7 @@ namespace QLNet
    public interface IParametersTransformation
    {
       Vector direct(Vector x);
+
       Vector inverse(Vector x);
    }
 }

@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,7 +59,9 @@ namespace QLNet
    public abstract class GFunction
    {
       public abstract double value(double x);
+
       public abstract double firstDerivative(double x);
+
       public abstract double secondDerivative(double x);
    }
 
@@ -71,14 +74,17 @@ namespace QLNet
          ParallelShifts,
          NonParallelShifts
       }
+
       public static GFunction newGFunctionStandard(int q, double delta, int swapLength)
       {
          return new GFunctionStandard(q, delta, swapLength) as GFunction;
       }
+
       public static GFunction newGFunctionExactYield(CmsCoupon coupon)
       {
          return new GFunctionExactYield(coupon) as GFunction;
       }
+
       public static GFunction newGFunctionWithShifts(CmsCoupon coupon, Handle<Quote> meanReversion)
       {
          return new GFunctionWithShifts(coupon, meanReversion) as GFunction;
@@ -91,8 +97,10 @@ namespace QLNet
       {
          // number of period per year
          protected int q_;
+
          //             fraction of a period between the swap start date and the pay date
          protected double delta_;
+
          // length of swap
          protected int swapLength_;
 
@@ -151,12 +159,12 @@ namespace QLNet
       {
          //             fraction of a period between the swap start date and the pay date
          protected double delta_;
+
          // accruals fraction
          protected List<double> accruals_;
 
          public GFunctionExactYield(CmsCoupon coupon)
          {
-
             SwapIndex swapIndex = coupon.swapIndex();
             VanillaSwap swap = swapIndex.underlyingSwap(coupon.fixingDate());
 
@@ -272,6 +280,7 @@ namespace QLNet
                return x;
             }
          }
+
          //* calibration of shift*/
          private double calibrationOfShift(double Rs)
          {
@@ -420,6 +429,7 @@ namespace QLNet
                o_ = o;
                Rs_ = Rs;
             }
+
             public override double value(double x)
             {
                double result = 0;
@@ -440,7 +450,9 @@ namespace QLNet
             }
 
             public override double derivative(double UnnamedParameter1) { return derivative_; }
+
             public void setSwapRateValue(double x) { Rs_ = x; }
+
             public GFunctionWithShifts gFunctionWithShifts() { return o_; }
          }
 
@@ -515,7 +527,6 @@ namespace QLNet
       }
    }
 
-
    //===========================================================================//
    //                             HaganPricer                               //
    //===========================================================================//
@@ -579,15 +590,18 @@ namespace QLNet
             return gearing_ * floorletPrice;
          }
       }
+
       public override double floorletRate(double effectiveFloor)
       {
          return floorletPrice(effectiveFloor) / (coupon_.accrualPeriod() * discount_);
       }
+
       //
       public double meanReversion()
       {
          return meanReversion_.link.value();
       }
+
       public void setMeanReversion(Handle<Quote> meanReversion)
       {
          if (meanReversion_ != null)
@@ -655,18 +669,22 @@ namespace QLNet
                case GFunctionFactory.YieldCurveModel.Standard:
                   gFunction_ = GFunctionFactory.newGFunctionStandard(q, delta, swapTenor_.length());
                   break;
+
                case GFunctionFactory.YieldCurveModel.ExactYield:
                   gFunction_ = GFunctionFactory.newGFunctionExactYield(coupon_);
                   break;
+
                case GFunctionFactory.YieldCurveModel.ParallelShifts:
                   {
                      Handle<Quote> nullMeanReversionQuote = new Handle<Quote>(new SimpleQuote(0.0));
                      gFunction_ = GFunctionFactory.newGFunctionWithShifts(coupon_, nullMeanReversionQuote);
                   }
                   break;
+
                case GFunctionFactory.YieldCurveModel.NonParallelShifts:
                   gFunction_ = GFunctionFactory.newGFunctionWithShifts(coupon_, meanReversion_);
                   break;
+
                default:
                   throw new ApplicationException("unknown/illegal gFunction type");
             }
@@ -692,7 +710,6 @@ namespace QLNet
       protected Period swapTenor_;
       protected VanillaOptionPricer vanillaOptionPricer_;
    }
-
 
    //===========================================================================//
    //                  NumericHaganPricer                    //
@@ -751,6 +768,7 @@ namespace QLNet
       }
 
       public double upperLimit() { return upperLimit_; }
+
       public double stdDeviations() { return stdDeviationsForUpperLimit_; }
 
       public double integrate(double a, double b, ConundrumIntegrand integrand)
@@ -843,6 +861,7 @@ namespace QLNet
       }
 
       #region Nested classes
+
       public class VariableChange
       {
          private double a_, b_, width_;
@@ -873,7 +892,7 @@ namespace QLNet
 
       public class Spy
       {
-         Func<double, double> f_;
+         private Func<double, double> f_;
          private List<double> abscissas = new List<double>();
          private List<double> functionValues = new List<double>();
 
@@ -881,6 +900,7 @@ namespace QLNet
          {
             f_ = f;
          }
+
          public double value(double x)
          {
             abscissas.Add(x);
@@ -937,8 +957,11 @@ namespace QLNet
          }
 
          protected double strike() { return strike_; }
+
          protected double annuity() { return annuity_; }
+
          protected Date fixingDate() { return fixingDate_; }
+
          protected void setStrike(double strike) { strike_ = strike; }
 
          protected VanillaOptionPricer vanillaOptionPricer_;
@@ -950,7 +973,8 @@ namespace QLNet
          protected Option.Type optionType_;
          protected GFunction gFunction_;
       }
-      #endregion
+
+      #endregion Nested classes
    }
 
    //===========================================================================//

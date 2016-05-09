@@ -16,19 +16,14 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace QLNet
 {
-
    //namespace detail {
-
    public class BilinearInterpolationImpl : Interpolation2D.templateImpl
    {
-
       public BilinearInterpolationImpl(List<double> xBegin, int xSize,
                                 List<double> yBegin, int ySize,
                                 Matrix zData)
@@ -58,12 +53,11 @@ namespace QLNet
       }
    }
 
-
    //! %bilinear interpolation between discrete points
    public class BilinearInterpolation : Interpolation2D
    {
-
       /*! \pre the \f$ x \f$ and \f$ y \f$ values must be sorted. */
+
       public BilinearInterpolation(List<double> xBegin, int xSize,
                                    List<double> yBegin, int ySize,
                                    Matrix zData)

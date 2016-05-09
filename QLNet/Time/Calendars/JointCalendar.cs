@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +45,7 @@ namespace QLNet
             calendars_.Add(c1);
             calendars_.Add(c2);
          }
+
          public Impl(Calendar c1, Calendar c2, Calendar c3, JointCalendarRule r)
          {
             rule_ = r;
@@ -51,6 +53,7 @@ namespace QLNet
             calendars_.Add(c2);
             calendars_.Add(c3);
          }
+
          public Impl(Calendar c1, Calendar c2, Calendar c3, Calendar c4, JointCalendarRule r)
          {
             rule_ = r;
@@ -68,9 +71,11 @@ namespace QLNet
                case JointCalendarRule.JoinHolidays:
                   result += "JoinHolidays(";
                   break;
+
                case JointCalendarRule.JoinBusinessDays:
                   result += "JoinBusinessDays(";
                   break;
+
                default:
                   throw new ApplicationException("unknown joint calendar rule");
             }
@@ -89,10 +94,12 @@ namespace QLNet
                   foreach (Calendar c in calendars_)
                      if (c.isWeekend(w)) return true;
                   return false;
+
                case JointCalendarRule.JoinBusinessDays:
                   foreach (Calendar c in calendars_)
                      if (c.isWeekend(w)) return false;
                   return true;
+
                default:
                   throw new ApplicationException("unknown joint calendar rule");
             }
@@ -107,34 +114,39 @@ namespace QLNet
                      if (c.isHoliday(date))
                         return false;
                   return true;
+
                case JointCalendarRule.JoinBusinessDays:
                   foreach (Calendar c in calendars_)
                      if (c.isBusinessDay(date))
                         return true;
                   return false;
+
                default:
                   throw new ApplicationException("unknown joint calendar rule");
             }
          }
       }
 
-
       //! Joint calendar
       /*! Depending on the chosen rule, this calendar has a set of business days given by either the union or the intersection
           of the sets of business days of the given calendars.
           \test the correctness of the returned results is tested by reproducing the calculations. */
+
       public JointCalendar(Calendar c1, Calendar c2)
           : this(c1, c2, JointCalendarRule.JoinHolidays) { }
+
       public JointCalendar(Calendar c1, Calendar c2, JointCalendarRule r)
           : base(new Impl(c1, c2, r)) { }
 
       public JointCalendar(Calendar c1, Calendar c2, Calendar c3)
           : this(c1, c2, c3, JointCalendarRule.JoinHolidays) { }
+
       public JointCalendar(Calendar c1, Calendar c2, Calendar c3, JointCalendarRule r)
           : base(new Impl(c1, c2, c3, r)) { }
 
       public JointCalendar(Calendar c1, Calendar c2, Calendar c3, Calendar c4)
           : this(c1, c2, c3, c4, JointCalendarRule.JoinHolidays) { }
+
       public JointCalendar(Calendar c1, Calendar c2, Calendar c3, Calendar c4, JointCalendarRule r)
           : base(new Impl(c1, c2, c3, c4, r)) { }
    }

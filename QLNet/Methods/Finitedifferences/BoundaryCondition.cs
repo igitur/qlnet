@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -30,23 +31,27 @@ namespace QLNet
       /*! This method modifies an operator \f$ L \f$ before it is
           applied to an array \f$ u \f$ so that \f$ v = Lu \f$ will
           satisfy the given condition. */
+
       public virtual void applyBeforeApplying(IOperator o) { throw new NotSupportedException(); }
 
       /*! This method modifies an array \f$ u \f$ so that it satisfies the given condition. */
+
       public virtual void applyAfterApplying(Vector v) { throw new NotSupportedException(); }
 
       /*! This method modifies an operator \f$ L \f$ before the linear
           system \f$ Lu' = u \f$ is solved so that \f$ u' \f$ will
           satisfy the given condition. */
+
       public virtual void applyBeforeSolving(IOperator o, Vector v) { throw new NotSupportedException(); }
 
       /*! This method modifies an array \f$ u \f$ so that it satisfies the given condition. */
+
       public virtual void applyAfterSolving(Vector v) { throw new NotSupportedException(); }
 
       /*! This method sets the current time for time-dependent boundary conditions. */
+
       public virtual void setTime(double t) { throw new NotSupportedException(); }
    }
-
 
    // Time-independent boundary conditions for tridiagonal operators
 
@@ -59,6 +64,7 @@ namespace QLNet
 
        \ingroup findiff
    */
+
    // NeumanBC works on TridiagonalOperator. IOperator here is for type compatobility with options
    public class NeumannBC : BoundaryCondition<IOperator>
    {
@@ -80,9 +86,11 @@ namespace QLNet
             case Side.Lower:
                L.setFirstRow(-1.0, 1.0);
                break;
+
             case Side.Upper:
                L.setLastRow(-1.0, 1.0);
                break;
+
             default:
                throw new ArgumentException("unknown side for Neumann boundary condition");
          }
@@ -95,9 +103,11 @@ namespace QLNet
             case Side.Lower:
                u[0] = u[1] - value_;
                break;
+
             case Side.Upper:
                u[u.size() - 1] = u[u.size() - 2] + value_;
                break;
+
             default:
                throw new ArgumentException("unknown side for Neumann boundary condition");
          }
@@ -112,14 +122,17 @@ namespace QLNet
                L.setFirstRow(-1.0, 1.0);
                rhs[0] = value_;
                break;
+
             case Side.Upper:
                L.setLastRow(-1.0, 1.0);
                rhs[rhs.size() - 1] = value_;
                break;
+
             default:
                throw new ArgumentException("unknown side for Neumann boundary condition");
          }
       }
+
       public override void applyAfterSolving(Vector v) { }
 
       public override void setTime(double t) { }

@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System.Collections.Generic;
 
 namespace QLNet
@@ -60,15 +61,19 @@ namespace QLNet
          type_ = type;
          date_ = date;
       }
+
       public Price price()
       {
          Utils.QL_REQUIRE(price_ != null, () => "no price given");
          return price_;
       }
+
       public Type type() { return type_; }
+
       //! \name Event interface
       //@{
       public override Date date() { return date_; }
+
       //@}
       //! \name Visitability
       //@{
@@ -78,10 +83,7 @@ namespace QLNet
       private Price price_;
       private Type type_;
       private Date date_;
-
    }
 
    public class CallabilitySchedule : List<Callability> { }
-
-
 }

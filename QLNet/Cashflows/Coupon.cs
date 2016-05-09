@@ -31,22 +31,30 @@ namespace QLNet
 
       // access to properties
       public override Date exCouponDate() { return exCouponDate_; }
+
       public double nominal() { return nominal_; }
+
       public override Date date() { return paymentDate_; }
+
       public Date accrualStartDate() { return accrualStartDate_; }
+
       public Date accrualEndDate() { return accrualEndDate_; }
+
       public Date refPeriodStart { get { return refPeriodStart_; } }
       public Date refPeriodEnd { get { return refPeriodEnd_; } }
 
       // virtual get methods to be defined in derived classes
       public abstract double rate();                   //! accrued rate
-      public abstract DayCounter dayCounter();         //! day counter for accrual calculation
-      public abstract double accruedAmount(Date d);         //! accrued amount at the given date
-      //public virtual FloatingRateCouponPricer pricer() { return null; }
 
+      public abstract DayCounter dayCounter();         //! day counter for accrual calculation
+
+      public abstract double accruedAmount(Date d);         //! accrued amount at the given date
+
+      //public virtual FloatingRateCouponPricer pricer() { return null; }
 
       // Constructors
       public Coupon() { }       // default constructor
+
       // coupon does not adjust the payment date which must already be a business day
       public Coupon(double nominal, Date paymentDate, Date accrualStartDate, Date accrualEndDate,
                     Date refPeriodStart = null, Date refPeriodEnd = null, Date exCouponDate = null, double? amount = null)
@@ -64,7 +72,6 @@ namespace QLNet
          if (refPeriodEnd_ == null) refPeriodEnd_ = accrualEndDate_;
       }
 
-
       //! accrual period as fraction of year
       public double accrualPeriod()
       {
@@ -77,7 +84,6 @@ namespace QLNet
          return dayCounter().dayCount(accrualStartDate_, accrualEndDate_);
       }
 
-
       //! accrued period as fraction of year at the given date
       public double accruedPeriod(Date d)
       {
@@ -88,8 +94,8 @@ namespace QLNet
                                               Date.Min(d, accrualEndDate_),
                                               refPeriodStart_,
                                               refPeriodEnd_);
-
       }
+
       //! accrued days at the given date
       public int accruedDays(Date d)
       {
@@ -98,6 +104,5 @@ namespace QLNet
          else
             return dayCounter().dayCount(accrualStartDate_, Date.Min(d, accrualEndDate_));
       }
-
    }
 }

@@ -16,18 +16,20 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-
    //! Base class for least square problem
    public abstract class LeastSquareProblem
    {
       //! size of the problem ie size of target vector
       public abstract int size();
+
       //! compute the target vector and the values of the function to fit
       public abstract void targetAndValue(Vector x, ref Vector target, ref Vector fct2fit);
+
       //        ! compute the target vector, the values of the function to fit
       //            and the matrix of derivatives
       //
@@ -62,6 +64,7 @@ namespace QLNet
          // and compute the scalar product (square of the norm)
          return Vector.DotProduct(diff, diff);
       }
+
       public override Vector values(Vector x)
       {
          // size of target and function to fit vectors
@@ -73,6 +76,7 @@ namespace QLNet
          Vector diff = target - fct2fit;
          return Vector.DirectMultiply(diff, diff);
       }
+
       //! compute vector of derivatives of the least square function
       public void gradient(ref Vector grad_f, Vector x)
       {
@@ -88,6 +92,7 @@ namespace QLNet
          // compute derivative
          grad_f = -2.0 * (Matrix.transpose(grad_fct2fit) * diff);
       }
+
       //! compute value and gradient of the least square function
       public double valueAndGradient(ref Vector grad_f, Vector x)
       {
@@ -128,19 +133,27 @@ namespace QLNet
    {
       //! solution vector
       private Vector results_;
+
       private Vector initialValue_;
+
       //! least square residual norm
       private double resnorm_;
+
       //! Exit flag of the optimization process
       private int exitFlag_;
+
       //! required accuracy of the solver
       private double accuracy_;
+
       private double bestAccuracy_;
+
       //! maximum and real number of iterations
       private int maxIterations_;
+
       //private int nbIterations_;
       //! Optimization method
       private OptimizationMethod om_;
+
       //constraint
       private Constraint c_;
 
@@ -149,10 +162,12 @@ namespace QLNet
           : this(c, accuracy, 100)
       {
       }
+
       public NonLinearLeastSquare(Constraint c)
           : this(c, 1e-4, 100)
       {
       }
+
       public NonLinearLeastSquare(Constraint c, double accuracy, int maxiter)
       {
          exitFlag_ = -1;
@@ -161,6 +176,7 @@ namespace QLNet
          om_ = new ConjugateGradient();
          c_ = c;
       }
+
       //! Default constructor
       public NonLinearLeastSquare(Constraint c, double accuracy, int maxiter, OptimizationMethod om)
       {

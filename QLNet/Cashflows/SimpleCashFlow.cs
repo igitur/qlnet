@@ -17,17 +17,22 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
    //! Predetermined cash flow
    /*! This cash flow pays a predetermined amount at a given date. */
+
    public class SimpleCashFlow : CashFlow
    {
       private double amount_;
+
       public override double amount() { return amount_; }
+
       private Date date_;
+
       public override Date date() { return date_; }
 
       public SimpleCashFlow(double amount, Date date)
@@ -42,6 +47,7 @@ namespace QLNet
    /*! This class specializes SimpleCashFlow so that visitors
        can perform more detailed cash-flow analysis.
    */
+
    public class Redemption : SimpleCashFlow
    {
       public Redemption(double amount, Date date) : base(amount, date) { }
@@ -51,6 +57,7 @@ namespace QLNet
    /*! This class specializes SimpleCashFlow so that visitors
        can perform more detailed cash-flow analysis.
    */
+
    public class AmortizingPayment : SimpleCashFlow
    {
       public AmortizingPayment(double amount, Date date) : base(amount, date) { }
@@ -60,6 +67,7 @@ namespace QLNet
    /*! This class specializes SimpleCashFlow so that visitors
        can perform more detailed cash-flow analysis.
    */
+
    public class VoluntaryPrepay : SimpleCashFlow
    {
       public VoluntaryPrepay(double amount, Date date) : base(amount, date) { }

@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -37,7 +38,6 @@ namespace QLNet
          }
          return result / (double)(vertices.Count);
       }
-
    }
 
    //! Multi-dimensional simplex class
@@ -48,6 +48,7 @@ namespace QLNet
       {
          lambda_ = lambda;
       }
+
       public override EndCriteria.Type minimize(Problem P, EndCriteria endCriteria)
       {
          // set up of the problem
@@ -181,7 +182,6 @@ namespace QLNet
 
       private double extrapolate(ref Problem P, int iHighest, ref double factor)
       {
-
          Vector pTry;
          do
          {
@@ -215,8 +215,8 @@ namespace QLNet
             vertices_[iHighest] = pTry;
          }
          return vTry;
-
       }
+
       private double lambda_;
       private InitializedList<Vector> vertices_;
       private Vector values_;

@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -24,6 +25,7 @@ namespace QLNet
    public class TrinomialTree : Tree<TrinomialTree>
    {
       public enum Branches { branches = 3 };
+
       private List<Branching> branchings_;
       protected double x0_;
       protected List<double> dx_;
@@ -117,9 +119,9 @@ namespace QLNet
       /* Branching scheme for a trinomial node.  Each node has three
          descendants, with the middle branch linked to the node
          which is closest to the expectation of the variable. */
+
       private class Branching
       {
-
          private List<int> k_;
          private List<List<double>> probs_;
          private int kMin_, jMin_, kMax_, jMax_;
@@ -133,6 +135,7 @@ namespace QLNet
             kMax_ = int.MinValue;
             jMax_ = int.MinValue;
          }
+
          public int descendant(int index, int branch)
          {
             return k_[index] - jMin_ - 1 + branch;

@@ -51,7 +51,7 @@ namespace QLNet
          index_.registerWith(update);
       }
 
-      SwaptionHelper(Date exerciseDate,
+      private SwaptionHelper(Date exerciseDate,
                       Period length,
                       Handle<Quote> volatility,
                       IborIndex index,
@@ -78,7 +78,7 @@ namespace QLNet
          index_.registerWith(update);
       }
 
-      SwaptionHelper(Date exerciseDate,
+      private SwaptionHelper(Date exerciseDate,
                        Date endDate,
                        Handle<Quote> volatility,
                        IborIndex index,
@@ -104,7 +104,6 @@ namespace QLNet
 
          index_.registerWith(update);
       }
-
 
       public override void addTimesTo(List<double> times)
       {
@@ -141,6 +140,7 @@ namespace QLNet
       }
 
       public VanillaSwap underlyingSwap() { calculate(); return swap_; }
+
       public Swaption swaption() { calculate(); return swaption_; }
 
       protected override void performCalculations()

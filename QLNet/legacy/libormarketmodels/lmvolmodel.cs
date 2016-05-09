@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -23,7 +24,6 @@ namespace QLNet
 {
    public abstract class LmVolatilityModel
    {
-
       protected int size_;
       protected List<Parameter> arguments_;
 
@@ -58,6 +58,7 @@ namespace QLNet
       {
          throw new NotSupportedException("integratedVariance() method is not supported");
       }
+
       public virtual double integratedVariance(int i, int j, double u)
       {
          throw new NotSupportedException("integratedVariance() method is not supported");

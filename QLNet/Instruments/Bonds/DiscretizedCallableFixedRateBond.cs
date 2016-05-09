@@ -16,12 +16,12 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
 namespace QLNet
 {
-
    public class DiscretizedCallableFixedRateBond : DiscretizedAsset
    {
       public DiscretizedCallableFixedRateBond(CallableBond.Arguments args,
@@ -91,6 +91,7 @@ namespace QLNet
       }
 
       protected override void preAdjustValuesImpl() { }
+
       protected override void postAdjustValuesImpl()
       {
          for (int i = 0; i < callabilityTimes_.Count - 1; i++)
@@ -115,6 +116,7 @@ namespace QLNet
       private double redemptionTime_;
       private List<double> couponTimes_ = new List<double>();
       private List<double> callabilityTimes_ = new List<double>();
+
       private void applyCallability(int i)
       {
          int j;
@@ -145,17 +147,16 @@ namespace QLNet
          values_ += arguments_.couponAmounts[i];
       }
 
-      bool withinPreviousWeek(double t1, double t2)
+      private bool withinPreviousWeek(double t1, double t2)
       {
          double dt = 1.0 / 52;
          return t1 - dt <= t2 && t2 <= t1;
       }
 
-      bool withinNextWeek(double t1, double t2)
+      private bool withinNextWeek(double t1, double t2)
       {
          double dt = 1.0 / 52;
          return t1 <= t2 && t2 <= t1 + dt;
       }
-
    }
 }

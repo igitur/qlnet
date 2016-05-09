@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -34,16 +35,19 @@ namespace QLNet
        <li>December 31st (1998, 1999, and 2001)</li>
        </ul>
    */
+
    public class TARGET : Calendar
    {
       public TARGET() : base(Impl.Singleton) { }
 
-      class Impl : Calendar.WesternImpl
+      private class Impl : Calendar.WesternImpl
       {
          internal static readonly Impl Singleton = new Impl();
+
          private Impl() { }
 
          public override string name() { return "TARGET calendar"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;
@@ -70,7 +74,6 @@ namespace QLNet
                return false;
             return true;
          }
-
       }
    }
 }

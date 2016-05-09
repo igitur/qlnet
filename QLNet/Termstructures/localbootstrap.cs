@@ -18,6 +18,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,7 +74,6 @@ namespace QLNet
       }
    }
 
-
    //! Localised-term-structure bootstrapper for most curve types.
    /*! This algorithm enables a localised fitting for non-local
        interpolation methods.
@@ -91,6 +91,7 @@ namespace QLNet
        whilst using a smoother interpolation method. Particularly
        good for the convex-monotone spline method.
    */
+
    public class LocalBootstrap<T, U> : IBootStrap<T>
        where T : Curve<U>, new()
        where U : TermStructure
@@ -100,11 +101,12 @@ namespace QLNet
 
       private bool validCurve_;
       private T ts_; // yes, it is a workaround
-      int localisation_;
-      bool forcePositive_;
+      private int localisation_;
+      private bool forcePositive_;
 
       //public LocalBootstrap(Size localisation = 2, bool forcePositive = true) {
       public LocalBootstrap() : this(2, true) { }
+
       public LocalBootstrap(int localisation, bool forcePositive)
       {
          localisation_ = localisation;
@@ -129,7 +131,6 @@ namespace QLNet
 
       public void calculate()
       {
-
          validCurve_ = false;
          int nInsts = ts_.instruments_.Count, i;
 

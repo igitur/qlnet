@@ -19,7 +19,6 @@
 
 namespace QLNet
 {
-
    //! %CAD LIBOR rate
    //    ! Canadian Dollar LIBOR fixed by BBA.
    //
@@ -54,5 +53,4 @@ namespace QLNet
       {
       }
    }
-
 }

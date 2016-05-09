@@ -18,6 +18,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -27,32 +28,44 @@ namespace QLNet
       private DateTime date;
 
       public Date() { }                   //! Default constructor returning a null date.
+
                                           //! Constructor taking a serial number as given by Excel.
                                           // Serial numbers in Excel have a known problem with leap year 1900
       public Date(int serialNumber)
       {
          date = (new DateTime(1899, 12, 31)).AddDays(serialNumber - 1);
       }
+
       public Date(int d, Month m, int y, int h = 0, int mi = 0, int s = 0, int ms = 0) : this(d, (int)m, y, h, mi, s, ms) { }
+
       public Date(int d, int m, int y) :     //! More traditional constructor.
           this(new DateTime(y, m, d))
       { }
+
       public Date(int d, int m, int y, int h = 0, int mi = 0, int s = 0, int ms = 0) :    //! More traditional constructor.
          this(new DateTime(y, m, d, h, mi, s, ms))
       { }
+
       public Date(DateTime d)
       {           //! System DateTime constructor
          date = d;
       }
 
       public int serialNumber() { return (date - new DateTime(1899, 12, 31).Date).Days + 1; }
+
       public int Day { get { return date.Day; } }
       public int Month { get { return date.Month; } }
+
       public int month() { return date.Month; }
+
       public int Year { get { return date.Year; } }
+
       public int year() { return date.Year; }
+
       public int DayOfYear { get { return date.DayOfYear; } }
+
       public int weekday() { return (int)date.DayOfWeek + 1; }       // QL compatible definition
+
       public DayOfWeek DayOfWeek { get { return date.DayOfWeek; } }
       public int hours { get { return date.Hour; } }
       public int minutes { get { return date.Minute; } }
@@ -60,22 +73,30 @@ namespace QLNet
       public int milliseconds { get { return date.Millisecond; } }
 
       public double fractionOfSecond { get { return (double)date.Millisecond / 1000; } }
+
       public double fractionOfDay() { return date.TimeOfDay.TotalSeconds / 86400.0; }
 
       // static properties
       public static Date minDate() { return new Date(1, 1, 1901); }
+
       public static Date maxDate() { return new Date(31, 12, 2199); }
+
       public static Date Today { get { return new Date(DateTime.Today); } }
+
       public static bool IsLeapYear(int y) { return DateTime.IsLeapYear(y); }
+
       public static int DaysInMonth(int y, int m) { return DateTime.DaysInMonth(y, m); }
 
       public static Date endOfMonth(Date d) { return (d - d.Day + DaysInMonth(d.Year, d.Month)); }
+
       public static bool isEndOfMonth(Date d) { return (d.Day == DaysInMonth(d.Year, d.Month)); }
+
       public static double daysBetween(Date d1, Date d2)
       {
          double days = d2 - d1;
          return days + d2.fractionOfDay() - d1.fractionOfDay();
       }
+
       //! next given weekday following or equal to the given date
       public static Date nextWeekday(Date d, DayOfWeek dayOfWeek)
       {
@@ -108,8 +129,10 @@ namespace QLNet
          {
             case TimeUnit.Days:
                return d + n;
+
             case TimeUnit.Weeks:
                return d + 7 * n;
+
             case TimeUnit.Months: { DateTime t = d.date; return new Date(t.AddMonths(n)); }
             case TimeUnit.Years: { DateTime t = d.date; return new Date(t.AddYears(n)); }
             default:
@@ -117,22 +140,32 @@ namespace QLNet
          }
       }
 
-
       // operator overloads
       public static int operator -(Date d1, Date d2) { return (d1.date - d2.date).Days; }
+
       public static Date operator +(Date d, int days) { DateTime t = d.date; return new Date(t.AddDays(days)); }
+
       public static Date operator -(Date d, int days) { DateTime t = d.date; return new Date(t.AddDays(-days)); }
+
       public static Date operator +(Date d, TimeUnit u) { return advance(d, 1, u); }
+
       public static Date operator -(Date d, TimeUnit u) { return advance(d, -1, u); }
+
       public static Date operator +(Date d, Period p) { return advance(d, p.length(), p.units()); }
+
       public static Date operator -(Date d, Period p) { return advance(d, -p.length(), p.units()); }
+
       public static Date operator ++(Date d) { d = d + 1; return d; }
+
       public static Date operator --(Date d) { d = d - 1; return d; }
+
       public static Date Min(Date d1, Date d2) { return d1 < d2 ? d1 : d2; }
+
       public static Date Max(Date d1, Date d2) { return d1 > d2 ? d1 : d2; }
 
       // this is the overload for DateTime operations
       public static implicit operator DateTime(Date d) { return d.date; }
+
       public static implicit operator Date(DateTime d) { return new Date(d.Day, d.Month, d.Year); }
 
       public static bool operator ==(Date d1, Date d2)
@@ -141,19 +174,31 @@ namespace QLNet
                 ((Object)d1 == null && (Object)d2 == null) :
                 d1.date == d2.date;
       }
+
       public static bool operator !=(Date d1, Date d2) { return (!(d1 == d2)); }
+
       public static bool operator <(Date d1, Date d2) { return (d1.date < d2.date); }
+
       public static bool operator <=(Date d1, Date d2) { return (d1.date <= d2.date); }
+
       public static bool operator >(Date d1, Date d2) { return (d1.date > d2.date); }
+
       public static bool operator >=(Date d1, Date d2) { return (d1.date >= d2.date); }
 
       public string ToLongDateString() { return date.ToLongDateString(); }
+
       public string ToShortDateString() { return date.ToShortDateString(); }
+
       public override string ToString() { return this.ToShortDateString(); }
+
       public string ToString(IFormatProvider provider) { return date.ToString(provider); }
+
       public string ToString(string format) { return date.ToString(format); }
+
       public string ToString(string format, IFormatProvider provider) { return date.ToString(format, provider); }
+
       public override bool Equals(object o) { return (this == (Date)o); }
+
       public override int GetHashCode() { return 0; }
 
       // IComparable interface
@@ -167,4 +212,3 @@ namespace QLNet
       }
    }
 }
-

@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -28,6 +29,7 @@ namespace QLNet
        \warning high moments are numerically unstable for high
                 average/standardDeviation ratios.
    */
+
    public class IncrementalStatistics : IGeneralStatistics
    {
       protected int sampleNumber_, downsideSampleNumber_;
@@ -38,13 +40,16 @@ namespace QLNet
       public IncrementalStatistics() { reset(); }
 
       #region required IGeneralStatistics methods not supported by this class
+
       public KeyValuePair<double, int> expectationValue(Func<KeyValuePair<double, double>, double> f,
                                                         Func<KeyValuePair<double, double>, bool> inRange)
       {
          throw new NotSupportedException();
       }
+
       public double percentile(double percent) { throw new NotSupportedException(); }
-      #endregion
+
+      #endregion required IGeneralStatistics methods not supported by this class
 
       //! number of samples collected
       public int samples() { return sampleNumber_; }
@@ -55,6 +60,7 @@ namespace QLNet
       /*! returns the mean, defined as
           \f[ \langle x \rangle = \frac{\sum w_i x_i}{\sum w_i}. \f]
       */
+
       public double mean()
       {
          if (!(sampleWeight_ > 0.0)) throw new ApplicationException("sampleWeight_=0, insufficient");
@@ -65,6 +71,7 @@ namespace QLNet
           \f[ \frac{N}{N-1} \left\langle \left(
               x-\langle x \rangle \right)^2 \right\rangle. \f]
       */
+
       public double variance()
       {
          if (!(sampleWeight_ > 0.0)) throw new ApplicationException("sampleWeight_=0, insufficient");
@@ -80,6 +87,7 @@ namespace QLNet
       }
 
       /*! returns the standard deviation \f$ \sigma \f$, defined as the square root of the variance. */
+
       public double standardDeviation() { return Math.Sqrt(variance()); }
 
       /*! returns the downside variance, defined as
@@ -88,6 +96,7 @@ namespace QLNet
           where \f$ \theta \f$ = 0 if x > 0 and
           \f$ \theta \f$ =1 if x <0
       */
+
       public double downsideVariance()
       {
          if (downsideSampleWeight_ == 0.0)
@@ -101,9 +110,9 @@ namespace QLNet
              (downsideQuadraticSum_ / downsideSampleWeight_);
       }
 
-
       /*! returns the error estimate \f$ \epsilon \f$, defined as the
        * square root of the ratio of the variance to the number of samples. */
+
       public double errorEstimate()
       {
          double var = variance();
@@ -116,6 +125,7 @@ namespace QLNet
               x-\langle x \rangle \right)^3 \right\rangle}{\sigma^3}. \f]
           The above evaluates to 0 for a Gaussian distribution.
       */
+
       public double skewness()
       {
          if (!(sampleNumber_ > 2)) throw new ApplicationException("sample number <=2, insufficient");
@@ -139,6 +149,7 @@ namespace QLNet
               \right\rangle}{\sigma^4} - \frac{3(N-1)^2}{(N-2)(N-3)}. \f]
           The above evaluates to 0 for a Gaussian distribution.
       */
+
       public double kurtosis()
       {
          if (!(sampleNumber_ > 3)) throw new ApplicationException("sample number <=3, insufficient");
@@ -165,6 +176,7 @@ namespace QLNet
       }
 
       /*! returns the minimum sample value */
+
       public double min()
       {
          if (!(samples() > 0)) throw new ApplicationException("empty sample set");
@@ -172,6 +184,7 @@ namespace QLNet
       }
 
       /*! returns the maximum sample value */
+
       public double max()
       {
          if (!(samples() > 0)) throw new ApplicationException("empty sample set");
@@ -179,14 +192,16 @@ namespace QLNet
       }
 
       /*! returns the downside deviation, defined as the square root of the downside variance. */
-      public double downsideDeviation() { return Math.Sqrt(downsideVariance()); }
 
+      public double downsideDeviation() { return Math.Sqrt(downsideVariance()); }
 
       //! \name Modifiers
       //@{
       //! adds a datum to the set, possibly with a weight
       /*! \pre weight must be positive or null */
+
       public void add(double value) { add(value, 1); }
+
       public void add(double value, double weight)
       {
          if (!(weight >= 0.0)) throw new ApplicationException("negative weight (" + weight + ") not allowed");
@@ -244,8 +259,10 @@ namespace QLNet
          foreach (double v in list)
             add(v, 1);
       }
+
       //! adds a sequence of data to the set, each with its weight
       /*! \pre weights must be positive or null */
+
       public void addSequence(List<double> data, List<double> weight)
       {
          for (int i = 0; i < data.Count; i++)

@@ -25,6 +25,7 @@ namespace QLNet
 
        search direction \f$ = - f'(x) \f$
    */
+
    public class SteepestDescent : LineSearchBasedMethod
    {
       public SteepestDescent(LineSearch lineSearch = null)

@@ -22,6 +22,7 @@ namespace QLNet
    /*! This class provides a more comfortable way
        to instantiate standard market cap and floor.
    */
+
    public class MakeCapFloor
    {
       public MakeCapFloor(CapFloorType capFloorType, Period tenor, IborIndex iborIndex, double? strike = null,
@@ -35,6 +36,7 @@ namespace QLNet
       }
 
       public static implicit operator CapFloor(MakeCapFloor o) { return o.value(); }
+
       public CapFloor value()
       {
          VanillaSwap swap = makeVanillaSwap_;
@@ -68,9 +70,7 @@ namespace QLNet
          CapFloor capFloor = new CapFloor(capFloorType_, leg, strikeVector);
          capFloor.setPricingEngine(engine_);
          return capFloor;
-
       }
-
 
       public MakeCapFloor withNominal(double n)
       {
@@ -98,6 +98,7 @@ namespace QLNet
          makeVanillaSwap_.withFloatingLegCalendar(cal);
          return this;
       }
+
       public MakeCapFloor withConvention(BusinessDayConvention bdc)
       {
          makeVanillaSwap_.withFixedLegConvention(bdc);
@@ -167,6 +168,5 @@ namespace QLNet
       private MakeVanillaSwap makeVanillaSwap_;
 
       private IPricingEngine engine_;
-
    }
 }

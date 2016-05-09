@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -25,6 +26,7 @@ namespace QLNet
 
        \test coefficients are tested against constant BSM operator
    */
+
    public static class OperatorFactory
    {
       public static TridiagonalOperator getOperator(GeneralizedBlackScholesProcess process, Vector grid,
@@ -40,6 +42,7 @@ namespace QLNet
          else
             return new BSMOperator(grid, process, residualTime);
       }
+
       public static TridiagonalOperator getOperator(OneFactorModel.ShortRateDynamics process, Vector grid)
       {
          throw new NotImplementedException();

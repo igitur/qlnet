@@ -27,6 +27,7 @@ namespace QLNet
        concrete callable-bond volatility structures which will be
        derived from this one.
    */
+
    public class CallableBondVolatilityStructure : TermStructure
    {
       /*! \name Constructors
@@ -44,11 +45,13 @@ namespace QLNet
                   constructor must manage their own reference date
                   by overriding the referenceDate() method.
       */
+
       public CallableBondVolatilityStructure(DayCounter dc = null, BusinessDayConvention bdc = BusinessDayConvention.Following)
          : base(dc ?? new DayCounter())
       {
          bdc_ = bdc;
       }
+
       //! initialize with a fixed reference date
       public CallableBondVolatilityStructure(Date referenceDate, Calendar calendar = null, DayCounter dc = null,
                                               BusinessDayConvention bdc = BusinessDayConvention.Following)
@@ -56,6 +59,7 @@ namespace QLNet
       {
          bdc_ = bdc;
       }
+
       //! calculate the reference date based on the global evaluation date
       public CallableBondVolatilityStructure(int settlementDays, Calendar calendar, DayCounter dc = null,
                                               BusinessDayConvention bdc = BusinessDayConvention.Following)
@@ -63,6 +67,7 @@ namespace QLNet
       {
          bdc_ = bdc;
       }
+
       //@}
       //public virtual ~CallableBondVolatilityStructure() {}
       //! \name Volatility, variance and smile
@@ -73,6 +78,7 @@ namespace QLNet
          checkRange(optionTenor, bondTenor, strike, extrapolate);
          return volatilityImpl(optionTenor, bondTenor, strike);
       }
+
       //! returns the Black variance for a given option time and bondLength
       public double blackVariance(double optionTime, double bondLength, double strike, bool extrapolate = false)
       {
@@ -80,12 +86,14 @@ namespace QLNet
          double vol = volatilityImpl(optionTime, bondLength, strike);
          return vol * vol * optionTime;
       }
+
       //! returns the volatility for a given option date and bond tenor
       public double volatility(Date optionDate, Period bondTenor, double strike, bool extrapolate = false)
       {
          checkRange(optionDate, bondTenor, strike, extrapolate);
          return volatilityImpl(optionDate, bondTenor, strike);
       }
+
       //! returns the Black variance for a given option date and bond tenor
       public double blackVariance(Date optionDate, Period bondTenor, double strike, bool extrapolate = false)
       {
@@ -93,6 +101,7 @@ namespace QLNet
          KeyValuePair<double, double> p = convertDates(optionDate, bondTenor);
          return vol * vol * p.Key;
       }
+
       public virtual SmileSection smileSection(Date optionDate, Period bondTenor)
       {
          KeyValuePair<double, double> p = convertDates(optionDate, bondTenor);
@@ -105,6 +114,7 @@ namespace QLNet
          Date optionDate = optionDateFromTenor(optionTenor);
          return volatility(optionDate, bondTenor, strike, extrapolate);
       }
+
       //! returns the Black variance for a given option tenor and bond tenor
       public double blackVariance(Period optionTenor, Period bondTenor, double strike, bool extrapolate = false)
       {
@@ -113,25 +123,31 @@ namespace QLNet
          KeyValuePair<double, double> p = convertDates(optionDate, bondTenor);
          return vol * vol * p.Key;
       }
+
       public SmileSection smileSection(Period optionTenor, Period bondTenor)
       {
          Date optionDate = optionDateFromTenor(optionTenor);
          return smileSection(optionDate, bondTenor);
       }
+
       //@}
       //! \name Limits
       //@{
       //! the largest length for which the term structure can return vols
       public virtual Period maxBondTenor() { throw new ApplicationException("maxBondTenor need implementation"); }
+
       //! the largest bondLength for which the term structure can return vols
       public virtual double maxBondLength()
       {
          return timeFromReference(referenceDate() + maxBondTenor());
       }
+
       //! the minimum strike for which the term structure can return vols
       public virtual double minStrike() { throw new ApplicationException("minStrike need implementation"); }
+
       //! the maximum strike for which the term structure can return vols
       public virtual double maxStrike() { throw new ApplicationException("maxStrike need implementation"); }
+
       //@}
       //! implements the conversion between dates and times
       public virtual KeyValuePair<double, double> convertDates(Date optionDate, Period bondTenor)
@@ -143,8 +159,10 @@ namespace QLNet
          double timeLength = dayCounter().yearFraction(optionDate, end);
          return new KeyValuePair<double, double>(optionTime, timeLength);
       }
+
       //! the business day convention used for option date calculation
       public virtual BusinessDayConvention businessDayConvention() { return bdc_; }
+
       //! implements the conversion between optionTenors and optionDates
       public Date optionDateFromTenor(Period optionTenor)
       {
@@ -160,11 +178,13 @@ namespace QLNet
       //! implements the actual volatility calculation in derived classes
       protected virtual double volatilityImpl(double optionTime, double bondLength, double strike)
       { throw new ApplicationException("volatilityImpl need implementation"); }
+
       protected virtual double volatilityImpl(Date optionDate, Period bondTenor, double strike)
       {
          KeyValuePair<double, double> p = convertDates(optionDate, bondTenor);
          return volatilityImpl(p.Key, p.Value, strike);
       }
+
       protected void checkRange(double optionTime, double bondLength, double k, bool extrapolate)
       {
          base.checkRange(optionTime, extrapolate);
@@ -179,6 +199,7 @@ namespace QLNet
                  "strike (" + k + ") is outside the curve domain ["
                  + minStrike() + "," + maxStrike() + "]");
       }
+
       protected void checkRange(Date optionDate, Period bondTenor, double k, bool extrapolate)
       {
          base.checkRange(timeFromReference(optionDate),

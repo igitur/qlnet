@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System.Collections.Generic;
 
 namespace QLNet
@@ -61,6 +62,7 @@ namespace QLNet
 
 		\ingroup instruments
 	*/
+
    public class FixedRateBondForward : Forward
    {
       protected FixedRateBond fixedCouponBond_;
@@ -73,6 +75,7 @@ namespace QLNet
           forwardPrice(). In this case, the strike variable in the
           constructor is irrelevant and will be ignored.
       */
+
       //@{
       //Handle<YieldTermStructure> discountCurve = Handle<YieldTermStructure>(),
       //Handle<YieldTermStructure> incomeDiscountCurve = Handle<YieldTermStructure>());
@@ -91,7 +94,6 @@ namespace QLNet
 
       //! \name Calculations
       //@{
-
       //! (dirty) forward bond price
       public double forwardPrice() { return forwardValue(); }
 
@@ -103,6 +105,7 @@ namespace QLNet
           date) and maturity date of bond forward contract are
           considered income.
       */
+
       public override double spotIncome(Handle<YieldTermStructure> incomeDiscountCurve)
       {
          double income = 0.0;

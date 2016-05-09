@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -43,12 +44,12 @@ namespace QLNet
                value lower than the intrinsic value in the case
                of American options.
       */
+
       //public double impliedVolatility(double price, GeneralizedBlackScholesProcess process,
       //       double accuracy = 1.0e-4, int maxEvaluations = 100, double minVol = 1.0e-7, double maxVol = 4.0) {
       public double impliedVolatility(double targetValue, GeneralizedBlackScholesProcess process,
                                       double accuracy, int maxEvaluations, double minVol, double maxVol)
       {
-
          if (isExpired()) throw new ApplicationException("option expired");
 
          SimpleQuote volQuote = new SimpleQuote();
@@ -62,12 +63,15 @@ namespace QLNet
             case Exercise.Type.European:
                engine = new AnalyticEuropeanEngine(newProcess);
                break;
+
             case Exercise.Type.American:
                engine = new FDAmericanEngine(newProcess);
                break;
+
             case Exercise.Type.Bermudan:
                engine = new FDBermudanEngine(newProcess);
                break;
+
             default:
                throw new ArgumentException("unknown exercise type");
          }

@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -34,6 +35,7 @@ namespace QLNet
 
       \ingroup defaultprobabilitytermstructures
    */
+
    public class HazardRateStructure : DefaultProbabilityTermStructure
    {
       #region Constructors
@@ -49,7 +51,7 @@ namespace QLNet
          List<Handle<Quote>> jumps = null, List<Date> jumpDates = null)
          : base(settlementDays, cal, dc, jumps, jumpDates) { }
 
-      #endregion
+      #endregion Constructors
 
       #region Calculations
 
@@ -62,7 +64,7 @@ namespace QLNet
       protected virtual double hazardRateImpl(double t)
       { throw new NotImplementedException("HazardRateStructure.hazardRateImpl"); }
 
-      #endregion
+      #endregion Calculations
 
       #region DefaultProbabilityTermStructure implementation
 
@@ -77,6 +79,7 @@ namespace QLNet
                   Derived classes should override it if a more efficient
                   implementation is available.
       */
+
       protected override double survivalProbabilityImpl(double t)
       {
          GaussChebyshevIntegration integral = new GaussChebyshevIntegration(48);
@@ -96,6 +99,6 @@ namespace QLNet
          return hazardRateImpl(t) * survivalProbabilityImpl(t);
       }
 
-      #endregion
+      #endregion DefaultProbabilityTermStructure implementation
    }
 }

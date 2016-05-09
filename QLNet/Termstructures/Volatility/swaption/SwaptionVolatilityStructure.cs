@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -24,9 +25,11 @@ namespace QLNet
    /*! This abstract class defines the interface of concrete swaption
       volatility structures which will be derived from this one.
    */
+
    public class SwaptionVolatilityStructure : VolatilityTermStructure
    {
       #region Constructors
+
       /*! \warning term structures initialized by means of this
                    constructor must manage their own reference date
                    by overriding the referenceDate() method.
@@ -45,8 +48,7 @@ namespace QLNet
       public SwaptionVolatilityStructure(int settlementDays, Calendar cal, BusinessDayConvention bdc, DayCounter dc = null)
          : base(settlementDays, cal, bdc, dc) { }
 
-      #endregion
-
+      #endregion Constructors
 
       #region Volatility, variance and smile
 
@@ -167,7 +169,6 @@ namespace QLNet
       //! returns the smile for a given option tenor and swap length
       //public SmileSection smileSection(Period optionTenor, double swapLength, bool extr = false);
 
-
       //! returns the smile for a given option date and swap length
       //public SmileSection smileSection( Date optionDate, double swapLength, bool extr = false) ;
 
@@ -179,7 +180,7 @@ namespace QLNet
          return smileSectionImpl(optionTime, swapLength);
       }
 
-      #endregion
+      #endregion Volatility, variance and smile
 
       #region Limits
 
@@ -189,7 +190,7 @@ namespace QLNet
       //! the largest swapLength for which the term structure can return vols
       public double maxSwapLength() { return swapLength(maxSwapTenor()); }
 
-      #endregion
+      #endregion Limits
 
       //! implements the conversion between swap tenor and swap (time) length
       public double swapLength(Period swapTenor)
@@ -199,8 +200,10 @@ namespace QLNet
          {
             case TimeUnit.Months:
                return swapTenor.length() / 12.0;
+
             case TimeUnit.Years:
                return swapTenor.length();
+
             default:
                Utils.QL_FAIL("invalid Time Unit (" + swapTenor.units() + ") for swap length");
                return 0;
@@ -244,6 +247,5 @@ namespace QLNet
          Utils.QL_REQUIRE(extrapolate || allowsExtrapolation() || swapLength <= maxSwapLength(), () =>
                    "swap tenor (" + swapLength + ") is past max tenor (" + maxSwapLength() + ")");
       }
-
    }
 }

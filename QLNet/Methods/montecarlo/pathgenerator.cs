@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -29,6 +30,7 @@ namespace QLNet
 
        \test the generated paths are checked against cached results
    */
+
    public class PathGenerator<GSG> where GSG : IRNG
    {
       // typedef Sample<Path> sample_type;
@@ -75,7 +77,9 @@ namespace QLNet
       }
 
       public Sample<Path> next() { return next(false); }
+
       public Sample<Path> antithetic() { return next(true); }
+
       private Sample<Path> next(bool antithetic)
       {
          // typedef typename GSG::sample_type sequence_type;

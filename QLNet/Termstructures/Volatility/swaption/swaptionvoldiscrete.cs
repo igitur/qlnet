@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -34,7 +35,6 @@ namespace QLNet
       protected List<Period> swapTenors_;
       protected List<double> swapLengths_;
       protected Date evaluationDate_;
-
 
       public SwaptionVolatilityDiscrete(List<Period> optionTenors,
                                  List<Period> swapTenors,
@@ -172,6 +172,7 @@ namespace QLNet
       /* In case a pricing engine is not used, this method must be overridden to perform the actual
          calculations and set any needed results.
        * In case a pricing engine is used, the default implementation can be used. */
+
       protected override void performCalculations()
       {
          // check if date recalculation could be avoided here

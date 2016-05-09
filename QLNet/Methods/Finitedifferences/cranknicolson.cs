@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System.Collections.Generic;
 
 namespace QLNet
@@ -30,10 +31,12 @@ namespace QLNet
 
        \ingroup findiff
    */
+
    public class CrankNicolson<Operator> : MixedScheme<Operator>, ISchemeFactory where Operator : IOperator
    {
       // constructors
       public CrankNicolson() { }  // required for generics
+
       public CrankNicolson(Operator L, List<BoundaryCondition<IOperator>> bcs)
           : base(L, 0.5, bcs) { }
 

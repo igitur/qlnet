@@ -50,7 +50,6 @@ namespace QLNet
          IndexManager.instance().notifier(name()).registerWith(update);
       }
 
-
       //! \name Index interface
       //@{
       public override string name() { return region_.name() + " " + familyName_; }
@@ -60,6 +59,7 @@ namespace QLNet
           weekends) of a calendar period.  I.e. it uses the
           NullCalendar as its fixing calendar.
       */
+
       public override Calendar fixingCalendar() { return new NullCalendar(); }
 
       public override bool isValidFixingDate(Date fixingDate) { return true; }
@@ -75,14 +75,18 @@ namespace QLNet
           publication but the inflation swaps may take as their base
           the index 3 months before.
       */
+
       public override double fixing(Date fixingDate) { return fixing(fixingDate, false); }
+
       public override double fixing(Date fixingDate, bool forecastTodaysFixing) { return 0; }
 
       /*! this method creates all the "fixings" for the relevant
           period of the index.  E.g. for monthly indices it will put
           the same value in every calendar day in the month.
       */
+
       public override void addFixing(Date fixingDate, double fixing) { addFixing(fixingDate, fixing, false); }
+
       public override void addFixing(Date fixingDate, double fixing, bool forceOverwrite)
       {
          KeyValuePair<Date, Date> lim = Utils.inflationPeriod(fixingDate, frequency_);
@@ -97,28 +101,35 @@ namespace QLNet
          }
 
          base.addFixings(dates, rates, forceOverwrite);
-
       }
+
       //@}
 
       //! \name Observer interface
       //@{
       public void update() { notifyObservers(); }
+
       //@}
 
       //! \name Inspectors
       //@{
       public string familyName() { return familyName_; }
+
       public Region region() { return region_; }
+
       public bool revised() { return revised_; }
+
       /*! Forecasting index values using an inflation term structure
          uses the interpolation of the inflation term structure
          unless interpolation is set to false.  In this case the
          extrapolated values are constant within each period taking
          the mid-period extrapolated value.
       */
+
       public bool interpolated() { return interpolated_; }
+
       public Frequency frequency() { return frequency_; }
+
       /*! The availability lag describes when the index is
          <i>available</i>, not how it is used.  Specifically the
          fixing for, say, January, may only be available in April
@@ -126,8 +137,11 @@ namespace QLNet
          applicable for January as its January fixing (independent
          of the lag in availability).
       */
+
       public Period availabilityLag() { return availabilityLag_; }
+
       public Currency currency() { return currency_; }
+
       //@}
 
       protected Date referenceDate_;
@@ -138,9 +152,7 @@ namespace QLNet
       protected Frequency frequency_;
       protected Period availabilityLag_;
       protected Currency currency_;
-
    }
-
 
    //! Base class for zero inflation indices.
    public class ZeroInflationIndex : InflationIndex
@@ -175,6 +187,7 @@ namespace QLNet
       /*! \warning the forecastTodaysFixing parameter (required by
                    the Index interface) is currently ignored.
       */
+
       public override double fixing(Date aFixingDate, bool forecastTodaysFixing)
       {
          if (!needsForecast(aFixingDate))
@@ -211,7 +224,7 @@ namespace QLNet
          }
       }
 
-      bool needsForecast(Date fixingDate)
+      private bool needsForecast(Date fixingDate)
       {
          // Stored fixings are always non-interpolated.
          // If an interpolated fixing is required then
@@ -254,17 +267,14 @@ namespace QLNet
          }
       }
 
-
       public Handle<ZeroInflationTermStructure> zeroInflationTermStructure() { return zeroInflation_; }
 
       public ZeroInflationIndex clone(Handle<ZeroInflationTermStructure> h)
       {
-
          return new ZeroInflationIndex(familyName_, region_, revised_,
                                            interpolated_, frequency_,
                                            availabilityLag_, currency_, h);
       }
-
 
       private double forecastFixing(Date fixingDate)
       {
@@ -304,9 +314,9 @@ namespace QLNet
        "fake" indices that are defined as the ratio of an index at
        different time points.
    */
+
    public class YoYInflationIndex : InflationIndex
    {
-
       public YoYInflationIndex(string familyName,
                                Region region,
                                bool revised,
@@ -338,7 +348,9 @@ namespace QLNet
       /*! \warning the forecastTodaysFixing parameter (required by
            the Index interface) is currently ignored.
       */
+
       public override double fixing(Date fixingDate) { return fixing(fixingDate, false); }
+
       public override double fixing(Date fixingDate, bool forecastTodaysFixing)
       {
          Date today = Settings.evaluationDate();
@@ -348,7 +360,6 @@ namespace QLNet
 
          Date flatMustForecastOn = lastFix + 1;
          Date interpMustForecastOn = lastFix + 1 - new Period(frequency_);
-
 
          if (interpolated() && fixingDate >= interpMustForecastOn)
          {
@@ -402,7 +413,6 @@ namespace QLNet
                double wasYES = linearNow / linearBef - 1.0;
 
                return wasYES;
-
             }
             else
             {
@@ -444,7 +454,6 @@ namespace QLNet
                double linearNow = limFirstFix.Value + (limSecondFix.Value - limFirstFix.Value) * dl / dp;
 
                return linearNow;
-
             }
             else
             {
@@ -456,15 +465,14 @@ namespace QLNet
                   throw new ApplicationException("Missing " + name() + " fixing for "
                                                  + fixingDate);
                return pastFixing.Value;
-
             }
          }
 
          // QL_FAIL("YoYInflationIndex::fixing, should never get here");
-
       }
 
       public bool ratio() { return ratio_; }
+
       public Handle<YoYInflationTermStructure> yoyInflationTermStructure()
       { return yoyInflation_; }
 
@@ -474,7 +482,6 @@ namespace QLNet
                                       interpolated_, ratio_, frequency_,
                                       availabilityLag_, currency_, h);
       }
-
 
       private double forecastFixing(Date fixingDate)
       {

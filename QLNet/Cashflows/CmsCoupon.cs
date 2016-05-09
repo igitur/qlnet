@@ -49,12 +49,14 @@ namespace QLNet
       {
          swapIndex_ = swapIndex;
       }
+
       //! \name Inspectors
       //@{
       public SwapIndex swapIndex()
       {
          return swapIndex_;
       }
+
       //@}
       //! \name Visitability
       //@{
@@ -77,9 +79,7 @@ namespace QLNet
          return new CmsCoupon(nominal, paymentDate, startDate, endDate, fixingDays,
                     (SwapIndex)index, gearing, spread, refPeriodStart, refPeriodEnd, dayCounter, isInArrears);
       }
-
    }
-
 
    //! helper class building a sequence of capped/floored cms-rate coupons
    public class CmsLeg : FloatingLegBase

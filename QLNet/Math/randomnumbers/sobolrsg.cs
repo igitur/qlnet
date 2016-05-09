@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -93,13 +94,15 @@ namespace QLNet
        - the correctness of the returned values is tested by checking
          their discrepancy against known good values.
    */
+
    public partial class SobolRsg : IRNG
    {
       //typedef Sample<List<double>> sample_type;
 
-      const int bits_ = 8 * sizeof(ulong);
+      private const int bits_ = 8 * sizeof(ulong);
+
       // 1/(2^bits_) (written as (1/2)/(2^(bits_-1)) to avoid long overflow)
-      const double normalizationFactor_ = 0.5 / (1UL << (bits_ - 1));
+      private const double normalizationFactor_ = 0.5 / (1UL << (bits_ - 1));
 
       private int dimensionality_;
       private ulong sequenceCounter_;
@@ -119,8 +122,11 @@ namespace QLNet
       public SobolRsg() { }
 
       /*! \pre dimensionality must be <= PPMT_MAX_DIM */
+
       public SobolRsg(int dimensionality) : this(dimensionality, 0, DirectionIntegers.Jaeckel) { }
+
       public SobolRsg(int dimensionality, ulong seed) : this(dimensionality, seed, DirectionIntegers.Jaeckel) { }
+
       public SobolRsg(int dimensionality, ulong seed, DirectionIntegers directionIntegers)
       {
          dimensionality_ = dimensionality;
@@ -184,7 +190,6 @@ namespace QLNet
                ppmt[k] = PrimitivePolynomials[currentDegree - 1][index];
             }
             degree[k] = currentDegree;
-
          }
 
          // initializes bits_ direction integers for each dimension
@@ -216,6 +221,7 @@ namespace QLNet
                   }
                }
                break;
+
             case DirectionIntegers.Jaeckel:
                // maxTabulated=32
                maxTabulated = initializers.Length + 1;
@@ -231,6 +237,7 @@ namespace QLNet
                   }
                }
                break;
+
             case DirectionIntegers.SobolLevitan:
                // maxTabulated=40
                maxTabulated = SLinitializers.Length + 1;
@@ -246,6 +253,7 @@ namespace QLNet
                   }
                }
                break;
+
             case DirectionIntegers.SobolLevitanLemieux:
                // maxTabulated=360
                maxTabulated = Linitializers.Length + 1;
@@ -261,6 +269,7 @@ namespace QLNet
                   }
                }
                break;
+
             case DirectionIntegers.JoeKuoD5:
                // maxTabulated=1898
                maxTabulated = JoeKuoD5initializers.Length + 1;
@@ -276,6 +285,7 @@ namespace QLNet
                   }
                }
                break;
+
             case DirectionIntegers.JoeKuoD6:
                // maxTabulated=1799
                maxTabulated = JoeKuoD6initializers.Length + 1;
@@ -291,6 +301,7 @@ namespace QLNet
                   }
                }
                break;
+
             case DirectionIntegers.JoeKuoD7:
                // maxTabulated=1898
                maxTabulated = JoeKuoD7initializers.Length + 1;
@@ -307,8 +318,6 @@ namespace QLNet
                }
                break;
 
-
-
             case DirectionIntegers.Kuo:
                // maxTabulated=4925
                maxTabulated = Kuoinitializers.Length + 1;
@@ -324,6 +333,7 @@ namespace QLNet
                   }
                }
                break;
+
             case DirectionIntegers.Kuo2:
                // maxTabulated=3946
                maxTabulated = Kuo2initializers.Length + 1;
@@ -445,6 +455,7 @@ namespace QLNet
       }
 
       /*! skip to the n-th sample in the low-discrepancy sequence */
+
       public void skipTo(ulong skip)
       {
          ulong N = skip + 1;
@@ -495,6 +506,7 @@ namespace QLNet
       }
 
       #region IRNG interface
+
       public Sample<List<double>> nextSequence()
       {
          List<ulong> v = nextInt32Sequence();
@@ -512,6 +524,7 @@ namespace QLNet
       {
          return new SobolRsg(dimensionality, seed);
       }
-      #endregion
+
+      #endregion IRNG interface
    }
 }

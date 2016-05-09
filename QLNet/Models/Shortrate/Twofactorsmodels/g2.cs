@@ -16,9 +16,9 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 /*! \file g2.hpp
     \brief Two-factor additive Gaussian Model G2++
@@ -26,7 +26,6 @@ using System.Linq;
 
 namespace QLNet
 {
-
    //! Two-additive-factor gaussian model class.
    /*! This class implements a two-additive-factor model defined by
        \f[
@@ -46,27 +45,28 @@ namespace QLNet
 
        \ingroup shortrate
    */
+
    public class G2 : TwoFactorModel,
                      IAffineModel,
                      ITermStructureConsistentModel
    {
-
-
       #region ITermStructureConsistentModel
+
       public Handle<YieldTermStructure> termStructure()
       {
          return termStructure_;
       }
 
       public Handle<YieldTermStructure> termStructure_ { get; set; }
-      #endregion
 
-      Parameter a_;
-      Parameter sigma_;
-      Parameter b_;
-      Parameter eta_;
-      Parameter rho_;
-      Parameter phi_;
+      #endregion ITermStructureConsistentModel
+
+      private Parameter a_;
+      private Parameter sigma_;
+      private Parameter b_;
+      private Parameter eta_;
+      private Parameter rho_;
+      private Parameter phi_;
 
       public G2(Handle<YieldTermStructure> termStructure,
          double a,
@@ -110,7 +110,6 @@ namespace QLNet
           : this(termStructure, a, sigma, b, 0.01, -0.75)
       { }
 
-
       public G2(Handle<YieldTermStructure> termStructure,
          double a,
          double sigma)
@@ -145,7 +144,6 @@ namespace QLNet
          return A(t, T) * Math.Exp(-B(a(), (T - t)) * x - B(b(), (T - t)) * y);
       }
 
-
       public virtual double discountBondOption(Option.Type type,
                               double strike,
                               double maturity,
@@ -168,7 +166,6 @@ namespace QLNet
                       double range,
                       int intervals)
       {
-
          Date settlement = termStructure().link.referenceDate();
          DayCounter dayCounter = termStructure().link.dayCounter();
          double start = dayCounter.yearFraction(settlement,
@@ -195,6 +192,7 @@ namespace QLNet
       }
 
       #region protected
+
       protected override void generateArguments()
       {
          phi_ = new FittingParameter(termStructure(),
@@ -211,10 +209,12 @@ namespace QLNet
       {
          return (1.0 - Math.Exp(-x * t)) / x;
       }
-      #endregion
+
+      #endregion protected
 
       #region private
-      double sigmaP(double t, double s)
+
+      private double sigmaP(double t, double s)
       {
          double temp = 1.0 - Math.Exp(-(a() + b()) * t);
          double temp1 = 1.0 - Math.Exp(-a() * (s - t));
@@ -231,8 +231,7 @@ namespace QLNet
          return Math.Sqrt(value);
       }
 
-
-      double V(double t)
+      private double V(double t)
       {
          double expat = Math.Exp(-a() * t);
          double expbt = Math.Exp(-b() * t);
@@ -246,18 +245,27 @@ namespace QLNet
          return valuex + valuey + value;
       }
 
-      double a() { return a_.value(0.0); }
-      double sigma() { return sigma_.value(0.0); }
-      double b() { return b_.value(0.0); }
-      double eta() { return eta_.value(0.0); }
-      double rho() { return rho_.value(0.0); }
+      private double a()
+      { return a_.value(0.0); }
 
-      #endregion
+      private double sigma()
+      { return sigma_.value(0.0); }
+
+      private double b()
+      { return b_.value(0.0); }
+
+      private double eta()
+      { return eta_.value(0.0); }
+
+      private double rho()
+      { return rho_.value(0.0); }
+
+      #endregion private
 
       public class Dynamics : ShortRateDynamics
       {
+         private Parameter fitting_;
 
-         Parameter fitting_;
          public Dynamics(Parameter fitting,
                   double a,
                   double sigma,
@@ -294,11 +302,8 @@ namespace QLNet
 
       public class FittingParameter : TermStructureFittingParameter
       {
-
          private new class Impl : Parameter.Impl
          {
-
-
             public Impl(Handle<YieldTermStructure> termStructure,
                  double a,
                  double sigma,
@@ -325,8 +330,9 @@ namespace QLNet
                    rho_ * temp1 * temp2 + forward.value();
                return value;
             }
-            Handle<YieldTermStructure> termStructure_;
-            double a_, sigma_, b_, eta_, rho_;
+
+            private Handle<YieldTermStructure> termStructure_;
+            private double a_, sigma_, b_, eta_, rho_;
          }
 
          public FittingParameter(Handle<YieldTermStructure> termStructure,
@@ -343,16 +349,17 @@ namespace QLNet
 
       public class SwaptionPricingFunction
       {
-
          #region private fields
-         double a_, sigma_, b_, eta_, rho_, w_;
-         double T_;
-         List<double> t_;
-         double rate_;
-         int size_;
-         Vector A_, Ba_, Bb_;
-         double mux_, muy_, sigmax_, sigmay_, rhoxy_;
-         #endregion
+
+         private double a_, sigma_, b_, eta_, rho_, w_;
+         private double T_;
+         private List<double> t_;
+         private double rate_;
+         private int size_;
+         private Vector A_, Ba_, Bb_;
+         private double mux_, muy_, sigmax_, sigmay_, rhoxy_;
+
+         #endregion private fields
 
          public SwaptionPricingFunction(double a, double sigma,
                                  double b, double eta, double rho,
@@ -374,7 +381,6 @@ namespace QLNet
             A_ = new Vector(size_);
             Ba_ = new Vector(size_);
             Bb_ = new Vector(size_);
-
 
             sigmax_ = sigma_ * Math.Sqrt(0.5 * (1.0 - Math.Exp(-2.0 * a_ * T_)) / a_);
             sigmay_ = eta_ * Math.Sqrt(0.5 * (1.0 - Math.Exp(-2.0 * b_ * T_)) / b_);
@@ -431,7 +437,6 @@ namespace QLNet
                 rhoxy_ * (x - mux_) / (sigmax_ * txy);
             double value = phi.value(-w_ * h1);
 
-
             for (i = 0; i < size_; i++)
             {
                double h2 = h1 +
@@ -448,9 +453,8 @@ namespace QLNet
 
          public class SolvingFunction : ISolver1d
          {
-
-            Vector lambda_;
-            Vector Bb_;
+            private Vector lambda_;
+            private Vector Bb_;
 
             public SolvingFunction(Vector lambda, Vector Bb)
             {
@@ -467,12 +471,7 @@ namespace QLNet
                }
                return value;
             }
-
          }
-
       }
-
    }
 }
-
-

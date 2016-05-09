@@ -17,12 +17,12 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
 namespace QLNet
 {
-
    //! Continuous-averaging Asian option
    //    ! \todo add running average
    //
@@ -36,6 +36,7 @@ namespace QLNet
          {
             averageType = Average.Type.NULL;
          }
+
          public override void validate()
          {
             base.validate();
@@ -43,6 +44,7 @@ namespace QLNet
             if (averageType == Average.Type.NULL)
                throw new ApplicationException("unspecified average type");
          }
+
          public Average.Type averageType;
       }
 
@@ -54,9 +56,9 @@ namespace QLNet
       {
          averageType_ = averageType;
       }
+
       public override void setupArguments(IPricingEngineArguments args)
       {
-
          base.setupArguments(args);
 
          ContinuousAveragingAsianOption.Arguments moreArgs = args as ContinuousAveragingAsianOption.Arguments;
@@ -64,6 +66,7 @@ namespace QLNet
             throw new ApplicationException("wrong argument type");
          moreArgs.averageType = averageType_;
       }
+
       protected Average.Type averageType_;
    }
 
@@ -79,6 +82,7 @@ namespace QLNet
             runningAccumulator = null;
             pastFixings = null;
          }
+
          public override void validate()
          {
             base.validate();
@@ -98,16 +102,19 @@ namespace QLNet
                   if (!(runningAccumulator >= 0.0))
                      throw new ApplicationException("non negative running sum required: " + runningAccumulator + " not allowed");
                   break;
+
                case Average.Type.Geometric:
                   if (!(runningAccumulator > 0.0))
                      throw new ApplicationException("positive running product required: " + runningAccumulator + " not allowed");
                   break;
+
                default:
                   throw new ApplicationException("invalid average type");
             }
 
             // check fixingTimes_ here
          }
+
          public Average.Type averageType;
          public double? runningAccumulator;
          public int? pastFixings;
@@ -132,7 +139,6 @@ namespace QLNet
 
       public override void setupArguments(IPricingEngineArguments args)
       {
-
          base.setupArguments(args);
 
          DiscreteAveragingAsianOption.Arguments moreArgs = args as DiscreteAveragingAsianOption.Arguments;
@@ -144,6 +150,7 @@ namespace QLNet
          moreArgs.pastFixings = pastFixings_;
          moreArgs.fixingDates = fixingDates_;
       }
+
       protected Average.Type averageType_;
       protected double? runningAccumulator_;
       protected int? pastFixings_;

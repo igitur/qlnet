@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -77,10 +78,10 @@ namespace QLNet
          return Date.maxDate();
       }
 
-      #endregion
-
+      #endregion TermStructure interface
 
       #region VolatilityTermStructure interface
+
       public override double minStrike()
       {
          return Double.MinValue;
@@ -91,13 +92,11 @@ namespace QLNet
          return Double.MaxValue;
       }
 
-      #endregion
-
+      #endregion VolatilityTermStructure interface
 
       protected override double volatilityImpl(double t, double rate)
       {
          return volatility_.link.value();
       }
-
    }
 }

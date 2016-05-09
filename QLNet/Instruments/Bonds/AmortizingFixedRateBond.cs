@@ -49,7 +49,6 @@ namespace QLNet
              .withNotionals(notionals)
              .withPaymentAdjustment(paymentConvention).value();
 
-
          addRedemptionsToCashflows();
 
          if (cashflows().empty())
@@ -85,11 +84,13 @@ namespace QLNet
                         .withPaymentAdjustment(paymentConvention).value();
 
          addRedemptionsToCashflows();
-
       }
 
-      Frequency frequency() { return frequency_; }
-      DayCounter dayCounter() { return dayCounter_; }
+      private Frequency frequency()
+      { return frequency_; }
+
+      private DayCounter dayCounter()
+      { return dayCounter_; }
 
       protected Schedule sinkingSchedule(Date startDate,
                                 Period maturityTenor,
@@ -174,18 +175,22 @@ namespace QLNet
          return false;
       }
 
-      KeyValuePair<int, int> daysMinMax(Period p)
+      private KeyValuePair<int, int> daysMinMax(Period p)
       {
          switch (p.units())
          {
             case TimeUnit.Days:
                return new KeyValuePair<int, int>(p.length(), p.length());
+
             case TimeUnit.Weeks:
                return new KeyValuePair<int, int>(7 * p.length(), 7 * p.length());
+
             case TimeUnit.Months:
                return new KeyValuePair<int, int>(28 * p.length(), 31 * p.length());
+
             case TimeUnit.Years:
                return new KeyValuePair<int, int>(365 * p.length(), 366 * p.length());
+
             default:
                throw new ApplicationException("unknown time unit (" + p.units() + ")");
          }

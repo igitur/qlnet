@@ -31,11 +31,12 @@ namespace QLNet
 
        \bug this class is untested, probably unreliable.
    */
+
    public class LocalVolSurface : LocalVolTermStructure
    {
-      Handle<BlackVolTermStructure> blackTS_;
-      Handle<YieldTermStructure> riskFreeTS_, dividendTS_;
-      Handle<Quote> underlying_;
+      private Handle<BlackVolTermStructure> blackTS_;
+      private Handle<YieldTermStructure> riskFreeTS_, dividendTS_;
+      private Handle<Quote> underlying_;
 
       public LocalVolSurface(Handle<BlackVolTermStructure> blackTS, Handle<YieldTermStructure> riskFreeTS,
                              Handle<YieldTermStructure> dividendTS, Handle<Quote> underlying)
@@ -69,16 +70,18 @@ namespace QLNet
 
       //! \name TermStructure interface
       public override Date referenceDate() { return blackTS_.link.referenceDate(); }
+
       public override DayCounter dayCounter() { return blackTS_.link.dayCounter(); }
+
       public override Date maxDate() { return blackTS_.link.maxDate(); }
 
       //! \name VolatilityTermStructure interface
       public override double minStrike() { return blackTS_.link.minStrike(); }
+
       public override double maxStrike() { return blackTS_.link.maxStrike(); }
 
       protected override double localVolImpl(double t, double underlyingLevel)
       {
-
          double forwardValue = underlying_.link.value() *
              (dividendTS_.link.discount(t, true) /
               riskFreeTS_.link.discount(t, true));

@@ -111,6 +111,7 @@ namespace QLNet
          P.setCurrentValue(x_);
          return ecType;
       }
+
       //! computes the new search direction
       protected virtual Vector getUpdatedDirection(Problem P, double gold2, Vector gradient)
       {
@@ -119,6 +120,5 @@ namespace QLNet
 
       //! line search
       protected LineSearch lineSearch_;
-
    }
 }

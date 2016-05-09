@@ -13,10 +13,6 @@
 //  This program is distributed in the hope that it will be useful, but WITHOUT
 //  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 //  FOR A PARTICULAR PURPOSE.  See the license for more details.
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace QLNet
 {
@@ -30,23 +26,32 @@ namespace QLNet
          baseVol_.registerWith(update);
          spread_.registerWith(update);
       }
+
       // All virtual methods of base classes must be forwarded
       //! \name VolatilityTermStructure interface
       //@{
       public override BusinessDayConvention businessDayConvention() { return baseVol_.link.businessDayConvention(); }
+
       public override double minStrike() { return baseVol_.link.minStrike(); }
+
       public override double maxStrike() { return baseVol_.link.maxStrike(); }
+
       //@}
       //! \name TermStructure interface
       //@{
       public override DayCounter dayCounter() { return baseVol_.link.dayCounter(); }
-      public override Date maxDate() { return baseVol_.link.maxDate(); }
-      public override double maxTime() { return baseVol_.link.maxTime(); }
-      public override Date referenceDate() { return baseVol_.link.referenceDate(); }
-      public override Calendar calendar() { return baseVol_.link.calendar(); }
-      public override int settlementDays() { return baseVol_.link.settlementDays(); }
-      //@}
 
+      public override Date maxDate() { return baseVol_.link.maxDate(); }
+
+      public override double maxTime() { return baseVol_.link.maxTime(); }
+
+      public override Date referenceDate() { return baseVol_.link.referenceDate(); }
+
+      public override Calendar calendar() { return baseVol_.link.calendar(); }
+
+      public override int settlementDays() { return baseVol_.link.settlementDays(); }
+
+      //@}
 
       // All virtual methods of base classes must be forwarded
       //! \name OptionletVolatilityStructure interface
@@ -56,19 +61,21 @@ namespace QLNet
          SmileSection baseSmile = baseVol_.link.smileSection(d, true);
          return new SpreadedSmileSection(baseSmile, spread_);
       }
+
       protected override SmileSection smileSectionImpl(double optionTime)
       {
          SmileSection baseSmile = baseVol_.link.smileSection(optionTime, true);
          return new SpreadedSmileSection(baseSmile, spread_);
       }
+
       protected override double volatilityImpl(double t, double s)
       {
          return baseVol_.link.volatility(t, s, true) + spread_.link.value();
       }
+
       //@}
 
       private Handle<OptionletVolatilityStructure> baseVol_;
       private Handle<Quote> spread_;
-
    }
 }

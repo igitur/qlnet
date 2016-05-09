@@ -17,12 +17,14 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
    //! Single-factor short-rate model abstract class
    /*! \ingroup shortrate */
+
    public abstract class OneFactorModel : ShortRateModel
    {
       public OneFactorModel(int nArguments) : base(nArguments) { }
@@ -31,6 +33,7 @@ namespace QLNet
       public abstract class ShortRateDynamics
       {
          private StochasticProcess1D process_;
+
          //! Returns the risk-neutral dynamics of the state variable
          public StochasticProcess1D process() { return process_; }
 
@@ -44,7 +47,6 @@ namespace QLNet
 
          //! Compute short rate from state variable
          public abstract double shortRate(double t, double variable);
-
       }
 
       // public class ShortRateTree;
@@ -59,6 +61,7 @@ namespace QLNet
          TrinomialTree trinomial = new TrinomialTree(dynamics().process(), grid);
          return new ShortRateTree(trinomial, dynamics(), grid);
       }
+
       //! Recombining trinomial tree discretizing the state variable
       public class ShortRateTree : TreeLattice1D<ShortRateTree>, IGenericLattice
       {
@@ -101,27 +104,30 @@ namespace QLNet
                // vMax = value + 1.0;
                theta.change(value);
             }
-
          }
 
          public int size(int i)
          {
             return tree_.size(i);
          }
+
          public double discount(int i, int index)
          {
             double x = tree_.underlying(i, index);
             double r = dynamics_.shortRate(timeGrid()[i], x);
             return Math.Exp(-r * timeGrid().dt(i));
          }
+
          public override double underlying(int i, int index)
          {
             return tree_.underlying(i, index);
          }
+
          public int descendant(int i, int index, int branch)
          {
             return tree_.descendant(i, index, branch);
          }
+
          public double probability(int i, int index, int branch)
          {
             return tree_.probability(i, index, branch);
@@ -132,7 +138,6 @@ namespace QLNet
 
          public class Helper : ISolver1d
          {
-
             private int size_;
             private int i_;
             private Vector statePrices_;
@@ -163,7 +168,6 @@ namespace QLNet
                return value;
             }
          }
-
       }
    }
 
@@ -191,6 +195,7 @@ namespace QLNet
          double r0 = dynamics().shortRate(0.0, x0);
          return discountBond(0.0, t, r0);
       }
+
       //double discountBond(double now, double maturity, Vector factors);
       public virtual double discountBondOption(Option.Type type,
                                           double strike,
@@ -199,6 +204,7 @@ namespace QLNet
       { throw new NotImplementedException(); }
 
       protected abstract double A(double t, double T);//{throw new NotImplementedException();}
+
       protected abstract double B(double t, double T);//{throw new NotImplementedException();}
    }
 }

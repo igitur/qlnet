@@ -16,12 +16,14 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
    //! American exercise condition.
    /*! \todo unify the intrinsicValues/Payoff thing */
+
    public class AmericanCondition : CurveDependentStepCondition<Vector>
    {
       public AmericanCondition(Option.Type type, double strike) : base(type, strike) { }

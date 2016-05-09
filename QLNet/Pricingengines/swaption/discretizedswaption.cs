@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,6 @@ namespace QLNet
 {
    public class DiscretizedSwaption : DiscretizedOption
    {
-
       private Swaption.Arguments arguments_;
       private double lastPayment_;
 
@@ -79,7 +79,6 @@ namespace QLNet
          underlying_ = new DiscretizedSwap(arguments_,
                                              referenceDate,
                                              dayCounter);
-
       }
 
       public override void reset(int size)

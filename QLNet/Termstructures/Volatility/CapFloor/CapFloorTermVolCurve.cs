@@ -24,6 +24,7 @@ namespace QLNet
        interpolating a volatility vector whose elements are the market
        volatilities of a set of caps/floors with given length.
    */
+
    public class CapFloorTermVolCurve : CapFloorTermVolatilityStructure
    {
       //! floating reference date, floating market data
@@ -69,6 +70,7 @@ namespace QLNet
          registerWithMarketData();
          interpolate();
       }
+
       //! fixed reference date, fixed market data
       public CapFloorTermVolCurve(Date settlementDate,
                                    Calendar calendar,
@@ -92,6 +94,7 @@ namespace QLNet
             volHandles_[i] = new Handle<Quote>(new SimpleQuote(vols_[i]));
          interpolate();
       }
+
       //! floating reference date, fixed market data
       public CapFloorTermVolCurve(int settlementDays,
                                    Calendar calendar,
@@ -114,8 +117,8 @@ namespace QLNet
          for (int i = 0; i < nOptionTenors_; ++i)
             volHandles_[i] = new Handle<Quote>(new SimpleQuote(vols_[i]));
          interpolate();
-
       }
+
       //! \name TermStructure interface
       //@{
       public override Date maxDate()
@@ -123,11 +126,14 @@ namespace QLNet
          calculate();
          return optionDateFromTenor(optionTenors_.Last());
       }
+
       //@}
       //! \name VolatilityTermStructure interface
       //@{
       public override double minStrike() { return double.MinValue; }
+
       public override double maxStrike() { return double.MaxValue; }
+
       //@}
       //! \name LazyObject interface
       //@{
@@ -155,22 +161,26 @@ namespace QLNet
 
          interpolation_.update();
       }
+
       //@}
       //! \name some inspectors
       //@{
       public List<Period> optionTenors() { return optionTenors_; }
+
       public List<Date> optionDates()
       {
          // what if quotes are not available?
          calculate();
          return optionDates_;
       }
+
       public List<double> optionTimes()
       {
          // what if quotes are not available?
          calculate();
          return optionTimes_;
       }
+
       //@}
 
       protected override double volatilityImpl(double t, double r)
@@ -194,6 +204,7 @@ namespace QLNet
                             " is " + optionTenors_[i - 1] + ", " +
                             (i + 1) + " is " + optionTenors_[i]);
       }
+
       private void initializeOptionDatesAndTimes()
       {
          for (int i = 0; i < nOptionTenors_; ++i)
@@ -208,6 +219,7 @@ namespace QLNet
          for (int i = 0; i < volHandles_.Count; ++i)
             volHandles_[i].registerWith(update);
       }
+
       private void interpolate()
       {
          interpolation_ = new CubicInterpolation(optionTimes_, optionTimes_.Count, vols_,
@@ -216,17 +228,16 @@ namespace QLNet
                                                   CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0);
       }
 
-      int nOptionTenors_;
-      List<Period> optionTenors_;
-      List<Date> optionDates_;
-      List<double> optionTimes_;
-      Date evaluationDate_;
+      private int nOptionTenors_;
+      private List<Period> optionTenors_;
+      private List<Date> optionDates_;
+      private List<double> optionTimes_;
+      private Date evaluationDate_;
 
-      List<Handle<Quote>> volHandles_;
-      List<double> vols_;
+      private List<Handle<Quote>> volHandles_;
+      private List<double> vols_;
 
       // make it not mutable if possible
-      Interpolation interpolation_;
-
+      private Interpolation interpolation_;
    }
 }

@@ -39,16 +39,19 @@ namespace QLNet
 
        \ingroup calendars
    */
+
    public class Turkey : Calendar
    {
       public Turkey() : base(Impl.Singleton) { }
 
-      class Impl : Calendar
+      private class Impl : Calendar
       {
          public static readonly Impl Singleton = new Impl();
+
          private Impl() { }
 
          public override string name() { return "Turkey"; }
+
          public override bool isWeekend(DayOfWeek w)
          {
             return w == DayOfWeek.Saturday || w == DayOfWeek.Sunday;
@@ -176,7 +179,3 @@ namespace QLNet
       };
    }
 }
-
-
-
-

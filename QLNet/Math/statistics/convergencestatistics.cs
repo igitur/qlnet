@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -24,13 +25,14 @@ namespace QLNet
    public interface IConvergenceSteps
    {
       int initialSamples();
+
       int nextSamples(int current);
    }
 
    public class DoublingConvergenceSteps : IConvergenceSteps
    {
-
       public int initialSamples() { return 1; }
+
       public int nextSamples(int current) { return 2 * current + 1; }
    }
 
@@ -52,11 +54,14 @@ namespace QLNet
 
        \test results are tested against known good values.
    */
+
    public class ConvergenceStatistics<T> : ConvergenceStatistics<T, DoublingConvergenceSteps>
            where T : IGeneralStatistics, new()
    {
       public ConvergenceStatistics(T stats, DoublingConvergenceSteps rule) : base(stats, rule) { }
+
       public ConvergenceStatistics() : base(new DoublingConvergenceSteps()) { }
+
       public ConvergenceStatistics(DoublingConvergenceSteps rule) : base(rule) { }
    }
 
@@ -64,8 +69,8 @@ namespace QLNet
            where T : IGeneralStatistics, new()
            where U : IConvergenceSteps, new()
    {
-
       private List<KeyValuePair<int, double>> table_ = new List<KeyValuePair<int, double>>();
+
       public List<KeyValuePair<int, double>> convergenceTable() { return table_; }
 
       private U samplingRule_;
@@ -81,6 +86,7 @@ namespace QLNet
       }
 
       public ConvergenceStatistics() : this(new U()) { }
+
       public ConvergenceStatistics(U rule)
       {
          samplingRule_ = rule;
@@ -95,6 +101,7 @@ namespace QLNet
       }
 
       public void add(double value) { add(value, 1); }
+
       public void add(double value, double weight)
       {
          impl_.add(value, weight);
@@ -111,6 +118,7 @@ namespace QLNet
          foreach (double v in list)
             add(v, 1);
       }
+
       //! adds a sequence of data to the set, each with its weight
       public void addSequence(List<double> data, List<double> weight)
       {
@@ -119,18 +127,29 @@ namespace QLNet
       }
 
       #region wrap-up Stat
+
       protected T impl_ = new T();
 
       public int samples() { return impl_.samples(); }
+
       public double mean() { return impl_.mean(); }
+
       public double min() { return impl_.min(); }
+
       public double max() { return impl_.max(); }
+
       public double standardDeviation() { return impl_.standardDeviation(); }
+
       public double variance() { return impl_.variance(); }
+
       public double skewness() { return impl_.skewness(); }
+
       public double kurtosis() { return impl_.kurtosis(); }
+
       public double percentile(double percent) { return impl_.percentile(percent); }
+
       public double weightSum() { return impl_.weightSum(); }
+
       public double errorEstimate() { return impl_.errorEstimate(); }
 
       public KeyValuePair<double, int> expectationValue(Func<KeyValuePair<double, double>, double> f,
@@ -138,6 +157,7 @@ namespace QLNet
       {
          return impl_.expectationValue(f, inRange);
       }
-      #endregion
+
+      #endregion wrap-up Stat
    }
 }

@@ -20,7 +20,6 @@
 
 namespace QLNet
 {
-
    //! %GBP %LIBOR rate
    //    ! Pound Sterling LIBOR fixed by BBA.
    //
@@ -33,6 +32,7 @@ namespace QLNet
           new Handle<YieldTermStructure>())
       {
       }
+
       public GBPLibor(Period tenor, Handle<YieldTermStructure> h)
           : base("GBPLibor", tenor, 0, new GBPCurrency(), new UnitedKingdom(UnitedKingdom.Market.Exchange), new Actual365Fixed(), h)
       {

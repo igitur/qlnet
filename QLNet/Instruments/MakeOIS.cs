@@ -16,7 +16,6 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System;
 
 namespace QLNet
 {
@@ -24,6 +23,7 @@ namespace QLNet
    /*! This class provides a more comfortable way
        to instantiate overnight indexed swaps.
    */
+
    public class MakeOIS
    {
       private Period swapTenor_;
@@ -36,7 +36,7 @@ namespace QLNet
       private Calendar calendar_;
 
       private Frequency paymentFrequency_;
-      DateGeneration.Rule rule_;
+      private DateGeneration.Rule rule_;
       private bool endOfMonth_, isDefaultEOM_;
 
       private OvernightIndexedSwap.Type type_;
@@ -65,7 +65,6 @@ namespace QLNet
          overnightSpread_ = 0.0;
          fixedDayCount_ = overnightIndex.dayCounter();
          //engine_ = new DiscountingSwapEngine(overnightIndex_.forwardingTermStructure());
-
       }
 
       public MakeOIS receiveFixed(bool flag = true)
@@ -130,7 +129,6 @@ namespace QLNet
 
       public MakeOIS withDiscountingTermStructure(Handle<YieldTermStructure> discountingTermStructure)
       {
-
          engine_ = (IPricingEngine)new DiscountingSwapEngine(discountingTermStructure, false);
 
          return this;
@@ -191,8 +189,6 @@ namespace QLNet
                                            usedEndOfMonth);
             else
                endDate = startDate + swapTenor_;
-
-
 
          Schedule schedule = new Schedule(startDate, endDate,
                           new Period(paymentFrequency_),

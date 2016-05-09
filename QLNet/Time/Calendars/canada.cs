@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -61,6 +62,7 @@ namespace QLNet
 
        \ingroup calendars
    */
+
    public class Canada : Calendar
    {
       public enum Market
@@ -70,6 +72,7 @@ namespace QLNet
       };
 
       public Canada() : this(Market.Settlement) { }
+
       public Canada(Market m)
           : base()
       {
@@ -80,20 +83,24 @@ namespace QLNet
             case Market.Settlement:
                calendar_ = Settlement.Singleton;
                break;
+
             case Market.TSX:
                calendar_ = TSX.Singleton;
                break;
+
             default:
                throw new ArgumentException("Unknown market: " + m);
          }
       }
 
-      class Settlement : Calendar.WesternImpl
+      private class Settlement : Calendar.WesternImpl
       {
          public static readonly Settlement Singleton = new Settlement();
+
          private Settlement() { }
 
          public override string name() { return "Canada"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;
@@ -137,12 +144,14 @@ namespace QLNet
          }
       }
 
-      class TSX : Calendar.WesternImpl
+      private class TSX : Calendar.WesternImpl
       {
          public static readonly TSX Singleton = new TSX();
+
          private TSX() { }
 
          public override string name() { return "TSX"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;

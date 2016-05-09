@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -28,10 +29,13 @@ namespace QLNet
 
       // properties
       public int length() { return length_; }
+
       public TimeUnit units() { return unit_; }
 
       public Period() { length_ = 0; unit_ = TimeUnit.Days; }
+
       public Period(int n, TimeUnit u) { length_ = n; unit_ = u; }
+
       public Period(Frequency f)
       {
          switch (f)
@@ -40,14 +44,17 @@ namespace QLNet
                unit_ = TimeUnit.Days;  // same as Period()
                length_ = 0;
                break;
+
             case Frequency.Once:
                unit_ = TimeUnit.Years;
                length_ = 0;
                break;
+
             case Frequency.Annual:
                unit_ = TimeUnit.Years;
                length_ = 1;
                break;
+
             case Frequency.Semiannual:
             case Frequency.EveryFourthMonth:
             case Frequency.Quarterly:
@@ -56,16 +63,19 @@ namespace QLNet
                unit_ = TimeUnit.Months;
                length_ = 12 / (int)f;
                break;
+
             case Frequency.EveryFourthWeek:
             case Frequency.Biweekly:
             case Frequency.Weekly:
                unit_ = TimeUnit.Weeks;
                length_ = 52 / (int)f;
                break;
+
             case Frequency.Daily:
                unit_ = TimeUnit.Days;
                length_ = 1;
                break;
+
             case Frequency.OtherFrequency:
                throw Error.UnknownFrequency(f);
             default:
@@ -84,15 +94,19 @@ namespace QLNet
             case "D":
                unit_ = TimeUnit.Days;
                break;
+
             case "W":
                unit_ = TimeUnit.Weeks;
                break;
+
             case "M":
                unit_ = TimeUnit.Months;
                break;
+
             case "Y":
                unit_ = TimeUnit.Years;
                break;
+
             default:
                throw new ArgumentException("Unknown TimeUnit: " + freq);
          }
@@ -111,11 +125,13 @@ namespace QLNet
          {
             case TimeUnit.Years:
                return (length == 1) ? Frequency.Annual : Frequency.OtherFrequency;
+
             case TimeUnit.Months:
                if (12 % length == 0 && length <= 12)
                   return (Frequency)(12 / length);
                else
                   return Frequency.OtherFrequency;
+
             case TimeUnit.Weeks:
                if (length == 1)
                   return Frequency.Weekly;
@@ -125,8 +141,10 @@ namespace QLNet
                   return Frequency.EveryFourthWeek;
                else
                   return Frequency.OtherFrequency;
+
             case TimeUnit.Days:
                return (length == 1) ? Frequency.Daily : Frequency.OtherFrequency;
+
             default:
                throw new ArgumentException("Unknown TimeUnit: " + unit_);
          }
@@ -144,6 +162,7 @@ namespace QLNet
                      unit_ = TimeUnit.Weeks;
                   }
                   break;
+
                case TimeUnit.Months:
                   if ((length_ % 12) == 0)
                   {
@@ -151,9 +170,11 @@ namespace QLNet
                      unit_ = TimeUnit.Years;
                   }
                   break;
+
                case TimeUnit.Weeks:
                case TimeUnit.Years:
                   break;
+
                default:
                   throw new ArgumentException("Unknown TimeUnit: " + unit_);
             }
@@ -185,6 +206,7 @@ namespace QLNet
                         units_ = TimeUnit.Months;
                         length_ = length_ * 12 + p2.length();
                         break;
+
                      case TimeUnit.Weeks:
                      case TimeUnit.Days:
                         if (p1.length() != 0)
@@ -192,6 +214,7 @@ namespace QLNet
                                  "impossible addition between " + p1 +
                                  " and " + p2);
                         break;
+
                      default:
                         throw new ApplicationException("unknown time unit ("
                               + p2.units() + ")");
@@ -204,6 +227,7 @@ namespace QLNet
                      case TimeUnit.Years:
                         length_ += p2.length() * 12;
                         break;
+
                      case TimeUnit.Weeks:
                      case TimeUnit.Days:
                         if (p1.length() != 0)
@@ -211,6 +235,7 @@ namespace QLNet
                                  "impossible addition between " + p1 +
                                  " and " + p2);
                         break;
+
                      default:
                         throw new ApplicationException("unknown time unit ("
                               + p2.units() + ")");
@@ -224,6 +249,7 @@ namespace QLNet
                         units_ = TimeUnit.Days;
                         length_ = length_ * 7 + p2.length();
                         break;
+
                      case TimeUnit.Years:
                      case TimeUnit.Months:
                         if (p1.length() != 0)
@@ -231,6 +257,7 @@ namespace QLNet
                                  "impossible addition between " + p1 +
                                  " and " + p2);
                         break;
+
                      default:
                         throw new ApplicationException("unknown time unit ("
                               + p2.units() + ")");
@@ -243,6 +270,7 @@ namespace QLNet
                      case TimeUnit.Weeks:
                         length_ += p2.length() * 7;
                         break;
+
                      case TimeUnit.Years:
                      case TimeUnit.Months:
                         if (p1.length() != 0)
@@ -250,6 +278,7 @@ namespace QLNet
                                  "impossible addition between " + p1 +
                                  " and " + p2);
                         break;
+
                      default:
                         throw new ApplicationException("unknown time unit ("
                               + p2.units() + ")");
@@ -262,13 +291,16 @@ namespace QLNet
          }
          return new Period(length_, units_);
       }
+
       public static Period operator -(Period p1, Period p2)
       {
          return p1 + (-p2);
       }
 
       public static Period operator -(Period p) { return new Period(-p.length(), p.units()); }
+
       public static Period operator *(int n, Period p) { return new Period(n * p.length(), p.units()); }
+
       public static Period operator *(Period p, int n) { return new Period(n * p.length(), p.units()); }
 
       public static bool operator ==(Period p1, Period p2)
@@ -280,10 +312,15 @@ namespace QLNet
          else
             return !(p1 < p2 || p2 < p1);
       }
+
       public static bool operator !=(Period p1, Period p2) { return !(p1 == p2); }
+
       public static bool operator <=(Period p1, Period p2) { return !(p1 > p2); }
+
       public static bool operator >=(Period p1, Period p2) { return !(p1 < p2); }
+
       public static bool operator >(Period p1, Period p2) { return p2 < p1; }
+
       public static bool operator <(Period p1, Period p2)
       {
          // special cases
@@ -306,9 +343,10 @@ namespace QLNet
       }
 
       // required by operator <
-      struct pair
+      private struct pair
       {
          public int lo, hi;
+
          public pair(Period p)
          {
             switch (p.units())
@@ -328,11 +366,14 @@ namespace QLNet
       }
 
       public override bool Equals(object o) { return this == (Period)o; }
+
       public override int GetHashCode() { return 0; }
+
       public override string ToString()
       {
          return "TimeUnit: " + unit_.ToString() + ", length: " + length_.ToString();
       }
+
       public string ToShortString()
       {
          string result = "";
@@ -351,8 +392,10 @@ namespace QLNet
                   return result + n + "D";
                else
                   return result;
+
             case TimeUnit.Weeks:
                return result + n + "W";
+
             case TimeUnit.Months:
                if (n >= 12)
                {
@@ -364,8 +407,10 @@ namespace QLNet
                   return result + n + "M";
                else
                   return result;
+
             case TimeUnit.Years:
                return result + n + "Y";
+
             default:
                throw new ApplicationException("unknown time unit (" + units() + ")");
          }

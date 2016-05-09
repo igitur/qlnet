@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -32,6 +33,7 @@ namespace QLNet
 
       \ingroup yieldtermstructures
    */
+
    public class ZeroYieldStructure : YieldTermStructure
    {
       #region Constructors
@@ -47,7 +49,7 @@ namespace QLNet
           List<Handle<Quote>> jumps = null, List<Date> jumpDates = null)
          : base(settlementDays, calendar, dc, jumps, jumpDates) { }
 
-      #endregion
+      #endregion Constructors
 
       #region Calculations
 
@@ -59,13 +61,14 @@ namespace QLNet
       //! zero-yield calculation
       protected virtual double zeroYieldImpl(double t) { throw new NotSupportedException(); }
 
-      #endregion
+      #endregion Calculations
 
       #region YieldTermStructure implementation
 
       /*! Returns the discount factor for the given date calculating it
           from the zero yield.
       */
+
       protected override double discountImpl(double t)
       {
          if (t == 0.0)     // this acts as a safe guard in cases where
@@ -75,6 +78,6 @@ namespace QLNet
          return Math.Exp(-r * t);
       }
 
-      #endregion
+      #endregion YieldTermStructure implementation
    }
 }

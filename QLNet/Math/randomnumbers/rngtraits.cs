@@ -22,6 +22,7 @@ namespace QLNet
    public interface IRNGTraits
    {
       ulong nextInt32();
+
       Sample<double> next();
 
       IRNGTraits factory(ulong seed);
@@ -30,6 +31,7 @@ namespace QLNet
    public interface IRSG
    {
       int allowsErrorEstimate { get; }
+
       object make_sequence_generator(int dimension, ulong seed);
    }
 
@@ -59,6 +61,7 @@ namespace QLNet
 
    //! default traits for pseudo-random number generation
    /*! \test a sequence generator is generated and tested by comparing samples against known good values. */
+
    // typedef GenericPseudoRandom<MersenneTwisterUniformRng, InverseCumulativeNormal> PseudoRandom;
    public class PseudoRandom : GenericPseudoRandom<MersenneTwisterUniformRng, InverseCumulativeNormal> { }
 
@@ -66,9 +69,9 @@ namespace QLNet
    /*! \test sequence generators are generated and tested by comparing
              samples against known good values.
    */
+
    // typedef GenericPseudoRandom<MersenneTwisterUniformRng, InverseCumulativePoisson> PoissonPseudoRandom;
    public class PoissonPseudoRandom : GenericPseudoRandom<MersenneTwisterUniformRng, InverseCumulativePoisson> { }
-
 
    public class GenericLowDiscrepancy<URSG, IC> : IRSG where URSG : IRNG, new() where IC : IValue, new()
    {

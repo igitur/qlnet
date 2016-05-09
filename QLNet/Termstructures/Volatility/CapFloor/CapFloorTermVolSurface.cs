@@ -40,7 +40,6 @@ namespace QLNet
          volHandles_ = vols;
          vols_ = new Matrix(vols.Count, vols[0].Count);
 
-
          checkInputs();
          initializeOptionDatesAndTimes();
          for (int i = 0; i < nOptionTenors_; ++i)
@@ -146,6 +145,7 @@ namespace QLNet
          }
          interpolate();
       }
+
       //! \name TermStructure interface
       //@{
       public override Date maxDate()
@@ -153,11 +153,14 @@ namespace QLNet
          calculate();
          return optionDateFromTenor(optionTenors_.Last());
       }
+
       //@}
       //! \name VolatilityTermStructure interface
       //@{
       public override double minStrike() { return strikes_.First(); }
+
       public override double maxStrike() { return strikes_.Last(); }
+
       //@}
       //! \name LazyObject interface
       //@{
@@ -191,19 +194,23 @@ namespace QLNet
       //! \name some inspectors
       //@{
       public List<Period> optionTenors() { return optionTenors_; }
+
       public List<Date> optionDates()
       {
          // what if quotes are not available?
          calculate();
          return optionDates_;
       }
+
       public List<double> optionTimes()
       {
          // what if quotes are not available?
          calculate();
          return optionTimes_;
       }
+
       public List<double> strikes() { return strikes_; }
+
       //@}
       protected override double volatilityImpl(double t, double strike)
       {
@@ -235,6 +242,7 @@ namespace QLNet
                                   " is " + strikes_[j - 1] + ", " +
                                   (j + 1) + " is " + strikes_[j]);
       }
+
       private void initializeOptionDatesAndTimes()
       {
          for (int i = 0; i < nOptionTenors_; ++i)
@@ -250,6 +258,7 @@ namespace QLNet
             for (int j = 0; j < nStrikes_; ++j)
                volHandles_[i][j].registerWith(update);
       }
+
       private void interpolate()
       {
          interpolation_ = new BicubicSpline(strikes_, strikes_.Count, optionTimes_, optionTimes_.Count, vols_);
@@ -269,6 +278,5 @@ namespace QLNet
 
       // make it not mutable if possible
       private Interpolation2D interpolation_;
-
    }
 }

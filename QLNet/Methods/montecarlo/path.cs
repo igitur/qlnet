@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Linq;
 
@@ -26,6 +27,7 @@ namespace QLNet
 
        \note the path includes the initial asset value as its first point.
    */
+
    public class Path : ICloneable, IPath
    {
       private TimeGrid timeGrid_;
@@ -35,6 +37,7 @@ namespace QLNet
       public Path() { }
 
       public Path(TimeGrid timeGrid) : this(timeGrid, new Vector()) { }
+
       public Path(TimeGrid timeGrid, Vector values)
       {
          timeGrid_ = timeGrid;
@@ -48,10 +51,12 @@ namespace QLNet
 
       //! \name inspectors
       public bool empty() { return timeGrid_.empty(); }
+
       public int length() { return timeGrid_.size(); }
 
       //! asset value at the \f$ i \f$-th point
       public double this[int i] { get { return values_[i]; } set { values_[i] = value; } }
+
       public double value(int i) { return values_[i]; }
 
       //! time at the \f$ i \f$-th point
@@ -59,6 +64,7 @@ namespace QLNet
 
       //! initial asset value
       public double front() { return values_.First(); }
+
       public void setFront(double value) { values_[0] = value; }
 
       //! final asset value

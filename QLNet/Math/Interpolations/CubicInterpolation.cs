@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -61,9 +62,11 @@ namespace QLNet
 
        \test to be adapted from old ones.
    */
+
    public class CubicInterpolation : Interpolation, IValue
    {
       #region enums
+
       public enum DerivativeApprox
       {
          /*! Spline approximation (non-local, non-monotone, linear[?]).
@@ -87,6 +90,7 @@ namespace QLNet
          //! Kruger approximation (local, monotone, non-linear)
          Kruger
       };
+
       public enum BoundaryCondition
       {
          //! Make second(-last) point an inactive knot
@@ -106,7 +110,8 @@ namespace QLNet
          */
          Lagrange
       };
-      #endregion
+
+      #endregion enums
 
       // private CoefficientHolder coeffs_;
 
@@ -128,8 +133,11 @@ namespace QLNet
 
       //public List<double> primitiveConstants() { return coeffs_.primitiveConst_; }
       public List<double> aCoefficients() { return ((CubicInterpolationImpl)impl_).a_; }
+
       public List<double> bCoefficients() { return ((CubicInterpolationImpl)impl_).b_; }
+
       public List<double> cCoefficients() { return ((CubicInterpolationImpl)impl_).c_; }
+
       //public List<bool> monotonicityAdjustments() { return coeffs_.monotonicityAdjustments_; }
    }
 
@@ -145,6 +153,7 @@ namespace QLNet
                             CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0,
                             CubicInterpolation.BoundaryCondition.SecondDerivative, 0.0)
       { }
+
       public Cubic(CubicInterpolation.DerivativeApprox da, bool monotonic,
                    CubicInterpolation.BoundaryCondition leftCondition, double leftConditionValue,
                    CubicInterpolation.BoundaryCondition rightCondition, double rightConditionValue)
@@ -178,8 +187,8 @@ namespace QLNet
       //           b[i]*(x-x[i])^2 +
       //           c[i]*(x-x[i])^3
       public InitializedList<double> primitiveConst_, a_, b_, c_;
-      InitializedList<bool> monotonicityAdjustments_;
 
+      private InitializedList<bool> monotonicityAdjustments_;
 
       public CubicInterpolationImpl(List<double> xBegin, int size, List<double> yBegin,
                                 CubicInterpolation.DerivativeApprox da,
@@ -235,14 +244,17 @@ namespace QLNet
                   L.setFirstRow(dx[1] * (dx[1] + dx[0]), (dx[0] + dx[1]) * (dx[0] + dx[1]));
                   tmp[0] = S[0] * dx[1] * (2.0 * dx[1] + 3.0 * dx[0]) + S[1] * dx[0] * dx[0];
                   break;
+
                case CubicInterpolation.BoundaryCondition.FirstDerivative:
                   L.setFirstRow(1.0, 0.0);
                   tmp[0] = leftValue_;
                   break;
+
                case CubicInterpolation.BoundaryCondition.SecondDerivative:
                   L.setFirstRow(2.0, 1.0);
                   tmp[0] = 3.0 * S[0] - leftValue_ * dx[0] / 2.0;
                   break;
+
                case CubicInterpolation.BoundaryCondition.Periodic:
                case CubicInterpolation.BoundaryCondition.Lagrange:
                   // ignoring end condition value
@@ -261,14 +273,17 @@ namespace QLNet
                   tmp[size_ - 1] = -S[size_ - 3] * dx[size_ - 2] * dx[size_ - 2] -
                                S[size_ - 2] * dx[size_ - 3] * (3.0 * dx[size_ - 2] + 2.0 * dx[size_ - 3]);
                   break;
+
                case CubicInterpolation.BoundaryCondition.FirstDerivative:
                   L.setLastRow(0.0, 1.0);
                   tmp[size_ - 1] = rightValue_;
                   break;
+
                case CubicInterpolation.BoundaryCondition.SecondDerivative:
                   L.setLastRow(1.0, 2.0);
                   tmp[size_ - 1] = 3.0 * S[size_ - 2] + rightValue_ * dx[size_ - 2] / 2.0;
                   break;
+
                case CubicInterpolation.BoundaryCondition.Periodic:
                case CubicInterpolation.BoundaryCondition.Lagrange:
                   // ignoring end condition value
@@ -300,6 +315,7 @@ namespace QLNet
                      tmp[0] = ((2.0 * dx[0] + dx[1]) * S[0] - dx[0] * S[1]) / (dx[0] + dx[1]);
                      tmp[size_ - 1] = ((2.0 * dx[size_ - 2] + dx[size_ - 3]) * S[size_ - 2] - dx[size_ - 2] * S[size_ - 3]) / (dx[size_ - 2] + dx[size_ - 3]);
                      break;
+
                   case CubicInterpolation.DerivativeApprox.FritschButland:
                      // intermediate points
                      for (int i = 1; i < size_ - 1; ++i)
@@ -312,6 +328,7 @@ namespace QLNet
                      tmp[0] = ((2.0 * dx[0] + dx[1]) * S[0] - dx[0] * S[1]) / (dx[0] + dx[1]);
                      tmp[size_ - 1] = ((2.0 * dx[size_ - 2] + dx[size_ - 3]) * S[size_ - 2] - dx[size_ - 2] * S[size_ - 3]) / (dx[size_ - 2] + dx[size_ - 3]);
                      break;
+
                   case CubicInterpolation.DerivativeApprox.Akima:
                      tmp[0] = (Math.Abs(S[1] - S[0]) * 2 * S[0] * S[1] + Math.Abs(2 * S[0] * S[1] - 4 * S[0] * S[0] * S[1]) * S[0]) / (Math.Abs(S[1] - S[0]) + Math.Abs(2 * S[0] * S[1] - 4 * S[0] * S[0] * S[1]));
                      tmp[1] = (Math.Abs(S[2] - S[1]) * S[0] + Math.Abs(S[0] - 2 * S[0] * S[1]) * S[1]) / (Math.Abs(S[2] - S[1]) + Math.Abs(S[0] - 2 * S[0] * S[1]));
@@ -331,6 +348,7 @@ namespace QLNet
                      tmp[size_ - 2] = (Math.Abs(2 * S[size_ - 2] * S[size_ - 3] - S[size_ - 2]) * S[size_ - 3] + Math.Abs(S[size_ - 3] - S[size_ - 4]) * S[size_ - 2]) / (Math.Abs(2 * S[size_ - 2] * S[size_ - 3] - S[size_ - 2]) + Math.Abs(S[size_ - 3] - S[size_ - 4]));
                      tmp[size_ - 1] = (Math.Abs(4 * S[size_ - 2] * S[size_ - 2] * S[size_ - 3] - 2 * S[size_ - 2] * S[size_ - 3]) * S[size_ - 2] + Math.Abs(S[size_ - 2] - S[size_ - 3]) * 2 * S[size_ - 2] * S[size_ - 3]) / (Math.Abs(4 * S[size_ - 2] * S[size_ - 2] * S[size_ - 3] - 2 * S[size_ - 2] * S[size_ - 3]) + Math.Abs(S[size_ - 2] - S[size_ - 3]));
                      break;
+
                   case CubicInterpolation.DerivativeApprox.Kruger:
                      // intermediate points
                      for (int i = 1; i < size_ - 1; ++i)
@@ -348,6 +366,7 @@ namespace QLNet
                      tmp[0] = (3.0 * S[0] - tmp[1]) / 2.0;
                      tmp[size_ - 1] = (3.0 * S[size_ - 2] - tmp[size_ - 2]) / 2.0;
                      break;
+
                   default:
                      throw new ArgumentException("unknown scheme");
                }
@@ -448,7 +467,6 @@ namespace QLNet
                }
             }
          }
-
 
          // cubic coefficients
          for (int i = 0; i < size_ - 1; ++i)

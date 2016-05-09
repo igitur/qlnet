@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -27,33 +28,48 @@ namespace QLNet
        shortfall, etc.) based on the mean and variance provided by
        the underlying statistic tool.
    */
+
    public class GenericGaussianStatistics<Stat> : IGeneralStatistics where Stat : IGeneralStatistics, new()
    {
       //public typedef typename Stat::value_type value_type;
 
       public GenericGaussianStatistics() { }
+
       public GenericGaussianStatistics(Stat s)
       {
          impl_ = s;
       }
 
       #region wrap-up Stat
+
       protected Stat impl_ = new Stat();
 
       public int samples() { return impl_.samples(); }
+
       public double mean() { return impl_.mean(); }
+
       public double min() { return impl_.min(); }
+
       public double max() { return impl_.max(); }
+
       public double standardDeviation() { return impl_.standardDeviation(); }
+
       public double variance() { return impl_.variance(); }
+
       public double skewness() { return impl_.skewness(); }
+
       public double kurtosis() { return impl_.kurtosis(); }
+
       public double percentile(double percent) { return impl_.percentile(percent); }
+
       public double weightSum() { return impl_.weightSum(); }
+
       public double errorEstimate() { return impl_.errorEstimate(); }
 
       public void reset() { impl_.reset(); }
+
       public void add(double value, double weight) { impl_.add(value, weight); }
+
       public void addSequence(List<double> data, List<double> weight) { impl_.addSequence(data, weight); }
 
       public KeyValuePair<double, int> expectationValue(Func<KeyValuePair<double, double>, double> f,
@@ -61,8 +77,8 @@ namespace QLNet
       {
          return impl_.expectationValue(f, inRange);
       }
-      #endregion
 
+      #endregion wrap-up Stat
 
       //! \name Gaussian risk measures
       //@{
@@ -72,9 +88,11 @@ namespace QLNet
           where \f$ \theta \f$ = 0 if x > 0 and
           \f$ \theta \f$ =1 if x <0
       */
+
       public double gaussianDownsideVariance() { return gaussianRegret(0.0); }
 
       /*! returns the downside deviation, defined as the square root of the downside variance. */
+
       public double gaussianDownsideDeviation() { return Math.Sqrt(gaussianDownsideVariance()); }
 
       /*! returns the variance of observations below target
@@ -82,6 +100,7 @@ namespace QLNet
 
           See Dembo, Freeman "The Rules Of Risk", Wiley (2001)
       */
+
       public double gaussianRegret(double target)
       {
          double m = this.mean();
@@ -102,6 +121,7 @@ namespace QLNet
                                     \int_{-\infty}^{x} \exp (-u^2/2) du \f]
       */
       /*! \pre percentile must be in range (0%-100%) extremes excluded */
+
       public double gaussianPercentile(double percentile)
       {
          if (!(percentile > 0.0 && percentile < 1.0))
@@ -110,6 +130,7 @@ namespace QLNet
          InverseCumulativeNormal gInverse = new InverseCumulativeNormal(mean(), standardDeviation());
          return gInverse.value(percentile);
       }
+
       public double gaussianTopPercentile(double percentile) { return gaussianPercentile(1.0 - percentile); }
 
       //! gaussian-assumption Potential-Upside at a given percentile
@@ -150,6 +171,7 @@ namespace QLNet
           See Artzner, Delbaen, Eber and Heath,
           "Coherent measures of risk", Mathematical Finance 9 (1999)
       */
+
       public double gaussianExpectedShortfall(double percentile)
       {
          if (!(percentile < 1.0 && percentile >= 0.9))
@@ -189,15 +211,17 @@ namespace QLNet
    //typedef GenericGaussianStatistics<GeneralStatistics> GaussianStatistics;
    public class GaussianStatistics : GenericGaussianStatistics<GeneralStatistics> { }
 
-
    //! Helper class for precomputed distributions
    public class StatsHolder : IGeneralStatistics
    {
       private double mean_, standardDeviation_;
+
       public double mean() { return mean_; }
+
       public double standardDeviation() { return standardDeviation_; }
 
       public StatsHolder() { } // required for generics
+
       public StatsHolder(double mean, double standardDeviation)
       {
          mean_ = mean;
@@ -205,18 +229,29 @@ namespace QLNet
       }
 
       #region IGeneralStatistics
+
       public int samples() { throw new NotSupportedException(); }
+
       public double min() { throw new NotSupportedException(); }
+
       public double max() { throw new NotSupportedException(); }
+
       public double variance() { throw new NotSupportedException(); }
+
       public double skewness() { throw new NotSupportedException(); }
+
       public double kurtosis() { throw new NotSupportedException(); }
+
       public double percentile(double percent) { throw new NotSupportedException(); }
+
       public double weightSum() { throw new NotSupportedException(); }
+
       public double errorEstimate() { throw new NotSupportedException(); }
 
       public void reset() { throw new NotSupportedException(); }
+
       public void add(double value, double weight) { throw new NotSupportedException(); }
+
       public void addSequence(List<double> data, List<double> weight) { throw new NotSupportedException(); }
 
       public KeyValuePair<double, int> expectationValue(Func<KeyValuePair<double, double>, double> f,
@@ -224,6 +259,7 @@ namespace QLNet
       {
          throw new NotSupportedException();
       }
-      #endregion
+
+      #endregion IGeneralStatistics
    }
 }

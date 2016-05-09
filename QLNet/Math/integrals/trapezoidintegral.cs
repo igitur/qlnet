@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -37,6 +38,7 @@ namespace QLNet
        \test the correctness of the result is tested by checking it
              against known good values.
    */
+
    public class TrapezoidIntegral<IntegrationPolicy> : Integrator where IntegrationPolicy : IIntegrationPolicy, new()
    {
       public TrapezoidIntegral(double accuracy, int maxIterations) : base(accuracy, maxIterations) { }
@@ -69,6 +71,7 @@ namespace QLNet
    public interface IIntegrationPolicy
    {
       double integrate(Func<double, double> f, double a, double b, double I, int N);
+
       int nbEvalutions();
    }
 
@@ -84,6 +87,7 @@ namespace QLNet
             sum += f(x);
          return (I + dx * sum) / 2.0;
       }
+
       public int nbEvalutions() { return 2; }
    }
 
@@ -102,5 +106,4 @@ namespace QLNet
 
       public int nbEvalutions() { return 3; }
    }
-
 }

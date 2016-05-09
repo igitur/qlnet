@@ -44,7 +44,6 @@ namespace QLNet
       { }
    }
 
-
    //! Fake year-on-year EU HICP (i.e. a ratio of EU HICP)
    public class YYEUHICPr : YoYInflationIndex
    {
@@ -56,5 +55,4 @@ namespace QLNet
                 new Period(1, TimeUnit.Months), new EURCurrency(), ts)
       { }
    }
-
 }

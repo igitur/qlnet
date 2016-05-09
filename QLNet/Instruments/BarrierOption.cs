@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -35,6 +36,7 @@ namespace QLNet
             barrier = null;
             rebate = null;
          }
+
          public Barrier.Type barrierType;
          public double? barrier;
          public double? rebate;
@@ -50,6 +52,7 @@ namespace QLNet
                case Barrier.Type.DownOut:
                case Barrier.Type.UpOut:
                   break;
+
                default:
                   throw new ApplicationException("unknown type");
             }
@@ -71,14 +74,17 @@ namespace QLNet
                case Barrier.Type.DownIn:
                case Barrier.Type.DownOut:
                   return underlying < arguments_.barrier;
+
                case Barrier.Type.UpIn:
                case Barrier.Type.UpOut:
                   return underlying > arguments_.barrier;
+
                default:
                   throw new ApplicationException("unknown type");
             }
          }
       }
+
       public BarrierOption(Barrier.Type barrierType, double barrier, double rebate, StrikedTypePayoff payoff, Exercise exercise) : base(payoff, exercise)
       {
          barrierType_ = barrierType;
@@ -88,7 +94,6 @@ namespace QLNet
 
       public override void setupArguments(IPricingEngineArguments args)
       {
-
          base.setupArguments(args);
 
          BarrierOption.Arguments moreArgs = args as BarrierOption.Arguments;
@@ -99,6 +104,7 @@ namespace QLNet
          moreArgs.barrier = barrier_;
          moreArgs.rebate = rebate_;
       }
+
       //        ! \warning see VanillaOption for notes on implied-volatility
       //                     calculation.
       //
@@ -118,6 +124,7 @@ namespace QLNet
             case Exercise.Type.European:
                engine = new AnalyticBarrierEngine(newProcess);
                break;
+
             case Exercise.Type.American:
             case Exercise.Type.Bermudan:
                throw new ApplicationException("Engine not available for non-European barrier option");
@@ -127,8 +134,10 @@ namespace QLNet
 
          return ImpliedVolatilityHelper.calculate(this, engine, volQuote, targetValue, accuracy, maxEvaluations, minVol, maxVol);
       }
+
       // Arguments
       protected Barrier.Type barrierType_;
+
       protected double? barrier_;
       protected double? rebate_;
    }

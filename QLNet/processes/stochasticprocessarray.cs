@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -23,6 +24,7 @@ namespace QLNet
 {
    //! %Array of correlated 1-D stochastic processes
    /*! \ingroup processes */
+
    public class StochasticProcessArray : StochasticProcess
    {
       protected List<StochasticProcess1D> processes_;
@@ -40,7 +42,6 @@ namespace QLNet
          for (int i = 0; i < processes_.Count; i++)
             processes_[i].registerWith(update);
       }
-
 
       // stochastic process interface
       public override int size() { return processes_.Count; }
@@ -125,6 +126,7 @@ namespace QLNet
 
       // inspectors
       public StochasticProcess1D process(int i) { return processes_[i]; }
+
       public Matrix correlation() { return sqrtCorrelation_ * Matrix.transpose(sqrtCorrelation_); }
    }
 }

@@ -16,13 +16,13 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System.Collections.Generic;
 
 namespace QLNet
 {
    public class DiscretizedSwap : DiscretizedAsset
    {
-
       private VanillaSwap.Arguments arguments_;
       private List<double> fixedResetTimes_;
       private List<double> fixedPayTimes_;

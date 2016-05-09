@@ -16,11 +16,13 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System.Collections.Generic;
 
 namespace QLNet
 {
    /* linear interpolation between discrete points */
+
    public class LinearInterpolationImpl : Interpolation.templateImpl
    {
       private InitializedList<double> primitiveConst_, s_;
@@ -49,17 +51,20 @@ namespace QLNet
          double result = yBegin_[i] + (x - xBegin_[i]) * s_[i];
          return result;
       }
+
       public override double primitive(double x)
       {
          int i = locate(x);
          double dx = x - xBegin_[i];
          return primitiveConst_[i] + dx * (yBegin_[i] + 0.5 * dx * s_[i]);
       }
+
       public override double derivative(double x)
       {
          int i = locate(x);
          return s_[i];
       }
+
       public override double secondDerivative(double x) { return 0.0; }
    }
 
@@ -67,6 +72,7 @@ namespace QLNet
    public class LinearInterpolation : Interpolation
    {
       /*! \pre the \f$ x \f$ values must be sorted. */
+
       public LinearInterpolation(List<double> xBegin, int size, List<double> yBegin)
       {
          impl_ = new LinearInterpolationImpl(xBegin, size, yBegin);
@@ -81,6 +87,7 @@ namespace QLNet
       {
          return new LinearInterpolation(xBegin, size, yBegin);
       }
+
       public bool global { get { return false; } }
       public int requiredPoints { get { return 2; } }
    };

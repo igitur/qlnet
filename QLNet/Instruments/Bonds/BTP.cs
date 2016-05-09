@@ -28,6 +28,7 @@ namespace QLNet
         \ingroup instruments
 
    */
+
    public class CCTEU : FloatingRateBond
    {
       public CCTEU(Date maturityDate, double spread, Handle<YieldTermStructure> fwdCurve = null,
@@ -54,20 +55,21 @@ namespace QLNet
 
       //! accrued amount at a given date
       /*! The default bond settlement is used if no date is given. */
+
       public override double accruedAmount(Date d = null)
       {
          double result = base.accruedAmount(d);
          return new ClosestRounding(5).Round(result);
       }
 
-      #endregion
-
+      #endregion Bond interface
    }
 
    //! Italian BTP (Buono Poliennali del Tesoro) fixed rate bond
    /*! \ingroup instruments
 
    */
+
    public class BTP : FixedRateBond
    {
       public BTP(Date maturityDate, double fixedRate, Date startDate = null, Date issueDate = null)
@@ -83,6 +85,7 @@ namespace QLNet
       /*! constructor needed for legacy non-par redemption BTPs.
           As of today the only remaining one is IT123456789012
           that will redeem 99.999 on xx-may-2037 */
+
       public BTP(Date maturityDate, double fixedRate, double redemption, Date startDate = null, Date issueDate = null)
       : base(2, 100.0, new Schedule(startDate,
                              maturityDate, new Period(6, TimeUnit.Months),
@@ -92,22 +95,25 @@ namespace QLNet
                     new ActualActual(ActualActual.Convention.ISMA),
                     BusinessDayConvention.ModifiedFollowing, redemption, issueDate, new TARGET())
       { }
+
       #region Bond interface
 
       //! accrued amount at a given date
       /*! The default bond settlement is used if no date is given. */
+
       public override double accruedAmount(Date d = null)
       {
          double result = base.accruedAmount(d);
          return new ClosestRounding(5).Round(result);
       }
 
-      #endregion
+      #endregion Bond interface
 
       //! BTP yield given a (clean) price and settlement date
       /*! The default BTP conventions are used: Actual/Actual (ISMA),
           Compounded, Annual.
           The default bond settlement is used if no date is given. */
+
       public double yield(double cleanPrice, Date settlementDate = null, double accuracy = 1.0e-8, int maxEvaluations = 100)
       {
          return base.yield(cleanPrice, new ActualActual(ActualActual.Convention.ISMA),
@@ -117,7 +123,6 @@ namespace QLNet
 
    public class RendistatoBasket : IObserver, IObservable
    {
-
       public RendistatoBasket(List<BTP> btps, List<double> outstandings, List<Handle<Quote>> cleanPriceQuotes)
       {
          btps_ = btps;
@@ -160,23 +165,32 @@ namespace QLNet
             weights_.Add(outstandings[i] / outstanding_);
             quotes_[i].registerWith(update);
          }
-
       }
+
       #region Inspectors
 
       public int size() { return n_; }
+
       public List<BTP> btps() { return btps_; }
+
       public List<Handle<Quote>> cleanPriceQuotes() { return quotes_; }
+
       public List<double> outstandings() { return outstandings_; }
+
       public List<double> weights() { return weights_; }
+
       public double outstanding() { return outstanding_; }
 
-      #endregion
+      #endregion Inspectors
 
       #region Observer & observable
+
       public event Callback notifyObserversEvent;
+
       public void registerWith(Callback handler) { notifyObserversEvent += handler; }
+
       public void unregisterWith(Callback handler) { notifyObserversEvent -= handler; }
+
       protected void notifyObservers()
       {
          Callback handler = notifyObserversEvent;
@@ -188,8 +202,8 @@ namespace QLNet
 
       // observer interface
       public void update() { notifyObservers(); }
-      #endregion
 
+      #endregion Observer & observable
 
       private List<BTP> btps_;
       private List<double> outstandings_;
@@ -237,40 +251,48 @@ namespace QLNet
          basket_.weights().ForEach((ii, vv) => inner_product += vv * yields()[ii]);
          return inner_product;
       }
+
       public double duration()
       {
          calculate();
          return duration_;
       }
+
       // bonds
       public List<double> yields()
       {
          calculate();
          return yields_;
       }
+
       public List<double> durations()
       {
          calculate();
          return durations_;
       }
+
       // swaps
       public List<double> swapLengths() { return swapLenghts_; }
+
       public InitializedList<double?> swapRates()
       {
          calculate();
          return swapRates_;
       }
+
       public InitializedList<double?> swapYields()
       {
          calculate();
          return swapBondYields_;
       }
+
       public InitializedList<double?> swapDurations()
       {
          calculate();
          return swapBondDurations_;
       }
-      #endregion
+
+      #endregion Calculations
 
       #region Equivalent Swap proxy
 
@@ -279,32 +301,37 @@ namespace QLNet
          calculate();
          return swaps_[equivalentSwapIndex_];
       }
+
       public double equivalentSwapRate()
       {
          calculate();
          return swapRates_[equivalentSwapIndex_].Value;
       }
+
       public double equivalentSwapYield()
       {
          calculate();
          return swapBondYields_[equivalentSwapIndex_].Value;
       }
+
       public double equivalentSwapDuration()
       {
          calculate();
          return swapBondDurations_[equivalentSwapIndex_].Value;
       }
+
       public double equivalentSwapLength()
       {
          calculate();
          return swapLenghts_[equivalentSwapIndex_];
       }
+
       public double equivalentSwapSpread()
       {
          return yield() - equivalentSwapRate();
       }
 
-      #endregion
+      #endregion Equivalent Swap proxy
 
       #region LazyObject interface
 
@@ -329,7 +356,6 @@ namespace QLNet
 
          duration_ = 0;
          basket_.weights().ForEach((ii, vv) => duration_ += vv * yields()[ii]);
-
 
          //duration_ = std::inner_product(basket_->weights().begin(),
          //                              basket_->weights().end(),
@@ -390,7 +416,7 @@ namespace QLNet
          return;
       }
 
-      #endregion
+      #endregion LazyObject interface
 
       private RendistatoBasket basket_;
       private Euribor euriborIndex_;
@@ -412,7 +438,9 @@ namespace QLNet
    public class RendistatoEquivalentSwapLengthQuote : Quote
    {
       public RendistatoEquivalentSwapLengthQuote(RendistatoCalculator r) { r_ = r; }
+
       public override double value() { return r_.equivalentSwapLength(); }
+
       public override bool isValid()
       {
          try
@@ -433,7 +461,9 @@ namespace QLNet
    public class RendistatoEquivalentSwapSpreadQuote : Quote
    {
       public RendistatoEquivalentSwapSpreadQuote(RendistatoCalculator r) { r_ = r; }
+
       public override double value() { return r_.equivalentSwapSpread(); }
+
       public override bool isValid()
       {
          try
@@ -449,5 +479,4 @@ namespace QLNet
 
       private RendistatoCalculator r_;
    }
-
 }

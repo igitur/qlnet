@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -27,11 +28,13 @@ namespace QLNet
 
        \ingroup mcarlo
    */
+
    public class MultiPath : IPath
    {
       private List<Path> multiPath_;
 
       public MultiPath() { }
+
       public MultiPath(int nAsset, TimeGrid timeGrid)
       {
          multiPath_ = new List<Path>(nAsset);
@@ -47,7 +50,9 @@ namespace QLNet
 
       //! \name inspectors
       public int assetNumber() { return multiPath_.Count; }
+
       public int length() { return pathSize(); }
+
       public int pathSize() { return multiPath_[0].length(); }
 
       //! \name read/write access to components

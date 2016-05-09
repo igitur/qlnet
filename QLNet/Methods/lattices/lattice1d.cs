@@ -26,6 +26,7 @@ namespace QLNet
        \endcode
 
        \ingroup lattices */
+
    public class TreeLattice1D<T> : TreeLattice<T> where T : IGenericLattice
    {
       public TreeLattice1D(TimeGrid timeGrid, int n) : base(timeGrid, n) { }
@@ -38,6 +39,7 @@ namespace QLNet
             grid[j] = impl().underlying(i, j);
          return grid;
       }
+
       public virtual double underlying(int i, int index)
       {
          return impl().underlying(i, index);

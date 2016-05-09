@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -30,11 +31,13 @@ namespace QLNet
              CumulativeNormalDistribution and InverseCumulativeNormal
              classes.
    */
+
    public class NormalDistribution : IValue
    {
       private double average_, sigma_, normalizationFactor_, denominator_, derNormalizationFactor_;
 
       public NormalDistribution() : this(0.0, 1.0) { }
+
       public NormalDistribution(double average, double sigma)
       {
          average_ = average;
@@ -64,7 +67,6 @@ namespace QLNet
       }
    }
 
-
    //! Cumulative normal distribution function
    /*! Given x it provides an approximation to the
        integral of the gaussian normal distribution:
@@ -74,12 +76,14 @@ namespace QLNet
        Handbook of Mathematical Functions,
        Dover Publications, New York (1972)
    */
+
    public class CumulativeNormalDistribution : IValue
    {
       private double average_, sigma_;
       private NormalDistribution gaussian_ = new NormalDistribution();
 
       public CumulativeNormalDistribution() : this(0.0, 1.0) { }
+
       public CumulativeNormalDistribution(double average, double sigma)
       {
          average_ = average;
@@ -127,6 +131,7 @@ namespace QLNet
       }
 
       #region Sun Microsystems method
+
       /*
       * ====================================================
       * Copyright (C) 1993 by Sun Microsystems, Inc. All rights reserved.
@@ -232,7 +237,7 @@ namespace QLNet
       *              erfc/erf(NaN) is NaN
       */
 
-      const double tiny = Const.QL_EPSILON,
+      private const double tiny = Const.QL_EPSILON,
       one = 1.00000000000000000000e+00, /* 0x3FF00000, 0x00000000 */
                                         /* c = (float)0.84506291151 */
       erx = 8.45062911510467529297e-01, /* 0x3FEB0AC1, 0x60000000 */
@@ -352,9 +357,9 @@ namespace QLNet
          r = Math.Exp(-ax * ax - 0.5625 + R / S);
          if (x >= 0) return one - r / ax; else return r / ax - one;
       }
-      #endregion
-   }
 
+      #endregion Sun Microsystems method
+   }
 
    //! Inverse cumulative normal distribution function
    /*! Given x between zero and one as
@@ -374,42 +379,45 @@ namespace QLNet
      variants would not preserve the sequence's low-discrepancy.
 
    */
+
    public class InverseCumulativeNormal : IValue
    {
-      double average_, sigma_;
+      private double average_, sigma_;
 
       // Coefficients for the rational approximation.
-      const double a1_ = -3.969683028665376e+01;
-      const double a2_ = 2.209460984245205e+02;
-      const double a3_ = -2.759285104469687e+02;
-      const double a4_ = 1.383577518672690e+02;
-      const double a5_ = -3.066479806614716e+01;
-      const double a6_ = 2.506628277459239e+00;
+      private const double a1_ = -3.969683028665376e+01;
 
-      const double b1_ = -5.447609879822406e+01;
-      const double b2_ = 1.615858368580409e+02;
-      const double b3_ = -1.556989798598866e+02;
-      const double b4_ = 6.680131188771972e+01;
-      const double b5_ = -1.328068155288572e+01;
+      private const double a2_ = 2.209460984245205e+02;
+      private const double a3_ = -2.759285104469687e+02;
+      private const double a4_ = 1.383577518672690e+02;
+      private const double a5_ = -3.066479806614716e+01;
+      private const double a6_ = 2.506628277459239e+00;
 
-      const double c1_ = -7.784894002430293e-03;
-      const double c2_ = -3.223964580411365e-01;
-      const double c3_ = -2.400758277161838e+00;
-      const double c4_ = -2.549732539343734e+00;
-      const double c5_ = 4.374664141464968e+00;
-      const double c6_ = 2.938163982698783e+00;
+      private const double b1_ = -5.447609879822406e+01;
+      private const double b2_ = 1.615858368580409e+02;
+      private const double b3_ = -1.556989798598866e+02;
+      private const double b4_ = 6.680131188771972e+01;
+      private const double b5_ = -1.328068155288572e+01;
 
-      const double d1_ = 7.784695709041462e-03;
-      const double d2_ = 3.224671290700398e-01;
-      const double d3_ = 2.445134137142996e+00;
-      const double d4_ = 3.754408661907416e+00;
+      private const double c1_ = -7.784894002430293e-03;
+      private const double c2_ = -3.223964580411365e-01;
+      private const double c3_ = -2.400758277161838e+00;
+      private const double c4_ = -2.549732539343734e+00;
+      private const double c5_ = 4.374664141464968e+00;
+      private const double c6_ = 2.938163982698783e+00;
+
+      private const double d1_ = 7.784695709041462e-03;
+      private const double d2_ = 3.224671290700398e-01;
+      private const double d3_ = 2.445134137142996e+00;
+      private const double d4_ = 3.754408661907416e+00;
 
       // Limits of the approximation regions
-      const double x_low_ = 0.02425;
-      const double x_high_ = 1.0 - x_low_;
+      private const double x_low_ = 0.02425;
 
+      private const double x_high_ = 1.0 - x_low_;
 
       public InverseCumulativeNormal() : this(0.0, 1.0) { }
+
       public InverseCumulativeNormal(double average, double sigma)
       {
          average_ = average;
@@ -464,7 +472,6 @@ namespace QLNet
                 ((((d1_ * z + d2_) * z + d3_) * z + d4_) * z + 1.0);
          }
 
-
          // The relative error of the approximation has absolute value less
          // than 1.15e-9.  One iteration of Halley's rational method (third
          // order) gives full machine precision.
@@ -480,7 +487,6 @@ namespace QLNet
          return average_ + z * sigma_;
       }
    }
-
 
    //! Moro Inverse cumulative normal distribution class
    /*! Given x between zero and one as
@@ -502,29 +508,30 @@ namespace QLNet
        Peter J. Acklam's approximation is better and is available
        as QuantLib::InverseCumulativeNormal
    */
+
    public class MoroInverseCumulativeNormal : IValue
    {
       private double average_, sigma_;
 
-      const double a0_ = 2.50662823884;
-      const double a1_ = -18.61500062529;
-      const double a2_ = 41.39119773534;
-      const double a3_ = -25.44106049637;
+      private const double a0_ = 2.50662823884;
+      private const double a1_ = -18.61500062529;
+      private const double a2_ = 41.39119773534;
+      private const double a3_ = -25.44106049637;
 
-      const double b0_ = -8.47351093090;
-      const double b1_ = 23.08336743743;
-      const double b2_ = -21.06224101826;
-      const double b3_ = 3.13082909833;
+      private const double b0_ = -8.47351093090;
+      private const double b1_ = 23.08336743743;
+      private const double b2_ = -21.06224101826;
+      private const double b3_ = 3.13082909833;
 
-      const double c0_ = 0.3374754822726147;
-      const double c1_ = 0.9761690190917186;
-      const double c2_ = 0.1607979714918209;
-      const double c3_ = 0.0276438810333863;
-      const double c4_ = 0.0038405729373609;
-      const double c5_ = 0.0003951896511919;
-      const double c6_ = 0.0000321767881768;
-      const double c7_ = 0.0000002888167364;
-      const double c8_ = 0.0000003960315187;
+      private const double c0_ = 0.3374754822726147;
+      private const double c1_ = 0.9761690190917186;
+      private const double c2_ = 0.1607979714918209;
+      private const double c3_ = 0.0276438810333863;
+      private const double c4_ = 0.0038405729373609;
+      private const double c5_ = 0.0003951896511919;
+      private const double c6_ = 0.0000321767881768;
+      private const double c7_ = 0.0000002888167364;
+      private const double c8_ = 0.0000003960315187;
 
       // public MoroInverseCumulativeNormal(double average = 0.0, double sigma   = 1.0);
       public MoroInverseCumulativeNormal(double average, double sigma)

@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -88,14 +89,15 @@ namespace QLNet
        \test the correctness of the returned value is tested by
              checking it against known good results.
    */
+
    public static class GammaFunction
    {
-      const double c1_ = 76.18009172947146;
-      const double c2_ = -86.50532032941677;
-      const double c3_ = 24.01409824083091;
-      const double c4_ = -1.231739572450155;
-      const double c5_ = 0.1208650973866179e-2;
-      const double c6_ = -0.5395239384953e-5;
+      private const double c1_ = 76.18009172947146;
+      private const double c2_ = -86.50532032941677;
+      private const double c3_ = 24.01409824083091;
+      private const double c4_ = -1.231739572450155;
+      private const double c5_ = 0.1208650973866179e-2;
+      private const double c6_ = -0.5395239384953e-5;
 
       public static double logValue(double x)
       {

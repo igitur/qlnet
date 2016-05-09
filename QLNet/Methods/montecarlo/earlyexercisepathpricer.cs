@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -29,12 +30,12 @@ namespace QLNet
    //! base class for early exercise path pricers
    /*! Returns the value of an option on a given path and given time.
    */
+
    public static class EarlyExerciseTraits<PathType> where PathType : IPath
    {
       //typedef Real StateType;
       public static int pathLength(PathType path) { return path.length(); }
    }
-
 
    // template<class PathType, class TimeType=Size, class ValueType=Real>
    public interface IEarlyExercisePathPricer<PathType, StateType> where PathType : IPath
@@ -44,6 +45,7 @@ namespace QLNet
       double value(PathType path, int t);
 
       StateType state(PathType path, int t);
+
       List<Func<StateType, double>> basisSystem();
    }
 }

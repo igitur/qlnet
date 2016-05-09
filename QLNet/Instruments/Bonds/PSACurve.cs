@@ -16,13 +16,13 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
    public class PSACurve : IPrepayModel
    {
-
       public PSACurve(Date startdate)
          : this(startdate, 1) { }
 

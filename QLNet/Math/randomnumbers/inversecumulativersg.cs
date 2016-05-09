@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -43,6 +44,7 @@ namespace QLNet
            Real IC::operator() const;
        \endcode
    */
+
    public class InverseCumulativeRsg<USG, IC> : IRNG where USG : IRNG where IC : IValue
    {
       //typedef Sample<std::vector<Real> > sample_type;
@@ -64,8 +66,8 @@ namespace QLNet
          ICD_ = inverseCumulative;
       }
 
-
       #region IRNG interface
+
       //! returns next sample from the Gaussian distribution
       public Sample<List<double>> nextSequence()
       {
@@ -79,9 +81,11 @@ namespace QLNet
       }
 
       public Sample<List<double>> lastSequence() { return x_; }
+
       public int dimension() { return dimension_; }
 
       public IRNG factory(int dimensionality, ulong seed) { throw new NotSupportedException(); }
-      #endregion
+
+      #endregion IRNG interface
    }
 }

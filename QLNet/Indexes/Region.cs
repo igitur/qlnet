@@ -28,23 +28,28 @@ namespace QLNet
       {
          return data_.name;
       }
+
       public string code()
       {
          return data_.code;
       }
+
       //@}
 
       protected Region() { }
+
       protected struct Data
       {
          public string name;
          public string code;
+
          public Data(string Name, string Code)
          {
             name = Name;
             code = Code;
          }
       }
+
       protected Data data_;
 
       public static bool operator ==(Region r1, Region r2)
@@ -78,7 +83,6 @@ namespace QLNet
          Data AUdata = new Data("Australia", "AU");
          data_ = AUdata;
       }
-
    }
 
    //! European Union as geographical/economic region
@@ -100,7 +104,6 @@ namespace QLNet
          data_ = FRdata;
       }
    }
-
 
    //! United Kingdom as geographical/economic region
    public class UKRegion : Region
@@ -129,8 +132,6 @@ namespace QLNet
       {
          Data ZAdata = new Data("South Africa", "ZA");
          data_ = ZAdata;
-
       }
    }
-
 }

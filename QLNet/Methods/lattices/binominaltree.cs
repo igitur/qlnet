@@ -16,8 +16,8 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System;
 
+using System;
 
 namespace QLNet
 {
@@ -31,13 +31,17 @@ namespace QLNet
    public interface ITree
    {
       int size(int i);
+
       int descendant(int x, int index, int branch);
+
       double underlying(int i, int index);
+
       double probability(int x, int y, int z);
    }
 
    //! Binomial tree base class
    /*! \ingroup lattices */
+
    public abstract class BinomialTree<T> : Tree<T>, ITree
    {
       public enum Branches { branches = 2 };
@@ -47,6 +51,7 @@ namespace QLNet
 
       // parameterless constructor is requried for generics
       public BinomialTree() { }
+
       public BinomialTree(StochasticProcess1D process, double end, int steps)
           : base(steps + 1)
       {
@@ -56,20 +61,24 @@ namespace QLNet
       }
 
       public int size(int i) { return i + 1; }
+
       public int descendant(int x, int index, int branch) { return index + branch; }
 
       public abstract double underlying(int i, int index);
+
       public abstract double probability(int x, int y, int z);
    }
 
    //! Base class for equal probabilities binomial tree
    /*! \ingroup lattices */
+
    public class EqualProbabilitiesBinomialTree<T> : BinomialTree<T>
    {
       protected double up_;
 
       // parameterless constructor is requried for generics
       public EqualProbabilitiesBinomialTree() { }
+
       public EqualProbabilitiesBinomialTree(StochasticProcess1D process, double end, int steps)
           : base(process, end, steps) { }
 
@@ -79,17 +88,20 @@ namespace QLNet
          // exploiting the forward value tree centering
          return this.x0_ * Math.Exp(i * driftPerStep_ + j * up_);
       }
+
       public override double probability(int x, int y, int z) { return 0.5; }
    }
 
    //! Base class for equal jumps binomial tree
    /*! \ingroup lattices */
+
    public class EqualJumpsBinomialTree<T> : BinomialTree<T>
    {
       protected double dx_, pu_, pd_;
 
       // parameterless constructor is requried for generics
       public EqualJumpsBinomialTree() { }
+
       public EqualJumpsBinomialTree(StochasticProcess1D process, double end, int steps)
           : base(process, end, steps) { }
 
@@ -99,15 +111,18 @@ namespace QLNet
          // exploiting equal jump and the x0_ tree centering
          return x0_ * Math.Exp(j * dx_);
       }
+
       public override double probability(int x, int y, int branch) { return (branch == 1 ? pu_ : pd_); }
    }
 
    //! Jarrow-Rudd (multiplicative) equal probabilities binomial tree
    /*! \ingroup lattices */
+
    public class JarrowRudd : EqualProbabilitiesBinomialTree<JarrowRudd>, ITreeFactory<JarrowRudd>
    {
       // parameterless constructor is requried for generics
       public JarrowRudd() { }
+
       public JarrowRudd(StochasticProcess1D process, double end, int steps, double strike)
           : base(process, end, steps)
       {
@@ -123,14 +138,15 @@ namespace QLNet
 
    //! Cox-Ross-Rubinstein (multiplicative) equal jumps binomial tree
    /*! \ingroup lattices */
+
    public class CoxRossRubinstein : EqualJumpsBinomialTree<CoxRossRubinstein>, ITreeFactory<CoxRossRubinstein>
    {
       // parameterless constructor is requried for generics
       public CoxRossRubinstein() { }
+
       public CoxRossRubinstein(StochasticProcess1D process, double end, int steps, double strike)
           : base(process, end, steps)
       {
-
          dx_ = process.stdDeviation(0.0, x0_, dt_);
          pu_ = 0.5 + 0.5 * driftPerStep_ / dx_;
          pd_ = 1.0 - pu_;
@@ -147,10 +163,12 @@ namespace QLNet
 
    //! Additive equal probabilities binomial tree
    /*! \ingroup lattices */
+
    public class AdditiveEQPBinomialTree : EqualProbabilitiesBinomialTree<AdditiveEQPBinomialTree>, ITreeFactory<AdditiveEQPBinomialTree>
    {
       // parameterless constructor is requried for generics
       public AdditiveEQPBinomialTree() { }
+
       public AdditiveEQPBinomialTree(StochasticProcess1D process, double end, int steps, double strike)
           : base(process, end, steps)
       {
@@ -165,14 +183,15 @@ namespace QLNet
 
    //! %Trigeorgis (additive equal jumps) binomial tree
    /*! \ingroup lattices */
+
    public class Trigeorgis : EqualJumpsBinomialTree<Trigeorgis>, ITreeFactory<Trigeorgis>
    {
       // parameterless constructor is requried for generics
       public Trigeorgis() { }
+
       public Trigeorgis(StochasticProcess1D process, double end, int steps, double strike)
           : base(process, end, steps)
       {
-
          dx_ = Math.Sqrt(process.variance(0.0, x0_, dt_) + driftPerStep_ * driftPerStep_);
          pu_ = 0.5 + 0.5 * driftPerStep_ / dx_;
          pd_ = 1.0 - pu_;
@@ -189,16 +208,17 @@ namespace QLNet
 
    //! %Tian tree: third moment matching, multiplicative approach
    /*! \ingroup lattices */
+
    public class Tian : BinomialTree<Tian>, ITreeFactory<Tian>
    {
       protected double up_, down_, pu_, pd_;
 
       // parameterless constructor is requried for generics
       public Tian() { }
+
       public Tian(StochasticProcess1D process, double end, int steps, double strike)
           : base(process, end, steps)
       {
-
          double q = Math.Exp(process.variance(0.0, x0_, dt_));
          double r = Math.Exp(driftPerStep_) * Math.Sqrt(q);
 
@@ -220,6 +240,7 @@ namespace QLNet
       {
          return x0_ * Math.Pow(down_, i - index) * Math.Pow(up_, index);
       }
+
       public override double probability(int i, int j, int branch) { return (branch == 1 ? pu_ : pd_); }
 
       public Tian factory(StochasticProcess1D process, double end, int steps, double strike)
@@ -230,16 +251,17 @@ namespace QLNet
 
    //! Leisen & Reimer tree: multiplicative approach
    /*! \ingroup lattices */
+
    public class LeisenReimer : BinomialTree<LeisenReimer>, ITreeFactory<LeisenReimer>
    {
       protected double up_, down_, pu_, pd_;
 
       // parameterless constructor is requried for generics
       public LeisenReimer() { }
+
       public LeisenReimer(StochasticProcess1D process, double end, int steps, double strike)
           : base(process, end, (steps % 2 != 0 ? steps : steps + 1))
       {
-
          if (!(strike > 0.0)) throw new ApplicationException("strike must be positive");
          int oddSteps = (steps % 2 != 0 ? steps : steps + 1);
          double variance = process.variance(0.0, x0_, end);
@@ -250,13 +272,13 @@ namespace QLNet
          double pdash = Utils.PeizerPrattMethod2Inversion(d2 + Math.Sqrt(variance), oddSteps);
          up_ = ermqdt * pdash / pu_;
          down_ = (ermqdt - pu_ * up_) / (1.0 - pu_);
-
       }
 
       public override double underlying(int i, int index)
       {
          return x0_ * Math.Pow(down_, i - index) * Math.Pow(up_, index);
       }
+
       public override double probability(int i, int j, int branch)
       {
          return (branch == 1 ? pu_ : pd_);
@@ -274,10 +296,10 @@ namespace QLNet
 
       // parameterless constructor is requried for generics
       public Joshi4() { }
+
       public Joshi4(StochasticProcess1D process, double end, int steps, double strike)
           : base(process, end, (steps % 2 != 0 ? steps : steps + 1))
       {
-
          if (!(strike > 0.0)) throw new ApplicationException("strike must be positive");
 
          int oddSteps = (steps % 2 != 0 ? steps : steps + 1);
@@ -295,6 +317,7 @@ namespace QLNet
       {
          return x0_ * Math.Pow(down_, i - index) * Math.Pow(up_, index);
       }
+
       public override double probability(int x, int y, int branch) { return (branch == 1 ? pu_ : pd_); }
 
       protected double computeUpProb(double k, double dj)

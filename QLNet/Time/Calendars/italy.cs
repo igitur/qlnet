@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -59,6 +60,7 @@ namespace QLNet
        \test the correctness of the returned results is tested against a
              list of known holidays.
    */
+
    public class Italy : Calendar
    {
       //! Italian calendars
@@ -69,6 +71,7 @@ namespace QLNet
       };
 
       public Italy() : this(Market.Settlement) { }
+
       public Italy(Market m)
           : base()
       {
@@ -79,21 +82,24 @@ namespace QLNet
             case Market.Settlement:
                calendar_ = Settlement.Singleton;
                break;
+
             case Market.Exchange:
                calendar_ = Exchange.Singleton;
                break;
+
             default:
                throw new ArgumentException("Unknown market: " + m);
          }
       }
 
-
-      class Settlement : Calendar.WesternImpl
+      private class Settlement : Calendar.WesternImpl
       {
          public static readonly Settlement Singleton = new Settlement();
+
          private Settlement() { }
 
          public override string name() { return "Italian settlement"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;
@@ -132,12 +138,14 @@ namespace QLNet
          }
       }
 
-      class Exchange : Calendar.WesternImpl
+      private class Exchange : Calendar.WesternImpl
       {
          public static readonly Exchange Singleton = new Exchange();
+
          private Exchange() { }
 
          public override string name() { return "Milan stock exchange"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;
@@ -170,5 +178,4 @@ namespace QLNet
          }
       };
    };
-
 }

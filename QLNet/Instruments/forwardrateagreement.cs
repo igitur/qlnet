@@ -65,16 +65,19 @@ namespace QLNet
 
        \ingroup instruments
    */
+
    public class ForwardRateAgreement : Forward
    {
       protected Position.Type fraType_;
+
       //! aka FRA rate (the market forward rate)
       protected InterestRate forwardRate_;
+
       //! aka FRA fixing rate, contract rate
       protected InterestRate strikeForwardRate_;
+
       protected double notionalAmount_;
       protected IborIndex index_;
-
 
       // Handle<YieldTermStructure> discountCurve = Handle<YieldTermStructure>());
       public ForwardRateAgreement(Date valueDate, Date maturityDate, Position.Type type, double strikeForwardRate,
@@ -82,7 +85,6 @@ namespace QLNet
          : base(index.dayCounter(), index.fixingCalendar(), index.businessDayConvention(), index.fixingDays(), new Payoff(),
                  valueDate, maturityDate, discountCurve)
       {
-
          fraType_ = type;
          notionalAmount_ = notionalAmount;
          index_ = index;
@@ -113,6 +115,7 @@ namespace QLNet
       }
 
       /*! A FRA expires/settles on the valueDate */
+
       public override bool isExpired()
       {
 #if QL_TODAYS_PAYMENTS
@@ -123,10 +126,12 @@ namespace QLNet
       }
 
       /*!  Income is zero for a FRA */
+
       public override double spotIncome(Handle<YieldTermStructure> t) { return 0.0; }
 
       //! Spot value (NPV) of the underlying loan
       /*! This has always a positive value (asset), even if short the FRA */
+
       public override double spotValue()
       {
          calculate();

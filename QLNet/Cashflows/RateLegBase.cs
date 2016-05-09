@@ -30,8 +30,8 @@ namespace QLNet
       protected BusinessDayConvention paymentAdjustment_;
 
       public static implicit operator List<CashFlow>(RateLegBase o) { return o.value(); }
-      public abstract List<CashFlow> value();
 
+      public abstract List<CashFlow> value();
 
       // initializers
       public RateLegBase withNotionals(double notional)
@@ -39,11 +39,13 @@ namespace QLNet
          notionals_ = new List<double>() { notional };
          return this;
       }
+
       public RateLegBase withNotionals(List<double> notionals)
       {
          notionals_ = notionals;
          return this;
       }
+
       public RateLegBase withPaymentAdjustment(BusinessDayConvention convention)
       {
          paymentAdjustment_ = convention;
@@ -69,69 +71,83 @@ namespace QLNet
          paymentDayCounter_ = dayCounter;
          return this;
       }
+
       public FloatingLegBase withFixingDays(int fixingDays)
       {
          fixingDays_ = new List<int>() { fixingDays };
          return this;
       }
+
       public FloatingLegBase withFixingDays(List<int> fixingDays)
       {
          fixingDays_ = fixingDays;
          return this;
       }
+
       public FloatingLegBase withGearings(double gearing)
       {
          gearings_ = new List<double>() { gearing };
          return this;
       }
+
       public FloatingLegBase withGearings(List<double> gearings)
       {
          gearings_ = gearings;
          return this;
       }
+
       public FloatingLegBase withSpreads(double spread)
       {
          spreads_ = new List<double>() { spread };
          return this;
       }
+
       public FloatingLegBase withSpreads(List<double> spreads)
       {
          spreads_ = spreads;
          return this;
       }
+
       public FloatingLegBase withCaps(double cap)
       {
          caps_ = new List<double>() { cap };
          return this;
       }
+
       public FloatingLegBase withCaps(List<double> caps)
       {
          caps_ = caps;
          return this;
       }
+
       public FloatingLegBase withFloors(double floor)
       {
          floors_ = new List<double>() { floor };
          return this;
       }
+
       public FloatingLegBase withFloors(List<double> floors)
       {
          floors_ = floors;
          return this;
       }
+
       public FloatingLegBase inArrears()
       {
          return inArrears(true);
       }
+
       public FloatingLegBase inArrears(bool flag)
       {
          inArrears_ = flag;
          return this;
       }
+
       public FloatingLegBase withZeroPayments()
       {
          return withZeroPayments(true);
       }
+
       public FloatingLegBase withZeroPayments(bool flag)
       {
          zeroPayments_ = flag;
@@ -219,7 +235,6 @@ namespace QLNet
       protected List<double> gearings_;
       protected List<double> spreads_;
       protected List<double> caps_, floors_;
-
    }
 
    public abstract class CPILegBase : RateLegBase
@@ -259,7 +274,6 @@ namespace QLNet
          paymentCalendar_ = cal;
          return this;
       }
-
 
       public CPILegBase withFixingDays(int fixingDays)
       {
@@ -334,6 +348,4 @@ namespace QLNet
       protected BusinessDayConvention exCouponAdjustment_;
       protected bool exCouponEndOfMonth_;
    }
-
-
 }

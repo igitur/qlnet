@@ -13,10 +13,7 @@
 //  This program is distributed in the hope that it will be useful, but WITHOUT
 //  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 //  FOR A PARTICULAR PURPOSE.  See the license for more details.
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace QLNet
 {
@@ -46,6 +43,7 @@ namespace QLNet
        \end{array}
        \f]
    */
+
    public class BSpline
    {
       public BSpline(int p, int n, List<double> knots)
@@ -84,13 +82,14 @@ namespace QLNet
             return ((x - knots_[i]) / (knots_[i + p] - knots_[i])) * N(i, p - 1, x) +
                 ((knots_[i + p + 1] - x) / (knots_[i + p + 1] - knots_[i + 1])) * N(i + 1, p - 1, x);
          }
-
       }
 
       // e.g. p_=2 is a quadratic B-spline, p_=3 is a cubic B-Spline, etc.
       private int p_;
+
       // n_ + 1 =  "control points" = max number of basis functions
       private int n_;
+
       private List<double> knots_;
    }
 }

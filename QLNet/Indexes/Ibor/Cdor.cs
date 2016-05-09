@@ -19,7 +19,6 @@
 
 namespace QLNet
 {
-
    //! %CDOR rate
    //    ! Canadian Dollar Offered Rate fixed by IDA.
    //

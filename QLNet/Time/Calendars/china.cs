@@ -50,6 +50,7 @@ namespace QLNet
 
        \ingroup calendars
    */
+
    public class China : Calendar
    {
       public enum Market
@@ -60,16 +61,17 @@ namespace QLNet
 
       public China(Market market = Market.SSE)
       {
-
          // all calendar instances on the same market share the same implementation instance
          switch (market)
          {
             case Market.SSE:
                calendar_ = SseImpl.Singleton;
                break;
+
             case Market.IB:
                calendar_ = IbImpl.Singleton;
                break;
+
             default:
                Utils.QL_FAIL("unknown market");
                break;
@@ -79,7 +81,9 @@ namespace QLNet
       private class SseImpl : Calendar
       {
          public static readonly SseImpl Singleton = new SseImpl();
+
          private SseImpl() { }
+
          public override string name() { return "Shanghai stock exchange"; }
 
          public override bool isWeekend(DayOfWeek w)
@@ -176,7 +180,6 @@ namespace QLNet
                 )
                return false;
             return true;
-
          }
       }
 
@@ -192,9 +195,9 @@ namespace QLNet
          public override string name() { return "China inter bank market"; }
 
          public override bool isWeekend(DayOfWeek w) { return w == DayOfWeek.Saturday || w == DayOfWeek.Sunday; }
+
          public override bool isBusinessDay(Date date)
          {
-
             List<Date> working_weekends = new List<Date>{
             // 2005
             new Date(5, Month.February, 2005),
@@ -284,13 +287,9 @@ namespace QLNet
 
             // If it is already a SSE business day, it must be a IB business day
             return sseImpl.isBusinessDay(date) || working_weekends.Contains(date);
-
          }
 
          private Calendar sseImpl;
-
       };
-
    }
 }
-

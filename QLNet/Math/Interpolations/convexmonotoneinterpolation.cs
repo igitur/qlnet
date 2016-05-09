@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,18 +26,21 @@ namespace QLNet
    //the first value in the y-vector is ignored.
 
    #region Helpers
+
    public interface ISectionHelper
    {
       double value(double x);
+
       double primitive(double x);
+
       double fNext();
    }
 
    public class ComboHelper : ISectionHelper
    {
       private double quadraticity_;
-      ISectionHelper quadraticHelper_;
-      ISectionHelper convMonoHelper_;
+      private ISectionHelper quadraticHelper_;
+      private ISectionHelper convMonoHelper_;
 
       public ComboHelper(ISectionHelper quadraticHelper, ISectionHelper convMonoHelper, double quadraticity)
       {
@@ -51,10 +55,12 @@ namespace QLNet
       {
          return (quadraticity_ * quadraticHelper_.value(x) + (1.0 - quadraticity_) * convMonoHelper_.value(x));
       }
+
       public double primitive(double x)
       {
          return (quadraticity_ * quadraticHelper_.primitive(x) + (1.0 - quadraticity_) * convMonoHelper_.primitive(x));
       }
+
       public double fNext()
       {
          return (quadraticity_ * quadraticHelper_.fNext() + (1.0 - quadraticity_) * convMonoHelper_.fNext());
@@ -75,7 +81,9 @@ namespace QLNet
       }
 
       public double value(double x) { return value_; }
+
       public double primitive(double x) { return prevPrimitive_ + (x - xPrev_) * value_; }
+
       public double fNext() { return value_; }
    }
 
@@ -121,6 +129,7 @@ namespace QLNet
                     (1.0 / 3.0 * (xVal * xVal * xVal - eta2_ * eta2_ * eta2_) - eta2_ * xVal * xVal + eta2_ * eta2_ * xVal)));
          }
       }
+
       public double fNext() { return (fAverage_ + gNext_); }
    }
 
@@ -169,6 +178,7 @@ namespace QLNet
                     (1.0 / 3.0 * eta3_ * eta3_ * eta3_)));
          }
       }
+
       public double fNext() { return (fAverage_ + gNext_); }
    }
 
@@ -220,6 +230,7 @@ namespace QLNet
          }
          return retVal;
       }
+
       public double fNext() { return (fAverage_ + gNext_); }
    }
 
@@ -232,7 +243,6 @@ namespace QLNet
                                       double fAverage, double eta4, double prevPrimitive)
           : base(xPrev, xNext, gPrev, gNext, fAverage, eta4, prevPrimitive)
       {
-
          splitRegion_ = false;
          if (A_ + fAverage_ <= 0.0)
          {
@@ -316,7 +326,9 @@ namespace QLNet
       }
 
       public double value(double x) { return (fPrev_ + (x - xPrev_) * fGrad_); }
+
       public double primitive(double x) { return (prevPrimitive_ + (x - xPrev_) * (fPrev_ + 0.5 * (x - xPrev_) * fGrad_)); }
+
       public double fNext() { return fNext_; }
    }
 
@@ -448,8 +460,8 @@ namespace QLNet
 
       public double fNext() { return fNext_; }
    }
-   #endregion
 
+   #endregion Helpers
 
    public class ConvexMonotoneImpl : Interpolation.templateImpl
    {
@@ -580,7 +592,6 @@ namespace QLNet
                }
                if (quadraticity_ < 1.0)
                {
-
                   if ((gPrev > 0.0 && -0.5 * gPrev >= gNext && gNext >= -2.0 * gPrev) ||
                       (gPrev < 0.0 && -0.5 * gPrev <= gNext && gNext <= -2.0 * gPrev))
                   {
@@ -610,7 +621,6 @@ namespace QLNet
                   else if ((gPrev < 0.0 && gNext > -2.0 * gPrev) ||
                             (gPrev > 0.0 && gNext < -2.0 * gPrev))
                   {
-
                      double eta = (gNext + 2.0 * gPrev) / (gNext - gPrev);
                      double b2 = (1.0 + monotonicity_) / 2.0;
                      if (eta < b2)
@@ -803,6 +813,7 @@ namespace QLNet
        produces smoother curves.  Extra enhancement to avoid negative
        values (if required) is in place.
    */
+
    public class ConvexMonotoneInterpolation : Interpolation
    {
       //typedef std::map<Real, boost::shared_ptr<SectionHelper> > helper_map;
@@ -817,6 +828,7 @@ namespace QLNet
           : this(xBegin, size, yBegin, quadraticity, monotonicity, forcePositive, flatFinalPeriod,
                  new Dictionary<double, ISectionHelper>())
       { }
+
       public ConvexMonotoneInterpolation(List<double> xBegin, int size, List<double> yBegin, double quadraticity,
                                   double monotonicity, bool forcePositive, bool flatFinalPeriod,
                                   Dictionary<double, ISectionHelper> preExistingHelpers)
@@ -835,7 +847,6 @@ namespace QLNet
       }
    }
 
-
    //! Convex-monotone interpolation factory and traits
    public class ConvexMonotone : IInterpolationFactory
    {
@@ -844,6 +855,7 @@ namespace QLNet
 
       //public ConvexMonotone(double quadraticity = 0.3, double monotonicity = 0.7, bool forcePositive = true) {
       public ConvexMonotone() : this(0.3, 0.7, true) { }
+
       public ConvexMonotone(double quadraticity, double monotonicity, bool forcePositive)
       {
          quadraticity_ = quadraticity;

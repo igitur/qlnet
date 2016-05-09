@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -39,6 +40,7 @@ namespace QLNet
          displacement_ = displacement;
          discountCurve_.registerWith(update);// registerWith(termStructure_);
       }
+
       public BlackCapFloorEngine(Handle<YieldTermStructure> discountCurve, Handle<Quote> vol,
                                   DayCounter dc = null, double displacement = 0.0)
       {
@@ -48,8 +50,8 @@ namespace QLNet
          displacement_ = displacement;
          discountCurve_.registerWith(update);
          vol_.registerWith(update);
-
       }
+
       public BlackCapFloorEngine(Handle<YieldTermStructure> discountCurve, Handle<OptionletVolatilityStructure> vol,
                                   double displacement = 0.0)
       {
@@ -141,7 +143,9 @@ namespace QLNet
       }
 
       public Handle<YieldTermStructure> termStructure() { return discountCurve_; }
+
       public Handle<OptionletVolatilityStructure> volatility() { return vol_; }
+
       public double displacement() { return displacement_; }
    }
 }

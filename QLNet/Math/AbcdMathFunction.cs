@@ -21,6 +21,7 @@ namespace QLNet
    //! %Abcd functional form
    /*! \f[ f(t) = [ a + b*t ] e^{-c*t} + d \f]
        following Rebonato's notation. */
+
    public class AbcdMathFunction
    {
       public AbcdMathFunction(double a = 0.002, double b = 0.001, double c = 0.16, double d = 0.0005)
@@ -86,6 +87,7 @@ namespace QLNet
 
       /*! first derivative of the function at time t
          \f[ f'(t) = [ (b-c*a) + (-c*b)*t) ] e^{-c*t} \f] */
+
       public double derivative(double t)
       {
          return t < 0 ? 0.0 : (da_ + db_ * t) * Math.Exp(-c_ * t);
@@ -93,6 +95,7 @@ namespace QLNet
 
       /*! indefinite integral of the function at time t
          \f[ \int f(t)dt = [ (-a/c-b/c^2) + (-b/c)*t ] e^{-c*t} + d*t \f] */
+
       public double primitive(double t)
       {
          return t < 0 ? 0.0 : (pa_ + pb_ * t) * Math.Exp(-c_ * t) + d_ * t + K_;
@@ -100,22 +103,31 @@ namespace QLNet
 
       /*! definite integral of the function between t1 and t2
          \f[ \int_{t1}^{t2} f(t)dt \f] */
+
       public double definiteIntegral(double t1, double t2)
       {
          return primitive(t2) - primitive(t1);
       }
 
       /*! Inspectors */
+
       public double a() { return a_; }
+
       public double b() { return b_; }
+
       public double c() { return c_; }
+
       public double d() { return d_; }
+
       public List<double> coefficients() { return abcd_; }
+
       public List<double> derivativeCoefficients() { return dabcd_; }
+
       // the primitive is not abcd
 
       /*! coefficients of a AbcdMathFunction defined as definite
          integral on a rolling window of length tau, with tau = t2-t */
+
       public List<double> definiteIntegralCoefficients(double t, double t2)
       {
          double dt = t2 - t;
@@ -130,6 +142,7 @@ namespace QLNet
 
       /*! coefficients of a AbcdMathFunction defined as definite
          derivative on a rolling window of length tau, with tau = t2-t */
+
       public List<double> definiteDerivativeCoefficients(double t, double t2)
       {
          double dt = t2 - t;
@@ -164,7 +177,6 @@ namespace QLNet
          }
       }
 
-
       protected double a_, b_, c_, d_;
 
       private void initialize_()
@@ -190,6 +202,5 @@ namespace QLNet
       private double da_, db_;
       private double pa_, pb_, K_;
       private double dibc_, diacplusbcc_;
-
    }
 }

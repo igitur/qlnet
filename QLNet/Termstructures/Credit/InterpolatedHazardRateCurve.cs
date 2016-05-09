@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,7 +67,6 @@ namespace QLNet
          initialize();
       }
 
-
       public List<double> hazardRates() { return this.data_; }
 
       protected InterpolatedHazardRateCurve(DayCounter dc,
@@ -100,6 +100,7 @@ namespace QLNet
          // flat hazard rate extrapolation
          return this.data_.Last();
       }
+
       protected override double survivalProbabilityImpl(double t)
       {
          if (t == 0.0)
@@ -118,8 +119,8 @@ namespace QLNet
          }
          return Math.Exp(-integral);
       }
-      //@}
 
+      //@}
 
       private void initialize()
       {
@@ -144,11 +145,15 @@ namespace QLNet
       #region InterpolatedCurve
 
       public List<double> times_ { get; set; }
+
       public List<double> times() { return this.times_; }
 
       public List<Date> dates_ { get; set; }
+
       public List<Date> dates() { return dates_; }
+
       public Date maxDate_ { get; set; }
+
       public override Date maxDate()
       {
          if (maxDate_ != null)
@@ -158,7 +163,9 @@ namespace QLNet
       }
 
       public List<double> data_ { get; set; }
+
       public List<double> discounts() { return this.data_; }
+
       public List<double> data() { return discounts(); }
 
       public Interpolation interpolation_ { get; set; }
@@ -185,6 +192,7 @@ namespace QLNet
          copy.setupInterpolation();
          return copy;
       }
-      #endregion
+
+      #endregion InterpolatedCurve
    }
 }

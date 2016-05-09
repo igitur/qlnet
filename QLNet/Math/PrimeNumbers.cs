@@ -16,10 +16,10 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 
 // ===========================================================================
 // NOTE: The following copyright notice applies to the original code,
@@ -36,6 +36,7 @@ namespace QLNet
    //! Prime numbers calculator
    /*! Taken from "Monte Carlo Methods in Finance", by Peter Jäckel
     */
+
    public class PrimeNumbers
    {
       //! Get and store one after another.

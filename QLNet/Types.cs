@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System.Collections.Generic;
 
 namespace QLNet
@@ -44,6 +45,7 @@ namespace QLNet
    {
       // constructors
       public TimeSeries() : base() { }
+
       public TimeSeries(int size) : base(size) { }
    }
 
@@ -58,6 +60,7 @@ namespace QLNet
    };
 
    public enum InterestRateType { Fixed, Floating }
+
    //! Interest rate coumpounding rule
    public enum Compounding
    {
@@ -98,6 +101,7 @@ namespace QLNet
    {
       // ISDA
       Following,          /*!< Choose the first business day after
+
                                  the given holiday. */
       ModifiedFollowing,  /*!< Choose the first business day after
                                  the given holiday unless it belongs
@@ -106,8 +110,10 @@ namespace QLNet
                                  the holiday. */
       Preceding,          /*!< Choose the first business day before
                                  the given holiday. */
+
                           // NON ISDA
       ModifiedPreceding,  /*!< Choose the first business day before
+
                                  the given holiday unless it belongs
                                  to a different month, in which case
                                  choose the first business day after
@@ -169,10 +175,8 @@ namespace QLNet
          OldCDS,         /*!< Same as TwentiethIMM with unrestricted date ends and log/short stub
                                  coupon period (old CDS convention). */
          CDS             /*!< Credit derivatives standard rule since 'Big Bang' changes in 2009.  */
-
       }
    };
 
    public enum CapFloorType { Cap, Floor, Collar };
-
 }

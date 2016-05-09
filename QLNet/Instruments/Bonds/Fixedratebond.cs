@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -30,7 +31,6 @@ namespace QLNet
           \test calculations are tested by checking results against
                 cached values.
       */
-
 
       //! simple annual compounding coupon rates
       public FixedRateBond(int settlementDays, double faceAmount, Schedule schedule, List<double> coupons,
@@ -68,6 +68,7 @@ namespace QLNet
 
       /*! simple annual compounding coupon rates
           with internal schedule calculation */
+
       public FixedRateBond(int settlementDays,
                            Calendar calendar,
                            double faceAmount,
@@ -91,7 +92,6 @@ namespace QLNet
          : base(settlementDays, paymentCalendar ?? calendar,
                 issueDate)
       {
-
          frequency_ = tenor.frequency();
          dayCounter_ = accrualDayCounter;
          maturityDate_ = maturityDate;
@@ -100,7 +100,6 @@ namespace QLNet
 
          switch (rule)
          {
-
             case DateGeneration.Rule.Backward:
                firstDate = null;
                nextToLastDate = stubDate;
@@ -121,12 +120,10 @@ namespace QLNet
                throw new ApplicationException("unknown DateGeneration::Rule (" + rule + ")");
          }
 
-
          Schedule schedule = new Schedule(startDate, maturityDate_, tenor,
                                           calendar, accrualConvention, accrualConvention,
                                           rule, endOfMonth,
                                           firstDate, nextToLastDate);
-
 
          cashflows_ = new FixedRateLeg(schedule)
             .withCouponRates(coupons, accrualDayCounter)
@@ -139,7 +136,6 @@ namespace QLNet
             .withPaymentAdjustment(paymentConvention);
 
          addRedemptionsToCashflows(new List<double>() { redemption });
-
 
          if (cashflows().Count == 0)
             throw new ApplicationException("bond with no cashflows!");
@@ -164,7 +160,6 @@ namespace QLNet
          : base(settlementDays, paymentCalendar ?? schedule.calendar(),
                 issueDate)
       {
-
          frequency_ = schedule.tenor().frequency();
          dayCounter_ = coupons[0].dayCounter();
          maturityDate_ = schedule.endDate();
@@ -181,7 +176,6 @@ namespace QLNet
 
          addRedemptionsToCashflows(new List<double>() { redemption });
 
-
          if (cashflows().Count == 0)
             throw new ApplicationException("bond with no cashflows!");
 
@@ -189,11 +183,13 @@ namespace QLNet
             throw new ApplicationException("multiple redemptions created");
       }
 
-      Frequency frequency() { return frequency_; }
-      DayCounter dayCounter() { return dayCounter_; }
+      private Frequency frequency()
+      { return frequency_; }
+
+      private DayCounter dayCounter()
+      { return dayCounter_; }
 
       protected Frequency frequency_;
       protected DayCounter dayCounter_;
-
    }
 }

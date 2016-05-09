@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -33,6 +34,7 @@ namespace QLNet
        \test the correctness of the returned value is tested by
              reproducing results available in web/literature
    */
+
    public class LongstaffSchwartzPathPricer<PathType> : PathPricer<PathType> where PathType : IPath
    {
       protected bool calibrationPhase_;
@@ -59,7 +61,6 @@ namespace QLNet
                      / termStructure.discount(times[i]);
          }
       }
-
 
       public double value(PathType path)
       {

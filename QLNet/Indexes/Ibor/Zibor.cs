@@ -19,7 +19,6 @@
 
 namespace QLNet
 {
-
    //! %CHF %ZIBOR rate
    //    ! Zurich Interbank Offered Rate.
    //
@@ -35,10 +34,10 @@ namespace QLNet
           : base("Zibor", tenor, 2, new CHFCurrency(), new Switzerland(), BusinessDayConvention.ModifiedFollowing, false, new Actual360(), new Handle<YieldTermStructure>())
       {
       }
+
       public Zibor(Period tenor, Handle<YieldTermStructure> h)
           : base("Zibor", tenor, 2, new CHFCurrency(), new Switzerland(), BusinessDayConvention.ModifiedFollowing, false, new Actual360(), h)
       {
       }
    }
-
 }

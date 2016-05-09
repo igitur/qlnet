@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,19 +25,18 @@ namespace QLNet
 {
    public class LiborForwardModel : CalibratedModel, IAffineModel
    {
-      List<double> f_;
-      List<double> accrualPeriod_;
+      private List<double> f_;
+      private List<double> accrualPeriod_;
 
-      LfmCovarianceProxy covarProxy_;
-      LiborForwardModelProcess process_;
-      SwaptionVolatilityMatrix swaptionVola;
+      private LfmCovarianceProxy covarProxy_;
+      private LiborForwardModelProcess process_;
+      private SwaptionVolatilityMatrix swaptionVola;
 
       public LiborForwardModel(LiborForwardModelProcess process,
                         LmVolatilityModel volaModel,
                         LmCorrelationModel corrModel)
           : base(volaModel.parameters().Count + corrModel.parameters().Count)
       {
-
          f_ = new InitializedList<double>(process.size());
          accrualPeriod_ = new InitializedList<double>(process.size());
          covarProxy_ = new LfmCovarianceProxy(volaModel, corrModel);
@@ -61,8 +61,6 @@ namespace QLNet
          }
       }
 
-
-
       public override void setParams(Vector parameters)
       {
          base.setParams(parameters);
@@ -75,12 +73,10 @@ namespace QLNet
          swaptionVola = null;
       }
 
-
       public double discountBondOption(Option.Type type,
                                              double strike, double maturity,
                                              double bondMaturity)
       {
-
          List<double> accrualStartTimes
              = process_.accrualStartTimes();
          List<double> accrualEndTimes
@@ -170,7 +166,6 @@ namespace QLNet
          }
          return fwdRate;
       }
-
 
       // calculating swaption volatility matrix using
       // Rebonatos approx. formula. Be aware that this

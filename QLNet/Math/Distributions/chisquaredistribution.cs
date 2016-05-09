@@ -19,13 +19,12 @@
 
 using System;
 
-
 /*! \file chisquaredistribution.hpp
     \brief Chi-square (central and non-central) distributions
 */
+
 namespace QLNet
 {
-
    public class ChiSquareDistribution
    {
       private double df_;

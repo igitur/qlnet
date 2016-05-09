@@ -19,7 +19,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace QLNet
 {
@@ -109,17 +108,21 @@ namespace QLNet
 
       public override double swapletPrice()
       { throw new ApplicationException("swapletPrice not available"); }
+
       public override double capletPrice(double d)
       { throw new ApplicationException("capletPrice not available"); }
+
       public override double capletRate(double d)
       { throw new ApplicationException("capletRate not available"); }
+
       public override double floorletPrice(double d)
       { throw new ApplicationException("floorletPrice not available"); }
+
       public override double floorletRate(double d)
       { throw new ApplicationException("floorletRate not available"); }
+
       protected override double optionletPrice(Option.Type t, double d)
       { throw new ApplicationException("optionletPrice not available"); }
-
    }
 
    public class OvernightIndexedCoupon : FloatingRateCoupon
@@ -175,7 +178,6 @@ namespace QLNet
             dt_.Add(dc.yearFraction(valueDates_[i], valueDates_[i + 1]));
 
          setPricer(new OvernightIndexedCouponPricer());
-
       }
 
       public List<double> indexFixings()
@@ -186,18 +188,19 @@ namespace QLNet
          return fixings_;
       }
 
-
       //! fixing dates for the rates to be compounded
       public List<Date> fixingDates() { return fixingDates_; }
+
       //! accrual (compounding) periods
       public List<double> dt() { return dt_; }
+
       //! value dates for the rates to be compounded
       public List<Date> valueDates() { return valueDates_; }
 
       private List<Date> valueDates_, fixingDates_;
       private List<double> fixings_;
-      int n_;
-      List<double> dt_;
+      private int n_;
+      private List<double> dt_;
    }
 
    //! helper class building a sequence of overnight coupons
@@ -209,41 +212,49 @@ namespace QLNet
          overnightIndex_ = overnightIndex;
          paymentAdjustment_ = BusinessDayConvention.Following;
       }
+
       public new OvernightLeg withNotionals(double notional)
       {
          notionals_ = new List<double>(); notionals_.Add(notional);
          return this;
       }
+
       public new OvernightLeg withNotionals(List<double> notionals)
       {
          notionals_ = notionals;
          return this;
       }
+
       public OvernightLeg withPaymentDayCounter(DayCounter dayCounter)
       {
          paymentDayCounter_ = dayCounter;
          return this;
       }
+
       public new OvernightLeg withPaymentAdjustment(BusinessDayConvention convention)
       {
          paymentAdjustment_ = convention;
          return this;
       }
+
       public OvernightLeg withGearings(double gearing)
       {
          gearings_ = new List<double>(); gearings_.Add(gearing);
          return this;
       }
+
       public OvernightLeg withGearings(List<double> gearings)
       {
          gearings_ = gearings;
          return this;
       }
+
       public OvernightLeg withSpreads(double spread)
       {
          spreads_ = new List<double>(); spreads_.Add(spread);
          return this;
       }
+
       public OvernightLeg withSpreads(List<double> spreads)
       {
          spreads_ = spreads;
@@ -257,11 +268,12 @@ namespace QLNet
 
       //private Schedule schedule_;
       private OvernightIndex overnightIndex_;
+
       //private List<double> notionals_;
       //private DayCounter paymentDayCounter_;
       //private BusinessDayConvention paymentAdjustment_;
       private List<double> gearings_;
+
       private List<double> spreads_;
    };
-
 }

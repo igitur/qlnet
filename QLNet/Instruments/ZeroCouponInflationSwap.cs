@@ -51,9 +51,9 @@ namespace QLNet
        \note we do not need Schedules on the legs because they use
              one or two dates only per leg.
    */
+
    public class ZeroCouponInflationSwap : Swap
    {
-
       public enum Type { Receiver = -1, Payer = 1 };
 
       /* Generally inflation indices are available with a lag of 1month
@@ -61,6 +61,7 @@ namespace QLNet
          they use an interpolated fixing or not.  Here, we make the
          swap use the interpolation of the index to avoid incompatibilities.
       */
+
       public ZeroCouponInflationSwap(Type type,
                                      double nominal,
                                      Date startDate,   // start date of contract (only)
@@ -151,10 +152,12 @@ namespace QLNet
                payer_[0] = +1.0;
                payer_[1] = -1.0;
                break;
+
             case Type.Receiver:
                payer_[0] = -1.0;
                payer_[1] = +1.0;
                break;
+
             default:
                Utils.QL_FAIL("Unknown zero-inflation-swap type");
                break;
@@ -165,25 +168,39 @@ namespace QLNet
 
       //! "payer" or "receiver" refer to the inflation-indexed leg
       public Type type() { return type_; }
+
       public double nominal() { return nominal_; }
+
       public new Date startDate() { return startDate_; }
+
       public new Date maturityDate() { return maturityDate_; }
+
       public Calendar fixedCalendar() { return fixCalendar_; }
+
       public BusinessDayConvention fixedConvention() { return fixConvention_; }
+
       public DayCounter dayCounter() { return dayCounter_; }
+
       //! \f$ K \f$ in the above formula.
       public double fixedRate() { return fixedRate_; }
+
       public ZeroInflationIndex inflationIndex() { return infIndex_; }
+
       public Period observationLag() { return observationLag_; }
+
       public bool adjustObservationDates() { return adjustInfObsDates_; }
+
       public Calendar inflationCalendar() { return infCalendar_; }
+
       public BusinessDayConvention inflationConvention() { return infConvention_; }
+
       //! just one cashflow (that is not a coupon) in each leg
       public List<CashFlow> fixedLeg() { return legs_[0]; }
+
       //! just one cashflow (that is not a coupon) in each leg
       public List<CashFlow> inflationLeg() { return legs_[1]; }
 
-      #endregion
+      #endregion Inspectors
 
       #region Instrument interface
 
@@ -192,13 +209,14 @@ namespace QLNet
          base.setupArguments(args);
          // you don't actually need to do anything else because it is so simple
       }
+
       public override void fetchResults(IPricingEngineResults r)
       {
          base.fetchResults(r);
          // you don't actually need to do anything else because it is so simple
       }
 
-      #endregion
+      #endregion Instrument interface
 
       #region Results
 
@@ -208,12 +226,14 @@ namespace QLNet
          Utils.QL_REQUIRE(legNPV_[0] != null, () => "result not available");
          return legNPV_[0].Value;
       }
+
       public double inflationLegNPV()
       {
          calculate();
          Utils.QL_REQUIRE(legNPV_[1] != null, () => "result not available");
          return legNPV_[1].Value;
       }
+
       public double fairRate()
       {
          // What does this mean before or after trade date?
@@ -238,8 +258,7 @@ namespace QLNet
          //      maturityDate(), observationLag(), infIndex_->interpolated());
       }
 
-      #endregion
-
+      #endregion Results
 
       protected Type type_;
       protected double nominal_;
@@ -258,6 +277,7 @@ namespace QLNet
       public new class Arguments : Swap.Arguments
       {
          public double fixedRate;
+
          public override void validate()
          {
             base.validate();
@@ -266,6 +286,5 @@ namespace QLNet
       }
 
       public class Engine : GenericEngine<ZeroCouponInflationSwap.Arguments, ZeroCouponInflationSwap.Results> { };
-
    }
 }

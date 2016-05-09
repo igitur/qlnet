@@ -18,12 +18,12 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
 namespace QLNet
 {
-
    /*!
        \ingroup datetime
        \test the methods for adding and removing holidays are tested
@@ -43,6 +43,7 @@ namespace QLNet
    public class Calendar
    {
       protected Calendar calendar_;
+
       public List<Date> addedHolidays = new List<Date>(),
                          removedHolidays = new List<Date>();
 
@@ -56,7 +57,9 @@ namespace QLNet
       /*! The default constructor returns a calendar with a null
           implementation, which is therefore unusable except as a
           placeholder. */
+
       public Calendar() { }
+
       public Calendar(Calendar c) { calendar_ = c; }
 
       //! \name Wrappers for interface
@@ -70,6 +73,7 @@ namespace QLNet
       /// The name of the calendar.
       /// </returns>
       public virtual string name() { return calendar.name(); }
+
       /// <param name="d">Date</param>
       /// <returns>Returns <tt>true</tt> iff the date is a business day for the
       /// given market.</returns>
@@ -81,11 +85,13 @@ namespace QLNet
             return true;
          return calendar.isBusinessDay(d);
       }
+
       ///<summary>
       /// Returns <tt>true</tt> iff the weekday is part of the
       /// weekend for the given market.
       ///</summary>
       public virtual bool isWeekend(DayOfWeek w) { return calendar.isWeekend(w); }
+
       //@}
 
       // other functions
@@ -93,16 +99,19 @@ namespace QLNet
       /// Returns whether or not the calendar is initialized
       /// </summary>
       public bool empty() { return (object)calendar == null; }          //!  Returns whether or not the calendar is initialized
+
                                                                         /// <summary>
                                                                         /// Returns <tt>true</tt> iff the date is a holiday for the given
                                                                         /// market.
                                                                         /// </summary>
       public bool isHoliday(Date d) { return !isBusinessDay(d); }
+
       /// <summary>
       /// Returns <tt>true</tt> iff the date is last business day for the
       /// month in given market.
       /// </summary>
       public bool isEndOfMonth(Date d) { return (d.Month != adjust(d + 1).Month); }
+
       /// <summary>
       /// last business day of the month to which the given date belongs
       /// </summary>
@@ -207,6 +216,7 @@ namespace QLNet
             return adjust(d1, c);
          }
       }
+
       /// <summary>
       /// Advances the given date as specified by the given period and
       /// returns the result.
@@ -271,6 +281,7 @@ namespace QLNet
          if (isBusinessDay(d))
             calendar.addedHolidays.Add(d);
       }
+
       /// <summary>
       /// Removes a date from the set of holidays for the given calendar.
       /// </summary>
@@ -283,6 +294,7 @@ namespace QLNet
          if (!isBusinessDay(d))
             calendar.removedHolidays.Add(d);
       }
+
       /// <summary>
       /// Returns the holidays between two dates
       /// </summary>
@@ -312,9 +324,10 @@ namespace QLNet
       public class WesternImpl : Calendar
       {     // Western calendars
          public WesternImpl() { }
+
          public WesternImpl(Calendar c) : base(c) { }
 
-         int[] EasterMonday = {
+         private int[] EasterMonday = {
                         98,  90, 103,  95, 114, 106,  91, 111, 102,   // 1901-1909
 		             87, 107,  99,  83, 103,  95, 115,  99,  91, 111,   // 1910-1919
 		             96,  87, 107,  92, 112, 103,  95, 108, 100,  91,   // 1920-1929
@@ -348,6 +361,7 @@ namespace QLNet
 		        };
 
          public override bool isWeekend(DayOfWeek w) { return w == DayOfWeek.Saturday || w == DayOfWeek.Sunday; }
+
          /// <summary>
          /// Expressed relative to first day of year
          /// </summary>
@@ -358,6 +372,7 @@ namespace QLNet
             return EasterMonday[y - 1901];
          }
       }
+
       /// <summary>
       /// This class provides the means of determining the Orthodox
       /// Easter Monday for a given year, as well as specifying
@@ -366,9 +381,10 @@ namespace QLNet
       public class OrthodoxImpl : Calendar
       {     // Orthodox calendars
          public OrthodoxImpl() { }
+
          public OrthodoxImpl(Calendar c) : base(c) { }
 
-         int[] EasterMonday = {
+         private int[] EasterMonday = {
                        105, 118, 110, 102, 121, 106, 126, 118, 102,   // 1901-1909
 		            122, 114,  99, 118, 110,  95, 115, 106, 126, 111,   // 1910-1919
 		            103, 122, 107,  99, 119, 110, 123, 115, 107, 126,   // 1920-1929
@@ -402,6 +418,7 @@ namespace QLNet
 		        };
 
          public override bool isWeekend(DayOfWeek w) { return w == DayOfWeek.Saturday || w == DayOfWeek.Sunday; }
+
          /// <summary>
          /// expressed relative to first day of year
          /// </summary>
@@ -437,8 +454,11 @@ namespace QLNet
       {
          return !(c1 == c2);
       }
+
       public override bool Equals(object o) { return (this == (Calendar)o); }
+
       public override int GetHashCode() { return 0; }
+
       //@}
    }
 }

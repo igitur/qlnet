@@ -22,7 +22,8 @@ namespace QLNet
               reproducing results available in literature.
 
    */
-   class MCEuropeanBasketEngine
+
+   internal class MCEuropeanBasketEngine
    {
    }
 }

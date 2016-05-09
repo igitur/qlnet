@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -24,15 +25,21 @@ namespace QLNet
    public interface IOperator : ICloneable
    {
       int size();
+
       IOperator identity(int size);
+
       Vector applyTo(Vector v);
+
       Vector solveFor(Vector rhs);
 
       IOperator multiply(double a, IOperator D);
+
       IOperator add(IOperator A, IOperator B);
+
       IOperator subtract(IOperator A, IOperator B);
 
       bool isTimeDependent();
+
       void setTime(double t);
    }
 
@@ -43,18 +50,23 @@ namespace QLNet
 
        \ingroup findiff
    */
+
    public class TridiagonalOperator : IOperator
    {
       protected TimeSetter timeSetter_;
 
       protected Vector diagonal_, lowerDiagonal_, upperDiagonal_;
+
       public Vector lowerDiagonal() { return lowerDiagonal_; }
+
       public Vector diagonal() { return diagonal_; }
+
       public Vector upperDiagonal() { return upperDiagonal_; }
 
       public int size() { return diagonal_.Count; }
 
       public TridiagonalOperator() : this(0) { }
+
       public TridiagonalOperator(int size)
       {
          if (size >= 2)
@@ -125,7 +137,6 @@ namespace QLNet
          TridiagonalOperator result = new TridiagonalOperator(low, mid, high);
          return result;
       }
-
 
       //! apply operator to a given array
       public Vector applyTo(Vector v)
@@ -231,6 +242,7 @@ namespace QLNet
          diagonal_[0] = valB;
          upperDiagonal_[0] = valC;
       }
+
       public void setMidRow(int i, double valA, double valB, double valC)
       {
          if (!(i >= 1 && i <= size() - 2))
@@ -257,6 +269,7 @@ namespace QLNet
       }
 
       public bool isTimeDependent() { return timeSetter_ != null; }
+
       public void setTime(double t)
       {
          if (timeSetter_ != null)
@@ -270,4 +283,3 @@ namespace QLNet
       }
    }
 }
-

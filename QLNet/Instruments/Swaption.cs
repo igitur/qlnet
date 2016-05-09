@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Linq;
 
@@ -47,18 +48,17 @@ namespace QLNet
          is tested by checking the modified annuity against a value
          calculated without using the Swaption class.
 
-
        \todo add greeks and explicit exercise lag
    */
 
    public class Swaption : Option
    {
-
       public Arguments arguments;
       public SwaptionEngine engine;
 
       // arguments
       private VanillaSwap swap_;
+
       //Handle<YieldTermStructure> termStructure_;
       private Settlement.Type settlementType_;
 
@@ -97,7 +97,7 @@ namespace QLNet
          arguments.exercise = exercise_;
       }
 
-      void validate()
+      private void validate()
       {
          arguments.validate();
          if (arguments.swap == null)
@@ -148,6 +148,7 @@ namespace QLNet
          public Exercise exercise;
          public VanillaSwap swap;
          public Settlement.Type settlementType;
+
          public Arguments()
          {
             settlementType = Settlement.Type.Physical;
@@ -165,7 +166,6 @@ namespace QLNet
 
    public class ImpliedVolHelper_ : ISolver1d
    {
-
       private IPricingEngine engine_;
       private Handle<YieldTermStructure> discountCurve_;
       private double targetValue_;
@@ -211,6 +211,3 @@ namespace QLNet
       }
    }
 }
-
-
-

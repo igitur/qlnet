@@ -38,6 +38,7 @@ namespace QLNet
          cash-or-nothing at-hit digital payoff is tested by
          reproducing numerical derivatives.
    */
+
    public class AnalyticDigitalAmericanEngine : VanillaOption.Engine
    {
       public AnalyticDigitalAmericanEngine(GeneralizedBlackScholesProcess process)
@@ -82,8 +83,8 @@ namespace QLNet
                                           arguments_.exercise.lastDate());
             results_.rho = pricer.rho(t);
          }
-
       }
+
       public virtual bool knock_in() { return true; }
 
       private GeneralizedBlackScholesProcess process_;
@@ -119,7 +120,5 @@ namespace QLNet
       { }
 
       public override bool knock_in() { return false; }
-
    }
-
 }

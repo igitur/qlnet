@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -62,10 +63,12 @@ namespace QLNet
                if (now <= stoppingTimes_[1] && now >= stoppingTimes_[0])
                   applySpecificCondition();
                break;
+
             case Exercise.Type.European:
                if (isOnTime(stoppingTimes_[0]))
                   applySpecificCondition();
                break;
+
             case Exercise.Type.Bermudan:
                for (int i = 0; i < stoppingTimes_.Count; i++)
                {
@@ -73,6 +76,7 @@ namespace QLNet
                      applySpecificCondition();
                }
                break;
+
             default:
                throw new ApplicationException("invalid option type");
          }

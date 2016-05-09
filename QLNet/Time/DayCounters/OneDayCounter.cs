@@ -24,12 +24,14 @@ namespace QLNet
    {
       public OneDayCounter() : base(Impl.Singleton) { }
 
-      class Impl : DayCounter
+      private class Impl : DayCounter
       {
          public static readonly Impl Singleton = new Impl();
+
          private Impl() { }
 
          public override string name() { return "1/1"; }
+
          public override int dayCount(Date d1, Date d2)
          {
             // the sign is all we need

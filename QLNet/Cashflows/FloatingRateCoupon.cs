@@ -18,6 +18,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -82,7 +83,6 @@ namespace QLNet
 
       public FloatingRateCouponPricer pricer() { return pricer_; }
 
-
       //////////////////////////////////////////////////////////////////////////////////////
       // CashFlow interface
       public override double amount()
@@ -90,7 +90,6 @@ namespace QLNet
          double result = rate() * accrualPeriod() * nominal();
          return result;
       }
-
 
       //////////////////////////////////////////////////////////////////////////////////////
       // Coupon interface
@@ -101,7 +100,9 @@ namespace QLNet
          double result = pricer_.swapletRate();
          return result;
       }
+
       public override DayCounter dayCounter() { return dayCounter_; }
+
       public override double accruedAmount(Date d)
       {
          if (d <= accrualStartDate_ || d > paymentDate_)
@@ -115,30 +116,34 @@ namespace QLNet
          }
       }
 
-
       //////////////////////////////////////////////////////////////////////////////////////
       // properties
       public InterestRateIndex index() { return index_; }              //! floating index
+
       public int fixingDays { get { return fixingDays_; } }                   //! fixing days
+
       public virtual Date fixingDate()
       {                                               //! fixing date
          // if isInArrears_ fix at the end of period
          Date refDate = isInArrears_ ? accrualEndDate_ : accrualStartDate_;
          return index_.fixingCalendar().advance(refDate, -fixingDays_, TimeUnit.Days, BusinessDayConvention.Preceding);
       }
+
       public double gearing() { return gearing_; }                     //! index gearing, i.e. multiplicative coefficient for the index
+
       public double spread() { return spread_; }                       //! spread paid over the fixing of the underlying index
+
       //! fixing of the underlying index
       public virtual double indexFixing() { return index_.fixing(fixingDate()); }
+
       //! convexity-adjusted fixing
       public double adjustedFixing { get { return (rate() - spread()) / gearing(); } }
+
       //! whether or not the coupon fixes in arrears
       public bool isInArrears() { return isInArrears_; }
 
-
       // Observer interface
       public void update() { notifyObservers(); }
-
 
       //////////////////////////////////////////////////////////////////////////////////////
       // methods
@@ -158,7 +163,6 @@ namespace QLNet
       {
          return convexityAdjustmentImpl(indexFixing());
       }
-
 
       // Factory - for Leg generators
       public virtual CashFlow factory(double nominal, Date paymentDate, Date startDate, Date endDate, int fixingDays,

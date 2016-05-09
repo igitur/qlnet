@@ -19,7 +19,6 @@
 
 namespace QLNet
 {
-
    //! Australian dollar
    //    ! The ISO three-letter code is AUD; the numeric code is 36.
    //        It is divided into 100 cents.
@@ -41,5 +40,4 @@ namespace QLNet
    {
       public NZDCurrency() : base("New Zealand dollar", "NZD", 554, "NZ$", "", 100, new Rounding(), "%3% %1$.2f") { }
    }
-
 }

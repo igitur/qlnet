@@ -35,6 +35,7 @@ namespace QLNet
        \test the correctness of the returned value is tested by
              reproducing results available in literature.
    */
+
    public class StulzEngine : BasketOption.Engine
    {
       public StulzEngine(GeneralizedBlackScholesProcess process1, GeneralizedBlackScholesProcess process2, double correlation)
@@ -45,9 +46,9 @@ namespace QLNet
          process1_.registerWith(update);
          process2_.registerWith(update);
       }
+
       public override void calculate()
       {
-
          Utils.QL_REQUIRE(arguments_.exercise.type() == Exercise.Type.European, () => "not an European Option");
 
          EuropeanExercise exercise = arguments_.exercise as EuropeanExercise;
@@ -101,10 +102,10 @@ namespace QLNet
                                                 riskFreeDiscount,
                                                 variance1, variance2, rho_);
                   break;
+
                default:
                   Utils.QL_FAIL("unknown option type");
                   break;
-
             }
          }
          else if (min_basket != null)
@@ -128,17 +129,16 @@ namespace QLNet
                                                 riskFreeDiscount,
                                                 variance1, variance2, rho_);
                   break;
+
                default:
                   Utils.QL_FAIL("unknown option type");
                   break;
             }
-
          }
          else
          {
             Utils.QL_FAIL("unknown type");
          }
-
       }
 
       // calculate the value of euro min basket call
@@ -179,7 +179,6 @@ namespace QLNet
 
          return riskFreeDiscount * (forward1 * alfa + forward2 * beta - strike * gamma);
       }
-
 
       // calculate the value of euro max basket call
       private double euroTwoAssetMaxBasketCall(double forward1, double forward2, double strike, double riskFreeDiscount,

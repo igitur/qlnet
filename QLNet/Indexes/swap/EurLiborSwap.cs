@@ -29,6 +29,7 @@ namespace QLNet
        Reuters page ISDAFIX.
 
    */
+
    public class EurLiborSwapIsdaFixA : SwapIndex
    {
       public EurLiborSwapIsdaFixA(Period tenor)
@@ -76,6 +77,7 @@ namespace QLNet
        Reuters page ISDAFIX.
 
    */
+
    public class EurLiborSwapIsdaFixB : SwapIndex
    {
       public EurLiborSwapIsdaFixB(Period tenor)
@@ -120,6 +122,7 @@ namespace QLNet
        For more info see <http://www.ifrmarkets.com>.
 
    */
+
    public class EurLiborSwapIfrFix : SwapIndex
    {
       public EurLiborSwapIfrFix(Period tenor)
@@ -139,7 +142,6 @@ namespace QLNet
                     new EURLibor(new Period(3, TimeUnit.Months), h))
       { }
 
-
       public EurLiborSwapIfrFix(Period tenor,
                                Handle<YieldTermStructure> forwarding,
                                Handle<YieldTermStructure> discounting)
@@ -156,6 +158,5 @@ namespace QLNet
                     new EURLibor(new Period(3, TimeUnit.Months), forwarding),
                 discounting)
       { }
-
    }
 }

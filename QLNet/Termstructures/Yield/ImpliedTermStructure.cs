@@ -31,6 +31,7 @@ namespace QLNet
        - the correctness of the returned values is tested by checking them against numerical calculations.
        - observability against changes in the underlying term structure is checked.
    */
+
    public class ImpliedTermStructure : YieldTermStructure
    {
       private Handle<YieldTermStructure> originalCurve_;
@@ -45,14 +46,19 @@ namespace QLNet
       //! \name YieldTermStructure interface
       //@{
       public override DayCounter dayCounter() { return originalCurve_.link.dayCounter(); }
+
       public override Calendar calendar() { return originalCurve_.link.calendar(); }
+
       public override int settlementDays() { return originalCurve_.link.settlementDays(); }
+
       public override Date maxDate() { return originalCurve_.link.maxDate(); }
+
       //@}
 
       //! returns the discount factor as seen from the evaluation date
       /* t is relative to the current reference date and needs to be converted to the time relative
          to the reference date of the original curve */
+
       protected override double discountImpl(double t)
       {
          Date refDate = referenceDate();

@@ -17,7 +17,6 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
-
 namespace QLNet
 {
    //! Finite-differences pricing engine for dividend American options
@@ -29,6 +28,7 @@ namespace QLNet
        - the invariance of the results upon addition of null
          dividends is tested.
    */
+
    public class FDDividendAmericanEngine : FDEngineAdapter<FDAmericanCondition<FDDividendEngine>, DividendVanillaOption.Engine>,
        IFDEngine
    {
@@ -44,6 +44,5 @@ namespace QLNet
       {
          return new FDDividendAmericanEngine(process, timeSteps, gridPoints);
       }
-
    }
 }

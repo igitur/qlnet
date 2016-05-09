@@ -95,8 +95,8 @@ namespace QLNet
 
          // Return new step value
          return t;
-
       }
+
       private double alpha_, beta_;
       private double extrapolation_;
    }

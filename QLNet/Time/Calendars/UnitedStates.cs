@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -119,6 +120,7 @@ namespace QLNet
       };
 
       public UnitedStates() : this(Market.Settlement) { }
+
       public UnitedStates(Market m) : base()
       {
          switch (m)
@@ -126,15 +128,19 @@ namespace QLNet
             case Market.Settlement:
                calendar_ = Settlement.Singleton;
                break;
+
             case Market.NYSE:
                calendar_ = NYSE.Singleton;
                break;
+
             case Market.GovernmentBond:
                calendar_ = GovernmentBond.Singleton;
                break;
+
             case Market.NERC:
                calendar_ = NERC.Singleton;
                break;
+
             default:
                throw new ArgumentException("Unknown market: " + m);
          }
@@ -143,9 +149,11 @@ namespace QLNet
       private class Settlement : Calendar.WesternImpl
       {
          public static readonly Settlement Singleton = new Settlement();
+
          private Settlement() { }
 
          public override string name() { return "US settlement"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;
@@ -182,12 +190,15 @@ namespace QLNet
             return true;
          }
       }
+
       private class NYSE : Calendar.WesternImpl
       {
          public static readonly NYSE Singleton = new NYSE();
+
          private NYSE() { }
 
          public override string name() { return "New York stock exchange"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;
@@ -215,7 +226,6 @@ namespace QLNet
                 || ((d == 25 || (d == 26 && w == DayOfWeek.Monday) ||
                      (d == 24 && w == DayOfWeek.Friday)) && m == Month.December)
                 ) return false;
-
 
             if (y >= 1998 && (d >= 15 && d <= 21) && w == DayOfWeek.Monday && m == Month.January)
                // Martin Luther King's birthday (third Monday in January)
@@ -272,12 +282,15 @@ namespace QLNet
             return true;
          }
       }
+
       private class GovernmentBond : Calendar.WesternImpl
       {
          public static readonly GovernmentBond Singleton = new GovernmentBond();
+
          private GovernmentBond() { }
 
          public override string name() { return "US government bond market"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;
@@ -315,12 +328,15 @@ namespace QLNet
             return true;
          }
       }
+
       private class NERC : Calendar.WesternImpl
       {
          public static readonly NERC Singleton = new NERC();
+
          private NERC() { }
 
          public override string name() { return "North American Energy Reliability Council"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;

@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -31,18 +32,20 @@ namespace QLNet
    // no settlement days must be used.
    public abstract class Index : IObservable
    {
-
       //! Returns the name of the index.
       //! \warning This method is used for output and comparison between indexes.
       // It is <b>not</b> meant to be used for writing switch-on-type code.
       public abstract string name();
 
       public abstract Calendar fixingCalendar();   //! returns the calendar defining valid fixing dates
+
       public abstract bool isValidFixingDate(Date fixingDate);   //! returns TRUE if the fixing date is a valid one
 
       //! returns the fixing at the given date
       /*! the date passed as arguments must be the actual calendar date of the fixing; no settlement days must be used. */
+
       public virtual double fixing(Date fixingDate) { return fixing(fixingDate, false); }
+
       public abstract double fixing(Date fixingDate, bool forecastTodaysFixing);
 
       //! returns the fixing TimeSeries
@@ -53,6 +56,7 @@ namespace QLNet
 
       // stores the historical fixing at the given date
       public virtual void addFixing(Date d, double v) { addFixing(d, v, false); }
+
       public virtual void addFixing(Date d, double v, bool forceOverwrite)
       {
          addFixings(new TimeSeries<double>() { { d, v } }, forceOverwrite);
@@ -60,6 +64,7 @@ namespace QLNet
 
       // stores historical fixings at the given dates
       public void addFixings(List<Date> d, List<double> v) { addFixings(d, v, false); }
+
       public void addFixings(List<Date> d, List<double> v, bool forceOverwrite)
       {
          if ((d.Count != v.Count) || d.Count == 0)
@@ -73,6 +78,7 @@ namespace QLNet
 
       // stores historical fixings from a TimeSeries
       public void addFixings(Dictionary<Date, double> source) { addFixings(source, false); }
+
       public void addFixings(Dictionary<Date, double> source, bool forceOverwrite)
       {
          ObservableValue<TimeSeries<double>> target = IndexManager.instance().getHistory(name());
@@ -96,11 +102,14 @@ namespace QLNet
          IndexManager.instance().setHistory(name(), target);
       }
 
-
       #region observable interface
+
       public event Callback notifyObserversEvent;
+
       public void registerWith(Callback handler) { notifyObserversEvent += handler; }
+
       public void unregisterWith(Callback handler) { notifyObserversEvent -= handler; }
+
       protected void notifyObservers()
       {
          Callback handler = notifyObserversEvent;
@@ -109,6 +118,7 @@ namespace QLNet
             handler();
          }
       }
-      #endregion
+
+      #endregion observable interface
    }
 }

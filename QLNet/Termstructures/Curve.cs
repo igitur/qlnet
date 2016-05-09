@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System.Collections.Generic;
 
 namespace QLNet
@@ -26,22 +27,22 @@ namespace QLNet
 
       //protected
       ITraits<T> traits_ { get; }
-      #endregion
 
-      #region InterpolatedCurve
-      #endregion
+      #endregion ITraits
 
       List<BootstrapHelper<T>> instruments_ { get; }
+
       void setTermStructure(BootstrapHelper<T> helper);
 
       double accuracy_ { get; }
       bool moving_ { get; }//set; }
 
       void registerWith(BootstrapHelper<T> helper);
+
       Date initialDate();
 
       double timeFromReference(Date d);
+
       double initialValue();
    }
-
 }

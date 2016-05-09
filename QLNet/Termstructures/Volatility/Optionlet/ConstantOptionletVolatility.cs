@@ -60,9 +60,10 @@ namespace QLNet
          volatility_ = new Handle<Quote>(new SimpleQuote(vol));
       }
 
-
       public override Date maxDate() { return Date.maxDate(); }
+
       public override double minStrike() { return double.MinValue; }
+
       public override double maxStrike() { return double.MaxValue; }
 
       protected override SmileSection smileSectionImpl(Date d)
@@ -81,6 +82,5 @@ namespace QLNet
       {
          return volatility_.link.value();
       }
-
    }
 }

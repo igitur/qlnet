@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -65,6 +66,7 @@ namespace QLNet
        \test the correctness of the returned results is tested
              against a list of known holidays.
    */
+
    public class Brazil : Calendar
    {
       //! Brazilian calendars
@@ -75,6 +77,7 @@ namespace QLNet
       }
 
       public Brazil() : this(Market.Settlement) { }
+
       public Brazil(Market market)
       {
          // all calendar instances on the same market share the same implementation instance
@@ -83,21 +86,24 @@ namespace QLNet
             case Market.Settlement:
                calendar_ = SettlementImpl.Singleton;
                break;
+
             case Market.Exchange:
                calendar_ = ExchangeImpl.Singleton;
                break;
+
             default:
                throw new ApplicationException("unknown market");
          }
       }
 
-
       private class SettlementImpl : Calendar.WesternImpl
       {
          public static readonly SettlementImpl Singleton = new SettlementImpl();
+
          private SettlementImpl() { }
 
          public override string name() { return "Brazil"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;
@@ -139,9 +145,11 @@ namespace QLNet
       private class ExchangeImpl : Calendar.WesternImpl
       {
          public static readonly ExchangeImpl Singleton = new ExchangeImpl();
+
          private ExchangeImpl() { }
 
          public override string name() { return "BOVESPA"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;
@@ -189,6 +197,5 @@ namespace QLNet
             return true;
          }
       }
-
    }
 }

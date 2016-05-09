@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -26,6 +27,7 @@ namespace QLNet
        \test the correctness of the returned value is tested by
              reproducing results available in literature.
    */
+
    public class BjerksundStenslandApproximationEngine : VanillaOption.Engine
    {
       private GeneralizedBlackScholesProcess process_;
@@ -39,7 +41,6 @@ namespace QLNet
 
       public override void calculate()
       {
-
          if (!(arguments_.exercise.type() == Exercise.Type.American))
             throw new ApplicationException("not an American Option");
 
@@ -104,13 +105,11 @@ namespace QLNet
          }
       }
 
-
       // helper functions
       private CumulativeNormalDistribution cumNormalDist = new CumulativeNormalDistribution();
 
-      double phi(double S, double gamma, double H, double I, double rT, double bT, double variance)
+      private double phi(double S, double gamma, double H, double I, double rT, double bT, double variance)
       {
-
          double lambda = (-rT + gamma * bT + 0.5 * gamma * (gamma - 1.0) * variance);
          double d = -(Math.Log(S / H) + (bT + (gamma - 0.5) * variance)) / Math.Sqrt(variance);
          double kappa = 2.0 * bT / variance + (2.0 * gamma - 1.0);
@@ -119,10 +118,8 @@ namespace QLNet
                 cumNormalDist.value(d - 2.0 * Math.Log(I / S) / Math.Sqrt(variance)));
       }
 
-
-      double americanCallApproximation(double S, double X, double rfD, double dD, double variance)
+      private double americanCallApproximation(double S, double X, double rfD, double dD, double variance)
       {
-
          double bT = Math.Log(dD / rfD);
          double rT = Math.Log(1.0 / rfD);
 
@@ -152,6 +149,5 @@ namespace QLNet
                 + X * phi(S, 0.0, X, I, rT, bT, variance);
          }
       }
-
    }
 }

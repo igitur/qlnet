@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -23,8 +24,11 @@ namespace QLNet
    public abstract class PdeSecondOrderParabolic
    {
       public abstract double diffusion(double t, double x);
+
       public abstract double drift(double t, double x);
+
       public abstract double discount(double t, double x);
+
       public abstract PdeSecondOrderParabolic factory(GeneralizedBlackScholesProcess process);
 
       public void generateOperator(double t, TransformedGrid tg, TridiagonalOperator L)
@@ -44,7 +48,6 @@ namespace QLNet
       }
    }
 
-
    public class PdeConstantCoeff<PdeClass> : PdeSecondOrderParabolic where PdeClass : PdeSecondOrderParabolic, new()
    {
       private double diffusion_;
@@ -60,19 +63,22 @@ namespace QLNet
       }
 
       public override double diffusion(double x, double y) { return diffusion_; }
+
       public override double drift(double x, double y) { return drift_; }
+
       public override double discount(double x, double y) { return discount_; }
+
       public override PdeSecondOrderParabolic factory(GeneralizedBlackScholesProcess process)
       {
          throw new NotSupportedException();
       }
    }
 
-
    public class GenericTimeSetter<PdeClass> : TridiagonalOperator.TimeSetter where PdeClass : PdeSecondOrderParabolic, new()
    {
       // typedef LogGrid grid_type;
       private LogGrid grid_;
+
       private PdeClass pde_;
 
       public GenericTimeSetter(Vector grid, GeneralizedBlackScholesProcess process)
@@ -87,10 +93,10 @@ namespace QLNet
       }
    }
 
-
    public class PdeOperator<PdeClass> : TridiagonalOperator where PdeClass : PdeSecondOrderParabolic, new()
    {
       public PdeOperator(Vector grid, GeneralizedBlackScholesProcess process) : this(grid, process, 0) { }
+
       public PdeOperator(Vector grid, GeneralizedBlackScholesProcess process, double residualTime)
           : base(grid.size())
       {
@@ -98,5 +104,4 @@ namespace QLNet
          setTime(residualTime);
       }
    }
-
 }

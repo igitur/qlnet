@@ -59,30 +59,39 @@ namespace QLNet
       //! \name TermStructure interface
       //@{
       public override DayCounter dayCounter() { return dayCounter_; }
+
       public override Date maxDate() { return Date.maxDate(); }
+
       //@}
       //! \name CallableBondConstantVolatility interface
       //@{
       public override Period maxBondTenor() { return maxBondTenor_; }
+
       public override double maxBondLength() { return double.MaxValue; }
+
       public override double minStrike() { return double.MinValue; }
+
       public override double maxStrike() { return double.MaxValue; }
 
       protected override double volatilityImpl(double d1, double d2, double d3)
       {
          return volatility_.link.value();
       }
+
       protected override SmileSection smileSectionImpl(double optionTime, double bondLength)
       {
          double atmVol = volatility_.link.value();
          return new FlatSmileSection(optionTime, atmVol, dayCounter_);
       }
+
       protected override double volatilityImpl(Date d, Period p, double d1)
       {
          return volatility_.link.value();
       }
+
       //@}
       private Handle<Quote> volatility_;
+
       private DayCounter dayCounter_;
       private Period maxBondTenor_;
    }

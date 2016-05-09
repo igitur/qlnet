@@ -43,6 +43,7 @@ namespace QLNet
        If seasonality is additive then both swap rates will show
        affects.  Additive seasonality is not implemented.
    */
+
    public class Seasonality
    {
       //! \name Seasonality interface
@@ -67,10 +68,12 @@ namespace QLNet
           Alternatively, the seasonality can be set _before_ the
           inflation curve is bootstrapped.
       */
+
       public virtual bool isConsistent(InflationTermStructure iTS)
       {
          return true;
       }
+
       //@}
    }
 
@@ -129,11 +132,9 @@ namespace QLNet
          set(seasonalityBaseDate, frequency, seasonalityFactors);
       }
 
-
       public virtual void set(Date seasonalityBaseDate, Frequency frequency,
                               List<double> seasonalityFactors)
       {
-
          frequency_ = frequency;
          seasonalityFactors_ = new List<double>(seasonalityFactors.Count);
 
@@ -149,8 +150,11 @@ namespace QLNet
       //! inspectors
       //@{
       public virtual Date seasonalityBaseDate() { return seasonalityBaseDate_; }
+
       public virtual Frequency frequency() { return frequency_; }
+
       public virtual List<double> seasonalityFactors() { return seasonalityFactors_; }
+
       //! The factor returned is NOT normalized relative to ANYTHING.
       public virtual double seasonalityFactor(Date to)
       {
@@ -212,17 +216,16 @@ namespace QLNet
          }
          return seasonalityFactors()[which];
       }
+
       //@}
 
       //! \name Seasonality interface
       //@{
-
       public override double correctZeroRate(Date d, double r, InflationTermStructure iTS)
       {
          KeyValuePair<Date, Date> lim = Utils.inflationPeriod(iTS.baseDate(), iTS.frequency());
          Date curveBaseDate = lim.Value;
          return seasonalityCorrection(r, d, iTS.dayCounter(), curveBaseDate, true);
-
       }
 
       public override double correctYoYRate(Date d, double r, InflationTermStructure iTS)
@@ -234,7 +237,6 @@ namespace QLNet
 
       public override bool isConsistent(InflationTermStructure iTS)
       {
-
          // If multi-year is the specification consistent with the term structure start date?
          // We do NOT test daily seasonality because this will, in general, never be consistent
          // given weekends, holidays, leap years, etc.
@@ -260,8 +262,8 @@ namespace QLNet
          }
 
          return true;
-
       }
+
       //@}
       protected virtual void validate()
       {
@@ -281,12 +283,13 @@ namespace QLNet
                            + " require multiple of " + ((int)this.frequency()) + " factors "
                            + this.seasonalityFactors().Count + " were given.");
                break;
+
             default:
                throw new ApplicationException("bad frequency specified: " + this.frequency()
                         + ", only semi-annual through daily permitted.");
          }
-
       }
+
       protected virtual double seasonalityCorrection(double rate, Date atDate, DayCounter dc,
                                                    Date curveBaseDate, bool isZeroRate)
       {
@@ -355,7 +358,6 @@ namespace QLNet
          }
 
          return seasonalCorrection;
-
       }
 
       protected override double seasonalityCorrection(double rate, Date atDate, DayCounter dc, Date curveBaseDate, bool isZeroRate)

@@ -30,6 +30,7 @@ namespace QLNet
        growthOnly = false means i(T)/i(0), which is a bond-type setting.
        growthOnly = true means i(T)/i(0) - 1, which is a swap-type setting.
    */
+
    public class IndexedCashFlow : CashFlow
    {
       public IndexedCashFlow(double notional,
@@ -48,10 +49,15 @@ namespace QLNet
       }
 
       public override Date date() { return paymentDate_; }
+
       public virtual double notional() { return notional_; }
+
       public virtual Date baseDate() { return baseDate_; }
+
       public virtual Date fixingDate() { return fixingDate_; }
+
       public virtual Index index() { return index_; }
+
       public virtual bool growthOnly() { return growthOnly_; }
 
       public override double amount()
@@ -63,8 +69,8 @@ namespace QLNet
             return notional_ * (I1 / I0 - 1.0);
          else
             return notional_ * (I1 / I0);
-
       }
+
       private double notional_;
       private Index index_;
       private Date baseDate_, fixingDate_, paymentDate_;

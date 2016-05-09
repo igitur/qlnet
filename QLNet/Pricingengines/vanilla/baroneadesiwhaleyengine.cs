@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -26,6 +27,7 @@ namespace QLNet
        \test the correctness of the returned value is tested by
              reproducing results available in literature.
    */
+
    public class BaroneAdesiWhaleyApproximationEngine : VanillaOption.Engine
    {
       private GeneralizedBlackScholesProcess process_;
@@ -43,7 +45,6 @@ namespace QLNet
       public static double criticalPrice(StrikedTypePayoff payoff, double riskFreeDiscount, double dividendDiscount,
                                          double variance, double tolerance)
       {
-
          // Calculation of seed value, Si
          double n = 2.0 * Math.Log(dividendDiscount / riskFreeDiscount) / (variance);
          double m = -2.0 * Math.Log(riskFreeDiscount) / (variance);
@@ -60,6 +61,7 @@ namespace QLNet
                Si = payoff.strike() + (Su - payoff.strike()) *
                    (1.0 - Math.Exp(h));
                break;
+
             case Option.Type.Put:
                qu = (-(n - 1.0) - Math.Sqrt(((n - 1.0) * (n - 1.0)) + 4.0 * m)) / 2.0;
                Su = payoff.strike() / (1.0 - 1.0 / qu);
@@ -67,10 +69,10 @@ namespace QLNet
                    (payoff.strike() - Su);
                Si = Su + (payoff.strike() - Su) * Math.Exp(h);
                break;
+
             default:
                throw new ArgumentException("unknown option type");
          }
-
 
          // Newton Raphson algorithm for finding critical price Si
          double Q, LHS, RHS, bi;
@@ -110,6 +112,7 @@ namespace QLNet
                       / Q;
                }
                break;
+
             case Option.Type.Put:
                Q = (-(n - 1.0) - Math.Sqrt(((n - 1.0) * (n - 1.0)) + 4 * K)) / 2;
                LHS = payoff.strike() - Si;
@@ -132,6 +135,7 @@ namespace QLNet
                          / Math.Sqrt(variance)) / Q;
                }
                break;
+
             default:
                throw new ArgumentException("unknown option type");
          }
@@ -141,7 +145,6 @@ namespace QLNet
 
       public override void calculate()
       {
-
          if (!(arguments_.exercise.type() == Exercise.Type.American))
             throw new ApplicationException("not an American Option");
 
@@ -218,6 +221,7 @@ namespace QLNet
                      results_.value = spot - payoff.strike();
                   }
                   break;
+
                case Option.Type.Put:
                   Q = (-(n - 1.0) - Math.Sqrt(((n - 1.0) * (n - 1.0)) + 4.0 * K)) / 2.0;
                   a = -(Sk / Q) *
@@ -232,6 +236,7 @@ namespace QLNet
                      results_.value = payoff.strike() - spot;
                   }
                   break;
+
                default:
                   throw new ApplicationException("unknown option type");
             }

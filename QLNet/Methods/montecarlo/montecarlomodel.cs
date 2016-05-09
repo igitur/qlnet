@@ -35,6 +35,7 @@ namespace QLNet
 
        \ingroup mcarlo
    */
+
    public class MonteCarloModel<MC, RNG, S> where S : IGeneralStatistics
    {
       //typedef MC<RNG> mc_traits;
@@ -66,6 +67,7 @@ namespace QLNet
       public MonteCarloModel(PathGenerator<IRNG> pathGenerator, PathPricer<IPath> pathPricer, S sampleAccumulator,
                 bool antitheticVariate)
           : this(pathGenerator, pathPricer, sampleAccumulator, antitheticVariate, null, 0, null) { }
+
       public MonteCarloModel(PathGenerator<IRNG> pathGenerator, PathPricer<IPath> pathPricer, S sampleAccumulator,
                              bool antitheticVariate, PathPricer<IPath> cvPathPricer, double cvOptionValue,
                              PathGenerator<IRNG> cvPathGenerator)
@@ -83,12 +85,10 @@ namespace QLNet
             isControlVariate_ = true;
       }
 
-
       public void addSamples(int samples)
       {
          for (int j = 1; j <= samples; j++)
          {
-
             Sample<Path> path = pathGenerator_.next();
             double price = pathPricer_.value(path.value);
 

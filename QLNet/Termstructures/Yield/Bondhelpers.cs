@@ -17,7 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
 
@@ -27,6 +27,7 @@ namespace QLNet
    /*! \warning This class assumes that the reference date
                 does not change between calls of setTermStructure().
    */
+
    public class BondHelper : RateHelper
    {
       /*! \warning Setting a pricing engine to the passed bond from
@@ -35,6 +36,7 @@ namespace QLNet
                    the bond after creating the helper, so that the
                    helper has sole ownership of it.
       */
+
       public BondHelper(Handle<Quote> price, Bond bond, bool useCleanPrice = true)
          : base(price)
       {
@@ -50,7 +52,6 @@ namespace QLNet
 
          useCleanPrice_ = useCleanPrice;
       }
-
 
       //! \name RateHelper interface
       public override void setTermStructure(YieldTermStructure t)
@@ -72,12 +73,12 @@ namespace QLNet
       }
 
       public Bond bond() { return bond_; }
+
       public bool useCleanPrice() { return useCleanPrice_; }
 
       protected Bond bond_;
       protected RelinkableHandle<YieldTermStructure> termStructureHandle_;
       protected bool useCleanPrice_;
-
    }
 
    //! Fixed-coupon bond helper for curve bootstrap
@@ -108,6 +109,7 @@ namespace QLNet
       }
 
       public FixedRateBond fixedRateBond() { return fixedRateBond_; }
+
       protected FixedRateBond fixedRateBond_;
    }
 
@@ -143,7 +145,7 @@ namespace QLNet
       }
 
       public CPIBond cpiBond() { return cpiBond_; }
-      protected CPIBond cpiBond_;
 
+      protected CPIBond cpiBond_;
    }
 }

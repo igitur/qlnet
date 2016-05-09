@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -30,9 +31,11 @@ namespace QLNet
    public class Constraint
    {
       protected IConstraint impl_;
+
       public bool empty() { return impl_ == null; }
 
       public Constraint() : this(null) { }
+
       public Constraint(IConstraint impl)
       {
          impl_ = impl;
@@ -60,7 +63,6 @@ namespace QLNet
       public virtual bool test(Vector p) { return impl_.test(p); }
    }
 
-
    //! No constraint
    public class NoConstraint : Constraint
    {
@@ -68,6 +70,7 @@ namespace QLNet
       {
          public bool test(Vector v) { return true; }
       }
+
       public NoConstraint() : base(new Impl()) { }
    };
 
@@ -111,6 +114,7 @@ namespace QLNet
             low_ = low;
             high_ = high;
          }
+
          public bool test(Vector v)
          {
             for (int i = 0; i < v.Count; i++)

@@ -36,13 +36,16 @@ namespace QLNet
 
        \ingroup lattices
    */
+
    public class Tree<T>
    {
       private int columns_;
+
       public int columns() { return columns_; }
 
       // parameterless constructor is requried for generics
       public Tree() { }
+
       public Tree(int columns)
       {
          columns_ = columns;

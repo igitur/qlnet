@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -153,7 +154,6 @@ namespace QLNet
          strikeSensitivity_ = results.strikeSensitivity;
          itmCashProbability_ = results.itmCashProbability;
       }
-
 
       //! %Results from single-asset option calculation
       new public class Results : Instrument.Results

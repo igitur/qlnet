@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -55,6 +56,7 @@ namespace QLNet
        R = (a L + b) + |a| \min(\frac{C - b}{|a|} - \xi L, 0)
        \f]
     */
+
    public class CappedFlooredYoYInflationCoupon : YoYInflationCoupon
    {
       // we may watch an underlying coupon ...
@@ -81,7 +83,6 @@ namespace QLNet
          setCommon(cap, floor);
          underlying.registerWith(update);
       }
-
 
       // ... or not
       public CappedFlooredYoYInflationCoupon(Date paymentDate,
@@ -146,8 +147,8 @@ namespace QLNet
          }
 
          return swapletRate + floorletRate - capletRate;
-
       }
+
       //! cap
       public double? cap()
       {
@@ -159,6 +160,7 @@ namespace QLNet
 
          return null;
       }
+
       //! floor
       public double? floor()
       {
@@ -170,21 +172,24 @@ namespace QLNet
 
          return null;
       }
+
       //! effective cap of fixing
       public double effectiveCap()
       {
          return (cap_ - spread()) / gearing();
       }
+
       //! effective floor of fixing
       public double effectiveFloor()
       {
          return (floor_ - spread()) / gearing();
       }
+
       //@}
 
       public bool isCapped() { return isCapped_; }
-      public bool isFloored() { return isFloored_; }
 
+      public bool isFloored() { return isFloored_; }
 
       public void setPricer(YoYInflationCouponPricer pricer)
       {
@@ -230,12 +235,12 @@ namespace QLNet
                throw new ApplicationException("cap level (" + cap +
                                                ") less than floor level (" + floor + ")");
          }
-
       }
 
       // data, we only use underlying_ if it was constructed that way,
       // generally we use the shared_ptr conversion to boolean to test
       protected YoYInflationCoupon underlying_;
+
       protected bool isFloored_, isCapped_;
       protected double cap_, floor_;
    }

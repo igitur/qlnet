@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System.Collections.Generic;
 using System.Linq;
 
@@ -34,21 +35,27 @@ namespace QLNet
 
        \ingroup instruments
    */
+
    public class CallableBond : Bond
    {
       public new class Arguments : Bond.Arguments
       {
          public List<Date> couponDates;
          public List<double> couponAmounts;
+
          //! redemption = face amount * redemption / 100.
          public double redemption;
+
          public Date redemptionDate;
          public DayCounter paymentDayCounter;
          public Frequency frequency;
          public CallabilitySchedule putCallSchedule;
+
          //! bond full/dirty/cash prices
          public List<double> callabilityPrices;
+
          public List<Date> callabilityDates;
+
          public override void validate()
          {
             Utils.QL_REQUIRE(settlementDate != null, () => "null settlement date");
@@ -60,11 +67,13 @@ namespace QLNet
             Utils.QL_REQUIRE(couponDates.Count == couponAmounts.Count, () => "different number of coupon dates and amounts");
          }
       }
+
       //! results for a callable bond calculation
       public new class Results : Bond.Results
       {
          // no extra results set yet
       }
+
       //! base class for callable fixed rate bond engine
       public new class Engine : GenericEngine<CallableBond.Arguments, CallableBond.Results> { };
 
@@ -75,6 +84,7 @@ namespace QLNet
       {
          return putCallSchedule_;
       }
+
       //@}
       //! \name Calculations
       //@{
@@ -83,6 +93,7 @@ namespace QLNet
          Chapter 20, pg 536). Relevant only to European put/call
          schedules
       */
+
       public double impliedVolatility(double targetValue,
                                        Handle<YieldTermStructure> discountCurve,
                                        double accuracy,
@@ -99,6 +110,7 @@ namespace QLNet
          solver.setMaxEvaluations(maxEvaluations);
          return solver.solve(f, accuracy, guess, minVol, maxVol);
       }
+
       //@}
       public override void setupArguments(IPricingEngineArguments args)
       {
@@ -136,12 +148,16 @@ namespace QLNet
       protected DayCounter paymentDayCounter_;
       protected Frequency frequency_;
       protected CallabilitySchedule putCallSchedule_;
+
       //! must be set by derived classes for impliedVolatility() to work
       protected IPricingEngine blackEngine_;
+
       //! Black fwd yield volatility quote handle to internal blackEngine_
       protected RelinkableHandle<Quote> blackVolQuote_ = new RelinkableHandle<Quote>();
+
       //! Black fwd yield volatility quote handle to internal blackEngine_
       protected RelinkableHandle<YieldTermStructure> blackDiscountCurve_ = new RelinkableHandle<YieldTermStructure>();
+
       //! helper class for Black implied volatility calculation
       protected class ImpliedVolHelper : ISolver1d
       {
@@ -157,6 +173,7 @@ namespace QLNet
             bond.setupArguments(engine_.getArguments());
             results_ = engine_.getResults() as Instrument.Results;
          }
+
          //double operator()(double x);
          public override double value(double x)
          {
@@ -164,6 +181,7 @@ namespace QLNet
             engine_.calculate(); // get the Black NPV based on vol x
             return results_.value.Value - targetValue_;
          }
+
          private IPricingEngine engine_;
          private double targetValue_;
          private SimpleQuote vol_;
@@ -180,6 +198,7 @@ namespace QLNet
       \link CallableBonds.cpp
       \endlink
    */
+
    public class CallableFixedRateBond : CallableBond
    {
       public CallableFixedRateBond(int settlementDays,
@@ -193,7 +212,6 @@ namespace QLNet
                                     CallabilitySchedule putCallSchedule = null)
          : base(settlementDays, schedule, accrualDayCounter, issueDate, putCallSchedule)
       {
-
          if (putCallSchedule == null)
             putCallSchedule = new CallabilitySchedule();
 
@@ -281,6 +299,7 @@ namespace QLNet
             }
          }
       }
+
       //! accrued interest used internally, where includeToday = false
       /*! same as Bond::accruedAmount() but with enable early
          payments true.  Forces accrued to be calculated in a
@@ -288,6 +307,7 @@ namespace QLNet
          problematic in lattice engines when option dates are also
          coupon dates.
       */
+
       private double accrued(Date settlement)
       {
          if (settlement == null) settlement = settlementDate();
@@ -316,6 +336,7 @@ namespace QLNet
 
        \ingroup instruments
    */
+
    public class CallableZeroCouponBond : CallableFixedRateBond
    {
       public CallableZeroCouponBond(int settlementDays,

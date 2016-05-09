@@ -16,18 +16,18 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-
    public abstract class TwoFactorModel : ShortRateModel
    {
-
       public TwoFactorModel(int nArguments)
               : base(nArguments) { }
 
       public abstract ShortRateDynamics dynamics();
+
       public override Lattice tree(TimeGrid grid)
       {
          ShortRateDynamics dyn = dynamics();
@@ -36,13 +36,11 @@ namespace QLNet
          return (Lattice)(new ShortRateTree(tree1, tree2, dyn));
       }
 
-
       //! Returns the short-rate dynamics
       //virtual boost::shared_ptr<ShortRateDynamics> dynamics() const = 0;
 
       //! Returns a two-dimensional trinomial tree
       //boost::shared_ptr<Lattice> tree(const TimeGrid& grid) const;
-
 
       //! Class describing the dynamics of the two state variables
       /*! We assume here that the short-rate is a function of two state
@@ -65,12 +63,12 @@ namespace QLNet
               dW^x_t dW^y_t = \rho dt
           \f].
       */
+
       public abstract class ShortRateDynamics
       {
-
-
-         StochasticProcess1D xProcess_, yProcess_;
+         private StochasticProcess1D xProcess_, yProcess_;
          public double correlation_;
+
          public ShortRateDynamics(StochasticProcess1D xProcess,
                                      StochasticProcess1D yProcess,
                                      double correlation)
@@ -79,8 +77,6 @@ namespace QLNet
             yProcess_ = yProcess;
             correlation_ = correlation;
          }
-
-
 
          public abstract double shortRate(double t, double x, double y);
 
@@ -104,7 +100,8 @@ namespace QLNet
          {
             return this;
          }
-         ShortRateDynamics dynamics_;
+
+         private ShortRateDynamics dynamics_;
 
          //! Plain tree build-up from short-rate dynamics
          public ShortRateTree(TrinomialTree tree1,
@@ -126,17 +123,12 @@ namespace QLNet
             return Math.Exp(-r * timeGrid().dt(i));
          }
 
-
          #region Interface
 
          public double underlying(int i, int index)
          { throw new NotImplementedException(); }
 
-         #endregion
-
+         #endregion Interface
       }
-
    }
-
 }
-

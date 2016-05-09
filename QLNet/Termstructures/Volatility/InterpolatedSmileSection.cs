@@ -123,7 +123,6 @@ namespace QLNet
          interpolation_.update();
       }
 
-
       protected override double varianceImpl(double strike)
       {
          calculate();
@@ -136,9 +135,13 @@ namespace QLNet
          calculate();
          return interpolation_.value(strike, true);
       }
+
       public override double minStrike() { return strikes_.First(); }
+
       public override double maxStrike() { return strikes_.Last(); }
+
       public override double? atmLevel() { return atmLevel_.link.value(); }
+
       public override void update() { base.update(); }
 
       private double exerciseTimeSquareRoot_;
@@ -151,11 +154,15 @@ namespace QLNet
       #region InterpolatedCurve
 
       public List<double> times_ { get; set; }
+
       public List<double> times() { return this.times_; }
 
       public List<Date> dates_ { get; set; }
+
       public List<Date> dates() { return dates_; }
+
       public Date maxDate_ { get; set; }
+
       public Date maxDate()
       {
          if (maxDate_ != null)
@@ -165,7 +172,9 @@ namespace QLNet
       }
 
       public List<double> data_ { get; set; }
+
       public List<double> discounts() { return this.data_; }
+
       public List<double> data() { return discounts(); }
 
       public Interpolation interpolation_ { get; set; }
@@ -192,6 +201,7 @@ namespace QLNet
          copy.setupInterpolation();
          return copy;
       }
-      #endregion
+
+      #endregion InterpolatedCurve
    }
 }

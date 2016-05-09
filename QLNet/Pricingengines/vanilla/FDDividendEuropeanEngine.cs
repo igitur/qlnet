@@ -28,7 +28,6 @@ namespace QLNet
             bool timeDependent = false)
          : base(process, timeSteps, gridPoints, timeDependent) { }
 
-
       public IFDEngine factory(GeneralizedBlackScholesProcess process, int timeSteps = 100, int gridPoints = 100)
       {
          return new FDDividendEuropeanEngine(process, timeSteps, gridPoints);

@@ -27,6 +27,7 @@ namespace QLNet
 
        \ingroup processes
    */
+
    public class GeometricBrownianMotionProcess : StochasticProcess1D
    {
       protected double initialValue_;

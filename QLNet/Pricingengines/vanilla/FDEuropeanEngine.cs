@@ -25,6 +25,7 @@ namespace QLNet
        \test the correctness of the returned value is tested by
              checking it against analytic results.
    */
+
    public class FDEuropeanEngine : FDVanillaEngine, IGenericEngine
    {
       private SampledCurve prices_;
@@ -33,6 +34,7 @@ namespace QLNet
       //                        Size timeSteps=100, Size gridPoints=100, bool timeDependent = false) {
       public FDEuropeanEngine(GeneralizedBlackScholesProcess process, int timeSteps, int gridPoints)
           : this(process, timeSteps, gridPoints, false) { }
+
       public FDEuropeanEngine(GeneralizedBlackScholesProcess process, int timeSteps, int gridPoints, bool timeDependent)
           : base(process, timeSteps, gridPoints, timeDependent)
       {
@@ -70,18 +72,25 @@ namespace QLNet
       }
 
       #region IGenericEngine copy-cat
+
       protected OneAssetOption.Arguments arguments_ = new OneAssetOption.Arguments();
       protected OneAssetOption.Results results_ = new OneAssetOption.Results();
 
       public IPricingEngineArguments getArguments() { return arguments_; }
+
       public IPricingEngineResults getResults() { return results_; }
+
       public void reset() { results_.reset(); }
 
       #region Observer & Observable
+
       // observable interface
       public event Callback notifyObserversEvent;
+
       public void registerWith(Callback handler) { notifyObserversEvent += handler; }
+
       public void unregisterWith(Callback handler) { notifyObserversEvent -= handler; }
+
       protected void notifyObservers()
       {
          Callback handler = notifyObserversEvent;
@@ -92,7 +101,9 @@ namespace QLNet
       }
 
       public void update() { notifyObservers(); }
-      #endregion
-      #endregion
+
+      #endregion Observer & Observable
+
+      #endregion IGenericEngine copy-cat
    }
 }

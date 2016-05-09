@@ -22,7 +22,6 @@ using System.Collections.Generic;
 
 namespace QLNet
 {
-
    /*! Abstract interface ... no data, only results.
 
     Basically used to change the BlackVariance() methods to
@@ -50,9 +49,7 @@ namespace QLNet
          observationLag_ = observationLag;
          frequency_ = frequency;
          indexIsInterpolated_ = indexIsInterpolated;
-
       }
-
 
       //! \name Volatility (only)
       //@{
@@ -65,6 +62,7 @@ namespace QLNet
       {
          return volatility(maturityDate, strike, new Period(-1, TimeUnit.Days), false);
       }
+
       public double volatility(Date maturityDate, double strike, Period obsLag)
       {
          return volatility(maturityDate, strike, obsLag, false);
@@ -122,14 +120,17 @@ namespace QLNet
        Because inflation is highly linked to dates (for interpolation, periods, etc)
        we do NOT provide a time version
        */
+
       public virtual double totalVariance(Date maturityDate, double strike)
       {
          return totalVariance(maturityDate, strike, new Period(-1, TimeUnit.Days), false);
       }
+
       public virtual double totalVariance(Date maturityDate, double strike, Period obsLag)
       {
          return totalVariance(maturityDate, strike, obsLag, false);
       }
+
       public virtual double totalVariance(Date maturityDate, double strike, Period obsLag, bool extrapolate)
       {
          double vol = volatility(maturityDate, strike, obsLag, extrapolate);
@@ -142,11 +143,13 @@ namespace QLNet
          Date maturityDate = optionDateFromTenor(tenor);
          return totalVariance(maturityDate, strike, new Period(-1, TimeUnit.Days), false);
       }
+
       public virtual double totalVariance(Period tenor, double strike, Period obsLag)
       {
          Date maturityDate = optionDateFromTenor(tenor);
          return totalVariance(maturityDate, strike, obsLag, false);
       }
+
       public virtual double totalVariance(Period tenor, double strike, Period obsLag, bool extrap)
       {
          Date maturityDate = optionDateFromTenor(tenor);
@@ -157,12 +160,13 @@ namespace QLNet
       //! availability lag of the index.  An inflation rate is given,
       //! by default, for the maturity requested assuming this lag.
       public virtual Period observationLag() { return observationLag_; }
+
       public virtual Frequency frequency() { return frequency_; }
+
       public virtual bool indexIsInterpolated() { return indexIsInterpolated_; }
 
       public virtual Date baseDate()
       {
-
          // Depends on interpolation, or not, of observed index
          // and observation lag with which it was built.
          // We want this to work even if the index does not
@@ -187,7 +191,6 @@ namespace QLNet
       //! needed for total variance calculations
       public virtual double timeFromBase(Date maturityDate, Period obsLag)
       {
-
          Period useLag = obsLag;
          if (obsLag == new Period(-1, TimeUnit.Days))
          {
@@ -209,14 +212,17 @@ namespace QLNet
          // which is the usual case.
          return dayCounter().yearFraction(baseDate(), useDate);
       }
+
       //@}
 
       //! \name Limits
       //@{
       //! the minimum strike for which the term structure can return vols
       public override double minStrike() { return 0; }
+
       //! the maximum strike for which the term structure can return vols
       public override double maxStrike() { return 0; }
+
       //@}
 
       // acts as zero time value for boostrapping
@@ -227,17 +233,14 @@ namespace QLNet
          return baseLevel_.Value;
       }
 
-
       protected virtual void checkRange(Date d, double strike, bool extrapolate)
       {
-
          if (d < baseDate())
             throw new ApplicationException("date (" + d + ") is before base date");
 
          if (!extrapolate && !allowsExtrapolation() && d > maxDate())
             throw new ApplicationException("date (" + d + ") is past max curve date ("
                                          + maxDate() + ")");
-
 
          if (!extrapolate && !allowsExtrapolation() &&
               (strike < minStrike() || strike > maxStrike()))
@@ -258,22 +261,21 @@ namespace QLNet
               (strike < minStrike() || strike > maxStrike()))
             throw new ApplicationException("strike (" + strike + ") is outside the curve domain ["
                    + minStrike() + "," + maxStrike() + "] at time = " + t);
-
       }
-
 
       //! Implements the actual volatility surface calculation in
       //! derived classes e.g. bilinear interpolation.  N.B. does
       //! not derive the surface.
       protected virtual double volatilityImpl(double length, double strike) { return 0; }
 
-
       // acts as zero time value for boostrapping
       protected virtual void setBaseLevel(double? v) { baseLevel_ = v; }
+
       protected double? baseLevel_;
 
       // so you do not need an index
       protected Period observationLag_;
+
       protected Frequency frequency_;
       protected bool indexIsInterpolated_;
    }
@@ -281,7 +283,6 @@ namespace QLNet
    //! Constant surface, no K or T dependence.
    public class ConstantYoYOptionletVolatility : YoYOptionletVolatilitySurface
    {
-
       //! \name Constructor
       //@{
       //! calculate the reference date based on the global evaluation date
@@ -307,12 +308,14 @@ namespace QLNet
       //! \name Limits
       //@{
       public override Date maxDate() { return Date.maxDate(); }
+
       //! the minimum strike for which the term structure can return vols
       public override double minStrike() { return minStrike_; }
+
       //! the maximum strike for which the term structure can return vols
       public override double maxStrike() { return maxStrike_; }
-      //@}
 
+      //@}
 
       //! implements the actual volatility calculation in derived classes
       protected override double volatilityImpl(double length, double strike)
@@ -323,5 +326,4 @@ namespace QLNet
       protected double volatility_;
       protected double minStrike_, maxStrike_;
    };
-
 }

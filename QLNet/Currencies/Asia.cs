@@ -24,6 +24,7 @@ namespace QLNet
        It is divided in 100 paisa.
           \ingroup currencies
    */
+
    public class BDTCurrency : Currency
    {
       public BDTCurrency() : base("Bangladesh taka", "BDT", 50, "Bt", "", 100, new Rounding(), "%3% %1$.2f") { }
@@ -35,6 +36,7 @@ namespace QLNet
 
       \ingroup currencies
    */
+
    public class CNYCurrency : Currency
    {
       public CNYCurrency() : base("Chinese yuan", "CNY", 156, "Y", "", 100, new Rounding(), "%3% %1$.2f") { }
@@ -46,6 +48,7 @@ namespace QLNet
 
       \ingroup currencies
    */
+
    public class HKDCurrency : Currency
    {
       public HKDCurrency() : base("Hong Kong dollar", "HKD", 344, "HK$", "", 100, new Rounding(), "%3% %1$.2f") { }
@@ -57,6 +60,7 @@ namespace QLNet
 
        \ingroup currencies
   */
+
    public class IDRCurrency : Currency
    {
       public IDRCurrency() : base("Indonesian Rupiah", "IDR", 360, "Rp", "", 100, new Rounding(), "%3% %1$.2f") { }
@@ -68,6 +72,7 @@ namespace QLNet
 
       \ingroup currencies
    */
+
    public class ILSCurrency : Currency
    {
       public ILSCurrency() : base("Israeli shekel", "ILS", 376, "NIS", "", 100, new Rounding(), "%1$.2f %3%") { }
@@ -79,6 +84,7 @@ namespace QLNet
 
       \ingroup currencies
    */
+
    public class INRCurrency : Currency
    {
       public INRCurrency()
@@ -91,6 +97,7 @@ namespace QLNet
 
       \ingroup currencies
    */
+
    public class IQDCurrency : Currency
    {
       public IQDCurrency()
@@ -103,6 +110,7 @@ namespace QLNet
 
       \ingroup currencies
    */
+
    public class IRRCurrency : Currency
    {
       public IRRCurrency() : base("Iranian rial", "IRR", 364, "Rls", "", 1, new Rounding(), "%3% %1$.2f") { }
@@ -124,6 +132,7 @@ namespace QLNet
 
       \ingroup currencies
    */
+
    public class KRWCurrency : Currency
    {
       public KRWCurrency() : base("South-Korean won", "KRW", 410, "W", "", 100, new Rounding(), "%3% %1$.0f") { }
@@ -135,6 +144,7 @@ namespace QLNet
 
       \ingroup currencies
    */
+
    public class KWDCurrency : Currency
    {
       public KWDCurrency() : base("Kuwaiti dinar", "KWD", 414, "KD", "", 1000, new Rounding(), "%3% %1$.3f") { }
@@ -146,6 +156,7 @@ namespace QLNet
 
        \ingroup currencies
   */
+
    public class MYRCurrency : Currency
    {
       public MYRCurrency() : base("Malaysian Ringgit", "MYR", 458, "RM", "", 100, new Rounding(), "%3% %1$.2f") { }
@@ -157,6 +168,7 @@ namespace QLNet
 
       \ingroup currencies
    */
+
    public class NPRCurrency : Currency
    {
       public NPRCurrency() : base("Nepal rupee", "NPR", 524, "NRs", "", 100, new Rounding(), "%3% %1$.2f") { }
@@ -168,6 +180,7 @@ namespace QLNet
 
       \ingroup currencies
    */
+
    public class PKRCurrency : Currency
    {
       public PKRCurrency() : base("Pakistani rupee", "PKR", 586, "Rs", "", 100, new Rounding(), "%3% %1$.2f") { }
@@ -179,6 +192,7 @@ namespace QLNet
 
       \ingroup currencies
    */
+
    public class SARCurrency : Currency
    {
       public SARCurrency() : base("Saudi riyal", "SAR", 682, "SRls", "", 100, new Rounding(), "%3% %1$.2f") { }
@@ -190,6 +204,7 @@ namespace QLNet
 
       \ingroup currencies
    */
+
    public class SGDCurrency : Currency
    {
       public SGDCurrency() : base("Singapore dollar", "SGD", 702, "S$", "", 100, new Rounding(), "%3% %1$.2f") { }
@@ -201,6 +216,7 @@ namespace QLNet
 
       \ingroup currencies
    */
+
    public class THBCurrency : Currency
    {
       public THBCurrency() : base("Thai baht", "THB", 764, "Bht", "", 100, new Rounding(), "%1$.2f %3%") { }
@@ -212,6 +228,7 @@ namespace QLNet
 
       \ingroup currencies
    */
+
    public class TWDCurrency : Currency
    {
       public TWDCurrency() : base("Taiwan dollar", "TWD", 901, "NT$", "", 100, new Rounding(), "%3% %1$.2f") { }
@@ -223,6 +240,7 @@ namespace QLNet
 
        \ingroup currencies
    */
+
    public class VNDCurrency : Currency
    {
       public VNDCurrency() : base("Vietnamese Dong", "VND", 704, "", "", 100, new Rounding(), "%1$.0f %3%") { }

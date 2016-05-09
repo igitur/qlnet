@@ -17,11 +17,11 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-
    //! Criteria to end optimization process:
    //    ! - maximum number of iterations AND minimum number of iterations around stationary point
    //        - x (independent variable) stationary point
@@ -70,18 +70,22 @@ namespace QLNet
       {
          return maxIterations_;
       }
+
       public int maxStationaryStateIterations()
       {
          return maxStationaryStateIterations_.GetValueOrDefault();
       }
+
       public double rootEpsilon()
       {
          return rootEpsilon_;
       }
+
       public double functionEpsilon()
       {
          return functionEpsilon_;
       }
+
       public double gradientNormEpsilon()
       {
          return gradientNormEpsilon_.GetValueOrDefault();
@@ -102,6 +106,7 @@ namespace QLNet
          ecType = Type.MaxIterations;
          return true;
       }
+
       //! Test if the root variation is below rootEpsilon
       public bool checkStationaryPoint(double xOld, double xNew, ref int statStateIterations, ref EndCriteria.Type ecType)
       {
@@ -116,6 +121,7 @@ namespace QLNet
          ecType = Type.StationaryPoint;
          return true;
       }
+
       //! Test if the function variation is below functionEpsilon
       public bool checkStationaryFunctionValue(double fxOld, double fxNew, ref int statStateIterations, ref EndCriteria.Type ecType)
       {
@@ -130,6 +136,7 @@ namespace QLNet
          ecType = Type.StationaryFunctionValue;
          return true;
       }
+
       //! Test if the function value is below functionEpsilon
       public bool checkStationaryFunctionAccuracy(double f, bool positiveOptimization, ref EndCriteria.Type ecType)
       {
@@ -151,12 +158,14 @@ namespace QLNet
 
       //! Maximum number of iterations
       protected int maxIterations_;
+
       //! Maximun number of iterations in stationary state
       protected int? maxStationaryStateIterations_;
+
       //! root, function and gradient epsilons
       protected double rootEpsilon_;
+
       protected double functionEpsilon_;
       protected double? gradientNormEpsilon_;
-
    }
 }

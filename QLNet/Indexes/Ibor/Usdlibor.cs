@@ -24,9 +24,11 @@ namespace QLNet
 
        See <http://www.bba.org.uk/bba/jsp/polopoly.jsp?d=225&a=1414>.
    */
+
    public class USDLibor : Libor
    {
       public USDLibor(Period tenor) : this(tenor, new Handle<YieldTermStructure>()) { }
+
       public USDLibor(Period tenor, Handle<YieldTermStructure> h)
           : base("USDLibor", tenor, 2, new USDCurrency(), new UnitedStates(UnitedStates.Market.Settlement), new Actual360(), h) { }
    }
@@ -35,6 +37,7 @@ namespace QLNet
    public class DailyTenorUSDLibor : DailyTenorLibor
    {
       public DailyTenorUSDLibor(int settlementDays) : this(settlementDays, new Handle<YieldTermStructure>()) { }
+
       public DailyTenorUSDLibor(int settlementDays, Handle<YieldTermStructure> h)
           : base("USDLibor", settlementDays, new USDCurrency(), new UnitedStates(UnitedStates.Market.Settlement), new Actual360(), h) { }
    };
@@ -43,6 +46,7 @@ namespace QLNet
    public class USDLiborON : DailyTenorUSDLibor
    {
       public USDLiborON() : this(new Handle<YieldTermStructure>()) { }
+
       public USDLiborON(Handle<YieldTermStructure> h) : base(0, h) { }
    }
 }

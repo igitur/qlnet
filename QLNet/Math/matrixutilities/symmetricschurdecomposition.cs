@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -39,12 +40,14 @@ namespace QLNet
        \test the correctness of the returned values is tested by
              checking their properties.
    */
+
    public class SymmetricSchurDecomposition
    {
       private Vector diagonal_;
       private Matrix eigenVectors_;
 
       /*! \pre s must be symmetric */
+
       public SymmetricSchurDecomposition(Matrix s)
       {
          diagonal_ = new Vector(s.rows());
@@ -153,7 +156,6 @@ namespace QLNet
          if (!(ite <= maxIterations))
             throw new ApplicationException("Too many iterations (" + maxIterations + ") reached");
 
-
          // sort (eigenvalues, eigenvectors)
          List<KeyValuePair<double, Vector>> temp = new InitializedList<KeyValuePair<double, Vector>>(size);
          int row, col;
@@ -180,8 +182,8 @@ namespace QLNet
          }
       }
 
-
       public Vector eigenvalues() { return diagonal_; }
+
       public Matrix eigenvectors() { return eigenVectors_; }
 
       private void jacobiRotate_(Matrix m, double rot, double dil, int j1, int k1, int j2, int k2)

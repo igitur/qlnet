@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -24,6 +25,7 @@ namespace QLNet
    /*! \test the correctness of the result is tested by checking it
              against known good values.
    */
+
    public class SimpsonIntegral : TrapezoidIntegral<Default>
    {
       public SimpsonIntegral(double accuracy, int maxIterations) : base(accuracy, maxIterations) { }

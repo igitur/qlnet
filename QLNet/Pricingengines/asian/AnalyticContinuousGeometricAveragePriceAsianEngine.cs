@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -37,6 +38,7 @@ namespace QLNet
 
        \todo handle seasoned options
    */
+
    public class AnalyticContinuousGeometricAveragePriceAsianEngine : ContinuousAveragingAsianOption.Engine
    {
       public AnalyticContinuousGeometricAveragePriceAsianEngine(GeneralizedBlackScholesProcess process)
@@ -44,6 +46,7 @@ namespace QLNet
          process_ = process;
          process_.registerWith(update);
       }
+
       public override void calculate()
       {
          Utils.QL_REQUIRE(arguments_.averageType == Average.Type.Geometric, () => "not a geometric average option");

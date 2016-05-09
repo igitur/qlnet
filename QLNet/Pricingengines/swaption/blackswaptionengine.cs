@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,12 +26,12 @@ namespace QLNet
 {
    public class BlackSwaptionEngine : SwaptionEngine
    {
-
       private Handle<YieldTermStructure> termStructure_;
       private Handle<SwaptionVolatilityStructure> volatility_;
 
       public BlackSwaptionEngine(Handle<YieldTermStructure> termStructure, double vol)
           : this(termStructure, vol, new Actual365Fixed()) { }
+
       public BlackSwaptionEngine(Handle<YieldTermStructure> termStructure,
                                double vol, DayCounter dc)
       {
@@ -139,12 +140,10 @@ namespace QLNet
          double exerciseTime = volatility_.link.timeFromReference(exerciseDate);
          results_.additionalResults["vega"] = Math.Sqrt(exerciseTime) *
              Utils.blackFormulaStdDevDerivative(strike, atmForward, stdDev, annuity);
-
       }
 
       public Handle<YieldTermStructure> termStructure() { return termStructure_; }
 
       public Handle<SwaptionVolatilityStructure> volatility() { return volatility_; }
-
    }
 }

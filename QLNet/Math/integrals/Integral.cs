@@ -17,11 +17,11 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-
    public abstract class Integrator
    {
       private double absoluteAccuracy_;
@@ -54,10 +54,12 @@ namespace QLNet
       {
          absoluteAccuracy_ = accuracy;
       }
+
       public void setMaxEvaluations(int maxEvaluations)
       {
          maxEvaluations_ = maxEvaluations;
       }
+
       //@}
 
       //! \name Inspectors
@@ -66,10 +68,12 @@ namespace QLNet
       {
          return absoluteAccuracy_;
       }
+
       public int maxEvaluations()
       {
          return maxEvaluations_;
       }
+
       //@}
 
       public double absoluteError()
@@ -93,14 +97,15 @@ namespace QLNet
       {
          absoluteError_ = error;
       }
+
       protected void setNumberOfEvaluations(int evaluations)
       {
          evaluations_ = evaluations;
       }
+
       protected void increaseNumberOfEvaluations(int increase)
       {
          evaluations_ += increase;
       }
    }
-
 }

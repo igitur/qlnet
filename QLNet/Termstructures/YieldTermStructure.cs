@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -30,6 +31,7 @@ namespace QLNet
 
       \test observability against evaluation date changes is checked.
    */
+
    public class YieldTermStructure : TermStructure
    {
       private const double dt = 0.0001;
@@ -59,6 +61,7 @@ namespace QLNet
          for (int i = 0; i < nJumps_; ++i)
             jumps_[i].registerWith(update);
       }
+
       public YieldTermStructure(Date referenceDate, Calendar cal = null, DayCounter dc = null,
                                 List<Handle<Quote>> jumps = null, List<Date> jumpDates = null)
          : base(referenceDate, cal, dc)
@@ -79,6 +82,7 @@ namespace QLNet
          for (int i = 0; i < nJumps_; ++i)
             jumps_[i].registerWith(update);
       }
+
       public YieldTermStructure(int settlementDays, Calendar cal, DayCounter dc = null,
                                 List<Handle<Quote>> jumps = null, List<Date> jumpDates = null)
          : base(settlementDays, cal, dc)
@@ -100,7 +104,7 @@ namespace QLNet
             jumps_[i].registerWith(update);
       }
 
-      #endregion
+      #endregion Constructors
 
       #region Discount factors
 
@@ -116,6 +120,7 @@ namespace QLNet
       /*! The same day-counting rule used by the term structure
           should be used for calculating the passed time t.
       */
+
       public double discount(double t, bool extrapolate = false)
       {
          checkRange(t, extrapolate);
@@ -137,7 +142,7 @@ namespace QLNet
          return jumpEffect * discountImpl(t);
       }
 
-      #endregion
+      #endregion Discount factors
 
       #region Zero-yield rates
 
@@ -148,6 +153,7 @@ namespace QLNet
       /*! The resulting interest rate has the required daycounting
           rule.
       */
+
       public InterestRate zeroRate(Date d, DayCounter dayCounter, Compounding comp, Frequency freq = Frequency.Annual,
                                    bool extrapolate = false)
       {
@@ -166,6 +172,7 @@ namespace QLNet
           used by the term structure. The same rule should be used
           for calculating the passed time t.
       */
+
       public InterestRate zeroRate(double t, Compounding comp, Frequency freq = Frequency.Annual, bool extrapolate = false)
       {
          if (t == 0.0) t = dt;
@@ -173,7 +180,7 @@ namespace QLNet
          return InterestRate.impliedRate(compound, dayCounter(), comp, freq, t);
       }
 
-      #endregion
+      #endregion Zero-yield rates
 
       #region Forward rates
 
@@ -187,6 +194,7 @@ namespace QLNet
       /*! The resulting interest rate has the required day-counting
           rule.
       */
+
       public InterestRate forwardRate(Date d1, Date d2, DayCounter dayCounter, Compounding comp,
          Frequency freq = Frequency.Annual, bool extrapolate = false)
       {
@@ -209,6 +217,7 @@ namespace QLNet
           rule.
           \warning dates are not adjusted for holidays
       */
+
       public InterestRate forwardRate(Date d, Period p, DayCounter dayCounter, Compounding comp,
                                Frequency freq = Frequency.Annual, bool extrapolate = false)
       {
@@ -219,6 +228,7 @@ namespace QLNet
           used by the term structure. The same rule should be used
           for calculating the passed times t1 and t2.
       */
+
       public InterestRate forwardRate(double t1, double t2, Compounding comp, Frequency freq = Frequency.Annual,
          bool extrapolate = false)
       {
@@ -238,7 +248,7 @@ namespace QLNet
          return InterestRate.impliedRate(compound, dayCounter(), comp, freq, t2 - t1);
       }
 
-      #endregion
+      #endregion Forward rates
 
       #region Jump inspectors
 
@@ -246,12 +256,13 @@ namespace QLNet
       {
          return this.jumpDates_;
       }
+
       public List<double> jumpTimes()
       {
          return this.jumpTimes_;
       }
 
-      #endregion
+      #endregion Jump inspectors
 
       #region Observer interface
 
@@ -262,7 +273,7 @@ namespace QLNet
             setJumps();
       }
 
-      #endregion
+      #endregion Observer interface
 
       #region Calculations
 
@@ -274,7 +285,7 @@ namespace QLNet
       //! discount factor calculation
       protected virtual double discountImpl(double d) { throw new NotSupportedException(); }
 
-      #endregion
+      #endregion Calculations
 
       // methods
       private void setJumps()
@@ -287,7 +298,6 @@ namespace QLNet
             int y = referenceDate().year();
             for (int i = 0; i < nJumps_; ++i)
                jumpDates_.Add(new Date(31, Month.December, y + i));
-
          }
          else
          {
@@ -304,6 +314,7 @@ namespace QLNet
 
       // data members
       private List<Handle<Quote>> jumps_;
+
       private List<Date> jumpDates_;
       private List<double> jumpTimes_;
       private int nJumps_;

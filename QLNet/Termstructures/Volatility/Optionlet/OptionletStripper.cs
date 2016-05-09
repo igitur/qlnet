@@ -22,7 +22,9 @@ namespace QLNet
    /*! StrippedOptionletBase specialization. It's up to derived
         classes to implement LazyObject::performCalculations
     */
+
    public enum VolatilityType { ShiftedLognormal, Normal };
+
    public class OptionletStripper : StrippedOptionletBase
    {
       //! \name StrippedOptionletBase interface
@@ -49,11 +51,13 @@ namespace QLNet
          calculate();
          return optionletDates_;
       }
+
       public override List<double> optionletFixingTimes()
       {
          calculate();
          return optionletTimes_;
       }
+
       public override int optionletMaturities() { return optionletTenors_.Count; }
 
       public override List<double> atmOptionletRates()
@@ -63,25 +67,35 @@ namespace QLNet
       }
 
       public override DayCounter dayCounter() { return termVolSurface_.dayCounter(); }
+
       public override Calendar calendar() { return termVolSurface_.calendar(); }
+
       public override int settlementDays() { return termVolSurface_.settlementDays(); }
+
       public override BusinessDayConvention businessDayConvention() { return termVolSurface_.businessDayConvention(); }
+
       //@}
 
       public List<Period> optionletFixingTenors() { return optionletTenors_; }
+
       public List<Date> optionletPaymentDates()
       {
          calculate();
          return optionletPaymentDates_;
       }
+
       public List<double> optionletAccrualPeriods()
       {
          calculate();
          return optionletAccrualPeriods_;
       }
+
       public CapFloorTermVolSurface termVolSurface() { return termVolSurface_; }
+
       public IborIndex iborIndex() { return iborIndex_; }
+
       public double displacement() { return displacement_; }
+
       public VolatilityType volatilityType() { return volatilityType_; }
 
       protected OptionletStripper(CapFloorTermVolSurface termVolSurface, IborIndex iborIndex,
@@ -95,7 +109,6 @@ namespace QLNet
          nStrikes_ = termVolSurface.strikes().Count;
          volatilityType_ = type;
          displacement_ = displacement;
-
 
          if (volatilityType_ == VolatilityType.Normal)
          {
@@ -141,8 +154,8 @@ namespace QLNet
          atmOptionletRate_ = new InitializedList<double>(nOptionletTenors_);
          optionletPaymentDates_ = new InitializedList<Date>(nOptionletTenors_);
          optionletAccrualPeriods_ = new InitializedList<double>(nOptionletTenors_);
-
       }
+
       protected CapFloorTermVolSurface termVolSurface_;
       protected IborIndex iborIndex_;
       protected Handle<YieldTermStructure> discount_;
@@ -162,6 +175,5 @@ namespace QLNet
       protected List<Period> capFloorLengths_ = new List<Period>();
       protected VolatilityType volatilityType_;
       protected double displacement_;
-
    }
 }

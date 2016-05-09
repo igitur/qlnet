@@ -17,7 +17,6 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System;
 
 namespace QLNet
 {
@@ -44,7 +43,7 @@ namespace QLNet
       private double floatSpread_;
       private DayCounter fixedDayCount_, floatDayCount_;
 
-      IPricingEngine engine_;
+      private IPricingEngine engine_;
 
       public MakeVanillaSwap(Period swapTenor, IborIndex index, double? fixedRate = null, Period forwardStart = null)
       {
@@ -76,16 +75,19 @@ namespace QLNet
          type_ = flag ? VanillaSwap.Type.Receiver : VanillaSwap.Type.Payer;
          return this;
       }
+
       public MakeVanillaSwap withType(VanillaSwap.Type type)
       {
          type_ = type;
          return this;
       }
+
       public MakeVanillaSwap withNominal(double n)
       {
          nominal_ = n;
          return this;
       }
+
       public MakeVanillaSwap withSettlementDays(int settlementDays)
       {
          settlementDays_ = settlementDays;
@@ -124,26 +126,31 @@ namespace QLNet
          engine_ = engine;
          return this;
       }
+
       public MakeVanillaSwap withFixedLegTenor(Period t)
       {
          fixedTenor_ = t;
          return this;
       }
+
       public MakeVanillaSwap withFixedLegCalendar(Calendar cal)
       {
          fixedCalendar_ = cal;
          return this;
       }
+
       public MakeVanillaSwap withFixedLegConvention(BusinessDayConvention bdc)
       {
          fixedConvention_ = bdc;
          return this;
       }
+
       public MakeVanillaSwap withFixedLegTerminationDateConvention(BusinessDayConvention bdc)
       {
          fixedTerminationDateConvention_ = bdc;
          return this;
       }
+
       public MakeVanillaSwap withFixedLegRule(DateGeneration.Rule r)
       {
          fixedRule_ = r;
@@ -155,16 +162,19 @@ namespace QLNet
          fixedEndOfMonth_ = flag;
          return this;
       }
+
       public MakeVanillaSwap withFixedLegFirstDate(Date d)
       {
          fixedFirstDate_ = d;
          return this;
       }
+
       public MakeVanillaSwap withFixedLegNextToLastDate(Date d)
       {
          fixedNextToLastDate_ = d;
          return this;
       }
+
       public MakeVanillaSwap withFixedLegDayCount(DayCounter dc)
       {
          fixedDayCount_ = dc;
@@ -176,21 +186,25 @@ namespace QLNet
          floatTenor_ = t;
          return this;
       }
+
       public MakeVanillaSwap withFloatingLegCalendar(Calendar cal)
       {
          floatCalendar_ = cal;
          return this;
       }
+
       public MakeVanillaSwap withFloatingLegConvention(BusinessDayConvention bdc)
       {
          floatConvention_ = bdc;
          return this;
       }
+
       public MakeVanillaSwap withFloatingLegTerminationDateConvention(BusinessDayConvention bdc)
       {
          floatTerminationDateConvention_ = bdc;
          return this;
       }
+
       public MakeVanillaSwap withFloatingLegRule(DateGeneration.Rule r)
       {
          floatRule_ = r;
@@ -202,30 +216,34 @@ namespace QLNet
          floatEndOfMonth_ = flag;
          return this;
       }
+
       public MakeVanillaSwap withFloatingLegFirstDate(Date d)
       {
          floatFirstDate_ = d;
          return this;
       }
+
       public MakeVanillaSwap withFloatingLegNextToLastDate(Date d)
       {
          floatNextToLastDate_ = d;
          return this;
       }
+
       public MakeVanillaSwap withFloatingLegDayCount(DayCounter dc)
       {
          floatDayCount_ = dc;
          return this;
       }
+
       public MakeVanillaSwap withFloatingLegSpread(double sp)
       {
          floatSpread_ = sp;
          return this;
       }
 
-
       // swap creator
       public static implicit operator VanillaSwap(MakeVanillaSwap o) { return o.value(); }
+
       public VanillaSwap value()
       {
          Date startDate;

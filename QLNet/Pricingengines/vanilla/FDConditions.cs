@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -24,8 +25,10 @@ namespace QLNet
    public class FDConditionEngineTemplate : FDVanillaEngine
    {
       #region Common definitions for deriving classes
+
       protected IStepCondition<Vector> stepCondition_;
       protected SampledCurve prices_;
+
       protected virtual void initializeStepCondition()
       {
          if (stepConditionImpl_ == null)
@@ -35,11 +38,13 @@ namespace QLNet
       }
 
       protected Func<IStepCondition<Vector>> stepConditionImpl_;
+
       public void setStepCondition(Func<IStepCondition<Vector>> impl)
       {
          stepConditionImpl_ = impl;
       }
-      #endregion
+
+      #endregion Common definitions for deriving classes
 
       // required for generics
       public FDConditionEngineTemplate() { }
@@ -53,12 +58,15 @@ namespace QLNet
            where baseEngine : FDConditionEngineTemplate, new()
    {
       #region Common definitions for deriving classes
+
       protected baseEngine engine_;
 
       // below is a wrap-up of baseEngine instead of c++ template inheritance
       public override void setupArguments(IPricingEngineArguments a) { engine_.setupArguments(a); }
+
       public override void calculate(IPricingEngineResults r) { engine_.calculate(r); }
-      #endregion
+
+      #endregion Common definitions for deriving classes
 
       // required for generics
       public FDConditionTemplate() { }
@@ -71,13 +79,12 @@ namespace QLNet
       }
    }
 
-
    public class FDAmericanCondition<baseEngine> : FDConditionTemplate<baseEngine>
            where baseEngine : FDConditionEngineTemplate, new()
    {
-
       // required for generics
       public FDAmericanCondition() { }
+
       // required for template inheritance
       public override FDVanillaEngine factory(GeneralizedBlackScholesProcess process,
                                               int timeSteps, int gridPoints, bool timeDependent)
@@ -102,13 +109,12 @@ namespace QLNet
       }
    }
 
-
    public class FDShoutCondition<baseEngine> : FDConditionTemplate<baseEngine>
            where baseEngine : FDConditionEngineTemplate, new()
    {
-
       // required for generics
       public FDShoutCondition() { }
+
       // required for template inheritance
       public override FDVanillaEngine factory(GeneralizedBlackScholesProcess process,
                                               int timeSteps, int gridPoints, bool timeDependent)

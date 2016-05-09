@@ -16,8 +16,8 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
-using System.Collections.Generic;
 
+using System.Collections.Generic;
 
 namespace QLNet
 {
@@ -39,6 +39,7 @@ namespace QLNet
             primitive_[i] = primitive_[i - 1] + dx * yBegin_[i - 1];
          }
       }
+
       public override double value(double x)
       {
          if (x >= xBegin_[size_ - 1])
@@ -47,13 +48,16 @@ namespace QLNet
          int i = locate(x);
          return yBegin_[i];
       }
+
       public override double primitive(double x)
       {
          int i = locate(x);
          double dx = x - xBegin_[i];
          return primitive_[i] + dx * yBegin_[i];
       }
+
       public override double derivative(double x) { return 0.0; }
+
       public override double secondDerivative(double x) { return 0.0; }
    }
 
@@ -61,6 +65,7 @@ namespace QLNet
    public class ForwardFlatInterpolation : Interpolation
    {
       /*! \pre the \f$ x \f$ values must be sorted. */
+
       public ForwardFlatInterpolation(List<double> xBegin, int size, List<double> yBegin)
       {
          impl_ = new ForwardFlatInterpolationImpl(xBegin, size, yBegin);
@@ -75,6 +80,7 @@ namespace QLNet
       {
          return new ForwardFlatInterpolation(xBegin, size, yBegin);
       }
+
       public bool global { get { return false; } }
       public int requiredPoints { get { return 2; } }
    }

@@ -30,6 +30,7 @@ namespace QLNet
 
        \warning convergence may be slow
    */
+
    public class ExponentialSplinesFitting : FittedBondDiscountCurve.FittingMethod
    {
       public ExponentialSplinesFitting(bool constrainAtZero = true,
@@ -86,6 +87,7 @@ namespace QLNet
        See: Nelson, C. and A. Siegel (1985): "Parsimonious modeling of yield
        curves for US Treasury bills." NBER Working Paper Series, no 1594.
    */
+
    public class NelsonSiegelFitting : FittedBondDiscountCurve.FittingMethod
    {
       public NelsonSiegelFitting(Vector weights = null, OptimizationMethod optimizationMethod = null)
@@ -123,6 +125,7 @@ namespace QLNet
        interest rates: Sweden 1992-4.
        Discussion paper, Centre for Economic Policy Research(1051).
    */
+
    public class SvenssonFitting : FittedBondDiscountCurve.FittingMethod
    {
       public SvenssonFitting(Vector weights = null, OptimizationMethod optimizationMethod = null)
@@ -149,7 +152,6 @@ namespace QLNet
          double d = Math.Exp(-zeroRate * t);
          return d;
       }
-
    }
 
    //! CubicSpline B-splines fitting method
@@ -171,6 +173,7 @@ namespace QLNet
                  N. Webber, "Interest Rate Modelling" John Wiley,
                  2000, pp. 440.
    */
+
    public class CubicBSplinesFitting : FittedBondDiscountCurve.FittingMethod
    {
       public CubicBSplinesFitting(List<double> knots, bool constrainAtZero = true, Vector weights = null,
@@ -198,11 +201,11 @@ namespace QLNet
             size_ = basisFunctions;
             N_ = 0;
          }
-
       }
 
       //! cubic B-spline basis functions
       public double basisFunction(int i, double t) { return splines_.value(i, t); }
+
       public override FittedBondDiscountCurve.FittingMethod clone()
       {
          return MemberwiseClone() as FittedBondDiscountCurve.FittingMethod;
@@ -244,11 +247,11 @@ namespace QLNet
          }
 
          return d;
-
       }
 
       private BSpline splines_;
       private int size_;
+
       //! N_th basis function coefficient to solve for when d(0)=1
       private int N_;
    }
@@ -263,6 +266,7 @@ namespace QLNet
       This is a simple/crude, but fast and robust, means of fitting
       a yield curve.
 */
+
    public class SimplePolynomialFitting : FittedBondDiscountCurve.FittingMethod
    {
       public SimplePolynomialFitting(int degree,
@@ -273,6 +277,7 @@ namespace QLNet
       {
          size_ = constrainAtZero ? degree : degree + 1;
       }
+
       public override FittedBondDiscountCurve.FittingMethod clone()
       {
          return MemberwiseClone() as FittedBondDiscountCurve.FittingMethod;
@@ -304,6 +309,7 @@ namespace QLNet
    //! Spread fitting method helper
    /*  Fits a spread curve on top of a discount function according to given parametric method
    */
+
    public class SpreadFittingMethod : FittedBondDiscountCurve.FittingMethod
    {
       public SpreadFittingMethod(FittedBondDiscountCurve.FittingMethod method, Handle<YieldTermStructure> discountCurve)
@@ -346,12 +352,14 @@ namespace QLNet
       {
          return method_.discount(x, t) * discountingCurve_.link.discount(t, true) / rebase_;
       }
+
       // underlying parametric method
       private FittedBondDiscountCurve.FittingMethod method_;
+
       // adjustment in case underlying discount curve has different reference date
       private double rebase_;
+
       // discount curve from on top of which the spread will be calculated
       private Handle<YieldTermStructure> discountingCurve_;
-
    }
 }

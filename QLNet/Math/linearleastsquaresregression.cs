@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace QLNet
        \test the correctness of the returned values is tested by
              checking their properties.
    */
+
    public class LinearLeastSquaresRegression : LinearLeastSquaresRegression<double>
    {
       public LinearLeastSquaresRegression(List<double> x, List<double> y, List<Func<double, double>> v)
@@ -41,14 +43,15 @@ namespace QLNet
       private Vector a_, err_, residuals_, standardErrors_;
 
       public Vector coefficients() { return a_; }
+
       public Vector residuals() { return residuals_; }
 
       //! standard parameter errors as given by Excel, R etc.
       public Vector standardErrors() { return standardErrors_; }
+
       //! modeling uncertainty as definied in Numerical Recipes
 
       public Vector error() { return err_; }
-
 
       public LinearLeastSquaresRegression(List<ArgumentType> x, List<double> y, List<Func<ArgumentType, double>> v)
       {
@@ -102,7 +105,6 @@ namespace QLNet
    {
       private LinearLeastSquaresRegression<List<double>> reg_;
 
-
       //! one dimensional linear regression
       public LinearRegression(List<double> x, List<double> y)
       {
@@ -119,10 +121,10 @@ namespace QLNet
       public Vector coefficients() { return reg_.coefficients(); }
 
       public Vector residuals() { return reg_.residuals(); }
+
       public Vector standardErrors() { return reg_.standardErrors(); }
 
-
-      class LinearFct
+      private class LinearFct
       {
          private int i_;
 

@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -27,6 +28,7 @@ namespace QLNet
 
       \ingroup defaultprobabilitytermstructures
    */
+
    public class DefaultProbabilityTermStructure : TermStructure
    {
       #region Constructors
@@ -95,7 +97,7 @@ namespace QLNet
             jumps_[i].registerWith(update);
       }
 
-      #endregion
+      #endregion Constructors
 
       #region Survival probabilities
 
@@ -110,6 +112,7 @@ namespace QLNet
       /*! The same day-counting rule used by the term structure
           should be used for calculating the passed time t.
       */
+
       public double survivalProbability(double t, bool extrapolate = false)
       {
          checkRange(t, extrapolate);
@@ -130,7 +133,7 @@ namespace QLNet
          return survivalProbabilityImpl(t);
       }
 
-      #endregion
+      #endregion Survival probabilities
 
       #region Default probabilities
 
@@ -145,6 +148,7 @@ namespace QLNet
       /*! The same day-counting rule used by the term structure
           should be used for calculating the passed time t.
       */
+
       public double defaultProbability(double t, bool extrapolate = false)
       {
          return 1.0 - survivalProbability(t, extrapolate);
@@ -157,6 +161,7 @@ namespace QLNet
          double p1 = d1 < referenceDate() ? 0.0 : defaultProbability(d1, extrapolate), p2 = defaultProbability(d2, extrapolate);
          return p2 - p1;
       }
+
       //! probability of default between two given times
       public double defaultProbability(double t1, double t2, bool extrapo = false)
       {
@@ -165,7 +170,7 @@ namespace QLNet
          return p2 - p1;
       }
 
-      #endregion
+      #endregion Default probabilities
 
       #region Default densities
 
@@ -184,7 +189,7 @@ namespace QLNet
          return defaultDensityImpl(t);
       }
 
-      #endregion
+      #endregion Default densities
 
       #region Hazard rates
 
@@ -206,14 +211,15 @@ namespace QLNet
          return S == 0.0 ? 0.0 : defaultDensity(t, extrapolate) / S;
       }
 
-      #endregion
+      #endregion Hazard rates
 
       #region Jump inspectors
 
       public List<Date> jumpDates() { return this.jumpDates_; }
+
       public List<double> jumpTimes() { return this.jumpTimes_; }
 
-      #endregion
+      #endregion Jump inspectors
 
       #region Observer interface
 
@@ -224,8 +230,7 @@ namespace QLNet
             setJumps();
       }
 
-      #endregion
-
+      #endregion Observer interface
 
       #region Calculations
 
@@ -242,8 +247,7 @@ namespace QLNet
       protected virtual double defaultDensityImpl(double t)
       { throw new NotImplementedException("DefaultProbabilityTermStructure.defaultDensityImpl"); }
 
-      #endregion
-
+      #endregion Calculations
 
       // methods
       private void setJumps()
@@ -256,7 +260,6 @@ namespace QLNet
             int y = referenceDate().year();
             for (int i = 0; i < nJumps_; ++i)
                jumpDates_.Add(new Date(31, Month.December, y + i));
-
          }
          else
          {
@@ -270,8 +273,10 @@ namespace QLNet
 
          latestReference_ = base.referenceDate();
       }
+
       // data members
       private List<Handle<Quote>> jumps_;
+
       private List<Date> jumpDates_;
       private List<double> jumpTimes_;
       private int nJumps_;

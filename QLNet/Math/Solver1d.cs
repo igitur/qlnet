@@ -17,16 +17,17 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-
    // it is an abstract class for solver evaluations
    // it should be an interface but to avoid optional derivate method, it is made as abstract class
    public abstract class ISolver1d : IValue
    {
       public abstract double value(double v);
+
       public virtual double derivative(double x) { return 0; }
    }
 
@@ -37,9 +38,10 @@ namespace QLNet
        - <tt>root_</tt> is a valid initial guess.
        The implementation of <tt>solveImpl</tt> can safely assume all of the above.
    */
+
    public abstract class Solver1D
    {
-      const int MAX_FUNCTION_EVALUATIONS = 100;
+      private const int MAX_FUNCTION_EVALUATIONS = 100;
 
       protected double root_, xMin_, xMax_, fxMin_, fxMax_;
       protected int maxEvaluations_ = MAX_FUNCTION_EVALUATIONS;
@@ -48,7 +50,6 @@ namespace QLNet
       private double lowerBound_, upperBound_;
       private bool lowerBoundEnforced_ = false, upperBoundEnforced_ = false;
 
-
       /*! This method returns the zero of the function \f$ f \f$, determined with the given accuracy \f$ \epsilon \f$;
           depending on the particular solver, this might mean that the returned \f$ x \f$ is such that \f$ |f(x)| < \epsilon
           \f$, or that \f$ |x-\xi| < \epsilon \f$ where \f$ \xi \f$ is the real zero.
@@ -56,9 +57,9 @@ namespace QLNet
           This method contains a bracketing routine to which an initial guess must be supplied as well as a step used to
           scan the range of the possible bracketing values.
       */
+
       public double solve(ISolver1d f, double accuracy, double guess, double step)
       {
-
          if (accuracy <= 0.0)
             throw new ArgumentException("accuracy (" + accuracy + ") must be positive");
 
@@ -137,9 +138,9 @@ namespace QLNet
           must bracket the zero (i.e., either \f$ f(x_\mathrm{min}) \leq 0 \leq f(x_\mathrm{max}) \f$, or \f$
           f(x_\mathrm{max}) \leq 0 \leq f(x_\mathrm{min}) \f$ must be true).
       */
+
       public double solve(ISolver1d f, double accuracy, double guess, double xMin, double xMax)
       {
-
          if (accuracy <= 0.0)
             throw new ArgumentException("accuracy (" + accuracy + ") must be positive");
 
@@ -179,6 +180,7 @@ namespace QLNet
       /*! This method sets the maximum number of function evaluations for the bracketing routine. An error is thrown
           if a bracket is not found after this number of evaluations.
       */
+
       public void setMaxEvaluations(int evaluations)
       {
          maxEvaluations_ = evaluations;

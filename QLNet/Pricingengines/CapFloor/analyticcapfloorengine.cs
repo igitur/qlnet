@@ -16,16 +16,15 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-
    public class AnalyticCapFloorEngine : GenericModelEngine<IAffineModel,
                                    CapFloor.Arguments,
                                    CapFloor.Results>
    {
-
       /*! \note the term structure is only needed when the short-rate
                 model cannot provide one itself.
       */
@@ -34,7 +33,6 @@ namespace QLNet
 
       public AnalyticCapFloorEngine(IAffineModel model)
           : this(model, new Handle<YieldTermStructure>()) { }
-
 
       public AnalyticCapFloorEngine(IAffineModel model,
                                Handle<YieldTermStructure> termStructure)

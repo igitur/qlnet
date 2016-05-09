@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -31,7 +32,9 @@ namespace QLNet
           \f]
           where \f$ \varepsilon \f$ is \f$ n \f$ times the machine accuracy;
           \f$ n \f$ equals 42 if not given.  */
+
       public static bool close(double x, double y) { return close(x, y, 42); }
+
       public static bool close(double x, double y, int n)
       {
          if (x == y)

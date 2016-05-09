@@ -19,7 +19,6 @@
 
 namespace QLNet
 {
-
    public class GenericModelEngine<ModelType, ArgumentsType, ResultsType>
        : GenericEngine<ArgumentsType, ResultsType>
        where ArgumentsType : IPricingEngineArguments, new()
@@ -27,6 +26,7 @@ namespace QLNet
        where ModelType : IObservable
    {
       public GenericModelEngine() { }
+
       public GenericModelEngine(ModelType model)
       {
          model_ = model;
@@ -44,7 +44,5 @@ namespace QLNet
       }
 
       protected ModelType model_;
-
-
    }
 }

@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -24,6 +25,7 @@ namespace QLNet
 {
    //! interest rate volatility smile section
    /*! This abstract class provides volatility smile section interface */
+
    public abstract class SmileSection : LazyObject
    {
       public SmileSection(Date d, DayCounter dc = null, Date referenceDate = null,
@@ -44,6 +46,7 @@ namespace QLNet
             referenceDate_ = referenceDate;
          initializeExerciseTime();
       }
+
       public SmileSection(double exerciseTime, DayCounter dc = null,
          VolatilityType type = VolatilityType.ShiftedLognormal, double shift = 0.0)
       {
@@ -56,8 +59,8 @@ namespace QLNet
 
          Utils.QL_REQUIRE(exerciseTime_ >= 0.0, () => "expiry time must be positive: " + exerciseTime_ + " not allowed");
       }
-      public SmileSection() { }
 
+      public SmileSection() { }
 
       public override void update()
       {
@@ -67,21 +70,33 @@ namespace QLNet
             initializeExerciseTime();
          }
       }
+
       public abstract double minStrike();
+
       public abstract double maxStrike();
+
       public double variance(double strike) { return varianceImpl(strike); }
+
       public double volatility(double strike) { return volatilityImpl(strike); }
+
       public abstract double? atmLevel();
+
       public virtual Date exerciseDate() { return exerciseDate_; }
+
       public virtual VolatilityType volatilityType() { return volatilityType_; }
+
       public virtual double shift() { return shift_; }
+
       public virtual Date referenceDate()
       {
          Utils.QL_REQUIRE(referenceDate_ != null, () => "referenceDate not available for this instance");
          return referenceDate_;
       }
+
       public virtual double exerciseTime() { return exerciseTime_; }
+
       public virtual DayCounter dayCounter() { return dc_; }
+
       public virtual double optionPrice(double strike, Option.Type type = Option.Type.Call, double discount = 1.0)
       {
          double? atm = atmLevel();
@@ -95,6 +110,7 @@ namespace QLNet
          else
             return Utils.bachelierBlackFormula(type, strike, atm.Value, Math.Sqrt(variance(strike)), discount);
       }
+
       public virtual double digitalOptionPrice(double strike, Option.Type type = Option.Type.Call, double discount = 1.0,
          double gap = 1.0e-5)
       {
@@ -104,6 +120,7 @@ namespace QLNet
          return (type == Option.Type.Call ? 1.0 : -1.0) *
             (optionPrice(kl, type, discount) - optionPrice(kr, type, discount)) / gap;
       }
+
       public virtual double vega(double strike, double discount = 1.0)
       {
          double? atm = atmLevel();
@@ -117,8 +134,8 @@ namespace QLNet
             Utils.QL_FAIL("vega for normal smilesection not yet implemented");
 
          return 0;
-
       }
+
       public virtual double density(double strike, double discount = 1.0, double gap = 1.0E-4)
       {
          double m = volatilityType() == VolatilityType.ShiftedLognormal ? -shift() : -double.MaxValue;
@@ -127,9 +144,9 @@ namespace QLNet
          return (digitalOptionPrice(kl, Option.Type.Call, discount, gap) -
                 digitalOptionPrice(kr, Option.Type.Call, discount, gap)) / gap;
       }
+
       public double volatility(double strike, VolatilityType volatilityType, double shift = 0.0)
       {
-
          if (volatilityType == volatilityType_ && Utils.close(shift, this.shift()))
             return volatility(strike);
          double? atm = atmLevel();
@@ -164,13 +181,14 @@ namespace QLNet
                   referenceDate_ + ")");
          exerciseTime_ = dc_.yearFraction(referenceDate_, exerciseDate_);
       }
+
       protected virtual double varianceImpl(double strike)
       {
          double v = volatilityImpl(strike);
          return v * v * exerciseTime();
       }
-      protected abstract double volatilityImpl(double strike);
 
+      protected abstract double volatilityImpl(double strike);
 
       private bool isFloating_;
       private Date referenceDate_;
@@ -195,6 +213,7 @@ namespace QLNet
 
       //#endregion
    }
+
    public class SabrSmileSection : SmileSection
    {
       private double alpha_, beta_, nu_, rho_, forward_;
@@ -230,7 +249,9 @@ namespace QLNet
       }
 
       public override double minStrike() { return 0.0; }
+
       public override double maxStrike() { return double.MaxValue; }
+
       public override double? atmLevel() { return forward_; }
 
       protected override double varianceImpl(double strike)

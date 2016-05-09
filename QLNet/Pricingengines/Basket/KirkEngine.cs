@@ -31,6 +31,7 @@ namespace QLNet
        \test the correctness of the returned value is tested by
              reproducing results available in literature.
    */
+
    public class KirkEngine : BasketOption.Engine
    {
       public KirkEngine(BlackProcess process1,
@@ -47,7 +48,6 @@ namespace QLNet
 
       public override void calculate()
       {
-
          Utils.QL_REQUIRE(arguments_.exercise.type() == Exercise.Type.European, () => "not an European Option");
 
          EuropeanExercise exercise = arguments_.exercise as EuropeanExercise;
@@ -79,7 +79,6 @@ namespace QLNet
          BlackCalculator black = new BlackCalculator(new PlainVanillaPayoff(payoff.optionType(), 1.0), f, v, riskFreeDiscount);
 
          results_.value = (f2 + strike) * black.value();
-
       }
 
       private BlackProcess process1_;

@@ -33,6 +33,7 @@ namespace QLNet
           date is the same as the refDate, i.e. this method returns false if
           the event date is the same as the refDate.
       */
+
       public virtual bool hasOccurred(Date d = null, bool? includeRefDate = null)
       {
          Date refDate = d ?? Settings.evaluationDate();
@@ -43,13 +44,16 @@ namespace QLNet
             return date() <= refDate;
       }
 
-      #endregion
+      #endregion Event interface
 
-      #region  Observable interface
+      #region Observable interface
 
       public event Callback notifyObserversEvent;
+
       public void registerWith(Callback handler) { notifyObserversEvent += handler; }
+
       public void unregisterWith(Callback handler) { notifyObserversEvent -= handler; }
+
       protected void notifyObservers()
       {
          Callback handler = notifyObserversEvent;
@@ -59,7 +63,7 @@ namespace QLNet
          }
       }
 
-      #endregion
+      #endregion Observable interface
 
       #region Visitability
 
@@ -71,6 +75,6 @@ namespace QLNet
             Utils.QL_FAIL("not an event visitor");
       }
 
-      #endregion
+      #endregion Visitability
    }
 }

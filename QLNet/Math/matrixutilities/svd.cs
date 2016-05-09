@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -27,6 +28,7 @@ namespace QLNet
        \test the correctness of the returned values is tested by
              checking their properties.
    */
+
    public class SVD
    {
       private Matrix U_, V_;
@@ -83,7 +85,6 @@ namespace QLNet
          {
             if (k < nct)
             {
-
                // Compute the transformation for the k-th column and
                // place the k-th diagonal in s[k].
                // Compute 2-norm of k-th column without under/overflow.
@@ -110,7 +111,6 @@ namespace QLNet
             {
                if ((k < nct) && (s_[k] != 0.0))
                {
-
                   // Apply the transformation.
                   double t = 0;
                   for (i = k; i < m_; i++)
@@ -345,7 +345,6 @@ namespace QLNet
             // Perform the task indicated by kase.
             switch (kase)
             {
-
                // Deflate negligible s(p).
                case 1:
                   {
@@ -515,9 +514,10 @@ namespace QLNet
          }
       }
 
-
       public Matrix U() { return (transpose_ ? V_ : U_); }
+
       public Matrix V() { return (transpose_ ? U_ : V_); }
+
       public Matrix S()
       {
          Matrix S = new Matrix(n_, n_);
@@ -533,8 +533,11 @@ namespace QLNet
       }
 
       public Vector singularValues() { return s_; }
+
       public double norm2() { return s_[0]; }
+
       public double cond() { return s_[0] / s_[n_ - 1]; }
+
       public int rank()
       {
          double eps = Math.Pow(2.0, -52.0);
@@ -561,9 +564,9 @@ namespace QLNet
          return result;
       }
 
-
       /*  returns hypotenuse of real (non-complex) scalars a and b by avoiding underflow/overflow
           using (a * sqrt( 1 + (b/a) * (b/a))), rather than sqrt(a*a + b*b). */
+
       private double hypot(double a, double b)
       {
          if (a == 0)

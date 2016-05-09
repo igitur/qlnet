@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Linq;
 
@@ -23,6 +24,7 @@ namespace QLNet
 {
    //! %Libor forward model swaption engine based on Black formula
    /*! \ingroup swaptionengines */
+
    public class LfmSwaptionEngine : GenericModelEngine<LiborForwardModel,
                                                        Swaption.Arguments,
                                                        Swaption.Results>

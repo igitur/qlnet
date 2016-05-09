@@ -16,13 +16,13 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
    public class LmLinearExponentialCorrelationModel : LmCorrelationModel
    {
-
       private Matrix corrMatrix_, pseudoSqrt_;
       private int factors_;
 
@@ -61,7 +61,6 @@ namespace QLNet
       {
          return pseudoSqrt(t, null);
       }
-
 
       public override double correlation(int i, int j, double t, Vector x)
       {

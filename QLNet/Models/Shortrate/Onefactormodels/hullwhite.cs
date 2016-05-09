@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 /*! \file hullwhite.hpp
@@ -24,7 +25,6 @@ using System;
 
 namespace QLNet
 {
-
    //! Single-factor Hull-White (extended %Vasicek) model class.
    /*! This class implements the standard single-factor Hull-White model
        defined by
@@ -40,6 +40,7 @@ namespace QLNet
 
        \ingroup shortrate
    */
+
    public class HullWhite : Vasicek, ITermStructureConsistentModel
    {
       public HullWhite(Handle<YieldTermStructure> termStructure,
@@ -52,8 +53,8 @@ namespace QLNet
          lambda_ = arguments_[3] = new NullParameter();  //to change
          generateArguments();
          termStructure.registerWith(update);
-
       }
+
       public HullWhite(Handle<YieldTermStructure> termStructure,
                       double a)
           : this(termStructure, a, 0.01)
@@ -129,6 +130,7 @@ namespace QLNet
           \note t and T should be expressed in yearfraction using
                 deposit day counter, F_quoted is futures' market price.
       */
+
       public static double convexityBias(double futuresPrice,
                                   double t,
                                   double T,
@@ -182,7 +184,6 @@ namespace QLNet
          return Math.Exp(value) * discount2 / discount1;
       }
 
-
       //private class Dynamics;
       //private class FittingParameter;
       private Parameter phi_;
@@ -196,9 +197,9 @@ namespace QLNet
           parameter used for term-structure fitting and \f$ x_t \f$ is the
           state variable following an Ornstein-Uhlenbeck process.
       */
+
       public new class Dynamics : ShortRateDynamics
       {
-
          public Dynamics(Parameter fitting, double a, double sigma)
          : base(new OrnsteinUhlenbeckProcess(a, sigma))
          {
@@ -225,9 +226,9 @@ namespace QLNet
           \f]
           where \f$ f(t) \f$ is the instantaneous forward rate at \f$ t \f$.
       */
+
       public class FittingParameter : TermStructureFittingParameter
       {
-
          private new class Impl : Parameter.Impl
          {
             private Handle<YieldTermStructure> termStructure_;
@@ -258,6 +259,7 @@ namespace QLNet
       }
 
       #region ITermStructureConsistentModel
+
       public Handle<YieldTermStructure> termStructure()
       {
          return termStructure_;
@@ -265,7 +267,6 @@ namespace QLNet
 
       public Handle<YieldTermStructure> termStructure_ { get; set; }
 
-      #endregion
-
+      #endregion ITermStructureConsistentModel
    }
 }

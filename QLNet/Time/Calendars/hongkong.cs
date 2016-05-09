@@ -54,16 +54,19 @@ namespace QLNet
 
        \ingroup calendars
    */
+
    public class HongKong : Calendar
    {
       public HongKong() : base(Impl.Singleton) { }
 
-      class Impl : Calendar.WesternImpl
+      private class Impl : Calendar.WesternImpl
       {
          public static readonly Impl Singleton = new Impl();
+
          private Impl() { }
 
          public override string name() { return "Hong Kong stock exchange"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;
@@ -209,7 +212,6 @@ namespace QLNet
                    || (d == 23 && m == Month.September))
                   return false;
             }
-
 
             if (y == 2011)
             {

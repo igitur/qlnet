@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,17 +28,19 @@ namespace QLNet
              positive times? Investigate and see whether we
              can use it for negative ones as well.
    */
+
    public class TimeGrid
    {
       private List<double> times_;
       public double this[int i] { get { return times_[i]; } }
 
       private List<double> dt_;
+
       public double dt(int i) { return dt_[i]; }
 
       private List<double> mandatoryTimes_;
-      public List<double> mandatoryTimes() { return mandatoryTimes_; }
 
+      public List<double> mandatoryTimes() { return mandatoryTimes_; }
 
       public TimeGrid(double end, int steps)
       {
@@ -196,9 +199,11 @@ namespace QLNet
       }
 
       public bool empty() { return times_.Count == 0; }
+
       public int size() { return times_.Count; }
 
       public double First() { return times_.First(); }
+
       public double Last() { return times_.Last(); }
    }
 }

@@ -20,10 +20,12 @@ using System.Collections.Generic;
 namespace QLNet
 {
    using CapFloorMatrix = List<List<CapFloor>>;
+
    /*! Helper class to strip optionlet (i.e. caplet/floorlet) volatilities
         (a.k.a. forward-forward volatilities) from the (cap/floor) term
         volatilities of a CapFloorTermVolSurface.
     */
+
    public class OptionletStripper1 : OptionletStripper
    {
       public OptionletStripper1(CapFloorTermVolSurface termVolSurface, IborIndex index,
@@ -59,16 +61,19 @@ namespace QLNet
          calculate();
          return capFloorPrices_;
       }
+
       public Matrix capFloorVolatilities()
       {
          calculate();
          return capFloorVols_;
       }
+
       public Matrix optionletPrices()
       {
          calculate();
          return optionletPrices_;
       }
+
       public double switchStrike()
       {
          if (floatingSwitchStrike_)
@@ -209,6 +214,7 @@ namespace QLNet
             }
          }
       }
+
       //@}
 
       private Matrix capFloorPrices_, optionletPrices_;
@@ -223,6 +229,5 @@ namespace QLNet
       private double accuracy_;
       private int maxIter_;
       private bool dontThrow_;
-
    }
 }

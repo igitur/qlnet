@@ -17,11 +17,11 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
 {
-
    public class Integrand
    {
       private Payoff payoff_;
@@ -36,6 +36,7 @@ namespace QLNet
          drift_ = drift;
          variance_ = variance;
       }
+
       public double value(double x)
       {
          double temp = s0_ * Math.Exp(x);
@@ -84,5 +85,4 @@ namespace QLNet
                           Math.Sqrt(2.0 * Math.PI * variance) * integrator.value(f.value, drift - infinity, drift + infinity);
       }
    }
-
 }

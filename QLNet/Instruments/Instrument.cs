@@ -17,6 +17,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -27,6 +28,7 @@ namespace QLNet
    {
       // The value of these attributes and any other that derived classes might declare must be set during calculation.
       protected double? NPV_, errorEstimate_, CASH_;
+
       protected Dictionary<string, object> additionalResults_ = new Dictionary<string, object>();
       protected IPricingEngine engine_;
       protected Date valuationDate_ = null;
@@ -34,6 +36,7 @@ namespace QLNet
       //! sets the pricing engine to be used.
       /*! calling this method will have no effects in case the performCalculation method
           was overridden in a derived class. */
+
       public void setPricingEngine(IPricingEngine e)
       {
          if (engine_ != null) engine_.unregisterWith(update);
@@ -43,14 +46,14 @@ namespace QLNet
          update();       // trigger (lazy) recalculation and notify observers
       }
 
-
       /*! When a derived argument structure is defined for an instrument,
        * this method should be overridden to fill it.
        * This is mandatory in case a pricing engine is used. */
+
       public virtual void setupArguments(IPricingEngineArguments a) { throw new NotImplementedException(); }
 
-
       #region Lazy object interface
+
       protected override void calculate()
       {
          if (isExpired())
@@ -67,6 +70,7 @@ namespace QLNet
       /* In case a pricing engine is not used, this method must be overridden to perform the actual
          calculations and set any needed results.
        * In case a pricing engine is used, the default implementation can be used. */
+
       protected override void performCalculations()
       {
          if (engine_ == null) throw new ArgumentException("null pricing engine");
@@ -76,12 +80,15 @@ namespace QLNet
          engine_.calculate();
          fetchResults(engine_.getResults());
       }
-      #endregion
+
+      #endregion Lazy object interface
 
       #region Results
+
       /*! When a derived result structure is defined for an instrument,
        * this method should be overridden to read from it.
        * This is mandatory in case a pricing engine is used.  */
+
       public virtual void fetchResults(IPricingEngineResults r)
       {
          Instrument.Results results = r as Instrument.Results;
@@ -113,8 +120,9 @@ namespace QLNet
          if (errorEstimate_ == null) throw new ArgumentException("error estimate not provided");
          return errorEstimate_.GetValueOrDefault();
       }
+
       //! returns the date the net present value refers to.
-      Date valuationDate()
+      private Date valuationDate()
       {
          calculate();
          Utils.QL_REQUIRE(valuationDate_ != null, () => "valuation date not provided");
@@ -137,7 +145,8 @@ namespace QLNet
 
       // returns all additional result returned by the pricing engine.
       public Dictionary<string, object> additionalResults() { return additionalResults_; }
-      #endregion
+
+      #endregion Results
 
       // This method must leave the instrument in a consistent state when the expiration condition is met.
       protected virtual void setupExpired()
@@ -149,7 +158,6 @@ namespace QLNet
 
       //! returns whether the instrument is still tradable.
       public virtual bool isExpired() { throw new NotSupportedException(); }
-
 
       public class Results : IPricingEngineResults
       {

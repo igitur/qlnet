@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -24,6 +25,7 @@ namespace QLNet
    public class TypePayoff : Payoff
    {
       protected Option.Type type_;
+
       public Option.Type optionType() { return type_; }
 
       public TypePayoff(Option.Type type)
@@ -72,14 +74,17 @@ namespace QLNet
 
       //! \name Payoff interface
       public override string name() { return "Vanilla"; }
+
       public override double value(double price)
       {
          switch (type_)
          {
             case Option.Type.Call:
                return Math.Max(price - strike_, 0.0);
+
             case Option.Type.Put:
                return Math.Max(strike_ - price, 0.0);
+
             default:
                throw new ArgumentException("unknown/illegal option type");
          }
@@ -93,14 +98,17 @@ namespace QLNet
 
       //! \name Payoff interface
       public override string name() { return "PercentageStrike"; }
+
       public override double value(double price)
       {
          switch (type_)
          {
             case Option.Type.Call:
                return price * Math.Max(1.0 - strike_, 0.0);
+
             case Option.Type.Put:
                return price * Math.Max(strike_ - 1.0, 0.0);
+
             default:
                throw new ArgumentException("unknown/illegal option type");
          }
@@ -111,6 +119,7 @@ namespace QLNet
        can be found in M. Rubinstein, E. Reiner:"Unscrambling The Binary Code", Risk, Vol.4 no.9,1991.
        (see: http://www.in-the-money.com/artandpap/Binary%20Options.doc)
    */
+
    //! Binary asset-or-nothing payoff
    public class AssetOrNothingPayoff : StrikedTypePayoff
    {
@@ -118,14 +127,17 @@ namespace QLNet
 
       //! \name Payoff interface
       public override string name() { return "AssetOrNothing"; }
+
       public override double value(double price)
       {
          switch (type_)
          {
             case Option.Type.Call:
                return (price - strike_ > 0.0 ? price : 0.0);
+
             case Option.Type.Put:
                return (strike_ - price > 0.0 ? price : 0.0);
+
             default:
                throw new ArgumentException("unknown/illegal option type");
          }
@@ -136,26 +148,32 @@ namespace QLNet
    public class CashOrNothingPayoff : StrikedTypePayoff
    {
       protected double cashPayoff_;
+
       public double cashPayoff() { return cashPayoff_; }
 
       public CashOrNothingPayoff(Option.Type type, double strike, double cashPayoff) : base(type, strike)
       {
          cashPayoff_ = cashPayoff;
       }
+
       //! \name Payoff interface
       public override string name() { return "CashOrNothing"; }
+
       public override string description()
       {
          return base.description() + ", " + cashPayoff() + " cash payoff";
       }
+
       public override double value(double price)
       {
          switch (type_)
          {
             case Option.Type.Call:
                return (price - strike_ > 0.0 ? cashPayoff_ : 0.0);
+
             case Option.Type.Put:
                return (strike_ - price > 0.0 ? cashPayoff_ : 0.0);
+
             default:
                throw new ArgumentException("unknown/illegal option type");
          }
@@ -170,9 +188,11 @@ namespace QLNet
        strike.
        \warning this payoff can be negative depending on the strikes
    */
+
    public class GapPayoff : StrikedTypePayoff
    {
       protected double secondStrike_;
+
       public double secondStrike() { return secondStrike_; }
 
       public GapPayoff(Option.Type type, double strike, double secondStrike) // a.k.a. payoff strike
@@ -183,18 +203,22 @@ namespace QLNet
 
       //! \name Payoff interface
       public override string name() { return "Gap"; }
+
       public override string description()
       {
          return base.description() + ", " + secondStrike() + " strike payoff";
       }
+
       public override double value(double price)
       {
          switch (type_)
          {
             case Option.Type.Call:
                return (price - strike_ >= 0.0 ? price - secondStrike_ : 0.0);
+
             case Option.Type.Put:
                return (strike_ - price >= 0.0 ? secondStrike_ - price : 0.0);
+
             default:
                throw new ArgumentException("unknown/illegal option type");
          }
@@ -212,9 +236,11 @@ namespace QLNet
        Call (Put) at the lower strike and b) short (long) an AssetOrNothing
        Call (Put) at the higher strike
    */
+
    public class SuperFundPayoff : StrikedTypePayoff
    {
       protected double secondStrike_;
+
       public double secondStrike() { return secondStrike_; }
 
       public SuperFundPayoff(double strike, double secondStrike) : base(Option.Type.Call, strike)
@@ -230,6 +256,7 @@ namespace QLNet
 
       //! \name Payoff interface
       public override string name() { return "SuperFund"; }
+
       public override double value(double price)
       {
          return (price >= strike_ && price < secondStrike_) ? price / strike_ : 0.0;
@@ -240,9 +267,11 @@ namespace QLNet
    public class SuperSharePayoff : StrikedTypePayoff
    {
       protected double secondStrike_;
+
       public double secondStrike() { return secondStrike_; }
 
       protected double cashPayoff_;
+
       public double cashPayoff() { return cashPayoff_; }
 
       public SuperSharePayoff(double strike, double secondStrike, double cashPayoff)
@@ -258,10 +287,12 @@ namespace QLNet
 
       //! \name Payoff interface
       public override string name() { return "SuperShare"; }
+
       public override string description()
       {
          return base.description() + ", " + secondStrike() + " second strike" + ", " + cashPayoff() + " amount";
       }
+
       public override double value(double price)
       {
          return (price >= strike_ && price < secondStrike_) ? cashPayoff_ : 0.0;

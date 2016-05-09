@@ -20,6 +20,7 @@ namespace QLNet
 {
    //! %Cubic functional form
    /*! \f[ f(t) = \sum_{i=0}^n{c_i t^i} \f] */
+
    public class PolynomialFunction
    {
       public PolynomialFunction(List<double> coeff)
@@ -55,6 +56,7 @@ namespace QLNet
 
       /*! first derivative of the function at time t
          \f[ f'(t) = \sum_{i=0}^{n-1}{(i+1) c_{i+1} t^i} \f] */
+
       public double derivative(double t)
       {
          double result = 0.0, tPower = 1.0;
@@ -68,6 +70,7 @@ namespace QLNet
 
       /*! indefinite integral of the function at time t
          \f[ \int f(t)dt = \sum_{i=0}^n{c_i t^{i+1} / (i+1)} + K \f] */
+
       public double primitive(double t)
       {
          double result = K_, tPower = t;
@@ -81,19 +84,25 @@ namespace QLNet
 
       /*! definite integral of the function between t1 and t2
          \f[ \int_{t1}^{t2} f(t)dt \f] */
+
       public double definiteIntegral(double t1, double t2)
       {
          return primitive(t2) - primitive(t1);
       }
 
       /*! Inspectors */
+
       public int order() { return order_; }
+
       public List<double> coefficients() { return c_; }
+
       public List<double> derivativeCoefficients() { return derC_; }
+
       public List<double> primitiveCoefficients() { return prC_; }
 
       /*! coefficients of a PolynomialFunction defined as definite
          integral on a rolling window of length tau, with tau = t2-t */
+
       public List<double> definiteIntegralCoefficients(double t, double t2)
       {
          Vector k = new Vector(c_);
@@ -105,6 +114,7 @@ namespace QLNet
 
       /*! coefficients of a PolynomialFunction defined as definite
          derivative on a rolling window of length tau, with tau = t2-t */
+
       public List<double> definiteDerivativeCoefficients(double t, double t2)
       {
          Vector k = new Vector(c_);
@@ -118,6 +128,7 @@ namespace QLNet
       private List<double> c_, derC_, prC_;
       private double K_;
       private Matrix eqs_;
+
       private void initializeEqs_(double t, double t2)
       {
          double dt = t2 - t;
@@ -132,6 +143,5 @@ namespace QLNet
             }
          }
       }
-
    }
 }

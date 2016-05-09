@@ -54,7 +54,6 @@ namespace QLNet
                                  termStructure_.link.dayCounter()).mandatoryTimes();
          for (int i = 0; i < capTimes.Count; i++)
             times.Insert(times.Count, capTimes[i]);
-
       }
 
       public override double modelValue()
@@ -129,7 +128,6 @@ namespace QLNet
          cap_ = new Cap(floatingLeg, new InitializedList<double>(1, fairRate));
 
          base.performCalculations();
-
       }
 
       private Cap cap_;

@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -29,11 +30,11 @@ namespace QLNet
        \test the correctness of the returned value is tested by
              reproducing results available in web/literature
    */
+
    public class MCAmericanEngine<RNG, S> : MCLongstaffSchwartzEngine<VanillaOption.Engine, SingleVariate, RNG, S>
        where RNG : IRSG, new()
        where S : IGeneralStatistics, new()
    {
-
       private int polynomOrder_;
       private LsmBasisSystem.PolynomType polynomType_;
 
@@ -48,7 +49,6 @@ namespace QLNet
          polynomOrder_ = polynomOrder;
          polynomType_ = polynomType;
       }
-
 
       public override void calculate()
       {
@@ -120,7 +120,6 @@ namespace QLNet
       }
    }
 
-
    public class AmericanPathPricer : IEarlyExercisePathPricer<IPath, double>
    {
       protected double scalingValue_;
@@ -153,11 +152,13 @@ namespace QLNet
 
       // scale values of the underlying to increase numerical stability
       public double state(IPath path, int t) { return (path as Path)[t] * scalingValue_; }
+
       public double value(IPath path, int t) { return payoff(state(path, t)); }
+
       public List<Func<double, double>> basisSystem() { return v_; }
+
       protected double payoff(double state) { return payoff_.value(state / scalingValue_); }
    }
-
 
    //! Monte Carlo American engine factory
    //template <class RNG = PseudoRandom, class S = Statistics>
@@ -171,7 +172,6 @@ namespace QLNet
        where RNG : IRSG, new()
        where S : IGeneralStatistics, new()
    {
-
       private GeneralizedBlackScholesProcess process_;
       private bool antithetic_, controlVariate_;
       private int steps_, stepsPerYear_;
@@ -203,11 +203,13 @@ namespace QLNet
          steps_ = steps;
          return this;
       }
+
       public MakeMCAmericanEngine<RNG, S> withStepsPerYear(int steps)
       {
          stepsPerYear_ = steps;
          return this;
       }
+
       public MakeMCAmericanEngine<RNG, S> withSamples(int samples)
       {
          if (tolerance_ != 0)
@@ -215,6 +217,7 @@ namespace QLNet
          samples_ = samples;
          return this;
       }
+
       public MakeMCAmericanEngine<RNG, S> withAbsoluteTolerance(double tolerance)
       {
          if (samples_ != 0)
@@ -225,38 +228,46 @@ namespace QLNet
          tolerance_ = tolerance;
          return this;
       }
+
       public MakeMCAmericanEngine<RNG, S> withMaxSamples(int samples)
       {
          maxSamples_ = samples;
          return this;
       }
+
       public MakeMCAmericanEngine<RNG, S> withSeed(ulong seed)
       {
          seed_ = seed;
          return this;
       }
+
       public MakeMCAmericanEngine<RNG, S> withAntitheticVariate() { return withAntitheticVariate(true); }
+
       public MakeMCAmericanEngine<RNG, S> withAntitheticVariate(bool b)
       {
          antithetic_ = b;
          return this;
       }
+
       //public MakeMCAmericanEngine withControlVariate(bool b = true);
       public MakeMCAmericanEngine<RNG, S> withControlVariate(bool b)
       {
          controlVariate_ = b;
          return this;
       }
+
       public MakeMCAmericanEngine<RNG, S> withPolynomOrder(int polynomOrder)
       {
          polynomOrder_ = polynomOrder;
          return this;
       }
+
       public MakeMCAmericanEngine<RNG, S> withBasisSystem(LsmBasisSystem.PolynomType polynomType)
       {
          polynomType_ = polynomType;
          return this;
       }
+
       public MakeMCAmericanEngine<RNG, S> withCalibrationSamples(int samples)
       {
          calibrationSamples_ = samples;

@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 using System.Collections.Generic;
 
@@ -23,11 +24,13 @@ namespace QLNet
 {
    //! Random seed generator
    /*! Random number generator used for automatic generation of initialization seeds. */
+
    public class SeedGenerator
    {
       private static MersenneTwisterUniformRng rng_;
 
       private static readonly SeedGenerator instance_ = new SeedGenerator();
+
       private SeedGenerator()
       {
          rng_ = new MersenneTwisterUniformRng(42UL);

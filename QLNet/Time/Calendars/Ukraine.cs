@@ -16,6 +16,7 @@
  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
+
 using System;
 
 namespace QLNet
@@ -41,6 +42,7 @@ namespace QLNet
 
        \ingroup calendars
    */
+
    public class Ukraine : Calendar
    {
       public Ukraine(Market m = Market.USE)
@@ -51,6 +53,7 @@ namespace QLNet
             case Market.USE:
                calendar_ = Impl.Singleton;
                break;
+
             default:
                throw new ApplicationException("unknown market");
          }
@@ -61,12 +64,14 @@ namespace QLNet
          USE    //!< Ukrainian stock exchange
       };
 
-      class Impl : Calendar.OrthodoxImpl
+      private class Impl : Calendar.OrthodoxImpl
       {
          public static readonly Impl Singleton = new Impl();
+
          private Impl() { }
 
          public override string name() { return "Ukrainian stock exchange"; }
+
          public override bool isBusinessDay(Date date)
          {
             DayOfWeek w = date.DayOfWeek;

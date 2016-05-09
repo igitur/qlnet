@@ -19,7 +19,6 @@
 
 namespace QLNet
 {
-
    //! %AUD %LIBOR rate
    //    ! Australian Dollar LIBOR fixed by BBA.
    //
@@ -37,5 +36,4 @@ namespace QLNet
       {
       }
    }
-
 }
