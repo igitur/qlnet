@@ -24,9 +24,9 @@ namespace QLNet
    //! Analytic pricing engine for European options with discrete dividends
    /*! \ingroup vanillaengines
 
-		 \test the correctness of the returned greeks is tested by
-				 reproducing numerical derivatives.
-	*/
+       \test the correctness of the returned greeks is tested by
+             reproducing numerical derivatives.
+   */
 
    public class AnalyticDividendEuropeanEngine : DividendVanillaOption.Engine
    {

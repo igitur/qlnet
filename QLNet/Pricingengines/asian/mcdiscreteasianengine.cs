@@ -149,7 +149,13 @@ namespace QLNet
       #region Observer & Observable
 
       // observable interface
-      public event Callback notifyObserversEvent;
+      private readonly WeakEventSource eventSource = new WeakEventSource();
+
+      public event Callback notifyObserversEvent
+      {
+         add { eventSource.Subscribe(value); }
+         remove { eventSource.Unsubscribe(value); }
+      }
 
       public void registerWith(Callback handler) { notifyObserversEvent += handler; }
 
@@ -157,11 +163,7 @@ namespace QLNet
 
       protected void notifyObservers()
       {
-         Callback handler = notifyObserversEvent;
-         if (handler != null)
-         {
-            handler();
-         }
+         eventSource.Raise();
       }
 
       public void update() { notifyObservers(); }

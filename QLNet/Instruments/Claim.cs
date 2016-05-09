@@ -23,30 +23,26 @@ namespace QLNet
    {
       #region Observer & Observable
 
-      public event Callback notifyObserversEvent;
+      private readonly WeakEventSource eventSource = new WeakEventSource();
 
-      public void registerWith(Callback handler)
+      public event Callback notifyObserversEvent
       {
-         notifyObserversEvent += handler;
+         add { eventSource.Subscribe(value); }
+         remove { eventSource.Unsubscribe(value); }
       }
 
-      public void unregisterWith(Callback handler)
+      public void registerWith(Callback handler) { notifyObserversEvent += handler; }
+
+      public void unregisterWith(Callback handler) { notifyObserversEvent -= handler; }
+
+      protected void notifyObservers()
       {
-         notifyObserversEvent -= handler;
+         eventSource.Raise();
       }
 
       public void update()
       {
          notifyObservers();
-      }
-
-      protected void notifyObservers()
-      {
-         Callback handler = notifyObserversEvent;
-         if (handler != null)
-         {
-            handler();
-         }
       }
 
       #endregion Observer & Observable
