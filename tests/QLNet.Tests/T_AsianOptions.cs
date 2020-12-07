@@ -30,11 +30,11 @@ namespace TestSuite
    public class T_AsianOptions
    {
       internal void REPORT_FAILURE(string greekName, Average.Type averageType,
-                                 double? runningAccumulator, int? pastFixings,
-                                 List<Date> fixingDates, StrikedTypePayoff payoff,
-                                 Exercise exercise, double s, double q, double r,
-                                 Date today, double v, double expected,
-                                 double calculated, double tolerance)
+                                   double? runningAccumulator, int? pastFixings,
+                                   List<Date> fixingDates, StrikedTypePayoff payoff,
+                                   Exercise exercise, double s, double q, double r,
+                                   Date today, double v, double expected,
+                                   double calculated, double tolerance)
       {
          QAssert.Fail(exercise + " "
                       + exercise

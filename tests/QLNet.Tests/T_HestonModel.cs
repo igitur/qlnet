@@ -263,68 +263,68 @@ namespace TestSuite
       //[TestMethod()]
       //public void testAnalyticVsBlack()
       //{
-         // Testing analytic Heston engine against Black formula
+      // Testing analytic Heston engine against Black formula
 
-         //using (SavedSettings backup = new SavedSettings())
-         //{
+      //using (SavedSettings backup = new SavedSettings())
+      //{
 
-         //Date settlementDate = Date.Today;
-         //Settings.setEvaluationDate(settlementDate);
-         //DayCounter dayCounter = new ActualActual();
-         //Date exerciseDate = settlementDate + new Period(6,TimeUnit.Months);
+      //Date settlementDate = Date.Today;
+      //Settings.setEvaluationDate(settlementDate);
+      //DayCounter dayCounter = new ActualActual();
+      //Date exerciseDate = settlementDate + new Period(6,TimeUnit.Months);
 
-         //StrikedTypePayoff payoff = new PlainVanillaPayoff(Option.Type.Put, 30);
-         //Exercise exercise = new EuropeanExercise(exerciseDate);
+      //StrikedTypePayoff payoff = new PlainVanillaPayoff(Option.Type.Put, 30);
+      //Exercise exercise = new EuropeanExercise(exerciseDate);
 
-         //Handle<YieldTermStructure> riskFreeTS = new Handle<YieldTermStructure>(Utilities.flatRate(0.1, dayCounter));
-         //Handle<YieldTermStructure> dividendTS  = new Handle<YieldTermStructure>(Utilities.flatRate(0.04, dayCounter));
+      //Handle<YieldTermStructure> riskFreeTS = new Handle<YieldTermStructure>(Utilities.flatRate(0.1, dayCounter));
+      //Handle<YieldTermStructure> dividendTS  = new Handle<YieldTermStructure>(Utilities.flatRate(0.04, dayCounter));
 
-         //Handle<Quote> s0  = new Handle<Quote>(new SimpleQuote(32.0));
+      //Handle<Quote> s0  = new Handle<Quote>(new SimpleQuote(32.0));
 
-         //double v0 = 0.05;
-         //double kappa = 5.0;
-         //double theta = 0.05;
-         //double sigma = 1.0e-4;
-         //double rho = 0.0;
+      //double v0 = 0.05;
+      //double kappa = 5.0;
+      //double theta = 0.05;
+      //double sigma = 1.0e-4;
+      //double rho = 0.0;
 
-         //HestonProcess process = new HestonProcess(riskFreeTS, dividendTS, s0, v0, kappa, theta, sigma, rho);
+      //HestonProcess process = new HestonProcess(riskFreeTS, dividendTS, s0, v0, kappa, theta, sigma, rho);
 
-         //VanillaOption option = new VanillaOption(payoff, exercise);
-         //// FLOATING_POINT_EXCEPTION
-         //IPricingEngine engine = new AnalyticHestonEngine(new HestonModel(process), 144);
+      //VanillaOption option = new VanillaOption(payoff, exercise);
+      //// FLOATING_POINT_EXCEPTION
+      //IPricingEngine engine = new AnalyticHestonEngine(new HestonModel(process), 144);
 
-         //option.setPricingEngine(engine);
-         //double calculated = option.NPV();
+      //option.setPricingEngine(engine);
+      //double calculated = option.NPV();
 
-         //double yearFraction = dayCounter.yearFraction(settlementDate, exerciseDate);
-         //double forwardPrice = 32*Math.Exp((0.1 - 0.04)*yearFraction);
-         //double expected = Utils.blackFormula(payoff.optionType(), payoff.strike(),
-         //   forwardPrice, Math.Sqrt(0.05*yearFraction))*
-         //                Math.Exp(-0.1*yearFraction);
-         //double error = Math.Abs(calculated - expected);
-         //double tolerance = 2.0e-7;
-         //if (error > tolerance)
-         //{
-         //   QAssert.Fail("failed to reproduce Black price with AnalyticHestonEngine"
-         //              + "\n    calculated: " + calculated
-         //              + "\n    expected:   " + expected
-         //              + "\n    error:      " + error);
-         //}
+      //double yearFraction = dayCounter.yearFraction(settlementDate, exerciseDate);
+      //double forwardPrice = 32*Math.Exp((0.1 - 0.04)*yearFraction);
+      //double expected = Utils.blackFormula(payoff.optionType(), payoff.strike(),
+      //   forwardPrice, Math.Sqrt(0.05*yearFraction))*
+      //                Math.Exp(-0.1*yearFraction);
+      //double error = Math.Abs(calculated - expected);
+      //double tolerance = 2.0e-7;
+      //if (error > tolerance)
+      //{
+      //   QAssert.Fail("failed to reproduce Black price with AnalyticHestonEngine"
+      //              + "\n    calculated: " + calculated
+      //              + "\n    expected:   " + expected
+      //              + "\n    error:      " + error);
+      //}
 
-         //engine = new FdHestonVanillaEngine(new HestonModel(process),200, 200, 100);
-         //option.setPricingEngine(engine);
+      //engine = new FdHestonVanillaEngine(new HestonModel(process),200, 200, 100);
+      //option.setPricingEngine(engine);
 
-         //calculated = option.NPV();
-         //error = Math.Abs(calculated - expected);
-         //tolerance = 1.0e-3;
-         //if (error > tolerance)
-         //{
-         //   QAssert.Fail("failed to reproduce Black price with FdHestonVanillaEngine"
-         //              +"\n    calculated: " + calculated
-         //              +"\n    expected:   " + expected
-         //              +"\n    error:      " + error);
-         //}
-         //}
+      //calculated = option.NPV();
+      //error = Math.Abs(calculated - expected);
+      //tolerance = 1.0e-3;
+      //if (error > tolerance)
+      //{
+      //   QAssert.Fail("failed to reproduce Black price with FdHestonVanillaEngine"
+      //              +"\n    calculated: " + calculated
+      //              +"\n    expected:   " + expected
+      //              +"\n    error:      " + error);
+      //}
+      //}
       //}
 
       [Fact]
@@ -477,278 +477,278 @@ namespace TestSuite
       //[TestMethod()]
       //public void testFdBarrierVsCached()
       //{
-         //  // Testing FD barrier Heston engine against cached values
+      //  // Testing FD barrier Heston engine against cached values
 
-         //   using (SavedSettings backup = new SavedSettings())
-         // {
+      //   using (SavedSettings backup = new SavedSettings())
+      // {
 
-         //   DayCounter dc = new Actual360();
-         //   Date today = Date.Today;
+      //   DayCounter dc = new Actual360();
+      //   Date today = Date.Today;
 
-         //   Handle<Quote> s0 = new Handle<Quote>(new SimpleQuote(100.0));
-         //   Handle<YieldTermStructure> rTS = new Handle<YieldTermStructure>(Utilities.flatRate(today, 0.08, dc));
-         //   Handle<YieldTermStructure> qTS = new Handle<YieldTermStructure>(Utilities.flatRate(today, 0.04, dc));
+      //   Handle<Quote> s0 = new Handle<Quote>(new SimpleQuote(100.0));
+      //   Handle<YieldTermStructure> rTS = new Handle<YieldTermStructure>(Utilities.flatRate(today, 0.08, dc));
+      //   Handle<YieldTermStructure> qTS = new Handle<YieldTermStructure>(Utilities.flatRate(today, 0.04, dc));
 
-         //   Date exDate = today + (int)(0.5*360 + 0.5);
-         //   Exercise exercise  = new EuropeanExercise(exDate);
+      //   Date exDate = today + (int)(0.5*360 + 0.5);
+      //   Exercise exercise  = new EuropeanExercise(exDate);
 
-         //   StrikedTypePayoff payoff = new PlainVanillaPayoff(Option.Type.Call, 90.0);
+      //   StrikedTypePayoff payoff = new PlainVanillaPayoff(Option.Type.Call, 90.0);
 
-         //   HestonProcess process = new HestonProcess(rTS, qTS, s0, 0.25*0.25, 1.0, 0.25*0.25, 0.001, 0.0);
+      //   HestonProcess process = new HestonProcess(rTS, qTS, s0, 0.25*0.25, 1.0, 0.25*0.25, 0.001, 0.0);
 
-         //   IPricingEngine engine = new FdHestonBarrierEngine(new HestonModel(process),200, 400, 100);
+      //   IPricingEngine engine = new FdHestonBarrierEngine(new HestonModel(process),200, 400, 100);
 
-         //   BarrierOption option = new BarrierOption(Barrier.Type.DownOut,95.0,3.0,payoff,exercise);
-         //   option.setPricingEngine(engine);
+      //   BarrierOption option = new BarrierOption(Barrier.Type.DownOut,95.0,3.0,payoff,exercise);
+      //   option.setPricingEngine(engine);
 
-         //   double calculated = option.NPV();
-         //   double expected = 9.0246;
-         //   double error = Math.Abs(calculated - expected);
-         //   if (error > 1.0e-3)
-         //   {
-         //      QAssert.Fail("failed to reproduce cached price with FD Barrier engine"
-         //                 + "\n    calculated: " + calculated
-         //                 + "\n    expected:   " + expected
-         //                 + "\n    error:      " +  error);
-         //   }
+      //   double calculated = option.NPV();
+      //   double expected = 9.0246;
+      //   double error = Math.Abs(calculated - expected);
+      //   if (error > 1.0e-3)
+      //   {
+      //      QAssert.Fail("failed to reproduce cached price with FD Barrier engine"
+      //                 + "\n    calculated: " + calculated
+      //                 + "\n    expected:   " + expected
+      //                 + "\n    error:      " +  error);
+      //   }
 
-         //   option = new BarrierOption(Barrier.Type.DownIn, 95.0, 3.0, payoff, exercise);
-         //   option.setPricingEngine(engine);
+      //   option = new BarrierOption(Barrier.Type.DownIn, 95.0, 3.0, payoff, exercise);
+      //   option.setPricingEngine(engine);
 
-         //   calculated = option.NPV();
-         //   expected = 7.7627;
-         //   error = Math.Abs(calculated - expected);
-         //   if (error > 1.0e-3)
-         //   {
-         //      QAssert.Fail("failed to reproduce cached price with FD Barrier engine"
-         //                 + "\n    calculated: " + calculated
-         //                 + "\n    expected:   " + expected
-         //                 + "\n    error:      " + error);
-         //   }
-         //}
+      //   calculated = option.NPV();
+      //   expected = 7.7627;
+      //   error = Math.Abs(calculated - expected);
+      //   if (error > 1.0e-3)
+      //   {
+      //      QAssert.Fail("failed to reproduce cached price with FD Barrier engine"
+      //                 + "\n    calculated: " + calculated
+      //                 + "\n    expected:   " + expected
+      //                 + "\n    error:      " + error);
+      //   }
+      //}
       //}
 
       //[TestMethod()]
       //public void testFdVanillaVsCached()
       //{
-         //   // Testing FD vanilla Heston engine against cached values
+      //   // Testing FD vanilla Heston engine against cached values
 
-         //   using (SavedSettings backup = new SavedSettings())
-         //{
+      //   using (SavedSettings backup = new SavedSettings())
+      //{
 
-         //   Date settlementDate = new Date(27,Month.December,2004);
-         //   Settings.setEvaluationDate(settlementDate);
+      //   Date settlementDate = new Date(27,Month.December,2004);
+      //   Settings.setEvaluationDate(settlementDate);
 
-         //   DayCounter dayCounter = new ActualActual();
-         //   Date exerciseDate = new Date(28,Month.March,2005);
+      //   DayCounter dayCounter = new ActualActual();
+      //   Date exerciseDate = new Date(28,Month.March,2005);
 
-         //   StrikedTypePayoff payoff = new PlainVanillaPayoff(Option.Type.Put, 1.05);
-         //   Exercise exercise = new EuropeanExercise(exerciseDate);
+      //   StrikedTypePayoff payoff = new PlainVanillaPayoff(Option.Type.Put, 1.05);
+      //   Exercise exercise = new EuropeanExercise(exerciseDate);
 
-         //   Handle<YieldTermStructure> riskFreeTS = new Handle<YieldTermStructure>(Utilities.flatRate(0.7, dayCounter));
-         //   Handle<YieldTermStructure> dividendTS = new Handle<YieldTermStructure>(Utilities.flatRate(0.4, dayCounter));
+      //   Handle<YieldTermStructure> riskFreeTS = new Handle<YieldTermStructure>(Utilities.flatRate(0.7, dayCounter));
+      //   Handle<YieldTermStructure> dividendTS = new Handle<YieldTermStructure>(Utilities.flatRate(0.4, dayCounter));
 
-         //   Handle<Quote> s0 = new Handle<Quote>(new SimpleQuote(1.05));
+      //   Handle<Quote> s0 = new Handle<Quote>(new SimpleQuote(1.05));
 
-         //   VanillaOption option = new VanillaOption(payoff, exercise);
+      //   VanillaOption option = new VanillaOption(payoff, exercise);
 
-         //   HestonProcess process = new HestonProcess(riskFreeTS, dividendTS, s0, 0.3, 1.16, 0.2, 0.8, 0.8);
+      //   HestonProcess process = new HestonProcess(riskFreeTS, dividendTS, s0, 0.3, 1.16, 0.2, 0.8, 0.8);
 
-         //   IPricingEngine engine = new FdHestonVanillaEngine(new HestonModel(process),100, 200, 100);
-         //   option.setPricingEngine(engine);
+      //   IPricingEngine engine = new FdHestonVanillaEngine(new HestonModel(process),100, 200, 100);
+      //   option.setPricingEngine(engine);
 
-         //   double expected = 0.06325;
-         //   double calculated = option.NPV();
-         //   double error = Math.Abs(calculated - expected);
-         //   double tolerance = 1.0e-4;
+      //   double expected = 0.06325;
+      //   double calculated = option.NPV();
+      //   double error = Math.Abs(calculated - expected);
+      //   double tolerance = 1.0e-4;
 
-         //   if (error > tolerance)
-         //   {
-         //      QAssert.Fail("failed to reproduce cached price with FD engine"
-         //                 + "\n    calculated: " + calculated
-         //                 + "\n    expected:   " + expected
-         //                 + "\n    error:      " +  error);
-         //   }
+      //   if (error > tolerance)
+      //   {
+      //      QAssert.Fail("failed to reproduce cached price with FD engine"
+      //                 + "\n    calculated: " + calculated
+      //                 + "\n    expected:   " + expected
+      //                 + "\n    error:      " +  error);
+      //   }
 
-         //   // Testing FD vanilla Heston engine for discrete dividends
+      //   // Testing FD vanilla Heston engine for discrete dividends
 
-         //   payoff = new PlainVanillaPayoff(Option.Type.Call, 95.0);
-         //   s0 = new Handle<Quote>(new SimpleQuote(100.0));
+      //   payoff = new PlainVanillaPayoff(Option.Type.Call, 95.0);
+      //   s0 = new Handle<Quote>(new SimpleQuote(100.0));
 
-         //   riskFreeTS = new Handle<YieldTermStructure>(Utilities.flatRate(0.05, dayCounter));
-         //   dividendTS = new Handle<YieldTermStructure>(Utilities.flatRate(0.0, dayCounter));
+      //   riskFreeTS = new Handle<YieldTermStructure>(Utilities.flatRate(0.05, dayCounter));
+      //   dividendTS = new Handle<YieldTermStructure>(Utilities.flatRate(0.0, dayCounter));
 
-         //   exerciseDate = new Date(28, Month.March, 2006);
-         //   exercise = new EuropeanExercise(exerciseDate);
+      //   exerciseDate = new Date(28, Month.March, 2006);
+      //   exercise = new EuropeanExercise(exerciseDate);
 
-         //   List<Date> dividendDates = new List<Date>();
-         //   List<double> dividends = new List<double>();
-         //   for (Date d = settlementDate + new Period(3,TimeUnit.Months);
-         //      d < exercise.lastDate();
-         //      d += new Period(6,TimeUnit.Months))
-         //   {
-         //      dividendDates.Add(d);
-         //      dividends.Add(1.0);
-         //   }
+      //   List<Date> dividendDates = new List<Date>();
+      //   List<double> dividends = new List<double>();
+      //   for (Date d = settlementDate + new Period(3,TimeUnit.Months);
+      //      d < exercise.lastDate();
+      //      d += new Period(6,TimeUnit.Months))
+      //   {
+      //      dividendDates.Add(d);
+      //      dividends.Add(1.0);
+      //   }
 
-         //   DividendVanillaOption divOption = new DividendVanillaOption(payoff, exercise,dividendDates, dividends);
-         //   process = new HestonProcess(riskFreeTS, dividendTS, s0, 0.04, 1.0, 0.04, 0.001, 0.0);
-         //   engine = new FdHestonVanillaEngine(new HestonModel(process),200, 400, 100);
-         //   divOption.setPricingEngine(engine);
-         //   calculated = divOption.NPV();
-         //   // Value calculated with an independent FD framework, validated with
-         //   // an independent MC framework
-         //   expected = 12.946;
-         //   error = Math.Abs(calculated - expected);
-         //   tolerance = 5.0e-3;
+      //   DividendVanillaOption divOption = new DividendVanillaOption(payoff, exercise,dividendDates, dividends);
+      //   process = new HestonProcess(riskFreeTS, dividendTS, s0, 0.04, 1.0, 0.04, 0.001, 0.0);
+      //   engine = new FdHestonVanillaEngine(new HestonModel(process),200, 400, 100);
+      //   divOption.setPricingEngine(engine);
+      //   calculated = divOption.NPV();
+      //   // Value calculated with an independent FD framework, validated with
+      //   // an independent MC framework
+      //   expected = 12.946;
+      //   error = Math.Abs(calculated - expected);
+      //   tolerance = 5.0e-3;
 
-         //   if (error > tolerance)
-         //   {
-         //      QAssert.Fail("failed to reproduce discrete dividend price with FD engine"
-         //                 + "\n    calculated: " + calculated
-         //                 + "\n    expected:   " + expected
-         //                 + "\n    error:      " +  error);
-         //   }
+      //   if (error > tolerance)
+      //   {
+      //      QAssert.Fail("failed to reproduce discrete dividend price with FD engine"
+      //                 + "\n    calculated: " + calculated
+      //                 + "\n    expected:   " + expected
+      //                 + "\n    error:      " +  error);
+      //   }
 
-         //   // Testing FD vanilla Heston engine for american exercise
+      //   // Testing FD vanilla Heston engine for american exercise
 
-         //   dividendTS = new Handle<YieldTermStructure>(Utilities.flatRate(0.03, dayCounter));
-         //   process = new HestonProcess(riskFreeTS, dividendTS, s0, 0.04, 1.0, 0.04, 0.001, 0.0);
-         //   engine = new FdHestonVanillaEngine(new HestonModel(process),200, 400, 100);
-         //   payoff = new PlainVanillaPayoff(Option.Type.Put, 95.0);
-         //   exercise = new AmericanExercise(settlementDate, exerciseDate);
-         //   option = new VanillaOption(payoff, exercise);
-         //   option.setPricingEngine(engine);
-         //   calculated = option.NPV();
+      //   dividendTS = new Handle<YieldTermStructure>(Utilities.flatRate(0.03, dayCounter));
+      //   process = new HestonProcess(riskFreeTS, dividendTS, s0, 0.04, 1.0, 0.04, 0.001, 0.0);
+      //   engine = new FdHestonVanillaEngine(new HestonModel(process),200, 400, 100);
+      //   payoff = new PlainVanillaPayoff(Option.Type.Put, 95.0);
+      //   exercise = new AmericanExercise(settlementDate, exerciseDate);
+      //   option = new VanillaOption(payoff, exercise);
+      //   option.setPricingEngine(engine);
+      //   calculated = option.NPV();
 
-         //   Handle<BlackVolTermStructure> volTS = new Handle<BlackVolTermStructure>(Utilities.flatVol(settlementDate, 0.2,
-         //      dayCounter));
-         //   BlackScholesMertonProcess ref_process = new BlackScholesMertonProcess(s0, dividendTS, riskFreeTS, volTS);
-         //   IPricingEngine ref_engine = new FDAmericanEngine<CrankNicolson>(ref_process, 200, 400);
-         //   option.setPricingEngine(ref_engine);
-         //   expected = option.NPV();
+      //   Handle<BlackVolTermStructure> volTS = new Handle<BlackVolTermStructure>(Utilities.flatVol(settlementDate, 0.2,
+      //      dayCounter));
+      //   BlackScholesMertonProcess ref_process = new BlackScholesMertonProcess(s0, dividendTS, riskFreeTS, volTS);
+      //   IPricingEngine ref_engine = new FDAmericanEngine<CrankNicolson>(ref_process, 200, 400);
+      //   option.setPricingEngine(ref_engine);
+      //   expected = option.NPV();
 
-         //   error = Math.Abs(calculated - expected);
-         //   tolerance = 1.0e-3;
+      //   error = Math.Abs(calculated - expected);
+      //   tolerance = 1.0e-3;
 
-         //   if (error > tolerance)
-         //   {
-         //      QAssert.Fail("failed to reproduce american option price with FD engine"
-         //                 + "\n    calculated: " + calculated
-         //                 + "\n    expected:   " + expected
-         //                 + "\n    error:      " + error);
-         //   }
-         //}
+      //   if (error > tolerance)
+      //   {
+      //      QAssert.Fail("failed to reproduce american option price with FD engine"
+      //                 + "\n    calculated: " + calculated
+      //                 + "\n    expected:   " + expected
+      //                 + "\n    error:      " + error);
+      //   }
+      //}
       //}
 
       // [TestMethod()]
       //public void testKahlJaeckelCase()
       //{
-         //// Testing MC and FD Heston engines for the Kahl-Jaeckel example
+      //// Testing MC and FD Heston engines for the Kahl-Jaeckel example
 
-         ///* Example taken from Wilmott mag (Sept. 2005).
-         //   "Not-so-complex logarithms in the Heston model",
-         //   Example was also discussed within the Wilmott thread
-         //   "QuantLib code is very high quatlity"
-         //*/
+      ///* Example taken from Wilmott mag (Sept. 2005).
+      //   "Not-so-complex logarithms in the Heston model",
+      //   Example was also discussed within the Wilmott thread
+      //   "QuantLib code is very high quatlity"
+      //*/
 
-         //using (SavedSettings backup = new SavedSettings())
-         //{
+      //using (SavedSettings backup = new SavedSettings())
+      //{
 
-         //Date settlementDate = new Date(30,Month.March,2007);
-         //Settings.setEvaluationDate(settlementDate);
+      //Date settlementDate = new Date(30,Month.March,2007);
+      //Settings.setEvaluationDate(settlementDate);
 
-         //DayCounter dayCounter = new ActualActual();
-         //Date exerciseDate = new Date(30,Month.March,2017);
+      //DayCounter dayCounter = new ActualActual();
+      //Date exerciseDate = new Date(30,Month.March,2017);
 
-         //StrikedTypePayoff payoff = new PlainVanillaPayoff(Option.Type.Call, 200);
-         //Exercise exercise = new EuropeanExercise(exerciseDate);
+      //StrikedTypePayoff payoff = new PlainVanillaPayoff(Option.Type.Call, 200);
+      //Exercise exercise = new EuropeanExercise(exerciseDate);
 
-         //VanillaOption option = new VanillaOption(payoff, exercise);
+      //VanillaOption option = new VanillaOption(payoff, exercise);
 
-         //Handle<YieldTermStructure> riskFreeTS = new Handle<YieldTermStructure>(Utilities.flatRate(0.0, dayCounter));
-         //Handle<YieldTermStructure> dividendTS = new Handle<YieldTermStructure>(Utilities.flatRate(0.0, dayCounter));
+      //Handle<YieldTermStructure> riskFreeTS = new Handle<YieldTermStructure>(Utilities.flatRate(0.0, dayCounter));
+      //Handle<YieldTermStructure> dividendTS = new Handle<YieldTermStructure>(Utilities.flatRate(0.0, dayCounter));
 
-         //Handle<Quote> s0 = new Handle<Quote>(new SimpleQuote(100));
+      //Handle<Quote> s0 = new Handle<Quote>(new SimpleQuote(100));
 
-         //double v0 = 0.16;
-         //double theta = v0;
-         //double kappa = 1.0;
-         //double sigma = 2.0;
-         //double rho = -0.8;
+      //double v0 = 0.16;
+      //double theta = v0;
+      //double kappa = 1.0;
+      //double sigma = 2.0;
+      //double rho = -0.8;
 
 
-         ////HestonProcessDiscretizationDesc[] descriptions =
-         ////{
-         ////   new HestonProcessDiscretizationDesc(HestonProcess::NonCentralChiSquareVariance,10,"NonCentralChiSquareVariance"),
-         ////   new HestonProcessDiscretizationDesc{HestonProcess::QuadraticExponentialMartingale,100,"QuadraticExponentialMartingale")
-         ////}
+      ////HestonProcessDiscretizationDesc[] descriptions =
+      ////{
+      ////   new HestonProcessDiscretizationDesc(HestonProcess::NonCentralChiSquareVariance,10,"NonCentralChiSquareVariance"),
+      ////   new HestonProcessDiscretizationDesc{HestonProcess::QuadraticExponentialMartingale,100,"QuadraticExponentialMartingale")
+      ////}
 
-         //double tolerance = 0.1;
-         //double expected = 4.95212;
+      //double tolerance = 0.1;
+      //double expected = 4.95212;
 
-         //for (int i = 0; i < descriptions.Lenght; ++i)
-         //{
-         //   HestonProcess process = new HestonProcess(riskFreeTS, dividendTS, s0, v0,kappa, theta, sigma, rho,
-         //         descriptions[i].discretization);
+      //for (int i = 0; i < descriptions.Lenght; ++i)
+      //{
+      //   HestonProcess process = new HestonProcess(riskFreeTS, dividendTS, s0, v0,kappa, theta, sigma, rho,
+      //         descriptions[i].discretization);
 
-         //   IPricingEngine engine = new MakeMCEuropeanHestonEngine<PseudoRandom>(process)
-         //         .withSteps(descriptions[i].nSteps)
-         //         .withAntitheticVariate()
-         //         .withAbsoluteTolerance(tolerance)
-         //         .withSeed(1234);
-         //   option.setPricingEngine(engine);
+      //   IPricingEngine engine = new MakeMCEuropeanHestonEngine<PseudoRandom>(process)
+      //         .withSteps(descriptions[i].nSteps)
+      //         .withAntitheticVariate()
+      //         .withAbsoluteTolerance(tolerance)
+      //         .withSeed(1234);
+      //   option.setPricingEngine(engine);
 
-         //   double calculated = option.NPV();
-         //   double errorEstimate = option.errorEstimate();
+      //   double calculated = option.NPV();
+      //   double errorEstimate = option.errorEstimate();
 
-         //   if (Math.Abs(calculated - expected) > 2.34*errorEstimate)
-         //   {
-         //      QAssert.Fail("Failed to reproduce cached price with MC engine"
-         //                  + "\n    discretization: " + descriptions[i].name
-         //                  + "\n    expected:       " + expected
-         //                  + "\n    calculated:     " + calculated
-         //                  + " +/- " + errorEstimate);
-         //   }
+      //   if (Math.Abs(calculated - expected) > 2.34*errorEstimate)
+      //   {
+      //      QAssert.Fail("Failed to reproduce cached price with MC engine"
+      //                  + "\n    discretization: " + descriptions[i].name
+      //                  + "\n    expected:       " + expected
+      //                  + "\n    calculated:     " + calculated
+      //                  + " +/- " + errorEstimate);
+      //   }
 
-         //   if (errorEstimate > tolerance)
-         //   {
-         //      QAssert.Fail("failed to reproduce error estimate with MC engine"
-         //                  + "\n    discretization: " + descriptions[i].name
-         //                  + "\n    calculated    : " + errorEstimate
-         //                  + "\n    expected      :   " + tolerance);
-         //   }
-         //}
+      //   if (errorEstimate > tolerance)
+      //   {
+      //      QAssert.Fail("failed to reproduce error estimate with MC engine"
+      //                  + "\n    discretization: " + descriptions[i].name
+      //                  + "\n    calculated    : " + errorEstimate
+      //                  + "\n    expected      :   " + tolerance);
+      //   }
+      //}
 
-         //option.setPricingEngine( new MakeMCEuropeanHestonEngine<LowDiscrepancy>(
-         //      new HestonProcess(riskFreeTS, dividendTS, s0, v0, kappa, theta, sigma, rho,
-         //         HestonProcess.Discretization.BroadieKayaExactSchemeLaguerre)))
-         //      .withSteps(1)
-         //      .withSamples(1023));
+      //option.setPricingEngine( new MakeMCEuropeanHestonEngine<LowDiscrepancy>(
+      //      new HestonProcess(riskFreeTS, dividendTS, s0, v0, kappa, theta, sigma, rho,
+      //         HestonProcess.Discretization.BroadieKayaExactSchemeLaguerre)))
+      //      .withSteps(1)
+      //      .withSamples(1023));
 
-         //double calculated = option.NPV();
-         //if (Math.Abs(calculated - expected) > tolerance)
-         //{
-         //   QAssert.Fail("Failed to reproduce cached price with MC engine"
-         //               + "\n    discretization: BroadieKayaExactSchemeLobatto"
-         //               + "\n    calculated:     " + calculated
-         //               + "\n    expected:       " + expected
-         //               + "\n    tolerance:      " + tolerance);
-         //}
+      //double calculated = option.NPV();
+      //if (Math.Abs(calculated - expected) > tolerance)
+      //{
+      //   QAssert.Fail("Failed to reproduce cached price with MC engine"
+      //               + "\n    discretization: BroadieKayaExactSchemeLobatto"
+      //               + "\n    calculated:     " + calculated
+      //               + "\n    expected:       " + expected
+      //               + "\n    tolerance:      " + tolerance);
+      //}
 
-         //option.setPricingEngine( new FdHestonVanillaEngine(new HestonModel(
-         //   new HestonProcess(riskFreeTS, dividendTS, s0, v0,kappa, theta, sigma, rho))),200, 400, 100);
+      //option.setPricingEngine( new FdHestonVanillaEngine(new HestonModel(
+      //   new HestonProcess(riskFreeTS, dividendTS, s0, v0,kappa, theta, sigma, rho))),200, 400, 100);
 
-         //calculated = option.NPV();
-         //double error = Math.Abs(calculated - expected);
-         //if (error > 5.0e-2)
-         //{
-         //   QAssert.Fail("failed to reproduce cached price with FD engine"
-         //              + "\n    calculated: " + calculated
-         //              + "\n    expected:   " + expected
-         //              + "\n    error:      " + error);
-         //}
-         //}
+      //calculated = option.NPV();
+      //double error = Math.Abs(calculated - expected);
+      //if (error > 5.0e-2)
+      //{
+      //   QAssert.Fail("failed to reproduce cached price with FD engine"
+      //              + "\n    calculated: " + calculated
+      //              + "\n    expected:   " + expected
+      //              + "\n    error:      " + error);
+      //}
+      //}
       //}
 
       struct HestonParameter
@@ -870,87 +870,87 @@ namespace TestSuite
       // [TestMethod()]
       //public void testMultipleStrikesEngine()
       //{
-         //// Testing multiple-strikes FD Heston engine...");
+      //// Testing multiple-strikes FD Heston engine...");
 
-         //using (SavedSettings backup = new SavedSettings())
-         //{
+      //using (SavedSettings backup = new SavedSettings())
+      //{
 
-         //Date settlementDate = new Date(27,Month.December,2004);
-         //Settings.setEvaluationDate(settlementDate);
+      //Date settlementDate = new Date(27,Month.December,2004);
+      //Settings.setEvaluationDate(settlementDate);
 
-         //DayCounter dayCounter = new ActualActual();
-         //Date exerciseDate = new Date(28,Month.March,2006);
+      //DayCounter dayCounter = new ActualActual();
+      //Date exerciseDate = new Date(28,Month.March,2006);
 
-         //Exercise exercise  = new EuropeanExercise(exerciseDate);
+      //Exercise exercise  = new EuropeanExercise(exerciseDate);
 
-         //Handle<YieldTermStructure> riskFreeTS = new Handle<YieldTermStructure>(Utilities.flatRate(0.06, dayCounter));
-         //Handle<YieldTermStructure> dividendTS = new Handle<YieldTermStructure>(Utilities.flatRate(0.02, dayCounter));
+      //Handle<YieldTermStructure> riskFreeTS = new Handle<YieldTermStructure>(Utilities.flatRate(0.06, dayCounter));
+      //Handle<YieldTermStructure> dividendTS = new Handle<YieldTermStructure>(Utilities.flatRate(0.02, dayCounter));
 
-         //Handle<Quote> s0 = new Handle<Quote>(new SimpleQuote(1.05));
+      //Handle<Quote> s0 = new Handle<Quote>(new SimpleQuote(1.05));
 
-         //HestonProcess process = new HestonProcess(riskFreeTS, dividendTS, s0, 0.16, 2.5, 0.09, 0.8, -0.8);
-         //HestonModel model = new HestonModel(process);
+      //HestonProcess process = new HestonProcess(riskFreeTS, dividendTS, s0, 0.16, 2.5, 0.09, 0.8, -0.8);
+      //HestonModel model = new HestonModel(process);
 
-         //List<double> strikes = new List<double>();
-         //strikes.Add(1.0);
-         //strikes.Add(0.5);
-         //strikes.Add(0.75);
-         //strikes.Add(1.5);
-         //strikes.Add(2.0);
+      //List<double> strikes = new List<double>();
+      //strikes.Add(1.0);
+      //strikes.Add(0.5);
+      //strikes.Add(0.75);
+      //strikes.Add(1.5);
+      //strikes.Add(2.0);
 
-         //FdHestonVanillaEngine singleStrikeEngine = new FdHestonVanillaEngine(model, 20, 400, 50);
-         //FdHestonVanillaEngine multiStrikeEngine = new FdHestonVanillaEngine(model, 20, 400, 50);
-         //multiStrikeEngine.enableMultipleStrikesCaching(strikes);
+      //FdHestonVanillaEngine singleStrikeEngine = new FdHestonVanillaEngine(model, 20, 400, 50);
+      //FdHestonVanillaEngine multiStrikeEngine = new FdHestonVanillaEngine(model, 20, 400, 50);
+      //multiStrikeEngine.enableMultipleStrikesCaching(strikes);
 
-         //double relTol = 5e-3;
-         //for (int i = 0; i < strikes.Count; ++i)
-         //{
-         //   StrikedTypePayoff payoff = new PlainVanillaPayoff(Option.Type.Put, strikes[i]);
+      //double relTol = 5e-3;
+      //for (int i = 0; i < strikes.Count; ++i)
+      //{
+      //   StrikedTypePayoff payoff = new PlainVanillaPayoff(Option.Type.Put, strikes[i]);
 
-         //   VanillaOption aOption = new VanillaOption(payoff, exercise);
-         //   aOption.setPricingEngine(multiStrikeEngine);
+      //   VanillaOption aOption = new VanillaOption(payoff, exercise);
+      //   aOption.setPricingEngine(multiStrikeEngine);
 
-         //   double npvCalculated = aOption.NPV();
-         //   double deltaCalculated = aOption.delta();
-         //   double gammaCalculated = aOption.gamma();
-         //   double thetaCalculated = aOption.theta();
+      //   double npvCalculated = aOption.NPV();
+      //   double deltaCalculated = aOption.delta();
+      //   double gammaCalculated = aOption.gamma();
+      //   double thetaCalculated = aOption.theta();
 
-         //   aOption.setPricingEngine(singleStrikeEngine);
-         //   double npvExpected = aOption.NPV();
-         //   double deltaExpected = aOption.delta();
-         //   double gammaExpected = aOption.gamma();
-         //   double thetaExpected = aOption.theta();
+      //   aOption.setPricingEngine(singleStrikeEngine);
+      //   double npvExpected = aOption.NPV();
+      //   double deltaExpected = aOption.delta();
+      //   double gammaExpected = aOption.gamma();
+      //   double thetaExpected = aOption.theta();
 
-         //   if (Math.Abs(npvCalculated - npvExpected)/npvExpected > relTol)
-         //   {
-         //      QAssert.Fail("failed to reproduce price with FD multi strike engine"
-         //                 + "\n    calculated: " + npvCalculated
-         //                 + "\n    expected:   " + npvExpected
-         //                 + "\n    error:      " + relTol);
-         //   }
-         //   if (Math.Abs(deltaCalculated - deltaExpected)/deltaExpected > relTol)
-         //   {
-         //      QAssert.Fail("failed to reproduce delta with FD multi strike engine"
-         //                 + "\n    calculated: " + deltaCalculated
-         //                 + "\n    expected:   " + deltaExpected
-         //                 + "\n    error:      " + relTol);
-         //   }
-         //   if (Math.Abs(gammaCalculated - gammaExpected)/gammaExpected > relTol)
-         //   {
-         //      QAssert.Fail("failed to reproduce gamma with FD multi strike engine"
-         //                 + "\n    calculated: " + gammaCalculated
-         //                 + "\n    expected:   " + gammaExpected
-         //                 + "\n    error:      " + relTol);
-         //   }
-         //   if (Math.Abs(thetaCalculated - thetaExpected)/thetaExpected > relTol)
-         //   {
-         //      QAssert.Fail( "failed to reproduce theta with FD multi strike engine"
-         //                 + "\n    calculated: " + thetaCalculated
-         //                 + "\n    expected:   " + thetaExpected
-         //                 + "\n    error:      " +  relTol);
-         //   }
-         // }
-         //}
+      //   if (Math.Abs(npvCalculated - npvExpected)/npvExpected > relTol)
+      //   {
+      //      QAssert.Fail("failed to reproduce price with FD multi strike engine"
+      //                 + "\n    calculated: " + npvCalculated
+      //                 + "\n    expected:   " + npvExpected
+      //                 + "\n    error:      " + relTol);
+      //   }
+      //   if (Math.Abs(deltaCalculated - deltaExpected)/deltaExpected > relTol)
+      //   {
+      //      QAssert.Fail("failed to reproduce delta with FD multi strike engine"
+      //                 + "\n    calculated: " + deltaCalculated
+      //                 + "\n    expected:   " + deltaExpected
+      //                 + "\n    error:      " + relTol);
+      //   }
+      //   if (Math.Abs(gammaCalculated - gammaExpected)/gammaExpected > relTol)
+      //   {
+      //      QAssert.Fail("failed to reproduce gamma with FD multi strike engine"
+      //                 + "\n    calculated: " + gammaCalculated
+      //                 + "\n    expected:   " + gammaExpected
+      //                 + "\n    error:      " + relTol);
+      //   }
+      //   if (Math.Abs(thetaCalculated - thetaExpected)/thetaExpected > relTol)
+      //   {
+      //      QAssert.Fail( "failed to reproduce theta with FD multi strike engine"
+      //                 + "\n    calculated: " + thetaCalculated
+      //                 + "\n    expected:   " + thetaExpected
+      //                 + "\n    error:      " +  relTol);
+      //   }
+      // }
+      //}
       //}
 
       [Fact]

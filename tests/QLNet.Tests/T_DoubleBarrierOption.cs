@@ -24,9 +24,9 @@ namespace TestSuite
    public class T_DoubleBarrierOption
    {
       internal void REPORT_FAILURE(string greekName, DoubleBarrier.Type barrierType, double barrierlo, double barrierhi,
-                                 StrikedTypePayoff payoff, Exercise exercise, double s, double q,
-                                 double r, Date today, double v, double expected, double calculated, double error,
-                                 double tolerance)
+                                   StrikedTypePayoff payoff, Exercise exercise, double s, double q,
+                                   double r, Date today, double v, double expected, double calculated, double error,
+                                   double tolerance)
       {
          QAssert.Fail(barrierType + " " + exercise + " "
                       + payoff.optionType() + " option with "
@@ -47,10 +47,10 @@ namespace TestSuite
       }
 
       internal void REPORT_FAILURE_VANNAVOLGA(string greekName, DoubleBarrier.Type barrierType,
-                                            double barrier1, double barrier2, double rebate,
-                                            StrikedTypePayoff payoff, Exercise exercise, double s, double q,
-                                            double r, Date today, double vol25Put, double atmVol, double vol25Call, double v,
-                                            double expected, double calculated, double error, double tolerance)
+                                              double barrier1, double barrier2, double rebate,
+                                              StrikedTypePayoff payoff, Exercise exercise, double s, double q,
+                                              double r, Date today, double vol25Put, double atmVol, double vol25Call, double v,
+                                              double expected, double calculated, double error, double tolerance)
       {
          QAssert.Fail("Double Barrier Option " + barrierType + " " + exercise + " "
                       + payoff.optionType() + " option with "

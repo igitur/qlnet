@@ -1299,7 +1299,7 @@ namespace TestSuite
 
       [Theory]
       [InlineData(5.25, "2/13/2018", "12/01/2032", "3/23/2018", "", 5.833)]
-      [InlineData( 0, "3/15/2018", "1/1/2054", "3/26/2018", "", 0.00)]
+      [InlineData(0, "3/15/2018", "1/1/2054", "3/26/2018", "", 0.00)]
       [InlineData(2.2, "3/1/2018", "3/1/2021", "3/26/2018", "", 1.53)]
       [InlineData(2.25, "3/1/2018", "3/1/2021", "3/26/2018", "", 1.56)]
       [InlineData(3, "2/15/2018", "2/15/2031", "3/26/2018", "", 3.42)]
@@ -1309,7 +1309,7 @@ namespace TestSuite
       [InlineData(2.85, "2/15/2018", "2/15/2031", "3/26/2018", "", 3.25)]
       [InlineData(5.375, "08/26/2010", "03/01/2023", "7/16/2018", "", 20.156)]
       public void testAccruedInterest(double Coupon, string AccrualDate, string MaturityDate,
-         string SettlementDate, string FirstCouponDate, double expectedAccruedInterest)
+                                      string SettlementDate, string FirstCouponDate, double expectedAccruedInterest)
       {
          // Convert dates
          Date maturityDate = Convert.ToDateTime(MaturityDate, new CultureInfo("en-US"));

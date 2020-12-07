@@ -28,8 +28,8 @@ namespace TestSuite
    public class T_DividendOption
    {
       internal void REPORT_FAILURE(string greekName, StrikedTypePayoff payoff, Exercise exercise, double s, double q,
-                                 double r, Date today, double v, double expected, double calculated, double error,
-                                 double tolerance)
+                                   double r, Date today, double v, double expected, double calculated, double error,
+                                   double tolerance)
       {
          QAssert.Fail(exercise + " "
                       + payoff.optionType() + " option with "

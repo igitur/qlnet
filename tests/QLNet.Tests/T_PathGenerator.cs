@@ -41,10 +41,10 @@ namespace TestSuite
       #endregion
 
       internal void testSingle(StochasticProcess1D process,
-                             string tag,
-                             bool brownianBridge,
-                             double expected,
-                             double antithetic)
+                               string tag,
+                               bool brownianBridge,
+                               double expected,
+                               double antithetic)
       {
          ulong seed = 42;
          double length = 10;
@@ -104,9 +104,9 @@ namespace TestSuite
       }
 
       internal void testMultiple(StochasticProcess process,
-                               string tag,
-                               double[] expected,
-                               double[] antithetic)
+                                 string tag,
+                                 double[] expected,
+                                 double[] antithetic)
       {
 
 
