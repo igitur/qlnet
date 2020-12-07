@@ -164,6 +164,12 @@ namespace QLNet
                   else
                      dPdy -= c * t * B / (1 + r / N);
                   break;
+               case Compounding.CompoundedThenSimple:
+                  if (t > 1.0 / N)
+                     dPdy -= c * B * B * t;
+                  else
+                     dPdy -= c * t * B / (1 + r / N);
+                  break;
                default:
                   Utils.QL_FAIL("unknown compounding convention (" + y.compounding() + ")");
                   break;
@@ -1013,6 +1019,12 @@ namespace QLNet
                   break;
                case Compounding.SimpleThenCompounded:
                   if (t <= 1.0 / N)
+                     d2Pdy2 += c * 2.0 * B * B * B * t * t;
+                  else
+                     d2Pdy2 += c * B * t * (N * t + 1) / (N * (1 + r / N) * (1 + r / N));
+                  break;
+               case Compounding.CompoundedThenSimple:
+                  if (t > 1.0 / N)
                      d2Pdy2 += c * 2.0 * B * B * B * t * t;
                   else
                      d2Pdy2 += c * B * t * (N * t + 1) / (N * (1 + r / N) * (1 + r / N));

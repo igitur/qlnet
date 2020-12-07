@@ -46,7 +46,9 @@ namespace QLNet
          comp_ = comp;
          freqMakesSense_ = false;
 
-         if (comp_ == Compounding.Compounded || comp_ == Compounding.SimpleThenCompounded)
+         if (comp_ == Compounding.Compounded
+             || comp_ == Compounding.SimpleThenCompounded
+             || comp_ == Compounding.CompoundedThenSimple)
          {
             freqMakesSense_ = true;
             Utils.QL_REQUIRE(freq != Frequency.Once && freq != Frequency.NoFrequency, () => "frequency not allowed for this interest rate");
@@ -112,6 +114,11 @@ namespace QLNet
                   return 1.0 + r_.Value * t;
                else
                   return Math.Pow(1.0 + r_.Value / freq_, freq_ * t);
+            case Compounding.CompoundedThenSimple:
+               if (t > 1.0 / freq_)
+                  return 1.0 + r_.Value * t;
+               else
+                  return Math.Pow(1.0 + r_.Value / freq_, freq_ * t);
             default:
                Utils.QL_FAIL("unknown compounding convention");
                return 0;
@@ -166,6 +173,12 @@ namespace QLNet
                   break;
                case Compounding.SimpleThenCompounded:
                   if (t <= 1.0 / ((double)freq))
+                     r = (compound - 1.0) / t;
+                  else
+                     r = (Math.Pow(compound, 1.0 / (((double)freq) * t)) - 1.0) * ((double)freq);
+                  break;
+               case Compounding.CompoundedThenSimple:
+                  if (t > 1.0 / ((double)freq))
                      r = (compound - 1.0) / t;
                   else
                      r = (Math.Pow(compound, 1.0 / (((double)freq) * t)) - 1.0) * ((double)freq);
@@ -258,6 +271,20 @@ namespace QLNet
                      result += "simple compounding up to "
                                + 12 / (int)frequency() + " months, then "
                                + frequency() + " compounding";
+                     break;
+               }
+               break;
+            case Compounding.CompoundedThenSimple:
+               switch (frequency())
+               {
+                  case Frequency.NoFrequency:
+                  case Frequency.Once:
+                     Utils.QL_FAIL(frequency() + " frequency not allowed for this interest rate");
+                     break;
+                  default:
+                     result += "compounding up to "
+                               + 12 / (int)frequency() + " months, then "
+                               + frequency() + " simple compounding";
                      break;
                }
                break;
