@@ -407,7 +407,8 @@ namespace TestSuite
          vars.eoniaTermStructure.linkTo(eoniaTS);
 
          // test curve consistency
-         double tolerance = 1.0e-10;
+         // rates here are in percent; upstream QuantLib v1.44 uses 1.0e-8 in absolute rate units
+         double tolerance = 1.0e-6;
          for (int i = 0; i < eoniaSwapData.Length; i++)
          {
 
